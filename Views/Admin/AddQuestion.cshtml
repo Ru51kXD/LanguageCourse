@@ -1,0 +1,84 @@
+@model WebApplication15.Models.Question
+@{
+    ViewData["Title"] = "Добавление вопроса";
+    Layout = "_AdminLayout";
+    
+    var test = ViewBag.Test as WebApplication15.Models.Test;
+}
+
+<div class="container-fluid px-4 py-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="mb-0">
+            <i class="fas fa-question-circle me-2"></i>Добавление вопроса
+        </h1>
+        <a href="@Url.Action("TestDetails", "Admin", new { id = test.Id })" class="btn btn-outline-secondary">
+            <i class="fas fa-arrow-left me-1"></i>Вернуться к тесту
+        </a>
+    </div>
+    
+    <div class="card mb-4">
+        <div class="card-header">
+            <i class="fas fa-info-circle me-1"></i>
+            Информация о тесте
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <h5 class="card-title">@test.Title</h5>
+                    <p class="card-text">@test.Description</p>
+                </div>
+                <div class="col-md-6">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Язык
+                            <span class="badge bg-primary rounded-pill">@test.LanguageLevel.Language.Name</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Уровень
+                            <span class="badge bg-secondary rounded-pill">@test.LanguageLevel.Name</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Текущее кол-во вопросов
+                            <span class="badge bg-info rounded-pill">@test.Questions.Count</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="card mb-4">
+        <div class="card-header">
+            <i class="fas fa-edit me-1"></i>
+            Добавление вопроса
+        </div>
+        <div class="card-body">
+            <form asp-action="AddQuestion" method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+                <input type="hidden" asp-for="TestId" value="@test.Id" />
+                
+                <div class="mb-3">
+                    <label asp-for="Text" class="form-label">Текст вопроса</label>
+                    <textarea asp-for="Text" class="form-control" rows="3" required></textarea>
+                    <span asp-validation-for="Text" class="text-danger"></span>
+                </div>
+                
+                <div class="d-flex justify-content-between mt-4">
+                    <a asp-action="TestDetails" asp-route-id="@test.Id" class="btn btn-outline-secondary">Отмена</a>
+                    <div>
+                        <button type="submit" name="action" value="saveAndReturn" class="btn btn-primary me-2">
+                            <i class="fas fa-save me-1"></i>Сохранить и вернуться
+                        </button>
+                        <button type="submit" name="action" value="saveAndAddOptions" class="btn btn-success">
+                            <i class="fas fa-save me-1"></i>Сохранить и добавить варианты ответов
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+} 

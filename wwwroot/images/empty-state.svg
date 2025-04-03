@@ -1,0 +1,54 @@
+<svg id="empty_state" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 300" width="500" height="300">
+  <style>
+    .st0{fill:#f7f7f7;}
+    .st1{fill:#e9e9e9;}
+    .st2{fill:#58cc02;}
+    .st3{fill:#46a302;}
+    .st4{fill:#1cb0f6;}
+    .st5{fill:#ffffff;}
+    .st6{fill:#4b4b4b;}
+    .st7{fill:#ffc800;}
+  </style>
+  
+  <!-- Background -->
+  <circle class="st0" cx="250" cy="150" r="150"/>
+  <circle class="st1" cx="250" cy="150" r="120"/>
+  
+  <!-- Character -->
+  <g transform="translate(150, 50)">
+    <!-- Body -->
+    <ellipse class="st2" cx="100" cy="120" rx="70" ry="80"/>
+    <ellipse class="st3" cx="100" cy="130" rx="60" ry="70"/>
+    
+    <!-- Face -->
+    <circle class="st5" cx="100" cy="100" r="50"/>
+    
+    <!-- Eyes -->
+    <g>
+      <circle class="st6" cx="80" cy="90" r="10"/>
+      <circle class="st6" cx="120" cy="90" r="10"/>
+      <circle class="st5" cx="83" cy="87" r="3"/>
+      <circle class="st5" cx="123" cy="87" r="3"/>
+    </g>
+    
+    <!-- Beak -->
+    <path class="st7" d="M100,110 L85,130 L115,130 Z"/>
+    
+    <!-- Wings -->
+    <ellipse class="st4" cx="40" cy="120" rx="20" ry="40" transform="rotate(-20 40 120)"/>
+    <ellipse class="st4" cx="160" cy="120" rx="20" ry="40" transform="rotate(20 160 120)"/>
+  </g>
+  
+  <!-- Magnifying glass -->
+  <g transform="translate(300, 180) rotate(-20)">
+    <circle class="st5" cx="0" cy="0" r="30" stroke="#e5e5e5" stroke-width="8" fill="none"/>
+    <line x1="20" y1="20" x2="50" y2="50" stroke="#e5e5e5" stroke-width="8" stroke-linecap="round"/>
+  </g>
+  
+  <!-- Question marks -->
+  <g>
+    <text x="100" y="80" font-family="Arial" font-size="30" font-weight="bold" fill="#e5e5e5">?</text>
+    <text x="350" y="100" font-family="Arial" font-size="40" font-weight="bold" fill="#e5e5e5">?</text>
+    <text x="200" y="50" font-family="Arial" font-size="25" font-weight="bold" fill="#e5e5e5">?</text>
+  </g>
+</svg> 

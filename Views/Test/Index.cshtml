@@ -1,0 +1,307 @@
+@model List<Test>
+@{
+    ViewData["Title"] = "Тесты";
+    ViewData["IsDarkMode"] = ViewData["IsDarkMode"] ?? false;
+    ViewData["CurrentLanguage"] = ViewData["CurrentLanguage"] ?? "ru";
+    ViewData["IsAuthenticated"] = ViewData["IsAuthenticated"] ?? false;
+
+    var languages = ViewData["Languages"] as List<Language> ?? new List<Language>();
+    var levels = ViewData["Levels"] as List<LanguageLevel> ?? new List<LanguageLevel>();
+    var selectedLanguage = ViewData["SelectedLanguage"] as string;
+    var selectedLevel = ViewData["SelectedLevel"] as string;
+
+    // Группируем тесты по языкам
+    var testsByLanguage = Model
+        .GroupBy(t => t.LanguageLevel.Language.Name)
+        .ToDictionary(g => g.Key, g => g.ToList());
+
+    // Словарь для флагов языков
+    var languageFlags = new Dictionary<string, string>
+    {
+        { "Английский", "🇬🇧" },
+        { "Испанский", "🇪🇸" },
+        { "Французский", "🇫🇷" },
+        { "Немецкий", "🇩🇪" },
+        { "Итальянский", "🇮🇹" },
+        { "Португальский", "🇵🇹" },
+        { "Нидерландский", "🇳🇱" },
+        { "Ирландский", "🇮🇪" },
+        { "Датский", "🇩🇰" },
+        { "Шведский", "🇸🇪" },
+        { "Норвежский", "🇳🇴" },
+        { "Финский", "🇫🇮" },
+        { "Польский", "🇵🇱" },
+        { "Чешский", "🇨🇿" },
+        { "Словацкий", "🇸🇰" },
+        { "Венгерский", "🇭🇺" },
+        { "Румынский", "🇷🇴" },
+        { "Греческий", "🇬🇷" },
+        { "Турецкий", "🇹🇷" },
+        { "Иврит", "🇮🇱" },
+        { "Арабский", "🇸🇦" },
+        { "Хинди", "🇮🇳" },
+        { "Вьетнамский", "🇻🇳" },
+        { "Индонезийский", "🇮🇩" },
+        { "Китайский", "🇨🇳" },
+        { "Японский", "🇯🇵" },
+        { "Корейский", "🇰🇷" },
+        { "Русский", "🇷🇺" },
+        { "Казахский", "🇰🇿" }
+    };
+    
+    // Получаем список всех языков и уровней для фильтрации
+    var allLanguages = testsByLanguage.Keys.ToList();
+    var allLevels = new List<string>() { "A1", "A2", "B1", "B2", "C1", "C2" };
+    
+    // Мотивационные фразы
+    var motivationalPhrases = new string[] {
+        "Учить язык - значит открывать новый мир!",
+        "Каждый тест - шаг к свободному владению языком!",
+        "Не останавливайся на достигнутом!",
+        "Регулярное тестирование - ключ к успеху!",
+        "Тренируйся каждый день, и результат не заставит себя ждать!"
+    };
+    
+    // Выбираем случайную фразу
+    var randomPhrase = motivationalPhrases[new Random().Next(0, motivationalPhrases.Length)];
+}
+
+<link rel="stylesheet" href="~/css/tests.css" />
+
+<div class="container-fluid">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h1 class="display-4">Проверьте свои языковые навыки</h1>
+                <p class="lead">Наши онлайн-тесты помогут вам определить уровень владения языком и выявить области для улучшения. Выберите язык и уровень сложности ниже, чтобы начать.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <!-- Фильтры -->
+    <div class="filters-container">
+        <div class="filter-section">
+            <h5 class="filter-heading" style="margin-top:75px">
+                <i class="fas fa-globe"></i> 
+                Выберите язык
+            </h5>
+            <div class="filter-options" style="margin-top:20px">
+                <a href="#" class="filter-option active" data-language="all">
+                    Все языки
+                </a>
+                @foreach (var language in allLanguages)
+                {
+                    <a href="#" class="filter-option" data-language="@language">
+                        @if (languageFlags.ContainsKey(language))
+                        {
+                            <span class="filter-icon">@languageFlags[language]</span>
+                        }
+                        @language
+                    </a>
+                }
+            </div>
+        </div>
+        
+        <div class="filter-section">
+            <h5 class="filter-heading" style="margin-top:25px">
+                <i class="fas fa-layer-group"></i>
+                Выберите уровень
+            </h5>
+            <div class="filter-options" style="margin-top:20px; margin-bottom:20px">
+                <a href="#" class="filter-option active" data-level="all">
+                    Все уровни
+                </a>
+                <a href="#" class="filter-option" data-level="A1">
+                    <span class="level-badge">A1</span>
+                </a>
+                <a href="#" class="filter-option" data-level="A2">
+                    <span class="level-badge">A2</span>
+                </a>
+                <a href="#" class="filter-option" data-level="B1">
+                    <span class="level-badge">B1</span>
+                </a>
+                <a href="#" class="filter-option" data-level="B2">
+                    <span class="level-badge">B2</span>
+                </a>
+                <a href="#" class="filter-option" data-level="C1">
+                    <span class="level-badge">C1</span>
+                </a>
+                <a href="#" class="filter-option" data-level="C2">
+                    <span class="level-badge">C2</span>
+                </a>
+            </div>
+        </div>
+    </div>
+        
+    <!-- Списки тестов по языкам -->
+    <div class="language-sections">
+        @if (!testsByLanguage.Any())
+        {
+            <div class="empty-tests-message">
+                <i class="fas fa-book"></i>
+                <h3>Тесты не найдены</h3>
+                <p>В данный момент тесты не доступны. Пожалуйста, зайдите позже, когда будут добавлены новые тесты, или обратитесь к администратору.</p>
+            </div>
+        }
+        else
+        {
+            foreach (var languageGroup in testsByLanguage)
+            {
+                string languageName = languageGroup.Key;
+                var testsForLanguage = languageGroup.Value;
+                string flag = languageFlags.ContainsKey(languageName) ? languageFlags[languageName] : "🌎";
+                
+                <div class="language-section" data-language="@languageName">
+                    <div class="section-header">
+                        <h2>
+                            <span class="language-flag">@flag</span>
+                            @languageName
+                        </h2>
+                        <a href="#" class="view-more">Еще тесты <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                    
+                    <div class="demo-tests-grid">
+                        @{
+                            var animationOrder = 0;
+                        }
+                        @foreach (var test in testsForLanguage)
+                        {
+                            string levelName = test.LanguageLevel?.Level.ToString() ?? "Unknown";
+                            
+                            <div class="demo-test-card" style="--animation-order: @animationOrder" data-level="@levelName">
+                                <div class="demo-test-header">
+                                    <div class="demo-test-language">
+                                        <span class="language-flag">@flag</span>
+                                        @languageName
+                                        <span class="level-badge">@levelName</span>
+                                    </div>
+                                </div>
+                                <div class="demo-test-content">
+                                    <h3 class="demo-test-title">@test.Title</h3>
+                                    <p class="demo-test-description">@test.Description</p>
+                                    <div class="demo-test-meta">
+                                        <span><i class="fas fa-clock"></i> @test.TimeLimit мин.</span>
+                                        <span><i class="fas fa-question-circle"></i> @(test.Questions?.Count ?? 0) вопросов</span>
+                                    </div>
+                                </div>
+                                <div class="demo-test-footer">
+                                    <a href="@Url.Action("StartTest", "Test", new { id = test.Id })" class="duolingo-button">
+                                        Начать тест <i class="fas fa-arrow-right"></i>
+                                    </a>
+                                </div>
+                            </div>
+                            
+                            animationOrder++;
+                        }
+                    </div>
+                </div>
+            }
+        }
+    </div>
+</div>
+
+<!-- Фиксированный персонаж Duo внизу страницы -->
+<div class="duo-character position-fixed" id="fixedDuo" style="bottom: 20px; right: 20px; z-index: 1000; cursor: pointer;">
+    <div class="duo-speech" id="duoSpeech"></div>
+    <div style="font-size: 80px; text-align: center;">🙂</div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function() {
+            // Фильтрация по языку
+            $('.filter-option[data-language]').click(function(e) {
+                e.preventDefault();
+                $('.filter-option[data-language]').removeClass('active');
+                $(this).addClass('active');
+                
+                var selectedLanguage = $(this).data('language');
+                
+                if (selectedLanguage === 'all') {
+                    $('.language-section').fadeIn(300);
+                } else {
+                    $('.language-section').hide();
+                    $('.language-section[data-language="' + selectedLanguage + '"]').fadeIn(300);
+                }
+                
+                // Показываем сообщение Duo
+                if (selectedLanguage !== 'all') {
+                    showDuoMessage('Отличный выбор! Язык ' + selectedLanguage + ' открывает много возможностей!');
+                } else {
+                    showDuoMessage('Выбери тест, который тебе интересен!');
+                }
+            });
+            
+            // Фильтрация по уровню
+            $('.filter-option[data-level]').click(function(e) {
+                e.preventDefault();
+                $('.filter-option[data-level]').removeClass('active');
+                $(this).addClass('active');
+                
+                var selectedLevel = $(this).data('level');
+                
+                if (selectedLevel === 'all') {
+                    $('.demo-test-card').fadeIn(300);
+                } else {
+                    $('.demo-test-card').hide();
+                    $('.demo-test-card[data-level="' + selectedLevel + '"]').fadeIn(300);
+                }
+                
+                // Показываем сообщение от Duo при выборе уровня
+                if (selectedLevel !== 'all') {
+                    const levelMessages = {
+                        'A1': 'Уровень A1 - отличное начало для изучения языка!',
+                        'A2': 'На уровне A2 ты уже сможешь вести простые разговоры!',
+                        'B1': 'Уровень B1 - это уже средний уровень, ты молодец!',
+                        'B2': 'B2 - отличный уровень для работы и путешествий!',
+                        'C1': 'C1 - почти профессиональный уровень!',
+                        'C2': 'C2 - ты практически носитель языка!'
+                    };
+                    showDuoMessage(levelMessages[selectedLevel] || 'Выбери тест, который подходит твоему уровню.');
+                }
+            });
+            
+            // Отображение сообщений Duo
+            function showDuoMessage(message) {
+                const duoSpeech = document.getElementById('duoSpeech');
+                duoSpeech.textContent = message;
+                duoSpeech.classList.add('show');
+                
+                setTimeout(() => {
+                    duoSpeech.classList.remove('show');
+                }, 5000);
+            }
+            
+            // Взаимодействие с персонажем
+            $('#fixedDuo').click(function() {
+                const encouragingMessages = [
+                    'Ты справишься! Я в тебя верю!',
+                    'Регулярная практика - залог успеха!',
+                    'Каждый тест - это шаг вперед!',
+                    'Не бойся ошибок, они помогают учиться!',
+                    'Постоянство и упорство приведут к результату!'
+                ];
+                
+                const randomIndex = Math.floor(Math.random() * encouragingMessages.length);
+                showDuoMessage(encouragingMessages[randomIndex]);
+            });
+            
+            // Показываем приветственное сообщение
+            setTimeout(() => {
+                const welcomeMessages = [
+                    'Привет! Готов проверить свои знания?',
+                    'Выбери язык и уровень, который хочешь проверить!',
+                    'Тренировки помогают совершенствоваться!',
+                    'Начни сейчас!',
+                    'Регулярное тестирование - ключ к успеху!',
+                    'Пройди все тесты и улучши свои знания!'
+                ];
+                
+                const randomIndex = Math.floor(Math.random() * welcomeMessages.length);
+                showDuoMessage(welcomeMessages[randomIndex]);
+            }, 1000);
+        });
+    </script>
+} 

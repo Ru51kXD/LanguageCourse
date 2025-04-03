@@ -1,0 +1,279 @@
+/* Стили для страницы результатов тестов */
+:root {
+    --duolingo-green: #58cc02;
+    --duolingo-blue: #1cb0f6;
+    --duolingo-orange: #ff9600;
+    --duolingo-red: #ff4b4b;
+    --duolingo-purple: #ce82ff;
+    --duolingo-yellow: #ffc800;
+    --duolingo-dark-gray: #333;
+    --duolingo-gray: #777;
+    --duolingo-light-gray: #e5e5e5;
+    --duolingo-green-light: rgba(88, 204, 2, 0.2);
+    --duolingo-blue-light: rgba(28, 176, 246, 0.2);
+    --duolingo-orange-light: rgba(255, 150, 0, 0.2);
+    --duolingo-red-light: rgba(255, 75, 75, 0.2);
+}
+
+/* Стили для карточек статистики */
+.duolingo-stats-section {
+    margin-top: 30px;
+}
+
+.stats-card {
+    background-color: var(--dark-bg-color);
+    border-radius: 12px;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    transition: all 0.3s ease;
+    opacity: 0;
+    transform: translateY(20px);
+}
+
+.stats-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+}
+
+.stats-icon {
+    font-size: 30px;
+    color: var(--duolingo-blue);
+    margin-right: 15px;
+    width: 60px;
+    height: 60px;
+    background-color: var(--duolingo-blue-light);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.stats-icon .fa-chart-line {
+    color: var(--duolingo-green);
+}
+
+.stats-icon .fa-trophy {
+    color: var(--duolingo-yellow);
+}
+
+.stats-icon .fa-globe {
+    color: var(--duolingo-purple);
+}
+
+.stats-icon .fa-tasks {
+    color: var(--duolingo-blue);
+}
+
+.stats-info {
+    flex: 1;
+}
+
+.stats-value {
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 5px;
+    color: var(--text-color);
+}
+
+.stats-label {
+    font-size: 14px;
+    color: var(--duolingo-gray);
+}
+
+/* Стили для графиков и прогресса */
+.language-progress-section {
+    margin-top: 30px;
+    background-color: var(--dark-bg-color);
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.language-progress-chart {
+    height: 300px;
+}
+
+.language-stats {
+    padding: 10px;
+}
+
+.language-stat-item {
+    background-color: var(--dark-panel-color);
+    border-radius: 10px;
+    padding: 15px;
+    margin-bottom: 15px;
+    transition: all 0.3s ease;
+    opacity: 0;
+    transform: translateY(20px);
+}
+
+.language-stat-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.language-name {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--text-color);
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+}
+
+.language-flag {
+    margin-right: 8px;
+    font-size: 22px;
+}
+
+.language-details {
+    margin-bottom: 15px;
+}
+
+.language-detail {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 5px;
+}
+
+.detail-label {
+    color: var(--duolingo-gray);
+}
+
+.detail-value {
+    font-weight: 600;
+    color: var(--text-color);
+}
+
+.language-progress {
+    height: 10px;
+    background-color: var(--duolingo-light-gray);
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.language-progress .progress-bar {
+    background-color: var(--duolingo-green);
+    border-radius: 5px;
+    transition: width 0.5s ease;
+}
+
+/* Стили для таблицы результатов */
+.test-results-table {
+    margin-top: 20px;
+    background-color: var(--dark-bg-color);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.3s ease;
+}
+
+.test-results-table table {
+    width: 100%;
+    color: var(--text-color);
+}
+
+.test-results-table th {
+    background-color: var(--dark-panel-color);
+    color: var(--duolingo-blue);
+    font-weight: 600;
+    padding: 12px 15px;
+    border: none;
+}
+
+.test-results-table td {
+    padding: 10px 15px;
+    border-top: 1px solid var(--duolingo-light-gray);
+    vertical-align: middle;
+}
+
+.test-results-table tr:hover {
+    background-color: var(--dark-panel-color);
+}
+
+.result-badge {
+    display: inline-block;
+    padding: 5px 10px;
+    border-radius: 15px;
+    font-weight: 700;
+    color: white;
+    text-align: center;
+    min-width: 60px;
+}
+
+.result-badge.excellent {
+    background-color: var(--duolingo-green);
+}
+
+.result-badge.good {
+    background-color: var(--duolingo-blue);
+}
+
+.result-badge.average {
+    background-color: var(--duolingo-orange);
+}
+
+.result-badge.poor {
+    background-color: var(--duolingo-red);
+}
+
+/* Стили для пустого состояния */
+.duolingo-empty-state {
+    text-align: center;
+    padding: 40px 20px;
+    background-color: var(--dark-bg-color);
+    border-radius: 12px;
+    margin-top: 20px;
+}
+
+.empty-state-image {
+    max-width: 200px;
+    margin-bottom: 20px;
+}
+
+.duolingo-empty-state h3 {
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 10px;
+    color: var(--text-color);
+}
+
+.duolingo-empty-state p {
+    color: var(--duolingo-gray);
+    margin-bottom: 25px;
+}
+
+/* Адаптивные стили */
+@media (max-width: 992px) {
+    .language-progress-section .row {
+        flex-direction: column;
+    }
+    
+    .language-progress-chart {
+        height: 250px;
+        margin-bottom: 20px;
+    }
+}
+
+@media (max-width: 768px) {
+    .stats-card {
+        margin-bottom: 15px;
+    }
+    
+    .stats-value {
+        font-size: 20px;
+    }
+    
+    .test-results-table {
+        overflow-x: auto;
+    }
+    
+    .test-results-table table {
+        min-width: 800px;
+    }
+} 

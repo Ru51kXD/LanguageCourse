@@ -1,0 +1,248 @@
+/* Общие стили для админ-панели */
+.admin-body {
+    font-family: 'Nunito', sans-serif;
+    background-color: #f8f9fc;
+    min-height: 100vh;
+}
+
+.admin-wrapper {
+    display: flex;
+    width: 100%;
+    align-items: stretch;
+}
+
+/* Стили для боковой панели */
+.admin-sidebar {
+    min-width: 250px;
+    max-width: 250px;
+    background: linear-gradient(135deg, #2a3f5f, #1a2942);
+    color: #fff;
+    transition: all 0.3s;
+    height: 100vh;
+    position: fixed;
+    display: flex;
+    flex-direction: column;
+    z-index: 100;
+}
+
+.admin-sidebar.active {
+    margin-left: -250px;
+}
+
+.admin-sidebar .sidebar-header {
+    padding: 20px;
+    background: rgba(0, 0, 0, 0.1);
+}
+
+.admin-sidebar .sidebar-header h3 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.admin-sidebar ul.components {
+    padding: 20px 0;
+    flex-grow: 1;
+    overflow-y: auto;
+}
+
+.admin-sidebar ul li a {
+    padding: 15px 20px;
+    font-size: 1.1rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: rgba(255, 255, 255, 0.8);
+    text-decoration: none;
+    transition: all 0.3s;
+}
+
+.admin-sidebar ul li a i {
+    width: 20px;
+    text-align: center;
+}
+
+.admin-sidebar ul li a:hover {
+    color: #fff;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.admin-sidebar ul li.active > a {
+    color: #fff;
+    background: #3a4f76;
+}
+
+.admin-sidebar ul li a[aria-expanded="true"] {
+    color: #fff;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.admin-sidebar ul ul {
+    background: rgba(0, 0, 0, 0.1);
+}
+
+.admin-sidebar ul ul a {
+    font-size: 1rem;
+    padding: 12px 10px 12px 45px;
+}
+
+.sidebar-footer {
+    padding: 20px;
+    background: rgba(0, 0, 0, 0.1);
+}
+
+.logout-btn {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+/* Стили для основного контента */
+.admin-content {
+    width: calc(100% - 250px);
+    min-height: 100vh;
+    transition: all 0.3s;
+    margin-left: 250px;
+}
+
+.admin-content.active {
+    width: 100%;
+    margin-left: 0;
+}
+
+.admin-content h1 {
+    font-weight: 700;
+    color: #2a3f5f;
+}
+
+/* Стили для карточек и таблиц */
+.card {
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.15);
+    margin-bottom: 20px;
+}
+
+.card-header {
+    background-color: #f8f9fc;
+    padding: 15px 20px;
+    font-weight: 600;
+    color: #4e73df;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.card-body {
+    padding: 20px;
+}
+
+.card.bg-primary, .card.bg-success, .card.bg-info, .card.bg-warning {
+    box-shadow: 0 0.3rem 1rem 0 rgba(0, 0, 0, 0.1);
+}
+
+.card-footer {
+    background-color: #f8f9fc;
+    border-top: 1px solid #e3e6f0;
+    padding: 12px 20px;
+}
+
+.table {
+    margin-bottom: 0;
+}
+
+.table thead th {
+    background-color: #f8f9fc;
+    color: #4e73df;
+    font-weight: 600;
+    border-bottom: 1px solid #e3e6f0;
+}
+
+.list-group-item {
+    border: 1px solid #e3e6f0;
+    transition: all 0.3s;
+}
+
+.list-group-item:hover {
+    background-color: #f8f9fc;
+}
+
+/* Стили для форм */
+.form-label {
+    font-weight: 600;
+    color: #5a5c69;
+}
+
+.form-control {
+    border-radius: 0.35rem;
+    border: 1px solid #d1d3e2;
+    padding: 0.5rem 1rem;
+    font-size: 0.95rem;
+}
+
+.form-control:focus {
+    border-color: #bac8f3;
+    box-shadow: 0 0 0 0.2rem rgba(78, 115, 223, 0.25);
+}
+
+.btn-primary {
+    color: #fff;
+    background-color: #4e73df;
+    border-color: #4e73df;
+}
+
+.btn-primary:hover {
+    color: #fff;
+    background-color: #2e59d9;
+    border-color: #2653d4;
+}
+
+.btn-success {
+    color: #fff;
+    background-color: #1cc88a;
+    border-color: #1cc88a;
+}
+
+.btn-success:hover {
+    color: #fff;
+    background-color: #17a673;
+    border-color: #169b6b;
+}
+
+.btn-danger {
+    color: #fff;
+    background-color: #e74a3b;
+    border-color: #e74a3b;
+}
+
+.btn-danger:hover {
+    color: #fff;
+    background-color: #e02d1b;
+    border-color: #d52a1a;
+}
+
+/* Адаптивные стили */
+@media (max-width: 768px) {
+    .admin-sidebar {
+        margin-left: -250px;
+    }
+    
+    .admin-sidebar.active {
+        margin-left: 0;
+    }
+    
+    .admin-content {
+        width: 100%;
+        margin-left: 0;
+    }
+    
+    .admin-content.active {
+        width: calc(100% - 250px);
+        margin-left: 250px;
+    }
+} 

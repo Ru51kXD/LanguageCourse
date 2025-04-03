@@ -1,0 +1,320 @@
+@model WebApplication15.Models.Video
+@{
+    ViewData["Title"] = "Добавление видео";
+    Layout = "_AdminLayout";
+}
+
+<div class="container-fluid px-4 py-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="mb-0">
+            <i class="fas fa-plus-circle me-2"></i>Добавление нового видео
+        </h1>
+        <a href="@Url.Action("Videos", "Admin")" class="btn btn-outline-secondary">
+            <i class="fas fa-arrow-left me-1"></i>Вернуться к списку
+        </a>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-8">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <i class="fas fa-edit me-1"></i>
+                    Данные видео
+                </div>
+                <div class="card-body">
+                    <form asp-action="CreateVideo" method="post" id="createVideoForm">
+                        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                        <div class="mb-3">
+                            <label asp-for="Title" class="form-label">Название видео</label>
+                            <input asp-for="Title" class="form-control" required />
+                            <span asp-validation-for="Title" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Description" class="form-label">Описание</label>
+                            <textarea asp-for="Description" class="form-control" rows="4"></textarea>
+                            <span asp-validation-for="Description" class="text-danger"></span>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="LanguageId" class="form-label">Язык</label>
+                                <select id="LanguageId" name="LanguageId" class="form-select" required>
+                                    <option value="">Выберите язык</option>
+                                    @if (ViewBag.Languages != null)
+                                    {
+                                        @foreach (var language in ViewBag.Languages)
+                                        {
+                                            <option value="@language.Id">@language.Name</option>
+                                        }
+                                    }
+                                </select>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="LanguageLevelId" class="form-label">Уровень</label>
+                                <select asp-for="LanguageLevelId" id="LanguageLevelId" class="form-select" required>
+                                    <option value="">Сначала выберите язык</option>
+                                </select>
+                                <span asp-validation-for="LanguageLevelId" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="VideoUrl" class="form-label">URL видео</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="fab fa-youtube"></i></span>
+                                <input asp-for="VideoUrl" class="form-control" type="url" required id="videoUrl"
+                                    placeholder="https://www.youtube.com/watch?v=..." />
+                            </div>
+                            <div class="form-text">Укажите ссылку на видео из YouTube или Vimeo</div>
+                            <span asp-validation-for="VideoUrl" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="ThumbnailUrl" class="form-label">URL миниатюры (необязательно)</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="fas fa-image"></i></span>
+                                <input asp-for="ThumbnailUrl" class="form-control" type="url" id="thumbnailUrl"
+                                    placeholder="https://example.com/thumbnail.jpg" />
+                            </div>
+                            <div class="form-text">Если не указано, миниатюра будет получена автоматически из видео</div>
+                            <span asp-validation-for="ThumbnailUrl" class="text-danger"></span>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <div class="form-check form-switch">
+                                    <input asp-for="IsActive" class="form-check-input" type="checkbox" checked />
+                                    <label asp-for="IsActive" class="form-check-label">Активно (доступно для просмотра)</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <div class="form-check form-switch">
+                                    <input asp-for="IsFeatured" class="form-check-input" type="checkbox" />
+                                    <label asp-for="IsFeatured" class="form-check-label">Рекомендуемое видео</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="d-flex justify-content-between mt-4">
+                            <a asp-action="Videos" class="btn btn-outline-secondary">Отмена</a>
+                            <button type="submit" class="btn btn-success">
+                                <i class="fas fa-save me-1"></i>Добавить видео
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-lg-4">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <i class="fas fa-eye me-1"></i>
+                    Предварительный просмотр
+                </div>
+                <div class="card-body">
+                    <div id="videoPreview" class="mb-3">
+                        <div class="ratio ratio-16x9 mb-3 d-none" id="embedPreview">
+                            <iframe id="previewIframe" src="" title="Предпросмотр видео" frameborder="0" 
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                                    allowfullscreen></iframe>
+                        </div>
+                        <div class="alert alert-info" id="previewPlaceholder">
+                            <i class="fas fa-info-circle me-2"></i>
+                            Введите URL видео для предварительного просмотра
+                        </div>
+                    </div>
+                    
+                    <div id="thumbnailPreview" class="text-center mb-3">
+                        <h6 class="text-muted mb-2">Миниатюра</h6>
+                        <img id="thumbnailImage" src="/images/default-thumbnail.jpg" alt="Миниатюра видео" 
+                             class="img-fluid rounded" style="max-height: 150px; display: none;">
+                        <div class="alert alert-secondary" id="thumbnailPlaceholder">
+                            <i class="fas fa-image me-2"></i>
+                            Миниатюра будет загружена автоматически
+                        </div>
+                    </div>
+                    
+                    <div class="alert alert-primary">
+                        <i class="fas fa-lightbulb me-2"></i>
+                        <strong>Совет:</strong> Для лучшего результата используйте оригинальные YouTube-ссылки формата 
+                        https://www.youtube.com/watch?v=XXX
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+        $(document).ready(function() {
+            // Загрузка уровней при выборе языка
+            $('#LanguageId').change(function() {
+                var languageId = $(this).val();
+                if (languageId) {
+                    updateLevels(languageId);
+                } else {
+                    $('#LanguageLevelId').html('<option value="">Сначала выберите язык</option>');
+                }
+            });
+
+            function updateLevels(languageId) {
+                $.get('/Admin/GetLanguageLevels', { languageId: languageId }, function(levels) {
+                    var options = '<option value="">Выберите уровень</option>';
+                    levels.forEach(function(level) {
+                        options += '<option value="' + level.id + '">' + level.name + '</option>';
+                    });
+                    $('#LanguageLevelId').html(options);
+                });
+            }
+            
+            // Предпросмотр видео
+            $('#videoUrl').on('input', function() {
+                var videoUrl = $(this).val();
+                if (videoUrl) {
+                    var embedUrl = getEmbedUrl(videoUrl);
+                    if (embedUrl) {
+                        $('#previewIframe').attr('src', embedUrl);
+                        $('#embedPreview').removeClass('d-none');
+                        $('#previewPlaceholder').addClass('d-none');
+                        
+                        // Автоматическое заполнение миниатюры
+                        var thumbnailUrl = getThumbnailUrl(videoUrl);
+                        if (thumbnailUrl && $('#thumbnailUrl').val() === '') {
+                            $('#thumbnailUrl').val(thumbnailUrl);
+                            $('#thumbnailImage').attr('src', thumbnailUrl).show();
+                            $('#thumbnailPlaceholder').hide();
+                        }
+                    } else {
+                        $('#embedPreview').addClass('d-none');
+                        $('#previewPlaceholder').removeClass('d-none').html('<i class="fas fa-exclamation-triangle me-2"></i>Неподдерживаемый формат URL');
+                    }
+                } else {
+                    $('#embedPreview').addClass('d-none');
+                    $('#previewPlaceholder').removeClass('d-none').html('<i class="fas fa-info-circle me-2"></i>Введите URL видео для предварительного просмотра');
+                }
+            });
+            
+            // Предпросмотр миниатюры
+            $('#thumbnailUrl').on('input', function() {
+                var thumbnailUrl = $(this).val();
+                if (thumbnailUrl) {
+                    $('#thumbnailImage').attr('src', thumbnailUrl).show();
+                    $('#thumbnailPlaceholder').hide();
+                } else {
+                    var videoUrl = $('#videoUrl').val();
+                    if (videoUrl) {
+                        var thumbnailUrl = getThumbnailUrl(videoUrl);
+                        if (thumbnailUrl) {
+                            $('#thumbnailImage').attr('src', thumbnailUrl).show();
+                            $('#thumbnailPlaceholder').hide();
+                        } else {
+                            $('#thumbnailImage').hide();
+                            $('#thumbnailPlaceholder').show();
+                        }
+                    } else {
+                        $('#thumbnailImage').hide();
+                        $('#thumbnailPlaceholder').show();
+                    }
+                }
+            });
+            
+            // Получение URL для встраивания видео
+            function getEmbedUrl(videoUrl) {
+                if (!videoUrl) return null;
+                
+                // YouTube
+                if (videoUrl.includes('youtube.com') || videoUrl.includes('youtu.be')) {
+                    var youtubeId = '';
+                    if (videoUrl.includes('youtu.be/')) {
+                        youtubeId = videoUrl.split('youtu.be/')[1];
+                    } else if (videoUrl.includes('watch?v=')) {
+                        youtubeId = videoUrl.split('watch?v=')[1];
+                    } else if (videoUrl.includes('embed/')) {
+                        youtubeId = videoUrl.split('embed/')[1];
+                    }
+                    
+                    if (youtubeId.includes('&')) {
+                        youtubeId = youtubeId.split('&')[0];
+                    }
+                    
+                    if (youtubeId) {
+                        return 'https://www.youtube.com/embed/' + youtubeId + '?autoplay=0&rel=0';
+                    }
+                }
+                
+                // Vimeo
+                if (videoUrl.includes('vimeo.com')) {
+                    var vimeoId = '';
+                    if (videoUrl.includes('vimeo.com/')) {
+                        vimeoId = videoUrl.split('vimeo.com/')[1];
+                    }
+                    
+                    if (vimeoId) {
+                        return 'https://player.vimeo.com/video/' + vimeoId;
+                    }
+                }
+                
+                return null;
+            }
+            
+            // Получение URL миниатюры
+            function getThumbnailUrl(videoUrl) {
+                if (!videoUrl) return null;
+                
+                // YouTube
+                if (videoUrl.includes('youtube.com') || videoUrl.includes('youtu.be')) {
+                    var youtubeId = '';
+                    if (videoUrl.includes('youtu.be/')) {
+                        youtubeId = videoUrl.split('youtu.be/')[1];
+                    } else if (videoUrl.includes('watch?v=')) {
+                        youtubeId = videoUrl.split('watch?v=')[1];
+                    } else if (videoUrl.includes('embed/')) {
+                        youtubeId = videoUrl.split('embed/')[1];
+                    }
+                    
+                    if (youtubeId.includes('&')) {
+                        youtubeId = youtubeId.split('&')[0];
+                    }
+                    
+                    if (youtubeId) {
+                        return 'https://img.youtube.com/vi/' + youtubeId + '/maxresdefault.jpg';
+                    }
+                }
+                
+                return null;
+            }
+            
+            // Валидация формы
+            $('#createVideoForm').on('submit', function(e) {
+                var videoUrl = $('#videoUrl').val();
+                var languageId = $('#LanguageId').val();
+                var languageLevelId = $('#LanguageLevelId').val();
+                
+                if (!videoUrl) {
+                    alert('Пожалуйста, введите URL видео');
+                    e.preventDefault();
+                    return false;
+                }
+                
+                if (!languageId) {
+                    alert('Пожалуйста, выберите язык видео');
+                    e.preventDefault();
+                    return false;
+                }
+                
+                if (!languageLevelId) {
+                    alert('Пожалуйста, выберите уровень языка');
+                    e.preventDefault();
+                    return false;
+                }
+                
+                return true;
+            });
+        });
+    </script>
+} 

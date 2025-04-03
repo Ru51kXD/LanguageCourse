@@ -1,0 +1,177 @@
+@model WebApplication15.Models.Video
+@{
+    ViewData["Title"] = "Редактирование видео";
+    Layout = "_AdminLayout";
+}
+
+<div class="container-fluid px-4 py-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="mb-0">
+            <i class="fas fa-edit me-2"></i>Редактирование видео
+        </h1>
+        <a href="@Url.Action("Videos", "Admin")" class="btn btn-outline-secondary">
+            <i class="fas fa-arrow-left me-1"></i>Вернуться к списку
+        </a>
+    </div>
+
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <i class="fas fa-check-circle me-2"></i>@TempData["SuccessMessage"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+
+    <div class="card mb-4">
+        <div class="card-header">
+            <i class="fas fa-edit me-1"></i>
+            Данные видео
+        </div>
+        <div class="card-body">
+            <form asp-action="EditVideo" method="post">
+                <input type="hidden" asp-for="Id" />
+                <input type="hidden" asp-for="CreatedDate" />
+                <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                <div class="mb-3">
+                    <label asp-for="Title" class="form-label">Название видео</label>
+                    <input asp-for="Title" class="form-control" required />
+                    <span asp-validation-for="Title" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Description" class="form-label">Описание</label>
+                    <textarea asp-for="Description" class="form-control" rows="4"></textarea>
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="LanguageId" class="form-label">Язык</label>
+                        <select id="LanguageId" name="LanguageId" class="form-select" required>
+                            <option value="">Выберите язык</option>
+                            @if (ViewBag.Languages != null)
+                            {
+                                @foreach (var language in ViewBag.Languages)
+                                {
+                                    var isSelected = Model.LanguageLevel?.Language?.Id == language.Id;
+                                    if (isSelected)
+                                    {
+                                        <option value="@language.Id" selected>@language.Name</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@language.Id">@language.Name</option>
+                                    }
+                                }
+                            }
+                        </select>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label asp-for="LanguageLevelId" class="form-label">Уровень</label>
+                        <select asp-for="LanguageLevelId" id="LanguageLevelId" class="form-select" required>
+                            <option value="">Выберите уровень</option>
+                            @if (ViewBag.Languages != null && Model.LanguageLevel?.Language != null)
+                            {
+                                @foreach (var language in ViewBag.Languages)
+                                {
+                                    if (language.Id == Model.LanguageLevel.Language.Id)
+                                    {
+                                        @foreach (var level in language.LanguageLevels)
+                                        {
+                                            if (level.Id == Model.LanguageLevelId)
+                                            {
+                                                <option value="@level.Id" selected>@level.Name</option>
+                                            }
+                                            else
+                                            {
+                                                <option value="@level.Id">@level.Name</option>
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        </select>
+                        <span asp-validation-for="LanguageLevelId" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="VideoUrl" class="form-label">URL видео</label>
+                    <input asp-for="VideoUrl" class="form-control" type="url" required 
+                           placeholder="https://www.youtube.com/watch?v=..." />
+                    <div class="form-text">Укажите ссылку на видео из YouTube или Vimeo</div>
+                    <span asp-validation-for="VideoUrl" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="ThumbnailUrl" class="form-label">URL миниатюры (необязательно)</label>
+                    <input asp-for="ThumbnailUrl" class="form-control" type="url" 
+                           placeholder="https://example.com/thumbnail.jpg" />
+                    <div class="form-text">Если не указано, миниатюра будет получена автоматически из видео</div>
+                    <span asp-validation-for="ThumbnailUrl" class="text-danger"></span>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <div class="form-check form-switch">
+                            <input asp-for="IsActive" class="form-check-input" type="checkbox" />
+                            <label asp-for="IsActive" class="form-check-label">Активно (доступно для просмотра)</label>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <div class="form-check form-switch">
+                            <input asp-for="IsFeatured" class="form-check-input" type="checkbox" />
+                            <label asp-for="IsFeatured" class="form-check-label">Рекомендуемое видео</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="d-flex justify-content-between mt-4">
+                    <a href="@Url.Action("Videos", "Admin")" class="btn btn-outline-secondary">Отмена</a>
+                    <button type="submit" class="btn btn-success">
+                        <i class="fas fa-save me-1"></i>Сохранить изменения
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+        $(document).ready(function() {
+            // Инициализация начального значения LanguageId
+            var initialLanguageId = $('#LanguageId').val();
+            
+            $('#LanguageId').change(function() {
+                var languageId = $(this).val();
+                if (languageId) {
+                    updateLevels(languageId);
+                } else {
+                    $('#LanguageLevelId').html('<option value="">Сначала выберите язык</option>');
+                }
+            });
+
+            function updateLevels(languageId) {
+                $.get('/Admin/GetLanguageLevels', { languageId: languageId }, function(levels) {
+                    var options = '<option value="">Выберите уровень</option>';
+                    var currentLevelId = '@Model.LanguageLevelId';
+                    
+                    levels.forEach(function(level) {
+                        var selected = (level.id == currentLevelId) ? ' selected' : '';
+                        options += '<option value="' + level.id + '"' + selected + '>' + level.name + '</option>';
+                    });
+                    
+                    $('#LanguageLevelId').html(options);
+                });
+            }
+
+            // Инициализация уровней при загрузке страницы
+            if (initialLanguageId) {
+                updateLevels(initialLanguageId);
+            }
+        });
+    </script>
+} 

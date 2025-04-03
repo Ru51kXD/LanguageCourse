@@ -1,0 +1,276 @@
+@model WebApplication15.Models.Video
+@{
+    ViewData["Title"] = Model.Title;
+    var relatedVideos = ViewBag.RelatedVideos as List<WebApplication15.Models.Video>;
+    
+    // Определяем, какой видеопроигрыватель использовать
+    bool isYouTube = Model.Url.Contains("youtube") || Model.Url.Contains("youtu.be");
+    bool isVimeo = Model.Url.Contains("vimeo");
+    
+    string embedUrl = "";
+    if (isYouTube)
+    {
+        // Извлекаем ID видео из YouTube URL
+        string youtubeId = "";
+        if (Model.Url.Contains("youtu.be/"))
+        {
+            youtubeId = Model.Url.Split(new[] { "youtu.be/" }, StringSplitOptions.None)[1];
+        }
+        else if (Model.Url.Contains("watch?v="))
+        {
+            youtubeId = Model.Url.Split(new[] { "watch?v=" }, StringSplitOptions.None)[1];
+        }
+        else if (Model.Url.Contains("embed/"))
+        {
+            youtubeId = Model.Url.Split(new[] { "embed/" }, StringSplitOptions.None)[1];
+        }
+        
+        // Удаляем параметры после ID видео
+        if (youtubeId.Contains("&"))
+        {
+            youtubeId = youtubeId.Split('&')[0];
+        }
+        
+        embedUrl = $"https://www.youtube.com/embed/{youtubeId}?autoplay=0&rel=0";
+    }
+    else if (isVimeo)
+    {
+        // Извлекаем ID видео из Vimeo URL
+        string vimeoId = "";
+        if (Model.Url.Contains("vimeo.com/"))
+        {
+            vimeoId = Model.Url.Split(new[] { "vimeo.com/" }, StringSplitOptions.None)[1];
+        }
+        
+        embedUrl = $"https://player.vimeo.com/video/{vimeoId}";
+    }
+}
+
+<link rel="stylesheet" href="~/css/video-details.css" asp-append-version="true" />
+
+<div class="video-details-container">
+    <!-- Хлебные крошки -->
+    <div class="breadcrumbs text-center">
+        <div class="container">
+            <a href="@Url.Action("Index", "Home")">Главная</a>
+            <span class="separator"><i class="fas fa-chevron-right"></i></span>
+            <a href="@Url.Action("Index", "Video")">Видеоуроки</a>
+            <span class="separator"><i class="fas fa-chevron-right"></i></span>
+            <span class="current">@Model.Title</span>
+        </div>
+    </div>
+    
+    <!-- Основное содержимое -->
+    <div class="container">
+        <!-- Заголовок видео -->
+        <div class="row mb-4">
+            <div class="col-12 text-center">
+                <h1 class="video-title">@Model.Title</h1>
+                <div class="video-meta">
+                    <span class="language-badge">
+                        @(Model.LanguageLevel?.Language?.Name ?? "Неизвестный язык")
+                    </span>
+                    <span class="level-badge">
+                        Уровень: <strong>@(Model.LanguageLevel?.Name ?? "Не указан")</strong>
+                    </span>
+                    @if (Model.IsWatched)
+                    {
+                        <span class="watched-badge">
+                            <i class="fas fa-check-circle"></i> Просмотрено
+                        </span>
+                    }
+                </div>
+            </div>
+        </div>
+        
+        <div class="row">
+            <!-- Основное содержимое с видео -->
+            <div class="col-lg-8 mx-auto">
+                <!-- Видеопроигрыватель -->
+                <div class="video-player-container mb-4">
+                    @if (!string.IsNullOrEmpty(embedUrl))
+                    {
+                        <div class="video-player">
+                            <iframe src="@embedUrl" frameborder="0" allowfullscreen
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture">
+                            </iframe>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="video-player-placeholder">
+                            <p>Видео недоступно. Пожалуйста, обратитесь к администратору.</p>
+                        </div>
+                    }
+                    
+                    @if (ViewBag.IsAuthenticated && !Model.IsWatched)
+                    {
+                        <div class="mark-watched-container text-center mt-3">
+                            <button id="markAsWatched" class="btn-mark-watched" data-video-id="@Model.Id">
+                                <i class="fas fa-check-circle"></i> Отметить как просмотренное
+                            </button>
+                        </div>
+                    }
+                </div>
+                
+                <!-- Информация о видео -->
+                <div class="video-info-card">
+                    <!-- Описание видео -->
+                    <div class="video-description text-center">
+                        <h2 class="section-title">Описание</h2>
+                        <p>@Model.Description</p>
+                    </div>
+                    
+                    
+                    <!-- CTA блок для авторизации -->
+                    @if (!ViewBag.IsAuthenticated)
+                    {
+                        <div class="auth-cta mt-4">
+                            <div class="cta-content text-center">
+                                <h2>Хотите отслеживать прогресс по пройденным тестам?</h2>
+                                <div class="cta-buttons">
+                                    <a href="@Url.Action("Register", "Account")" class="btn-primary">Регистрация</a>
+                                    <a href="@Url.Action("Login", "Account")" class="btn-secondary">Вход</a>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+        
+        <!-- Похожие видео -->
+        <div class="row mt-5">
+            <div class="col-12">
+                <h2 class="section-title text-center mb-4">Похожие видеоуроки</h2>
+                
+                @if (relatedVideos != null && relatedVideos.Any())
+                {
+                    <div class="related-videos-grid">
+                        @foreach (var video in relatedVideos)
+                        {
+                            <a href="@Url.Action("Details", "Video", new { id = video.Id })" class="related-video-card @(video.IsWatched ? "watched" : "")">
+                                <div class="thumbnail">
+                                    <img src="~/images/videos/@(video.Id).jpg" onerror="this.src='/images/videos/default.jpg'" alt="@video.Title">
+                                    <div class="play-icon"><i class="fas fa-play"></i></div>
+                                    @if (video.IsWatched)
+                                    {
+                                        <div class="watched-overlay">
+                                            <span><i class="fas fa-check-circle"></i> Просмотрено</span>
+                                        </div>
+                                    }
+                                </div>
+                                <div class="related-video-info">
+                                    <h3>@video.Title</h3>
+                                    <span class="level-badge">@(video.LanguageLevel?.Name ?? "Уровень не указан")</span>
+                                </div>
+                            </a>
+                        }
+                    </div>
+                }
+                else
+                {
+                    <p class="no-videos text-center">Нет похожих видеоуроков.</p>
+                }
+                
+                <div class="text-center mt-4">
+                    <a href="@Url.Action("Index", "Video", new { languageId = Model.LanguageLevel?.Language?.Id })" class="btn-view-all">
+                        Смотреть все видео <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Уровни языка -->
+        <div class="row mt-5">
+            <div class="col-lg-8 mx-auto">
+                <div class="language-levels">
+                    <h2 class="section-title text-center">Уровни изучения языка</h2>
+                    <div class="levels-list">
+                        @if (Model.LanguageLevel?.Language != null)
+                        {
+                            var languageLevels = ViewBag.Levels as List<WebApplication15.Models.LanguageLevel> ?? 
+                                                new List<WebApplication15.Models.LanguageLevel>();
+                            
+                            if (languageLevels.Any())
+                            {
+                                foreach (var level in languageLevels.OrderBy(l => l.Level))
+                                {
+                                    <a href="@Url.Action("Index", "Video", new { languageId = Model.LanguageLevel.Language.Id, levelName = level.Name })" 
+                                       class="level-item @(level.Id == Model.LanguageLevel.Id ? "active" : "")">
+                                        <span class="level-name">@level.Name</span>
+                                        <span class="level-desc">@level.Description</span>
+                                    </a>
+                                }
+                            }
+                            else
+                            {
+                                <p class="no-levels text-center">Информация об уровнях не доступна.</p>
+                            }
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        // Анимации при прокрутке
+        document.addEventListener('DOMContentLoaded', function() {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, { threshold: 0.1 });
+            
+            // Анимация для блоков
+            document.querySelectorAll('.video-info-card, .related-videos-grid, .language-levels').forEach(section => {
+                observer.observe(section);
+            });
+            
+            // Обработчик кнопки "Отметить как просмотренное"
+            const markAsWatchedBtn = document.getElementById('markAsWatched');
+            if (markAsWatchedBtn) {
+                markAsWatchedBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const videoId = this.getAttribute('data-video-id');
+                    
+                    // Отправляем запрос на сервер
+                    fetch('/Video/MarkAsWatched/' + videoId, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]').value
+                        }
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            // Добавляем индикатор просмотра
+                            const metaContainer = document.querySelector('.video-meta');
+                            if (!metaContainer.querySelector('.watched-badge')) {
+                                const badge = document.createElement('span');
+                                badge.className = 'watched-badge';
+                                badge.innerHTML = '<i class="fas fa-check-circle"></i> Просмотрено';
+                                metaContainer.appendChild(badge);
+                                
+                                // Скрываем кнопку
+                                markAsWatchedBtn.parentElement.style.display = 'none';
+                                
+                                // Анимируем значок
+                                badge.classList.add('animate-badge');
+                            }
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Ошибка при отметке видео:', error);
+                    });
+                });
+            }
+        });
+    </script>
+} 

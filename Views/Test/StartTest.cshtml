@@ -1,0 +1,495 @@
+@using System.Text.Json
+@model WebApplication15.Controllers.TestViewModel
+@{
+    ViewData["Title"] = Model.TestTitle;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var totalQuestions = Model.Questions.Count;
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/tests.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f5f5f5;
+            color: #3c3c3c;
+            font-family: 'Nunito', sans-serif;
+            overflow-x: hidden;
+        }
+    </style>
+}
+
+<div class="duolingo-test-container">
+    <div class="timer-container">
+        <i class="fas fa-clock"></i>
+        <span class="timer-text" id="timer">@Model.TimeLimit:00</span>
+    </div>
+    
+    <div class="test-progress-bar">
+        <div class="test-progress-fill" id="progressBar" style="width: 0%"></div>
+    </div>
+    
+    <div class="question-card" id="questionContainer">
+        <h2 class="question-text" id="questionText"></h2>
+        <div class="options-container" id="optionsContainer"></div>
+        <div class="navigation-buttons">
+            <button type="button" class="nav-button button-prev" id="prevBtn" disabled>Назад</button>
+            <button type="button" class="nav-button button-next" id="nextBtn">Проверить</button>
+        </div>
+        
+        <div class="duolingo-character" id="duoCharacter">
+            <div class="character-bubble" id="characterBubble"></div>
+            <div style="font-size: 80px; text-align: center;">🙂</div>
+        </div>
+    </div>
+    
+    <div id="resultContainer" class="d-none text-center">
+        <div class="py-5 mt-4">
+            <i class="fas fa-spinner fa-spin fa-3x mb-3"></i>
+            <h2>Проверяем ваши ответы...</h2>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Данные теста
+            const testId = @Model.TestId;
+            const testTitle = "@Model.TestTitle";
+            const language = "@Model.Language";
+            const level = "@Model.Level";
+            const timeLimit = @Model.TimeLimit;
+            const questions = @Html.Raw(Json.Serialize(Model.Questions));
+            const totalQuestions = questions.length;
+            
+            // Состояние теста
+            let currentQuestionIndex = 0;
+            let answers = {};
+            let timerInterval;
+            let timeLeft = timeLimit * 60; // в секундах
+            let checkMode = false; // режим проверки ответа
+            let correctAnswers = 0; // счетчик правильных ответов
+            
+            const questionContainer = document.getElementById('questionContainer');
+            const questionText = document.getElementById('questionText');
+            const optionsContainer = document.getElementById('optionsContainer');
+            const progressBar = document.getElementById('progressBar');
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            const timerElement = document.getElementById('timer');
+            const resultContainer = document.getElementById('resultContainer');
+            const duoCharacter = document.getElementById('duoCharacter');
+            const characterBubble = document.getElementById('characterBubble');
+            
+            // Инициализация теста
+            initTest();
+            
+            function initTest() {
+                showQuestion(0);
+                startTimer();
+                
+                // Обработчики кнопок
+                prevBtn.addEventListener('click', goToPrevQuestion);
+                nextBtn.addEventListener('click', handleNextButton);
+                
+                // Создаем конфетти для результатов
+                createConfetti();
+                
+                // Показываем персонажа с приветствием
+                setTimeout(() => {
+                    duoCharacter.style.bottom = '20px';
+                    showCharacterBubble('Удачи с тестом! Я верю в тебя! 👍');
+                }, 1000);
+            }
+            
+            // Создание конфетти
+            function createConfetti() {
+                const colors = ['#58cc02', '#82d900', '#ff5252', '#ffc107', '#3f51b5', '#2196f3'];
+                for (let i = 0; i < 50; i++) {
+                    const confetti = document.createElement('div');
+                    confetti.className = 'confetti';
+                    confetti.style.left = Math.random() * 100 + 'vw';
+                    confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                    confetti.style.width = (Math.random() * 10 + 5) + 'px';
+                    confetti.style.height = confetti.style.width;
+                    confetti.style.animationDelay = Math.random() * 5 + 's';
+                    confetti.style.animationDuration = (Math.random() * 5 + 5) + 's';
+                    document.body.appendChild(confetti);
+                }
+            }
+            
+            // Показать сообщение от персонажа
+            function showCharacterBubble(text) {
+                characterBubble.textContent = text;
+                characterBubble.style.opacity = '1';
+                
+                setTimeout(() => {
+                    characterBubble.style.opacity = '0';
+                }, 4000);
+            }
+            
+            // Обработка кнопки Далее/Проверить
+            function handleNextButton() {
+                const currentQuestion = questions[currentQuestionIndex];
+                
+                // Если не выбран ответ
+                if (!answers[currentQuestion.id]) {
+                    // Показываем уведомление
+                    if (!document.querySelector('.answer-required-message')) {
+                        const message = document.createElement('div');
+                        message.className = 'alert alert-warning mt-3 answer-required-message';
+                        message.textContent = 'Пожалуйста, выберите один из вариантов ответа.';
+                        questionContainer.appendChild(message);
+                        
+                        // Удаляем сообщение через 3 секунды
+                        setTimeout(() => {
+                            if (message.parentNode) {
+                                message.parentNode.removeChild(message);
+                            }
+                        }, 3000);
+                        
+                        // Показываем сообщение от персонажа
+                        showCharacterBubble('Нужно выбрать один из вариантов ответа! 👀');
+                    }
+                    return;
+                }
+                
+                if (!checkMode) {
+                    // Переходим в режим проверки
+                    checkMode = true;
+                    checkAnswer();
+                    return;
+                }
+                
+                // Если в режиме проверки, переходим к следующему вопросу
+                checkMode = false;
+                if (currentQuestionIndex < totalQuestions - 1) {
+                    showQuestion(currentQuestionIndex + 1);
+                } else {
+                    finishTest();
+                }
+            }
+            
+            // Проверка ответа
+            function checkAnswer() {
+                const currentQuestion = questions[currentQuestionIndex];
+                const userAnswer = answers[currentQuestion.id];
+                const correctOption = currentQuestion.options.find(opt => opt.isCorrect);
+                
+                // Находим выбранный вариант
+                const options = document.querySelectorAll('.option-item');
+                let correct = false;
+                
+                options.forEach(option => {
+                    const input = option.querySelector('input');
+                    const label = option.querySelector('label');
+                    
+                    if (input.checked) {
+                        if (input.value === correctOption.text) {
+                            // Правильный ответ
+                            option.classList.add('correct-answer');
+                            option.classList.add('success-animation');
+                            showCorrectFeedback();
+                            correct = true;
+                            correctAnswers++;
+                            
+                            // Показываем сообщение от персонажа
+                            const messages = [
+                                'Отлично! Так держать! 👏',
+                                'Правильно! Ты молодец! 🎉',
+                                'Супер! Продолжай в том же духе! 🌟',
+                                'Великолепно! Ты прогрессируешь! 🚀'
+                            ];
+                            showCharacterBubble(messages[Math.floor(Math.random() * messages.length)]);
+                        } else {
+                            // Неправильный ответ
+                            option.classList.add('wrong-answer');
+                            
+                            // Показываем правильный ответ
+                            options.forEach(opt => {
+                                const optInput = opt.querySelector('input');
+                                if (optInput.value === correctOption.text) {
+                                    opt.classList.add('correct-answer');
+                                }
+                            });
+                            
+                            showWrongFeedback();
+                            
+                            // Показываем сообщение от персонажа
+                            const messages = [
+                                'Не унывай! В следующий раз получится! 💪',
+                                'Ошибки - это часть обучения! 📚',
+                                'Правильный ответ выделен. Запомни его! 🧠',
+                                'Продолжай стараться! 🌱'
+                            ];
+                            showCharacterBubble(messages[Math.floor(Math.random() * messages.length)]);
+                        }
+                    }
+                    
+                    // Делаем варианты неактивными
+                    input.disabled = true;
+                });
+                
+                // Обновляем текст кнопки
+                nextBtn.textContent = currentQuestionIndex === totalQuestions - 1 ? 'Завершить' : 'Продолжить';
+            }
+            
+            // Показываем обратную связь для правильного ответа
+            function showCorrectFeedback() {
+                const feedback = document.createElement('div');
+                feedback.className = 'alert alert-success mt-4 fade-in-up';
+                feedback.innerHTML = '<i class="fas fa-check-circle me-2"></i> Правильно!';
+                questionContainer.appendChild(feedback);
+            }
+            
+            // Показываем обратную связь для неправильного ответа
+            function showWrongFeedback() {
+                const feedback = document.createElement('div');
+                feedback.className = 'alert alert-danger mt-4 fade-in-up';
+                feedback.innerHTML = '<i class="fas fa-times-circle me-2"></i> Неправильно!';
+                questionContainer.appendChild(feedback);
+            }
+            
+            // Показать вопрос по индексу
+            function showQuestion(index) {
+                if (index < 0 || index >= totalQuestions) return;
+                
+                currentQuestionIndex = index;
+                const question = questions[index];
+                
+                // Очищаем предыдущие сообщения обратной связи
+                const feedbacks = questionContainer.querySelectorAll('.alert');
+                feedbacks.forEach(feedback => feedback.remove());
+                
+                // Обновляем прогресс
+                updateProgress();
+                
+                // Обновляем состояние кнопок
+                prevBtn.disabled = index === 0;
+                
+                if (index === totalQuestions - 1) {
+                    nextBtn.textContent = checkMode ? 'Завершить' : 'Проверить';
+                } else {
+                    nextBtn.textContent = checkMode ? 'Продолжить' : 'Проверить';
+                }
+                
+                // Очищаем и заполняем вопрос
+                questionText.innerHTML = '';
+                questionText.classList.remove('slide-in-right');
+                void questionText.offsetWidth; // триггер reflow
+                
+                // Добавляем номер вопроса
+                const questionNumber = document.createElement('div');
+                questionNumber.className = 'text-muted mb-3';
+                questionNumber.textContent = `Вопрос ${index + 1} из ${totalQuestions}`;
+                
+                // Анимируем вопрос
+                questionText.classList.add('slide-in-right');
+                questionText.textContent = question.text;
+                questionText.insertAdjacentElement('beforebegin', questionNumber);
+                
+                // Очищаем и заполняем варианты ответов
+                optionsContainer.innerHTML = '';
+                optionsContainer.classList.remove('slide-in-left');
+                void optionsContainer.offsetWidth; // триггер reflow
+                optionsContainer.classList.add('slide-in-left');
+                
+                question.options.forEach((option, optionIndex) => {
+                    const optionId = `option_${index}_${optionIndex}`;
+                    const isChecked = answers[question.id] === option.text;
+                    
+                    const optionDiv = document.createElement('div');
+                    optionDiv.className = 'option-item';
+                    
+                    optionDiv.innerHTML = `
+                        <input type="radio" id="${optionId}" name="question_${index}" value="${option.text}" ${isChecked ? 'checked' : ''} />
+                        <label for="${optionId}">${option.text}</label>
+                    `;
+                    
+                    optionsContainer.appendChild(optionDiv);
+                    
+                    // Добавляем обработчик события
+                    const radioInput = document.getElementById(optionId);
+                    radioInput.addEventListener('change', () => {
+                        answers[question.id] = option.text;
+                        
+                        // Эффект выбора варианта
+                        optionsContainer.querySelectorAll('.option-item').forEach(op => {
+                            op.classList.remove('selected');
+                        });
+                        optionDiv.classList.add('selected');
+                    });
+                });
+                
+                // Показываем персонажа с подбадривающим сообщением при переходе к новому вопросу
+                if (index > 0 && !checkMode) {
+                    const progressPercentage = (index / totalQuestions) * 100;
+                    if (progressPercentage >= 50 && progressPercentage < 75) {
+                        showCharacterBubble('Уже половина пройдена! Ты справляешься! 👍');
+                    } else if (progressPercentage >= 75) {
+                        showCharacterBubble('Осталось совсем немного! Ты почти у цели! 🏁');
+                    }
+                }
+            }
+            
+            // Обновление прогресс-бара
+            function updateProgress() {
+                const progressPercentage = ((currentQuestionIndex + 1) / totalQuestions) * 100;
+                progressBar.style.width = `${progressPercentage}%`;
+            }
+            
+            // Перейти к предыдущему вопросу
+            function goToPrevQuestion() {
+                if (currentQuestionIndex > 0) {
+                    checkMode = false;
+                    showQuestion(currentQuestionIndex - 1);
+                }
+            }
+            
+            // Запуск таймера
+            function startTimer() {
+                updateTimerDisplay();
+                
+                timerInterval = setInterval(() => {
+                    timeLeft--;
+                    updateTimerDisplay();
+                    
+                    // Предупреждение о малом количестве времени
+                    if (timeLeft === 60) {
+                        showCharacterBubble('Осталась всего минута! Поторопись! ⏱️');
+                    }
+                    
+                    if (timeLeft <= 0) {
+                        clearInterval(timerInterval);
+                        finishTest();
+                    }
+                }, 1000);
+            }
+            
+            // Обновление отображения таймера
+            function updateTimerDisplay() {
+                const minutes = Math.floor(timeLeft / 60);
+                const seconds = timeLeft % 60;
+                timerElement.textContent = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+                
+                // Добавляем красный цвет, когда остается мало времени
+                if (timeLeft <= 60) {
+                    timerElement.style.color = '#ff5353';
+                }
+            }
+            
+            // Завершение теста
+            function finishTest() {
+                clearInterval(timerInterval);
+                
+                // Скрываем вопросы и показываем экран загрузки
+                questionContainer.classList.add('d-none');
+                resultContainer.classList.remove('d-none');
+                
+                // Вычисляем результат
+                const percentage = Math.round((correctAnswers / totalQuestions) * 100);
+                
+                // Показываем результаты
+                showResults({
+                    score: percentage,
+                    correctAnswers: correctAnswers,
+                    totalQuestions: totalQuestions,
+                    language: language,
+                    level: level
+                });
+                
+                // Сохраняем результаты на сервере
+                fetch('/Test/Submit', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]')?.value || ''
+                    },
+                    body: JSON.stringify({
+                        testId: testId,
+                        answers: answers
+                    })
+                })
+                .then(response => response.json())
+                .catch(error => {
+                    console.error('Ошибка при отправке результатов:', error);
+                });
+            }
+            
+            // Показ результатов теста
+            function showResults(data) {
+                const scorePercentage = data.score;
+                let resultClass = 'neutral';
+                let resultEmoji = '🎓';
+                let resultMessage = 'Хороший результат!';
+                
+                if (scorePercentage >= 80) {
+                    resultClass = 'excellent';
+                    resultMessage = 'Отличный результат!';
+                    resultEmoji = '🥇';
+                } else if (scorePercentage >= 60) {
+                    resultClass = 'good';
+                    resultMessage = 'Хороший результат!';
+                    resultEmoji = '🏆';
+                } else if (scorePercentage < 40) {
+                    resultClass = 'poor';
+                    resultMessage = 'Стоит повторить материал';
+                    resultEmoji = '📚';
+                }
+                
+                const correctAnswers = data.correctAnswers;
+                const totalQuestions = data.totalQuestions;
+                
+                resultContainer.innerHTML = `
+                    <div class="result-summary p-4 mt-4 mb-5">
+                        <h1 class="score-title mb-4">Результаты теста ${resultEmoji}</h1>
+                        <div class="score-circle ${resultClass}" style="--score: ${scorePercentage}">
+                            <div class="score-value">${scorePercentage}%</div>
+                        </div>
+                        <h2 class="score-message ${resultClass} mt-4">${resultMessage}</h2>
+                        <p class="score-description">Вы ответили правильно на ${correctAnswers} из ${totalQuestions} вопросов.</p>
+                        
+                        <div class="result-details mt-5">
+                            <div class="details-grid">
+                                <div class="detail-item">
+                                    <div class="detail-label">Язык</div>
+                                    <div class="detail-value">${data.language}</div>
+                                </div>
+                                <div class="detail-item">
+                                    <div class="detail-label">Уровень</div>
+                                    <div class="detail-value">${data.level}</div>
+                                </div>
+                                <div class="detail-item">
+                                    <div class="detail-label">Правильных ответов</div>
+                                    <div class="detail-value">${correctAnswers} из ${totalQuestions}</div>
+                                </div>
+                                <div class="detail-item">
+                                    <div class="detail-label">Процент</div>
+                                    <div class="detail-value">${scorePercentage}%</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="actions mt-5">
+                            <a href="/Test/StartTest/${testId}" class="duolingo-button">Пройти еще раз</a>
+                            <a href="/Test" class="duolingo-button">К списку тестов</a>
+                        </div>
+                    </div>
+                `;
+                
+                // Запускаем конфетти
+                document.querySelectorAll('.confetti').forEach(c => {
+                    c.style.opacity = '1';
+                });
+                
+                // Анимация заполнения круга результата
+                setTimeout(() => {
+                    const scoreCircle = document.querySelector('.score-circle');
+                    scoreCircle.style.transition = 'background 1.5s ease-in-out';
+                    scoreCircle.style.setProperty('--score', scorePercentage);
+                }, 300);
+            }
+        });
+    </script>
+} 

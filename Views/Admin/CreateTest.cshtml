@@ -1,0 +1,444 @@
+@model WebApplication15.Models.Test
+@{
+    ViewData["Title"] = "Создание теста";
+    Layout = "_AdminLayout";
+}
+
+<div class="container-fluid px-4 py-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="mb-0">
+            <i class="fas fa-clipboard-list me-2"></i>Создание теста
+        </h1>
+        <a href="@Url.Action("Tests", "Admin")" class="btn btn-outline-secondary">
+            <i class="fas fa-arrow-left me-1"></i>Вернуться к списку
+        </a>
+    </div>
+    
+    <div class="card mb-4">
+        <div class="card-header">
+            <i class="fas fa-info-circle me-1"></i>
+            Основная информация
+        </div>
+        <div class="card-body">
+            <form asp-action="CreateTestWithQuestions" method="post" id="createTestForm">
+                <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+                
+                @if (ViewBag.ValidationErrors != null || TempData["ErrorMessage"] != null)
+                {
+                    <div class="alert alert-danger">
+                        <i class="fas fa-exclamation-triangle me-2"></i>
+                        @(TempData["ErrorMessage"] ?? "Проверьте правильность заполнения формы")
+                    </div>
+                }
+                
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="Title" class="form-label">Название теста</label>
+                            <input type="text" class="form-control" id="Title" name="Title" required>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="Description" class="form-label">Описание</label>
+                            <textarea class="form-control" id="Description" name="Description" rows="3" required></textarea>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="LanguageId" class="form-label">Язык</label>
+                            <select class="form-select" id="LanguageId" name="LanguageId" required>
+                                <option value="" selected disabled>Выберите язык</option>
+                                @foreach (var language in ViewBag.Languages)
+                                {
+                                    <option value="@language.Id">@language.Name</option>
+                                }
+                            </select>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="LanguageLevelId" class="form-label">Уровень</label>
+                            <select class="form-select" id="LanguageLevelId" name="LanguageLevelId" required disabled>
+                                <option value="" selected disabled>Сначала выберите язык</option>
+                            </select>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="TimeLimit" class="form-label">Ограничение времени (мин)</label>
+                                    <input type="number" class="form-control" id="TimeLimit" name="TimeLimit" min="1" max="120" value="30" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="PassingScore" class="form-label">Проходной балл (%)</label>
+                                    <input type="number" class="form-control" id="PassingScore" name="PassingScore" min="0" max="100" value="70" required>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3 form-check">
+                            <input type="checkbox" class="form-check-input" id="IsActive" name="IsActive" checked>
+                            <label class="form-check-label" for="IsActive">Активен</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <hr class="my-4">
+                <h4 class="mb-3" style="color: white;">Вопросы и ответы</h4>
+                
+                <div id="questionsContainer">
+                    <div class="question-block card mb-4">
+                        <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                            <span>Вопрос 1</span>
+                            <button type="button" class="btn btn-sm btn-light remove-question" disabled><i class="fas fa-trash"></i></button>
+                        </div>
+                        <div class="card-body">
+                            <div class="mb-3">
+                                <label class="form-label">Текст вопроса</label>
+                                <textarea class="form-control question-text" name="questions[0].text" rows="2" required></textarea>
+                            </div>
+                            
+                            <div class="options-container">
+                                <h5 class="mb-3" style="color: white;">Варианты ответов</h5>
+                                
+                                <div class="option-block mb-2">
+                                    <div class="input-group">
+                                        <div class="input-group-text">
+                                            <input class="form-check-input mt-0 option-correct" type="radio" name="questions[0].correctOption" value="0" required>
+                                        </div>
+                                        <input style="color: white;" type="text" class="form-control option-text" name="questions[0].options[0].text" placeholder="Вариант ответа" required>
+                                        <button type="button" class="btn btn-outline-danger remove-option" disabled><i class="fas fa-times"></i></button>
+                                    </div>
+                                </div>
+                                
+                                <div class="option-block mb-2">
+                                    <div class="input-group">
+                                        <div class="input-group-text">
+                                            <input class="form-check-input mt-0 option-correct" type="radio" name="questions[0].correctOption" value="1" required>
+                                        </div>
+                                        <input style="color: white;" type="text" class="form-control option-text" name="questions[0].options[1].text" placeholder="Вариант ответа" required>
+                                        <button type="button" class="btn btn-outline-danger remove-option" disabled><i class="fas fa-times"></i></button>
+                                    </div>
+                                </div>
+                                
+                                <div class="option-block mb-2">
+                                    <div class="input-group">
+                                        <div class="input-group-text">
+                                            <input class="form-check-input mt-0 option-correct" type="radio" name="questions[0].correctOption" value="2" required>
+                                        </div>
+                                        <input style="color: white;" type="text" class="form-control option-text" name="questions[0].options[2].text" placeholder="Вариант ответа" required>
+                                        <button type="button" class="btn btn-outline-danger remove-option"><i class="fas fa-times"></i></button>
+                                    </div>
+                                </div>
+                                
+                                <div class="option-block mb-2">
+                                    <div class="input-group">
+                                        <div class="input-group-text">
+                                            <input class="form-check-input mt-0 option-correct" type="radio" name="questions[0].correctOption" value="3" required>
+                                        </div>
+                                        <input style="color: white;" type="text" class="form-control option-text" name="questions[0].options[3].text" placeholder="Вариант ответа" required>
+                                        <button type="button" class="btn btn-outline-danger remove-option"><i class="fas fa-times"></i></button>
+                                    </div>
+                                </div>
+                                
+                                <button type="button" class="btn btn-sm btn-success add-option mt-2"><i class="fas fa-plus"></i> Добавить вариант ответа</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mb-4">
+                    <button type="button" class="btn btn-primary w-100" id="addQuestion">
+                        <i class="fas fa-plus me-1"></i>Добавить еще один вопрос
+                    </button>
+                </div>
+                
+                <div class="d-flex justify-content-between">
+                    <a href="@Url.Action("Tests", "Admin")" class="btn btn-outline-secondary">Отмена</a>
+                    <button type="submit" class="btn btn-success">
+                        <i class="fas fa-save me-1"></i>Сохранить тест
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+        $(document).ready(function() {
+            // Загрузка языковых уровней при выборе языка
+            $('#LanguageId').change(function() {
+                const languageId = $(this).val();
+                if (languageId) {
+                    $.ajax({
+                        url: '@Url.Action("GetLanguageLevels", "Admin")',
+                        type: 'GET',
+                        data: { languageId: languageId },
+                        success: function(data) {
+                            const levelSelect = $('#LanguageLevelId');
+                            levelSelect.empty();
+                            levelSelect.append('<option value="" selected disabled>Выберите уровень</option>');
+                            $.each(data, function(i, level) {
+                                levelSelect.append($('<option></option>').val(level.id).text(level.name));
+                            });
+                            levelSelect.prop('disabled', false);
+                        }
+                    });
+                } else {
+                    $('#LanguageLevelId').empty().append('<option value="" selected disabled>Сначала выберите язык</option>').prop('disabled', true);
+                }
+            });
+            
+            // Счетчик вопросов
+            let questionCount = 1;
+            
+            // Добавление нового вопроса
+            $('#addQuestion').click(function() {
+                questionCount++;
+                const newQuestionIndex = questionCount - 1;
+                
+                const newQuestion = `
+                    <div class="question-block card mb-4">
+                        <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                            <span>Вопрос ${questionCount}</span>
+                            <button type="button" class="btn btn-sm btn-light remove-question"><i class="fas fa-trash"></i></button>
+                        </div>
+                        <div class="card-body">
+                            <div class="mb-3">
+                                <label class="form-label">Текст вопроса</label>
+                                <textarea class="form-control question-text" name="questions[${newQuestionIndex}].text" rows="2" required></textarea>
+                            </div>
+                            
+                            <div class="options-container">
+                                <h5 class="mb-3">Варианты ответов</h5>
+                                
+                                <div class="option-block mb-2">
+                                    <div class="input-group">
+                                        <div class="input-group-text">
+                                            <input class="form-check-input mt-0 option-correct" type="radio" name="questions[${newQuestionIndex}].correctOption" value="0" required>
+                                        </div>
+                                        <input type="text" class="form-control option-text" name="questions[${newQuestionIndex}].options[0].text" placeholder="Вариант ответа" required>
+                                        <button type="button" class="btn btn-outline-danger remove-option" disabled><i class="fas fa-times"></i></button>
+                                    </div>
+                                </div>
+                                
+                                <div class="option-block mb-2">
+                                    <div class="input-group">
+                                        <div class="input-group-text">
+                                            <input class="form-check-input mt-0 option-correct" type="radio" name="questions[${newQuestionIndex}].correctOption" value="1" required>
+                                        </div>
+                                        <input type="text" class="form-control option-text" name="questions[${newQuestionIndex}].options[1].text" placeholder="Вариант ответа" required>
+                                        <button type="button" class="btn btn-outline-danger remove-option" disabled><i class="fas fa-times"></i></button>
+                                    </div>
+                                </div>
+                                
+                                <div class="option-block mb-2">
+                                    <div class="input-group">
+                                        <div class="input-group-text">
+                                            <input class="form-check-input mt-0 option-correct" type="radio" name="questions[${newQuestionIndex}].correctOption" value="2" required>
+                                        </div>
+                                        <input type="text" class="form-control option-text" name="questions[${newQuestionIndex}].options[2].text" placeholder="Вариант ответа" required>
+                                        <button type="button" class="btn btn-outline-danger remove-option"><i class="fas fa-times"></i></button>
+                                    </div>
+                                </div>
+                                
+                                <div class="option-block mb-2">
+                                    <div class="input-group">
+                                        <div class="input-group-text">
+                                            <input class="form-check-input mt-0 option-correct" type="radio" name="questions[${newQuestionIndex}].correctOption" value="3" required>
+                                        </div>
+                                        <input type="text" class="form-control option-text" name="questions[${newQuestionIndex}].options[3].text" placeholder="Вариант ответа" required>
+                                        <button type="button" class="btn btn-outline-danger remove-option"><i class="fas fa-times"></i></button>
+                                    </div>
+                                </div>
+                                
+                                <button type="button" class="btn btn-sm btn-success add-option mt-2"><i class="fas fa-plus"></i> Добавить вариант ответа</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                
+                $('#questionsContainer').append(newQuestion);
+                initQuestionEvents();
+            });
+            
+            // Инициализация событий для вопросов и вариантов ответов
+            function initQuestionEvents() {
+                // Добавление варианта ответа
+                $('.add-option').off('click').on('click', function() {
+                    const optionsContainer = $(this).closest('.options-container');
+                    const questionIndex = $(this).closest('.question-block').index();
+                    const optionBlocks = optionsContainer.find('.option-block');
+                    const newOptionIndex = optionBlocks.length;
+                    
+                    const newOption = `
+                        <div class="option-block mb-2">
+                            <div class="input-group">
+                                <div class="input-group-text">
+                                    <input class="form-check-input mt-0 option-correct" type="radio" name="questions[${questionIndex}].correctOption" value="${newOptionIndex}" required>
+                                </div>
+                                <input type="text" class="form-control option-text" name="questions[${questionIndex}].options[${newOptionIndex}].text" placeholder="Вариант ответа" required>
+                                <button type="button" class="btn btn-outline-danger remove-option"><i class="fas fa-times"></i></button>
+                            </div>
+                        </div>
+                    `;
+                    
+                    $(this).before(newOption);
+                    updateOptionIndexes(optionsContainer);
+                });
+                
+                // Удаление варианта ответа
+                $('.remove-option').off('click').on('click', function() {
+                    const optionsContainer = $(this).closest('.options-container');
+                    const optionBlocks = optionsContainer.find('.option-block');
+                    
+                    if (optionBlocks.length > 2) {
+                        $(this).closest('.option-block').remove();
+                        updateOptionIndexes(optionsContainer);
+                    }
+                });
+                
+                // Удаление вопроса
+                $('.remove-question').off('click').on('click', function() {
+                    const questionBlocks = $('.question-block');
+                    
+                    if (questionBlocks.length > 1) {
+                        $(this).closest('.question-block').remove();
+                        updateQuestionIndexes();
+                    }
+                });
+            }
+            
+            // Обновление индексов вариантов ответов
+            function updateOptionIndexes(optionsContainer) {
+                const questionIndex = optionsContainer.closest('.question-block').index();
+                const optionBlocks = optionsContainer.find('.option-block');
+                
+                optionBlocks.each(function(index) {
+                    const radio = $(this).find('.option-correct');
+                    const textInput = $(this).find('.option-text');
+                    
+                    radio.attr('name', `questions[${questionIndex}].correctOption`);
+                    radio.val(index);
+                    textInput.attr('name', `questions[${questionIndex}].options[${index}].text`);
+                    
+                    // Блокируем удаление, если это один из первых двух вариантов
+                    const removeBtn = $(this).find('.remove-option');
+                    if (index < 2) {
+                        removeBtn.prop('disabled', true);
+                    } else {
+                        removeBtn.prop('disabled', false);
+                    }
+                });
+            }
+            
+            // Обновление индексов вопросов
+            function updateQuestionIndexes() {
+                const questionBlocks = $('.question-block');
+                
+                questionBlocks.each(function(index) {
+                    const header = $(this).find('.card-header span');
+                    header.text(`Вопрос ${index + 1}`);
+                    
+                    const textarea = $(this).find('.question-text');
+                    textarea.attr('name', `questions[${index}].text`);
+                    
+                    const optionsContainer = $(this).find('.options-container');
+                    const optionBlocks = optionsContainer.find('.option-block');
+                    
+                    optionBlocks.each(function(optIndex) {
+                        const radio = $(this).find('.option-correct');
+                        const textInput = $(this).find('.option-text');
+                        
+                        radio.attr('name', `questions[${index}].correctOption`);
+                        radio.val(optIndex);
+                        textInput.attr('name', `questions[${index}].options[${optIndex}].text`);
+                    });
+                    
+                    // Блокируем удаление, если это единственный вопрос
+                    const removeBtn = $(this).find('.remove-question');
+                    if (questionBlocks.length === 1) {
+                        removeBtn.prop('disabled', true);
+                    } else {
+                        removeBtn.prop('disabled', false);
+                    }
+                });
+                
+                // Обновляем счетчик вопросов
+                questionCount = questionBlocks.length;
+            }
+            
+            // Инициализация событий
+            initQuestionEvents();
+            
+            // Валидация формы перед отправкой
+            $('#createTestForm').on('submit', function(e) {
+                // Проверка выбора языка и уровня
+                const languageId = $('#LanguageId').val();
+                const languageLevelId = $('#LanguageLevelId').val();
+                const title = $('#Title').val();
+                
+                if (!title) {
+                    alert('Пожалуйста, введите название теста');
+                    e.preventDefault();
+                    return false;
+                }
+                
+                if (!languageId) {
+                    alert('Пожалуйста, выберите язык');
+                    e.preventDefault();
+                    return false;
+                }
+                
+                if (!languageLevelId) {
+                    alert('Пожалуйста, выберите уровень языка');
+                    e.preventDefault();
+                    return false;
+                }
+                
+                // Проверка, выбран ли хотя бы один правильный ответ для каждого вопроса
+                let valid = true;
+                
+                $('.options-container').each(function(index) {
+                    const radioName = `questions[${index}].correctOption`;
+                    if (!$(`input[name="${radioName}"]:checked`).length) {
+                        valid = false;
+                        alert(`Пожалуйста, выберите правильный ответ для вопроса ${index + 1}`);
+                        return false;
+                    }
+                });
+                
+                if (!valid) {
+                    e.preventDefault();
+                    return false;
+                }
+                
+                // Проверка, что все вопросы заполнены
+                const questions = $('.question-text');
+                for (let i = 0; i < questions.length; i++) {
+                    if (!$(questions[i]).val()) {
+                        alert(`Пожалуйста, заполните текст вопроса ${i + 1}`);
+                        e.preventDefault();
+                        return false;
+                    }
+                }
+                
+                // Проверка, что все варианты ответов заполнены
+                const options = $('.option-text');
+                for (let i = 0; i < options.length; i++) {
+                    if (!$(options[i]).val()) {
+                        alert(`Пожалуйста, заполните все варианты ответов`);
+                        e.preventDefault();
+                        return false;
+                    }
+                }
+                
+                return true;
+            });
+        });
+    </script>
+} 

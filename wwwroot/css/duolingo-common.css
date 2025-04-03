@@ -1,0 +1,281 @@
+/* Общие стили в стиле Duolingo */
+:root {
+    --duolingo-green: #58cc02;
+    --duolingo-green-hover: #46a302;
+    --duolingo-blue: #1cb0f6;
+    --duolingo-blue-hover: #0095d8;
+    --duolingo-purple: #8549ff;
+    --duolingo-purple-hover: #6420ff;
+    --duolingo-red: #ff4b4b;
+    --duolingo-red-hover: #e33333;
+    --duolingo-yellow: #ffb020;
+    --duolingo-yellow-hover: #e9940a;
+    --duolingo-gray: #afafaf;
+    --duolingo-gray-hover: #757575;
+    --duolingo-dark: #1f1f1f;
+    --duolingo-darker: #121212;
+    --duolingo-light: #f7f7f7;
+    --text-dark: #3c3c3c;
+    --text-light: #f9f9f9;
+}
+
+body {
+    font-family: 'Nunito', sans-serif;
+    background-color: rgb(18, 18, 18);
+    color: var(--text-light);
+}
+
+/* Кнопки */
+.duolingo-button {
+    display: inline-block;
+    padding: 12px 24px;
+    background-color: var(--duolingo-green);
+    color: white;
+    border-radius: 12px;
+    font-weight: 700;
+    font-size: 1rem;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    border: none;
+    cursor: pointer;
+    text-align: center;
+    box-shadow: 0 4px 0 #45a100;
+}
+
+.duolingo-button:hover {
+    background-color: var(--duolingo-green-hover);
+    transform: translateY(-2px);
+    color: white;
+    text-decoration: none;
+}
+
+.duolingo-button:active {
+    transform: translateY(2px);
+    box-shadow: 0 2px 0 #45a100;
+}
+
+.duolingo-button.blue {
+    background-color: var(--duolingo-blue);
+    box-shadow: 0 4px 0 #0095d8;
+}
+
+.duolingo-button.blue:hover {
+    background-color: var(--duolingo-blue-hover);
+}
+
+.duolingo-button.blue:active {
+    box-shadow: 0 2px 0 #0095d8;
+}
+
+.duolingo-button.purple {
+    background-color: var(--duolingo-purple);
+    box-shadow: 0 4px 0 #6420ff;
+}
+
+.duolingo-button.purple:hover {
+    background-color: var(--duolingo-purple-hover);
+}
+
+.duolingo-button.purple:active {
+    box-shadow: 0 2px 0 #6420ff;
+}
+
+/* Бейджи и метки */
+.duolingo-badge {
+    display: inline-block;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-weight: 700;
+    font-size: 0.8rem;
+    margin-right: 8px;
+}
+
+.duolingo-badge.green {
+    background-color: rgba(88, 204, 2, 0.2);
+    color: var(--duolingo-green);
+}
+
+.duolingo-badge.blue {
+    background-color: rgba(28, 176, 246, 0.2);
+    color: var(--duolingo-blue);
+}
+
+.duolingo-badge.purple {
+    background-color: rgba(133, 73, 255, 0.2);
+    color: var(--duolingo-purple);
+}
+
+.duolingo-badge.yellow {
+    background-color: rgba(255, 176, 32, 0.2);
+    color: var(--duolingo-yellow);
+}
+
+.duolingo-badge.red {
+    background-color: rgba(255, 75, 75, 0.2);
+    color: var(--duolingo-red);
+}
+
+/* Карточки */
+.duolingo-card {
+    background-color: white;
+    border-radius: 16px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin-bottom: 20px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.duolingo-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.duolingo-card-title {
+    font-size: 1.4rem;
+    font-weight: 800;
+    margin-bottom: 10px;
+    color: var(--text-dark);
+}
+
+.duolingo-card-subtitle {
+    font-size: 1rem;
+    color: var(--duolingo-gray);
+    margin-bottom: 15px;
+}
+
+/* Полоса прогресса */
+.duolingo-progress {
+    height: 12px;
+    background-color: #e5e5e5;
+    border-radius: 6px;
+    overflow: hidden;
+    margin: 10px 0;
+}
+
+.duolingo-progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--duolingo-green) 0%, #89e339 100%);
+    transition: width 0.5s ease;
+}
+
+/* Анимации */
+@keyframes fadeIn {
+    0% { opacity: 0; transform: translateY(20px); }
+    100% { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes floatingElement {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+    100% { transform: translateY(0px); }
+}
+
+.fade-in {
+    animation: fadeIn 0.5s ease forwards;
+}
+
+.floating {
+    animation: floatingElement 3s ease-in-out infinite;
+}
+
+/* Стили для персонажа Duo */
+.duo-character {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1000;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.duo-character:hover {
+    transform: translateY(-5px);
+}
+
+.duo-character img {
+    width: 100px;
+    height: auto;
+    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
+}
+
+.duo-speech {
+    position: absolute;
+    top: -80px;
+    right: 0;
+    background-color: white;
+    padding: 15px 20px;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    font-weight: 600;
+    font-size: 1rem;
+    min-width: 200px;
+    max-width: 300px;
+    text-align: center;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: all 0.3s ease;
+    color: black;
+    pointer-events: none;
+}
+
+.duo-speech:after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    right: 30px;
+    border-width: 10px 10px 0;
+    border-style: solid;
+    border-color: white transparent transparent;
+}
+
+.duo-character:hover .duo-speech {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Адаптивные стили */
+@media (max-width: 768px) {
+    .duolingo-button {
+        padding: 10px 20px;
+        font-size: 0.9rem;
+    }
+    
+    .duolingo-card-title {
+        font-size: 1.2rem;
+    }
+    
+    .duo-character {
+        bottom: 10px;
+        right: 10px;
+    }
+    
+    .duo-character img {
+        width: 80px;
+    }
+    
+    .duo-speech {
+        font-size: 0.9rem;
+        min-width: 160px;
+        padding: 12px 15px;
+    }
+}
+
+@media (max-width: 576px) {
+    .duolingo-card {
+        padding: 15px;
+    }
+    
+    .duo-character {
+        bottom: 10px;
+        right: 10px;
+    }
+    
+    .duo-character img {
+        width: 70px;
+    }
+    
+    .duo-speech {
+        width: 150px;
+        font-size: 0.8rem;
+    }
+} 

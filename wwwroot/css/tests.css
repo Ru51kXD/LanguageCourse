@@ -1,0 +1,1385 @@
+/* Основные переменные и темы */
+:root {
+    --duolingo-green: #58cc02;
+    --duolingo-green-hover: #46a302;
+    --duolingo-blue: #1cb0f6;
+    --duolingo-blue-hover: #0095d8;
+    --duolingo-purple: #8549ff;
+    --duolingo-purple-hover: #6420ff;
+    --duolingo-red: #ff4b4b;
+    --duolingo-red-hover: #e33333;
+    --duolingo-yellow: #ffb020;
+    --duolingo-yellow-hover: #e9940a;
+    --duolingo-gray: #afafaf;
+    --duolingo-gray-hover: #757575;
+    --duolingo-dark: #1f1f1f;
+    --duolingo-darker: #121212;
+    --duolingo-light: #f7f7f7;
+    --text-dark: #3c3c3c;
+    --text-light: #f9f9f9;
+    --shadow-light: 0 2px 10px rgba(0, 0, 0, 0.1);
+    --shadow-medium: 0 5px 15px rgba(0, 0, 0, 0.1);
+    --shadow-dark: 0 8px 30px rgba(0, 0, 0, 0.2);
+    --border-radius-sm: 8px;
+    --border-radius-md: 12px;
+    --border-radius-lg: 15px;
+    --border-radius-xl: 20px;
+    --border-radius-pill: 50px;
+    --transition-fast: 0.2s ease;
+    --transition-medium: 0.3s ease;
+    --transition-slow: 0.5s ease;
+}
+
+/* Общие стили для страницы тестов */
+.test-page-container {
+    width: 100%;
+    min-height: 100vh;
+    overflow-x: hidden;
+    background-color: rgb(18, 18, 18);
+    color: var(--text-light);
+    font-family: 'Nunito', 'Arial', sans-serif;
+}
+
+/* Анимации */
+@keyframes fadeIn {
+    0% { opacity: 0; transform: translateY(20px); }
+    100% { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes scaleIn {
+    0% { transform: scale(0.9); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+@keyframes slideInRight {
+    0% { transform: translateX(30px); opacity: 0; }
+    100% { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes slideInLeft {
+    0% { transform: translateX(-30px); opacity: 0; }
+    100% { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes pulseGlow {
+    0% { box-shadow: 0 0 0 0 rgba(88, 204, 2, 0.6); }
+    70% { box-shadow: 0 0 0 10px rgba(88, 204, 2, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(88, 204, 2, 0); }
+}
+
+@keyframes floating {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+    100% { transform: translateY(0px); }
+}
+
+@keyframes wave {
+    0% { transform: rotate(0deg); }
+    10% { transform: rotate(14deg); }
+    20% { transform: rotate(-8deg); }
+    30% { transform: rotate(14deg); }
+    40% { transform: rotate(-4deg); }
+    50% { transform: rotate(10deg); }
+    60% { transform: rotate(0deg); }
+    100% { transform: rotate(0deg); }
+}
+
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+    40% { transform: translateY(-20px); }
+    60% { transform: translateY(-10px); }
+}
+
+@keyframes fadeInUp {
+    0% { transform: translateY(20px); opacity: 0; }
+    100% { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes successPulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+@keyframes confetti {
+    0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+    100% { transform: translateY(1000px) rotate(720deg); opacity: 0; }
+}
+
+/* Добавляем анимацию свечения для кнопок */
+@keyframes glowEffect {
+    0% { box-shadow: 0 0 5px rgba(88, 204, 2, 0.5); }
+    50% { box-shadow: 0 0 20px rgba(88, 204, 2, 0.8); }
+    100% { box-shadow: 0 0 5px rgba(88, 204, 2, 0.5); }
+}
+
+.glow-effect {
+    animation: glowEffect 2s infinite;
+}
+
+/* Стили для заголовка */
+.container-fluid {
+    background: var(--duolingo-green);
+    position: relative;
+    padding: 60px 0 100px 0;
+    margin-bottom: -40px;
+    clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);
+}
+
+.duo {
+    position: absolute;
+    right: 20px;
+    bottom: -10px;
+    width: 80px;
+    height: auto;
+    z-index: 2;
+}
+
+.display-4 {
+    font-size: 3.5rem;
+    font-weight: 800;
+    color: white;
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+.lead {
+    font-size: 1.1rem;
+    color: white;
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: center;
+    line-height: 1.6;
+}
+
+@media (max-width: 768px) {
+    .container-fluid {
+        padding: 40px 0 80px 0;
+    }
+    
+    .display-4 {
+        font-size: 2.5rem;
+    }
+    
+    .lead {
+        font-size: 1rem;
+        padding: 0 20px;
+    }
+}
+
+/* Duo персонаж */
+.duo-character {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 120px;
+    height: 120px;
+    z-index: 1000;
+    cursor: pointer;
+    animation: floating 3s ease-in-out infinite;
+}
+
+.duo-character img {
+    width: 100%;
+    height: auto;
+    filter: drop-shadow(0 6px 10px rgba(0, 0, 0, 0.3));
+    transition: transform 0.3s ease;
+}
+
+.duo-character:hover img {
+    transform: scale(1.1) rotate(5deg);
+}
+
+.duo-character:active img {
+    transform: scale(0.95) rotate(-5deg);
+}
+
+.duo-speech {
+    position: absolute;
+    bottom: 100%;
+    right: 0;
+    background-color: white;
+    color: #333;
+    padding: 15px 20px;
+    border-radius: 20px;
+    font-size: 1rem;
+    font-weight: 600;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(10px);
+    transition: all 0.3s ease;
+    width: 250px;
+    text-align: center;
+    z-index: 1001;
+}
+
+.duo-speech:after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    right: 20px;
+    border-width: 10px 10px 0;
+    border-style: solid;
+    border-color: white transparent transparent;
+}
+
+.duo-speech.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+/* Стили для фильтров */
+.filters-section {
+    background-color: rgba(30, 30, 30, 0.8);
+    border-radius: var(--border-radius-lg);
+    padding: 25px;
+    margin-bottom: 40px;
+    box-shadow: var(--shadow-dark);
+    transform: translateY(20px);
+    animation: fadeIn 0.6s ease 0.4s forwards;
+    opacity: 0;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.filter-group {
+    margin-bottom: 15px;
+}
+
+.filter-group label {
+    display: flex;
+    align-items: center;
+    margin-bottom: 12px;
+    font-weight: 600;
+    color: #eee;
+    font-size: 1.1rem;
+}
+
+.filter-group label i {
+    margin-right: 10px;
+    color: var(--duolingo-purple);
+}
+
+.filter-options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.filter-option {
+    background-color: #333;
+    color: white;
+    border-radius: 50px;
+    padding: 8px 16px;
+    font-size: 0.9rem;
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    text-decoration: none;
+    margin-right: 5px;
+    margin-bottom: 5px;
+}
+
+.filter-option.active {
+    background-color: var(--duolingo-purple);
+    color: white;
+    box-shadow: 0 2px 6px rgba(133, 73, 255, 0.4);
+}
+
+.apply-filters {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 24px;
+    background-color: rgba(133, 73, 255, 0.1);
+    color: var(--duolingo-purple);
+    border-radius: var(--border-radius-md);
+    text-decoration: none;
+    font-weight: 600;
+    transition: all var(--transition-medium);
+    height: 100%;
+    margin-top: 28px;
+}
+
+.apply-filters:hover {
+    background-color: rgba(133, 73, 255, 0.2);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(133, 73, 255, 0.2);
+}
+
+.apply-filters i {
+    margin-right: 8px;
+    transition: transform 0.3s ease;
+}
+
+.apply-filters:hover i {
+    transform: rotate(180deg);
+}
+
+/* Стили для секций языков */
+.language-sections {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    margin-bottom: 60px;
+}
+
+.language-section {
+    background-color: rgba(30, 30, 30, 0.7);
+    border-radius: var(--border-radius-lg);
+    padding: 30px;
+    box-shadow: var(--shadow-dark);
+    transition: all var(--transition-medium);
+    opacity: 0;
+    transform: translateY(30px);
+    animation: fadeIn 0.8s ease 0.6s forwards;
+    border: 1px solid rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(5px);
+}
+
+.language-section:hover {
+    background-color: rgba(35, 35, 35, 0.8);
+    transform: translateY(-5px) scale(1.01);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25);
+}
+
+.language-title {
+    display: flex;
+    align-items: center;
+    margin-bottom: 25px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.language-title h2 {
+    font-size: 2rem;
+    font-weight: 700;
+    margin: 0;
+    flex-grow: 1;
+    color: #fff;
+}
+
+.flag {
+    font-size: 2.2rem;
+    margin-right: 15px;
+    filter: drop-shadow(0 3px 5px rgba(0, 0, 0, 0.2));
+}
+
+.view-all {
+    display: flex;
+    align-items: center;
+    color: var(--duolingo-purple);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1rem;
+    transition: all var(--transition-medium);
+    padding: 8px 16px;
+    border-radius: var(--border-radius-pill);
+    background-color: rgba(133, 73, 255, 0.1);
+}
+
+.view-all i {
+    margin-left: 6px;
+    transition: transform 0.3s ease;
+}
+
+.view-all:hover {
+    color: white;
+    background-color: var(--duolingo-purple);
+}
+
+.view-all:hover i {
+    transform: translateX(4px);
+}
+
+/* Стили для карточек тестов */
+.demo-tests-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 30px;
+    transition: all var(--transition-medium);
+}
+
+.demo-test-card {
+    background-color: #242424;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    animation: fadeIn 0.5s ease-out forwards;
+    animation-delay: calc(0.1s * var(--animation-order, 0));
+    opacity: 0;
+    height: 100%;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.demo-test-card:hover {
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25);
+    background-color: rgba(45, 45, 45, 0.9);
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+.demo-test-header {
+    padding: 18px 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    background: linear-gradient(to right, rgba(30, 30, 30, 0.3), rgba(30, 30, 30, 0.8));
+}
+
+.demo-test-language {
+    display: flex;
+    align-items: center;
+    font-weight: 600;
+    font-size: 1.1rem;
+    color: white;
+}
+
+.demo-test-language .language-flag {
+    font-size: 1.3rem;
+    margin-right: 8px;
+}
+
+.level-badge {
+    background-color: var(--duolingo-green);
+    color: white;
+    font-size: 0.8rem;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 12px;
+    margin-left: 10px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 3px 8px rgba(88, 204, 2, 0.2);
+    transition: all var(--transition-medium);
+}
+
+.demo-test-card:hover .level-badge {
+    transform: scale(1.05);
+    box-shadow: 0 5px 12px rgba(88, 204, 2, 0.35);
+}
+
+.demo-test-content {
+    padding: 20px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.demo-test-title {
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin-bottom: 12px;
+    color: white;
+    line-height: 1.4;
+}
+
+.demo-test-description {
+    color: rgba(255, 255, 255, 0.7);
+    margin-bottom: 20px;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    flex-grow: 1;
+}
+
+.demo-test-meta {
+    display: flex;
+    justify-content: space-between;
+    margin-top: auto;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 0.9rem;
+    padding-top: 15px;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.demo-test-meta span {
+    display: flex;
+    align-items: center;
+}
+
+.demo-test-meta i {
+    margin-right: 6px;
+    color: var(--duolingo-purple);
+}
+
+.demo-test-footer {
+    padding: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    background-color: rgba(30, 30, 30, 0.4);
+}
+
+.duolingo-button {
+    background-color: var(--duolingo-green);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 16px;
+    font-weight: 700;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: background-color 0.2s ease;
+    text-decoration: none;
+    box-shadow: 0 2px 6px rgba(88, 204, 2, 0.3);
+}
+
+.duolingo-button:hover {
+    background-color: var(--duolingo-green-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(88, 204, 2, 0.4);
+}
+
+.demo-test-footer .fa-arrow-right {
+    margin-left: 8px;
+    transition: transform var(--transition-medium);
+}
+
+.demo-test-footer .duolingo-button:hover .fa-arrow-right {
+    transform: translateX(5px);
+}
+
+/* Стиль для пустого результата */
+.empty-tests-message {
+    text-align: center;
+    padding: 50px 20px;
+    background-color: rgba(30, 30, 30, 0.5);
+    border-radius: var(--border-radius-lg);
+    margin: 40px 0;
+    border: 1px dashed rgba(255, 255, 255, 0.1);
+    animation: fadeIn 0.8s ease forwards;
+}
+
+.empty-tests-message i {
+    font-size: 3rem;
+    color: var(--duolingo-gray);
+    margin-bottom: 20px;
+}
+
+.empty-tests-message h3 {
+    font-size: 1.6rem;
+    color: white;
+    margin-bottom: 15px;
+}
+
+.empty-tests-message p {
+    color: rgba(255, 255, 255, 0.7);
+    max-width: 500px;
+    margin: 0 auto;
+    line-height: 1.6;
+}
+
+/* Стили для кнопки сброса фильтров */
+.duolingo-tab.reset-filter {
+    background-color: rgba(255, 75, 75, 0.1);
+    color: var(--duolingo-red);
+}
+
+.duolingo-tab.reset-filter:hover {
+    background-color: var(--duolingo-red);
+    color: white;
+}
+
+/* Стили для теста */
+.test-content .option-item {
+    transition: all var(--transition-medium);
+    transform: translateY(10px);
+    opacity: 0;
+    animation: fadeIn 0.5s ease forwards;
+    animation-delay: calc(var(--animation-order, 0) * 0.1s);
+}
+
+.test-content .option-item:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+.test-content .option-item.selected {
+    border-color: var(--duolingo-green);
+    background-color: rgba(88, 204, 2, 0.1);
+}
+
+/* Анимация для результатов теста */
+#testResult {
+    opacity: 0;
+    transform: scale(0.95);
+    transition: all var(--transition-medium);
+}
+
+#testResult.show {
+    opacity: 1;
+    transform: scale(1);
+}
+
+/* Улучшенные анимации для вопросов */
+.question-container {
+    animation: fadeIn 0.5s ease forwards;
+}
+
+.options-container {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+/* Стили для режима прохождения теста */
+.duolingo-test-container {
+    width: 100%;
+    max-width: 800px;
+    margin: 20px auto;
+    position: relative;
+    font-family: 'Nunito', sans-serif;
+    padding: 0 15px;
+}
+
+.timer-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 15px;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #3c3c3c;
+}
+
+.timer-container i {
+    margin-right: 10px;
+    color: var(--duolingo-blue);
+}
+
+.timer-text {
+    color: #3c3c3c;
+}
+
+.test-progress-bar {
+    width: 100%;
+    height: 16px;
+    background-color: #e5e5e5;
+    border-radius: 8px;
+    margin-bottom: 25px;
+    overflow: hidden;
+}
+
+.test-progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--duolingo-green) 0%, #89e339 100%);
+    border-radius: 8px;
+    transition: width 0.5s ease;
+}
+
+.question-card {
+    background-color: white;
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+    margin-bottom: 30px;
+    position: relative;
+    overflow: hidden;
+}
+
+.question-text {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #3c3c3c;
+    margin-bottom: 30px;
+    transition: all 0.3s ease;
+}
+
+.slide-in-right {
+    animation: slideInRight 0.5s ease forwards;
+}
+
+.slide-in-left {
+    animation: slideInLeft 0.5s ease forwards;
+}
+
+.fade-in-up {
+    animation: fadeInUp 0.5s ease forwards;
+}
+
+.options-container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+.option-item {
+    position: relative;
+    border: 2px solid #e5e5e5;
+    border-radius: 12px;
+    padding: 16px 20px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+}
+
+.option-item input[type="radio"] {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.option-item label {
+    display: block;
+    width: 100%;
+    cursor: pointer;
+    font-size: 1.2rem;
+    color: #3c3c3c;
+    margin: 0;
+    padding-left: 40px;
+    position: relative;
+}
+
+.option-item label:before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 24px;
+    height: 24px;
+    border: 2px solid #e5e5e5;
+    border-radius: 50%;
+}
+
+.option-item:hover {
+    border-color: var(--duolingo-blue);
+    background-color: rgba(28, 176, 246, 0.05);
+}
+
+.option-item.selected {
+    border-color: var(--duolingo-blue);
+    background-color: rgba(28, 176, 246, 0.1);
+}
+
+.option-item.selected label:before {
+    border-color: var(--duolingo-blue);
+    background-color: var(--duolingo-blue);
+    box-shadow: inset 0 0 0 4px white;
+}
+
+.option-item.correct-answer {
+    border-color: var(--duolingo-green);
+    background-color: rgba(88, 204, 2, 0.1);
+}
+
+.option-item.correct-answer label:before {
+    border-color: var(--duolingo-green);
+    background-color: var(--duolingo-green);
+    box-shadow: inset 0 0 0 4px white;
+}
+
+.option-item.wrong-answer {
+    border-color: var(--duolingo-red);
+    background-color: rgba(255, 75, 75, 0.1);
+}
+
+.option-item.wrong-answer label:before {
+    border-color: var(--duolingo-red);
+    background-color: var(--duolingo-red);
+    box-shadow: inset 0 0 0 4px white;
+}
+
+.success-animation {
+    animation: successPulse 0.5s ease;
+}
+
+.navigation-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 30px;
+}
+
+.nav-button {
+    padding: 12px 24px;
+    border-radius: 12px;
+    font-weight: 700;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: none;
+}
+
+.button-prev {
+    background-color: #f0f0f0;
+    color: #757575;
+}
+
+.button-prev:hover:not(:disabled) {
+    background-color: #e5e5e5;
+}
+
+.button-prev:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.button-next {
+    background-color: var(--duolingo-green);
+    color: white;
+}
+
+.button-next:hover {
+    background-color: var(--duolingo-green-hover);
+}
+
+/* Стили персонажа Duo */
+.duolingo-character {
+    position: fixed;
+    bottom: -150px;
+    right: 40px;
+    z-index: 10;
+    transition: bottom 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.duolingo-character img {
+    width: 120px;
+    height: auto;
+    animation: floating 3s ease-in-out infinite;
+}
+
+.character-bubble {
+    position: absolute;
+    top: -80px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: white;
+    padding: 12px 20px;
+    border-radius: 20px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    min-width: 200px;
+    text-align: center;
+    font-weight: 600;
+    color: #3c3c3c;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: 11;
+}
+
+.character-bubble:after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-width: 10px 10px 0;
+    border-style: solid;
+    border-color: white transparent transparent;
+}
+
+/* Результаты теста */
+.result-summary {
+    background-color: white;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    text-align: center;
+    animation: scaleIn 0.5s ease forwards;
+}
+
+.score-title {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: #3c3c3c;
+}
+
+.score-circle {
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: conic-gradient(
+        var(--duolingo-green) 0% calc(var(--score) * 1%),
+        #e5e5e5 calc(var(--score) * 1%) 100%
+    );
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    position: relative;
+}
+
+.score-circle:before {
+    content: '';
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    right: 10px;
+    bottom: 10px;
+    background: white;
+    border-radius: 50%;
+}
+
+.score-value {
+    position: relative;
+    font-size: 3rem;
+    font-weight: 800;
+    color: #3c3c3c;
+}
+
+.score-message {
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin-top: 20px;
+}
+
+.score-message.excellent {
+    color: var(--duolingo-green);
+}
+
+.score-message.good {
+    color: var(--duolingo-blue);
+}
+
+.score-message.neutral {
+    color: var(--duolingo-yellow);
+}
+
+.score-message.poor {
+    color: var(--duolingo-red);
+}
+
+.score-description {
+    font-size: 1.2rem;
+    color: #757575;
+    margin-top: 10px;
+}
+
+.result-details {
+    border-top: 1px solid #e5e5e5;
+    padding-top: 30px;
+}
+
+.details-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.detail-item {
+    text-align: left;
+    padding: 15px;
+    background-color: #f9f9f9;
+    border-radius: 12px;
+}
+
+.detail-label {
+    font-size: 0.9rem;
+    color: #757575;
+    margin-bottom: 5px;
+}
+
+.detail-value {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #3c3c3c;
+}
+
+.actions {
+    margin-top: 30px;
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+.duolingo-button {
+    display: inline-block;
+    padding: 14px 24px;
+    background-color: var(--duolingo-green);
+    color: white;
+    border-radius: 12px;
+    font-weight: 700;
+    font-size: 1.1rem;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    border: none;
+    cursor: pointer;
+    text-align: center;
+}
+
+.duolingo-button:hover {
+    background-color: var(--duolingo-green-hover);
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(88, 204, 2, 0.3);
+}
+
+/* Конфетти для результатов */
+.confetti {
+    position: fixed;
+    width: 10px;
+    height: 10px;
+    background-color: var(--duolingo-green);
+    opacity: 0;
+    animation: confetti 5s ease-in-out infinite;
+    z-index: 9;
+}
+
+/* Адаптивные стили */
+@media (max-width: 768px) {
+    .question-text {
+        font-size: 1.5rem;
+    }
+    
+    .option-item label {
+        font-size: 1.1rem;
+    }
+    
+    .score-circle {
+        width: 150px;
+        height: 150px;
+    }
+    
+    .score-value {
+        font-size: 2.5rem;
+    }
+    
+    .duolingo-character {
+        right: 20px;
+    }
+    
+    .duolingo-character img {
+        width: 100px;
+    }
+    
+    .character-bubble {
+        min-width: 150px;
+        font-size: 0.9rem;
+    }
+    
+    .navigation-buttons {
+        margin-top: 20px;
+    }
+    
+    .nav-button {
+        padding: 10px 20px;
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .details-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .question-card {
+        padding: 20px;
+    }
+    
+    .timer-container {
+        font-size: 1.3rem;
+    }
+    
+    .actions {
+        flex-direction: column;
+    }
+    
+    .duolingo-button {
+        width: 100%;
+    }
+}
+
+@media (max-width: 992px) {
+    .test-hero h1 {
+        font-size: 2.5rem;
+    }
+    
+    .language-title {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .language-title h2 {
+        margin-bottom: 10px;
+    }
+    
+    .flag {
+        margin-bottom: 10px;
+    }
+    
+    .demo-tests-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .duo-character {
+        right: 2%;
+        width: 120px;
+        height: 120px;
+    }
+}
+
+@media (max-width: 768px) {
+    .test-hero {
+        padding: 60px 0;
+    }
+    
+    .test-hero h1 {
+        font-size: 2rem;
+    }
+    
+    .test-hero p {
+        font-size: 1.1rem;
+    }
+    
+    .filters-section {
+        padding: 20px;
+    }
+    
+    .filter-options {
+        flex-direction: column;
+        gap: 8px;
+    }
+    
+    .filter-option {
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .demo-tests-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .language-section {
+        padding: 20px;
+    }
+    
+    .demo-test-title {
+        font-size: 1.3rem;
+    }
+    
+    .demo-test-description {
+        font-size: 0.9rem;
+    }
+    
+    .duo-character {
+        bottom: -20px;
+        right: 50%;
+        transform: translateX(50%);
+        width: 80px;
+        height: 80px;
+    }
+    
+    .duolingo-test-container {
+        padding: 15px;
+    }
+    
+    .question-text {
+        font-size: 20px;
+    }
+    
+    .option-item label {
+        font-size: 16px;
+        padding: 12px 15px;
+    }
+    
+    .nav-button {
+        padding: 12px 20px;
+        font-size: 14px;
+    }
+    
+    .score-title {
+        font-size: 2rem;
+    }
+    
+    .score-circle {
+        width: 120px;
+        height: 120px;
+    }
+    
+    .score-value {
+        font-size: 30px;
+    }
+    
+    .score-message {
+        font-size: 20px;
+    }
+    
+    .details-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .detail-item {
+        padding: 12px;
+    }
+    
+    .detail-value {
+        font-size: 16px;
+    }
+    
+    .duolingo-character img {
+        width: 80px;
+    }
+    
+    .character-bubble {
+        min-width: 160px;
+        font-size: 12px;
+        top: -60px;
+    }
+}
+
+/* Стили для секций языков */
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.view-more {
+    color: var(--duolingo-purple);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+}
+
+.view-more i {
+    margin-left: 5px;
+    transition: transform 0.2s;
+}
+
+.view-more:hover {
+    color: var(--duolingo-purple-hover);
+    text-decoration: none;
+}
+
+.view-more:hover i {
+    transform: translateX(3px);
+}
+
+/* Стили для блока призыва к действию */
+.journey-banner {
+    background-color: var(--duolingo-darker);
+    padding: 60px 0;
+    position: relative;
+    overflow: hidden;
+    z-index: 10;
+}
+
+.journey-banner::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(88, 204, 2, 0.1) 0%, rgba(28, 176, 246, 0.05) 100%);
+    z-index: -1;
+}
+
+.journey-banner::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 100%;
+    height: 10px;
+    background: linear-gradient(90deg, var(--duolingo-purple) 0%, var(--duolingo-blue) 50%, var(--duolingo-green) 100%);
+    z-index: 1;
+}
+
+.journey-title {
+    font-size: 2.8rem;
+    font-weight: 800;
+    color: white;
+    margin-bottom: 20px;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    animation: fadeInUp 0.8s ease forwards;
+}
+
+.journey-text {
+    font-size: 1.2rem;
+    color: rgba(255, 255, 255, 0.9);
+    margin-bottom: 30px;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 1.6;
+    animation: fadeInUp 0.8s ease 0.2s forwards;
+}
+
+.journey-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 30px;
+    animation: fadeInUp 0.8s ease 0.4s forwards;
+}
+
+.journey-button {
+    padding: 12px 24px;
+    border-radius: 50px;
+    font-weight: 700;
+        font-size: 1rem;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.journey-button i {
+    font-size: 1.1rem;
+}
+
+.journey-button-primary {
+    background-color: var(--duolingo-green);
+    color: white;
+    border: 2px solid var(--duolingo-green);
+}
+
+.journey-button-primary:hover {
+    background-color: var(--duolingo-green-hover);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(88, 204, 2, 0.3);
+    color: white;
+    text-decoration: none;
+}
+
+.journey-button-secondary {
+    background-color: transparent;
+    color: var(--duolingo-blue);
+    border: 2px solid var(--duolingo-blue);
+}
+
+.journey-button-secondary:hover {
+    background-color: var(--duolingo-blue);
+    color: white;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(28, 176, 246, 0.3);
+    text-decoration: none;
+}
+
+@media (max-width: 768px) {
+    .journey-banner {
+        padding: 40px 0;
+    }
+    
+    .journey-title {
+        font-size: 2.2rem;
+    }
+    
+    .journey-text {
+        font-size: 1rem;
+        padding: 0 15px;
+    }
+    
+    .journey-buttons {
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .journey-button {
+        width: 100%;
+        justify-content: center;
+    }
+} 

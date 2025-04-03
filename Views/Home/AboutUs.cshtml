@@ -1,0 +1,207 @@
+@model List<WebApplication15.Models.Video>
+@{
+    ViewData["Title"] = "О нас";
+}
+
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-12 text-center mb-5 about-header">
+            <h1 class="display-4 about-title">О образовательной платформе</h1>
+            <p class="lead about-subtitle">Помощь людям изучать языки эффективно и с удовольствием</p>
+        </div>
+    </div>
+    
+    <!-- О платформе -->
+    <div class="row mb-5">
+        <div class="col-12">
+            <div class="about-section rounded-card">
+                <div class="row">
+                    <div class="col-md-6 d-flex align-items-center">
+                        <div class="p-4 text-center">
+                            <h2 class="mb-4">Глобальная миссия</h2>
+                            <p>Мы стремимся сделать изучение языков доступным для всех. Наша платформа предлагает разнообразные видеоуроки и интерактивные тесты, которые помогают эффективно осваивать новые языки.</p>
+                            <p>Мы верим, что знание языков открывает новые возможности и соединяет людей из разных культур.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="ratio ratio-16x9 p-3">
+                            <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="О нашей платформе" allowfullscreen></iframe>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    
+    <!-- Демонстрация видеоуроков -->
+    <div class="row mb-5">
+        <div class="col-12 text-center">
+            <h2 class="mb-4">Примеры наших видеоуроков</h2>
+            <p class="lead mb-5">Изучайте языки с помощью профессиональных видеоматериалов</p>
+        </div>
+        
+        <div class="col-12">
+            <div class="videos-container p-4 rounded-card">
+                <div class="row">
+                    @foreach (var video in Model)
+                    {
+                        <div class="col-md-4 mb-4">
+                            <div class="card video-card">
+                                <div class="ratio ratio-16x9">
+                                    <iframe src="@video.Url" title="@video.Title" allowfullscreen></iframe>
+                                </div>
+                                <div class="card-body text-center">
+                                    <h5 class="card-title">@video.Title</h5>
+                                    <p class="card-text">@video.Description</p>
+                                    <div class="d-flex justify-content-center align-items-center gap-2">
+                                        <span class="badge bg-primary">@video.LanguageLevel?.Language?.Name</span>
+                                        <span class="badge bg-secondary">Уровень: @video.LanguageLevel?.Name</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- CTA секция -->
+    <div class="row mb-5">
+        <div class="col-12">
+            <div class="card cta-card text-center rounded-card">
+                <div class="card-body py-5">
+                    <h2 class="card-title mb-4">Хотите больше видеоуроков?</h2>
+                    <p class="card-text lead mb-4">Присоединяйтесь к тысячам студентов, которые уже улучшили свои языковые навыки!</p>
+                    <div class="d-flex justify-content-center gap-3">
+                        <a href="@Url.Action("Register", "Account")" class="btn btn-primary btn-lg">Зарегистрироваться</a>
+                        <a href="@Url.Action("Index", "Video")" class="btn btn-outline-light btn-lg">Посмотреть все видеоуроки</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .about-title {
+        color: var(--primary-color);
+        margin-bottom: 1rem;
+    }
+    
+    .about-subtitle {
+        color: var(--text-muted);
+        max-width: 800px;
+        margin: 0 auto;
+    }
+    
+    .rounded-card {
+        border-radius: 20px;
+        overflow: hidden;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    .rounded-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 12px 25px rgba(0, 0, 0, 0.12);
+    }
+    
+    .about-section {
+        background-color: var(--dark-card-bg);
+    }
+    
+    .team-card, .video-card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        height: 100%;
+        border-radius: 20px;
+        overflow: hidden;
+        border: none;
+        background-color: var(--dark-card-bg);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    }
+    
+    .team-card:hover, .video-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 15px 25px rgba(0, 0, 0, 0.15);
+        background-color: var(--dark-card-bg-hover);
+    }
+    
+    .team-avatar {
+        height: 200px;
+        object-fit: cover;
+        transition: transform 0.5s ease;
+    }
+    
+    .team-card:hover .team-avatar {
+        transform: scale(1.05);
+    }
+    
+    .videos-container {
+        background-color: var(--dark-card-bg);
+    }
+    
+    .cta-card {
+        background: var(--primary-gradient);
+        color: white;
+        border: none;
+    }
+    
+    .cta-card .btn-primary {
+        background-color: white;
+        color: var(--primary-color);
+        border: none;
+        transition: all 0.2s ease;
+    }
+    
+    .cta-card .btn-primary:hover {
+        background-color: #f8f9fa;
+        color: var(--primary-dark);
+        transform: translateY(-3px);
+        box-shadow: 0 5px 12px rgba(0, 0, 0, 0.15);
+    }
+    
+    .cta-card .btn-outline-light:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 5px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .card-title {
+        color: var(--text-light);
+    }
+
+    .card-text {
+        color: var(--text-muted);
+    }
+
+    .team-card .card-title {
+        color: var(--primary-color);
+    }
+
+    .video-card .card-body {
+        padding: 1rem;
+    }
+
+    .badge {
+        font-weight: 400;
+        padding: 0.5rem 0.75rem;
+        border-radius: 30px;
+    }
+
+    .badge.bg-primary {
+        background-color: var(--primary-color) !important;
+    }
+
+    .badge.bg-secondary {
+        background-color: var(--accent-color) !important;
+    }
+</style>
+
+@section Scripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Страница о нас загружена успешно');
+        });
+    </script>
+} 

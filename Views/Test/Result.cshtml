@@ -1,0 +1,136 @@
+@model WebApplication15.Models.TestResult
+@{
+    ViewData["Title"] = "Результаты теста";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mt-5">
+    <div class="card shadow mb-4">
+        <div class="card-header bg-primary text-white py-3">
+            <h6 class="m-0 font-weight-bold">Результаты теста: @Model.Title</h6>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="test-details mb-4">
+                        <h4 class="mb-3">Информация о тесте</h4>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <p><strong>Тест:</strong> @Model.Title</p>
+                                <p><strong>Язык:</strong> @Model.Language</p>
+                                <p><strong>Уровень:</strong> @Model.Level</p>
+                            </div>
+                            <div class="col-md-6">
+                                <p><strong>Дата:</strong> @Model.CompletedDate.ToString("dd.MM.yyyy HH:mm")</p>
+                                <p><strong>Результат:</strong> @Model.Percentage.ToString("0.#")%</p>
+                                <p><strong>Статус:</strong> 
+                                    @if (Model.IsPassed)
+                                    {
+                                        <span class="badge badge-success">Пройден</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge badge-danger">Не пройден</span>
+                                    }
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="results-summary mb-4">
+                        <h4 class="mb-3">Результаты</h4>
+                        <div class="card bg-light">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-4 text-center">
+                                        <div class="display-4 font-weight-bold text-primary">@Model.CorrectAnswers</div>
+                                        <div class="small text-muted">Правильных ответов</div>
+                                    </div>
+                                    <div class="col-md-4 text-center">
+                                        <div class="display-4 font-weight-bold text-danger">@(Model.TotalQuestions - Model.CorrectAnswers)</div>
+                                        <div class="small text-muted">Неправильных ответов</div>
+                                    </div>
+                                    <div class="col-md-4 text-center">
+                                        <div class="display-4 font-weight-bold">@Model.TotalQuestions</div>
+                                        <div class="small text-muted">Всего вопросов</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-4">
+                    <div class="result-chart text-center">
+                        <div class="position-relative">
+                            <div class="progress-circle" data-percentage="@Model.Percentage">
+                                <span class="progress-text">@Model.Percentage.ToString("0.#")%</span>
+                                <svg class="progress-ring" width="200" height="200">
+                                    <circle class="progress-ring-circle-bg" stroke="#e9ecef" stroke-width="16" fill="transparent" r="80" cx="100" cy="100"></circle>
+                                    <circle class="progress-ring-circle @(Model.IsPassed ? "success" : "fail")" 
+                                            stroke-width="16" fill="transparent" r="80" cx="100" cy="100" 
+                                            stroke-dasharray="502.4" stroke-dashoffset="@(502.4 - (Model.Percentage / 100 * 502.4))"></circle>
+                                </svg>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-4">
+                            <p class="lead @(Model.IsPassed ? "text-success" : "text-danger")">
+                                @if (Model.IsPassed)
+                                {
+                                    <i class="fas fa-check-circle mr-2"></i>
+                                    <span>Тест успешно пройден!</span>
+                                }
+                                else
+                                {
+                                    <i class="fas fa-times-circle mr-2"></i>
+                                    <span>Тест не пройден</span>
+                                }
+                            </p>
+                        </div>
+                        
+                        <div class="mt-4">
+                            <a href="@Url.Action("Take", "Test", new { id = Model.TestId })" class="btn btn-primary btn-block mb-2">
+                                <i class="fas fa-redo mr-2"></i> Пройти тест еще раз
+                            </a>
+                            <a href="@Url.Action("UserResults", "Test")" class="btn btn-secondary btn-block">
+                                <i class="fas fa-list-alt mr-2"></i> Все результаты
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .progress-circle {
+        position: relative;
+        display: inline-block;
+    }
+    
+    .progress-text {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 2rem;
+        font-weight: bold;
+        color: #333;
+    }
+    
+    .progress-ring-circle {
+        transition: stroke-dashoffset 1s ease-in-out;
+        transform: rotate(-90deg);
+        transform-origin: 50% 50%;
+    }
+    
+    .progress-ring-circle.success {
+        stroke: #28a745;
+    }
+    
+    .progress-ring-circle.fail {
+        stroke: #dc3545;
+    }
+</style> 

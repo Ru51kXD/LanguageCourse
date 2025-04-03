@@ -1,0 +1,132 @@
+@model WebApplication15.Models.RegisterViewModel
+@{
+    ViewData["Title"] = "Регистрация";
+}
+
+<div class="page-animation">
+    <div class="row">
+        <div class="col-md-6 mx-auto">
+            <div class="card login-form">
+                <div class="card-body">
+                    <h1 class="text-center mb-4">
+                        <span class="text-gradient">Регистрация</span>
+                    </h1>
+                    
+                    <div asp-validation-summary="All" class="alert alert-danger" role="alert"></div>
+                    
+                    <form method="post" asp-controller="Account" asp-action="Register" class="login-form-animation">
+                        <div class="mb-4">
+                            <label asp-for="Email" class="form-label">
+                                <i class="fas fa-envelope me-2"></i> Email
+                            </label>
+                            <input asp-for="Email" class="form-control" required placeholder="Введите email">
+                            <span asp-validation-for="Email" class="text-danger"></span>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <label asp-for="Password" class="form-label">
+                                <i class="fas fa-lock me-2"></i> Пароль
+                            </label>
+                            <div class="input-group">
+                                <input asp-for="Password" class="form-control" required placeholder="Введите пароль">
+                                <button class="btn btn-outline-secondary" type="button" id="togglePassword">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                            </div>
+                            <span asp-validation-for="Password" class="text-danger"></span>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <label asp-for="ConfirmPassword" class="form-label">
+                                <i class="fas fa-lock me-2"></i> Подтверждение пароля
+                            </label>
+                            <div class="input-group">
+                                <input asp-for="ConfirmPassword" class="form-control" required placeholder="Повторите пароль">
+                                <button class="btn btn-outline-secondary" type="button" id="toggleConfirmPassword">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                            </div>
+                            <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                        </div>
+                        
+                        <div class="d-grid gap-3 mt-5">
+                            <button type="submit" class="btn btn-primary btn-lg">
+                                <i class="fas fa-user-plus me-2"></i> Зарегистрироваться
+                            </button>
+                            <a asp-controller="Account" asp-action="Login" class="btn btn-outline-primary">
+                                <i class="fas fa-sign-in-alt me-2"></i> Уже есть аккаунт? Войти
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Переключение видимости пароля
+            const togglePassword = document.getElementById('togglePassword');
+            const password = document.getElementById('Password');
+            
+            if (togglePassword && password) {
+                togglePassword.addEventListener('click', function() {
+                    const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+                    password.setAttribute('type', type);
+                    togglePassword.querySelector('i').classList.toggle('fa-eye');
+                    togglePassword.querySelector('i').classList.toggle('fa-eye-slash');
+                });
+            }
+            
+            // Переключение видимости подтверждения пароля
+            const toggleConfirmPassword = document.getElementById('toggleConfirmPassword');
+            const confirmPassword = document.getElementById('ConfirmPassword');
+            
+            if (toggleConfirmPassword && confirmPassword) {
+                toggleConfirmPassword.addEventListener('click', function() {
+                    const type = confirmPassword.getAttribute('type') === 'password' ? 'text' : 'password';
+                    confirmPassword.setAttribute('type', type);
+                    toggleConfirmPassword.querySelector('i').classList.toggle('fa-eye');
+                    toggleConfirmPassword.querySelector('i').classList.toggle('fa-eye-slash');
+                });
+            }
+            
+            // Проверка совпадения паролей
+            if (password && confirmPassword) {
+                confirmPassword.addEventListener('input', function() {
+                    if (password.value !== confirmPassword.value) {
+                        confirmPassword.setCustomValidity('Пароли не совпадают');
+                    } else {
+                        confirmPassword.setCustomValidity('');
+                    }
+                });
+                
+                password.addEventListener('input', function() {
+                    if (confirmPassword.value) {
+                        if (password.value !== confirmPassword.value) {
+                            confirmPassword.setCustomValidity('Пароли не совпадают');
+                        } else {
+                            confirmPassword.setCustomValidity('');
+                        }
+                    }
+                });
+            }
+            
+            // Анимация формы
+            const formElements = document.querySelectorAll('.login-form-animation .form-control, .login-form-animation .btn');
+            formElements.forEach((element, index) => {
+                element.style.opacity = '0';
+                element.style.transform = 'translateY(20px)';
+                element.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                element.style.transitionDelay = (index * 0.1) + 's';
+                
+                setTimeout(() => {
+                    element.style.opacity = '1';
+                    element.style.transform = 'translateY(0)';
+                }, 100);
+            });
+        });
+    </script>
+} 

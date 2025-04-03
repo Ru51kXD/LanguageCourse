@@ -1,0 +1,96 @@
+@model IEnumerable<WebApplication15.Models.LanguageLevel>
+@{
+    ViewData["Title"] = "Уровни языка";
+    var language = ViewBag.Language;
+}
+
+<div class="page-animation">
+    <div class="row mb-4">
+        <div class="col-md-12">
+            <h1>
+                Уровни 
+                @if (language.Code == "kk")
+                {
+                    <span>🇰🇿 казахского языка</span>
+                }
+                else if (language.Code == "en")
+                {
+                    <span>🇬🇧 английского языка</span>
+                }
+                else if (language.Code == "tr")
+                {
+                    <span>🇹🇷 турецкого языка</span>
+                }
+            </h1>
+            <p>Выберите уровень для начала обучения</p>
+        </div>
+    </div>
+
+    <div class="row">
+        @foreach (var level in Model)
+        {
+            <div class="col-md-4 mb-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h2 class="card-title text-center">@level.Name</h2>
+                        <p class="card-text">@level.Description</p>
+                        <div class="d-flex justify-content-between mt-4">
+                            <a asp-controller="Test" asp-action="Index" asp-route-languageId="@language.Id" asp-route-levelId="@level.Id" class="btn btn-primary">Тесты</a>
+                            <a asp-controller="Video" asp-action="Index" asp-route-languageId="@language.Id" asp-route-levelId="@level.Id" class="btn btn-outline-primary">Видеоуроки</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+
+    <div class="row mt-4">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <h3>Как выбрать подходящий уровень?</h3>
+                    <p>
+                        Если вы не уверены, с какого уровня начать, рекомендуем пройти тест на уровне A1, чтобы определить ваши текущие знания.
+                        Если тест окажется слишком простым, переходите к следующему уровню.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="mt-4">
+        <a asp-controller="Language" asp-action="Index" class="btn btn-outline-secondary">← Назад к списку языков</a>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Анимации при прокрутке
+            const cards = document.querySelectorAll('.card');
+            
+            function checkScroll() {
+                cards.forEach(card => {
+                    const rect = card.getBoundingClientRect();
+                    const isVisible = (rect.top <= window.innerHeight * 0.8);
+                    
+                    if (isVisible) {
+                        card.style.opacity = '1';
+                        card.style.transform = 'translateY(0)';
+                    }
+                });
+            }
+            
+            // Инициализация карточек
+            cards.forEach(card => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+            });
+            
+            // Проверка при загрузке и прокрутке
+            window.addEventListener('scroll', checkScroll);
+            checkScroll();
+        });
+    </script>
+} 

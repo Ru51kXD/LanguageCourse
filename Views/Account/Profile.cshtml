@@ -1,0 +1,464 @@
+@*
+@model WebApplication15.Models.ApplicationUser
+@{
+    ViewData["Title"] = "Профиль";
+    
+    // Получение данных о результатах тестов из ViewBag
+    var testResults = ViewBag.TestResults as List<WebApplication15.Models.TestResult>;
+    
+    // Расчет статистики
+    var testCount = testResults?.Count ?? 0;
+    var avgScore = testCount > 0 ? testResults.Average(r => r.Score) : 0;
+    int successCount = testResults?.Count(r => r.Score >= 60) ?? 0;
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/tests.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        .profile-section {
+            background-color: rgba(255, 255, 255, 0.08);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 40px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+        
+        .profile-section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .profile-title {
+            display: flex;
+            align-items: center;
+            margin-bottom: 25px;
+            background-color: rgba(255, 255, 255, 0.05);
+            padding: 15px;
+            border-radius: 10px;
+        }
+        
+        .profile-title h2 {
+            font-size: 1.8rem;
+            font-weight: 800;
+            margin: 0;
+            flex-grow: 1;
+            color: white;
+        }
+        
+        .profile-title i {
+            font-size: 1.8rem;
+            margin-right: 15px;
+            color: #58cc02;
+        }
+        
+        .avatar-container {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .user-avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #58cc02;
+            margin-right: 20px;
+        }
+        
+        .user-info {
+            flex-grow: 1;
+        }
+        
+        .user-name {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+            color: white;
+        }
+        
+        .user-email {
+            font-size: 1.1rem;
+            color: rgba(255, 255, 255, 0.7);
+        }
+        
+        .info-row {
+            display: flex;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            margin-top: 5px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .info-row:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+        
+        .info-label {
+            width: 200px;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.8);
+        }
+        
+        .info-value {
+            flex-grow: 1;
+            color: white;
+        }
+        
+        .progress-result {
+            height: 28px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 14px;
+            overflow: hidden;
+            margin-bottom: 5px;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: width 0.5s ease;
+        }
+        
+        .test-date {
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.7);
+        }
+        
+        .stat-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+        }
+        
+        .stat-card {
+            background-color: rgba(255, 255, 255, 0.08);
+            border-radius: 10px;
+            padding: 25px 20px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-5px);
+            background-color: rgba(255, 255, 255, 0.12);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .stat-icon {
+            font-size: 2.2rem;
+            margin-bottom: 15px;
+            color: #58cc02;
+        }
+        
+        .stat-title {
+            font-size: 1rem;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 10px;
+        }
+        
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: white;
+        }
+        
+        .btn-action {
+            padding: 8px 16px;
+            background-color: rgba(88, 204, 2, 0.2);
+            color: #58cc02;
+            border: none;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .btn-action:hover {
+            background-color: rgba(88, 204, 2, 0.3);
+            transform: translateY(-2px);
+            color: #58cc02;
+        }
+        
+        .btn-view {
+            background-color: rgba(49, 140, 231, 0.2);
+            color: #318ce7;
+        }
+        
+        .btn-view:hover {
+            background-color: rgba(49, 140, 231, 0.3);
+            color: #318ce7;
+        }
+        
+        .test-card {
+            position: relative;
+            opacity: 1;
+            transform: none;
+        }
+        
+        .test-results-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0 10px;
+        }
+        
+        .test-results-table th {
+            padding: 12px 15px;
+            text-align: left;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.8);
+            background-color: rgba(255, 255, 255, 0.05);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .test-results-table tr {
+            transition: all 0.3s ease;
+        }
+        
+        .test-results-table tr:hover {
+            background-color: rgba(255, 255, 255, 0.05);
+        }
+        
+        .test-results-table td {
+            padding: 12px 15px;
+            color: white;
+            vertical-align: middle;
+        }
+        
+        .btn-group {
+            display: flex;
+            gap: 5px;
+        }
+    </style>
+}
+
+<div class="test-page-container" style="margin-top: 50px;">
+    <!-- Заголовок страницы -->
+    <div class="test-hero" style="margin-bottom: 25px;">
+        <div class="container">
+            <h1>Личный кабинет</h1>
+            <p>Отслеживайте свой прогресс, просматривайте результаты тестов и настраивайте свой профиль</p>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- Секция личной информации -->
+        <div class="profile-section" id="personal-info">
+            <div class="profile-title">
+                <i class="fas fa-user-circle"></i>
+                <h2">Личная информация</h2>
+            </div>
+            
+            <div class="avatar-container">
+                <div class="user-avatar" style="display: flex; align-items: center; justify-content: center; background-color: #f5f5f5; font-size: 60px;">🙂</div>
+                <div class="user-info">
+                    <div class="user-name">@Model.UserName</div>
+                    <div class="user-email">@Model.Email</div>
+                </div>
+            </div>
+            
+            <div class="info-content">
+                <div class="info-row">
+                    <div class="info-label">Имя пользователя:</div>
+                    <div class="info-value">@Model.UserName</div>
+                </div>
+                <div class="info-row">
+                    <div class="info-label">Электронная почта:</div>
+                    <div class="info-value">@Model.Email</div>
+                </div>
+                <div class="info-row">
+                    <div class="info-label">Предпочитаемый язык:</div>
+                    <div class="info-value">@Model.PreferredLanguage</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Секция результатов тестов -->
+        <div class="profile-section" id="test-results">
+            <div class="profile-title">
+                <i class="fas fa-tasks"></i>
+                <h2>Результаты тестов</h2>
+            </div>
+            
+            @if (testResults != null && testResults.Any())
+            {
+                <div class="table-responsive">
+                    <table class="test-results-table">
+                        <thead>
+                            <tr>
+                                <th>Тест</th>
+                                <th>Язык</th>
+                                <th>Уровень</th>
+                                <th>Результат</th>
+                                <th>Дата</th>
+                                <th>Повтор</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var result in testResults.OrderByDescending(r => r.CompletedDate))
+                            {
+                                <tr>
+                                    <td>@result.TestTitle</td>
+                                    <td>@result.Language</td>
+                                    <td><span class="badge bg-info">@result.Level</span></td>
+                                    <td style="width: 200px;">
+                                        <div class="progress-result">
+                                            <div class="progress-fill" 
+                                                 style="width: @result.Percentage%; background-color: @(result.Percentage >= 80 ? "#28a745" : result.Percentage >= 60 ? "#17a2b8" : result.Percentage >= 40 ? "#ffc107" : "#dc3545")">
+                                                @result.CorrectAnswers / @result.TotalQuestions
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>@result.CompletedDate.ToString("dd.MM.yyyy HH:mm")</td>
+                                    <td>
+                                        <div class="btn-group">
+                                            <a href="@Url.Action("Take", "Test", new { id = result.TestId })" class="btn-action">
+                                                <i class="fas fa-redo-alt"></i> Повторить
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+            else
+            {
+                <div class="no-tests">
+                    <i class="fas fa-clipboard-list fa-3x mb-3"></i>
+                    <h3>У вас пока нет пройденных тестов</h3>
+                    <p>Перейдите в раздел тестов, чтобы начать изучение языков</p>
+                    <a href="@Url.Action("Index", "Test")" class="apply-filters">
+                        <i class="fas fa-tasks me-2"></i> Перейти к тестам
+                    </a>
+                </div>
+            }
+        </div>
+        
+        <!-- Секция статистики -->
+        <div class="profile-section" id="statistics">
+            <div class="profile-title">
+                <i class="fas fa-chart-bar"></i>
+                <h2>Статистика</h2>
+            </div>
+            
+            @if (testResults != null && testResults.Any())
+            {
+                <div class="stat-cards">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-tasks"></i>
+                        </div>
+                        <div class="stat-title">Всего тестов</div>
+                        <div class="stat-value">@testResults.Count</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-trophy"></i>
+                        </div>
+                        <div class="stat-title">Средний результат</div>
+                        <div class="stat-value">
+                            @{
+                                var avgCorrect = testResults.Average(r => r.CorrectAnswers);
+                                var avgTotal = testResults.Average(r => r.TotalQuestions);
+                            }
+                            @avgCorrect.ToString("F1")/@avgTotal.ToString("F0")
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-globe"></i>
+                        </div>
+                        <div class="stat-title">Языки</div>
+                        <div class="stat-value">@testResults.Select(r => r.Language).Distinct().Count()</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-calendar-alt"></i>
+                        </div>
+                        <div class="stat-title">Последний тест</div>
+                        <div class="stat-value">@testResults.OrderByDescending(r => r.CompletedDate).First().CompletedDate.ToString("dd.MM")</div>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <div class="text-center py-4">
+                    <p class="text-muted">Статистика будет доступна после прохождения тестов</p>
+                </div>
+            }
+        </div>
+        
+        <!-- Секция с призывом к действию -->
+        <div class="journey-banner">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-8 offset-md-2 text-center">
+                        <h1 class="journey-title">Продолжайте свое языковое путешествие</h1>
+                        <p class="journey-text">Пройдите больше тестов, чтобы улучшить свои навыки в изучении языков. Регулярное тестирование помогает закрепить знания!</p>
+                        <div class="journey-buttons">
+                            <a href="@Url.Action("Index", "Test")" class="journey-button journey-button-primary">
+                                <i class="fas fa-tasks"></i> Перейти к тестам
+                            </a>
+                            <a href="@Url.Action("Index", "Video")" class="journey-button journey-button-secondary">
+                                <i class="fas fa-video"></i> Смотреть видеоуроки
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Анимация появления блоков
+            const sections = document.querySelectorAll('.profile-section, .journey-banner');
+            
+            function checkVisibility() {
+                sections.forEach(section => {
+                    const rect = section.getBoundingClientRect();
+                    const isVisible = (rect.top <= window.innerHeight * 0.8);
+                    
+                    if (isVisible) {
+                        section.classList.add('visible');
+                    }
+                });
+            }
+            
+            // Проверяем видимость при загрузке
+            setTimeout(checkVisibility, 100);
+            
+            // Проверяем видимость при прокрутке
+            window.addEventListener('scroll', checkVisibility);
+            
+            // Анимация параллакс-эффекта для баннера
+            $(window).scroll(function() {
+                const scrollPosition = $(window).scrollTop();
+                $('.journey-banner').css('background-position', '0px ' + scrollPosition * 0.05 + 'px');
+            });
+            
+            // Анимация эффекта свечения для кнопок
+            setInterval(() => {
+                $('.journey-button-primary').toggleClass('glow-effect');
+            }, 2000);
+        });
+    </script>
+}
+*@ 

@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Language Learning Admin</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="~/css/admin.css" asp-append-version="true" />
+    @await RenderSectionAsync("Styles", required: false)
+</head>
+<body class="admin-body">
+    <div class="admin-wrapper">
+        <!-- Боковая панель -->
+        <nav id="sidebar" class="admin-sidebar">
+            <div class="sidebar-header">
+                <h3>
+                    <i class="fas fa-graduation-cap"></i>
+                    <span>Admin Panel</span>
+                </h3>
+            </div>
+
+            <ul class="list-unstyled components">
+                <li class="@(ViewContext.RouteData.Values["action"].ToString() == "Dashboard" ? "active" : "")">
+                    <a href="@Url.Action("Dashboard", "Admin")">
+                        <i class="fas fa-tachometer-alt"></i>
+                        <span>Дашборд</span>
+                    </a>
+                </li>
+                <li class="@(ViewContext.RouteData.Values["action"].ToString() == "Users" ? "active" : "")">
+                    <a href="@Url.Action("Users", "Admin")">
+                        <i class="fas fa-users"></i>
+                        <span>Пользователи</span>
+                    </a>
+                </li>
+                <li class="@(ViewContext.RouteData.Values["action"].ToString() == "Tests" || ViewContext.RouteData.Values["action"].ToString() == "CreateTest" ? "active" : "")">
+                    <a href="#testSubmenu" data-bs-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+                        <i class="fas fa-tasks"></i>
+                        <span>Тесты</span>
+                    </a>
+                    <ul class="collapse list-unstyled @(ViewContext.RouteData.Values["action"].ToString() == "Tests" || ViewContext.RouteData.Values["action"].ToString() == "CreateTest" ? "show" : "")" id="testSubmenu">
+                        <li>
+                            <a href="@Url.Action("Tests", "Admin")">
+                                <i class="fas fa-list"></i>
+                                <span>Все тесты</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="@Url.Action("CreateTest", "Admin")">
+                                <i class="fas fa-plus-circle"></i>
+                                <span>Создать тест</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="@(ViewContext.RouteData.Values["action"].ToString() == "Videos" ? "active" : "")">
+                    <a href="@Url.Action("Videos", "Admin")">
+                        <i class="fas fa-video"></i>
+                        <span>Видео</span>
+                    </a>
+                </li>
+            </ul>
+
+            <div class="sidebar-footer">
+                <a href="@Url.Action("Logout", "Admin")" class="btn btn-danger logout-btn">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Выход</span>
+                </a>
+            </div>
+        </nav>
+
+        <!-- Контент -->
+        <div id="content" class="admin-content">
+            <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+                <div class="container-fluid">
+                    <button type="button" id="sidebarCollapse" class="btn btn-primary">
+                        <i class="fas fa-bars"></i>
+                    </button>
+
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="/" target="_blank">
+                                <i class="fas fa-external-link-alt"></i>
+                                <span>Перейти на сайт</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="@Url.Action("Logout", "Admin")">
+                                <i class="fas fa-sign-out-alt"></i>
+                                <span>Выход</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+
+            <div class="container-fluid py-4">
+                @RenderBody()
+            </div>
+        </div>
+    </div>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script>
+        $(document).ready(function () {
+            $('#sidebarCollapse').on('click', function () {
+                $('#sidebar').toggleClass('active');
+                $('#content').toggleClass('active');
+            });
+
+            // Проверка ширины экрана при загрузке
+            checkScreenWidth();
+
+            // Проверка ширины экрана при изменении размера окна
+            $(window).resize(function () {
+                checkScreenWidth();
+            });
+
+            function checkScreenWidth() {
+                if ($(window).width() < 768) {
+                    $('#sidebar').addClass('active');
+                    $('#content').addClass('active');
+                }
+            }
+        });
+    </script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html> 

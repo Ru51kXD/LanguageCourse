@@ -1,0 +1,83 @@
+/* Темная тема */
+:root {
+    --primary-color: #7b68ee; /* Фиолетовый оттенок */
+    --primary-dark: #4b3b9e;
+    --secondary-color: #191a30;
+    --text-color: #f5f5f5;
+    --background-color: #121212;
+    --card-bg: #1e1e2e;
+    --border-color: #2c2c40;
+    --shadow-color: rgba(0, 0, 0, 0.5);
+    --success-color: #4caf50;
+    --warning-color: #ff9800;
+    --danger-color: #f44336;
+    --info-color: #2196f3;
+}
+
+body.dark-mode {
+    background-color: var(--background-color);
+    color: var(--text-color);
+    transition: all 0.3s ease;
+}
+
+.dark-mode .navbar {
+    background-color: var(--secondary-color);
+}
+
+.dark-mode .card {
+    background-color: var(--card-bg);
+    border-color: var(--border-color);
+}
+
+.dark-mode .table {
+    color: var(--text-color);
+}
+
+.dark-mode .modal-content {
+    background-color: var(--card-bg);
+    color: var(--text-color);
+}
+
+.dark-mode .form-control {
+    background-color: #2c2c40;
+    border-color: var(--border-color);
+    color: var(--text-color);
+}
+
+.dark-mode .form-control:focus {
+    background-color: #2a2a40;
+    color: var(--text-color);
+}
+
+.dark-mode .btn-primary {
+    background-color: var(--primary-color);
+    border-color: var(--primary-dark);
+}
+
+.dark-mode .btn-primary:hover {
+    background-color: var(--primary-dark);
+}
+
+.dark-mode a {
+    color: var(--primary-color);
+}
+
+.dark-mode a:hover {
+    color: var(--primary-dark);
+}
+
+/* Анимации */
+.page-animation {
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+} 

@@ -1,0 +1,713 @@
+@{
+    ViewData["Title"] = "Результаты теста";
+    var score = Math.Round(ViewBag.Score);
+    var scoreClass = score >= 80 ? "excellent" : (score >= 60 ? "good" : "needs-improvement");
+    var test = ViewBag.Test;
+}
+
+<style>
+@@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@@keyframes confetti-fall {
+    0% {
+        top: -50px;
+        opacity: 1;
+    }
+    80% {
+        opacity: 1;
+    }
+    100% {
+        top: calc(100% + 50px);
+        opacity: 0;
+    }
+}
+
+@@keyframes confetti-shake {
+    0% {
+        transform: rotate(0deg) translateX(0);
+    }
+    25% {
+        transform: rotate(45deg) translateX(10px);
+    }
+    50% {
+        transform: rotate(0deg) translateX(0);
+    }
+    75% {
+        transform: rotate(-45deg) translateX(-10px);
+    }
+    100% {
+        transform: rotate(0deg) translateX(0);
+    }
+}
+
+.fade-in {
+    animation: fadeIn 0.5s ease-out forwards;
+}
+
+.confetti {
+    animation: confetti-fall 3s linear forwards, confetti-shake 2s ease-in-out infinite;
+}
+</style>
+
+<div class="results-container">
+    <div class="results-card">
+        <div class="results-header">
+            <div class="confetti-container" id="confetti"></div>
+            <h1 class="results-title">Результаты теста</h1>
+            <p class="results-subtitle">@test.Title</p>
+            <div class="test-info">
+                <span class="test-info-item">
+                    <i class="fas fa-language"></i> @test.LanguageLevel?.Language?.Name
+                </span>
+                <span class="test-info-item">
+                    <i class="fas fa-layer-group"></i> @test.LanguageLevel?.Name
+                </span>
+            </div>
+        </div>
+
+        <div class="results-body">
+            <div class="score-section">
+                <div class="score-circle-container">
+                    <div class="score-circle @scoreClass">
+                        <svg viewBox="0 0 36 36" class="circular-chart">
+                            <path class="circle-bg"
+                                d="M18 2.0845
+                                a 15.9155 15.9155 0 0 1 0 31.831
+                                a 15.9155 15.9155 0 0 1 0 -31.831"
+                            />
+                            <path class="circle"
+                                stroke-dasharray="@score, 100"
+                                d="M18 2.0845
+                                a 15.9155 15.9155 0 0 1 0 31.831
+                                a 15.9155 15.9155 0 0 1 0 -31.831"
+                            />
+                            <text x="18" y="20.35" class="percentage">@score%</text>
+                        </svg>
+                    </div>
+                </div>
+
+                <div class="score-details">
+                    <div class="result-item">
+                        <div class="result-icon"><i class="fas fa-check-circle"></i></div>
+                        <div class="result-info">
+                            <div class="result-label">Правильных ответов</div>
+                            <div class="result-value">@ViewBag.CorrectAnswers из @ViewBag.TotalQuestions</div>
+                        </div>
+                    </div>
+                    <div class="result-item">
+                        <div class="result-icon"><i class="fas fa-chart-line"></i></div>
+                        <div class="result-info">
+                            <div class="result-label">Уровень знаний</div>
+                            <div class="result-value status-@scoreClass">
+                                @if (score >= 80)
+                                {
+                                    <span>Отлично</span>
+                                }
+                                else if (score >= 60)
+                                {
+                                    <span>Хорошо</span>
+                                }
+                                else
+                                {
+                                    <span>Требуется улучшение</span>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                    <div class="result-item">
+                        <div class="result-icon"><i class="fas fa-stopwatch"></i></div>
+                        <div class="result-info">
+                            <div class="result-label">Дата</div>
+                            <div class="result-value">@DateTime.Now.ToString("dd.MM.yyyy HH:mm")</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="result-message-container">
+                <div class="result-message @scoreClass">
+                    @if (score >= 80)
+                    {
+                        <h3><i class="fas fa-trophy"></i> Отличный результат!</h3>
+                        <p>Вы демонстрируете высокий уровень знаний в этой теме. Продолжайте в том же духе! Попробуйте другие тесты для расширения своих знаний.</p>
+                    }
+                    else if (score >= 60)
+                    {
+                        <h3><i class="fas fa-medal"></i> Хороший результат!</h3>
+                        <p>У вас хорошее понимание темы, но есть области для улучшения. Рекомендуем просмотреть видеоуроки для закрепления материала.</p>
+                    }
+                    else
+                    {
+                        <h3><i class="fas fa-book-reader"></i> Стоит поработать над темой</h3>
+                        <p>Рекомендуем просмотреть видеоуроки по данной теме для лучшего усвоения материала и попробовать пройти тест снова.</p>
+                    }
+                </div>
+            </div>
+            
+            <div class="next-steps">
+                <h3 class="next-steps-title">Что дальше?</h3>
+                <div class="next-steps-grid">
+                    <a href="@Url.Action("Index")" class="next-step-card">
+                        <div class="next-step-icon">
+                            <i class="fas fa-list-alt"></i>
+                        </div>
+                        <div class="next-step-content">
+                            <h4>Другие тесты</h4>
+                            <p>Попробуйте другие тесты для проверки ваших знаний</p>
+                        </div>
+                    </a>
+                    <a href="/Video" class="next-step-card">
+                        <div class="next-step-icon">
+                            <i class="fas fa-video"></i>
+                        </div>
+                        <div class="next-step-content">
+                            <h4>Видеоуроки</h4>
+                            <p>Углубите свои знания с помощью наших видеоуроков</p>
+                        </div>
+                    </a>
+                    <a href="/Account/Profile" class="next-step-card">
+                        <div class="next-step-icon">
+                            <i class="fas fa-user-graduate"></i>
+                        </div>
+                        <div class="next-step-content">
+                            <h4>Мой профиль</h4>
+                            <p>Отслеживайте свой прогресс и достижения</p>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+            <div class="share-container">
+                <h3 class="share-title">Поделиться результатом</h3>
+                <div class="social-buttons">
+                    <button class="social-button" id="copy-result">
+                        <i class="fas fa-copy"></i> Копировать
+                    </button>
+                    <button class="social-button facebook">
+                        <i class="fab fa-facebook-f"></i> Facebook
+                    </button>
+                    <button class="social-button twitter">
+                        <i class="fab fa-twitter"></i> Twitter
+                    </button>
+                    <button class="social-button telegram">
+                        <i class="fab fa-telegram-plane"></i> Telegram
+                    </button>
+                </div>
+                <div class="copy-message" id="copy-message">Результат скопирован!</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.results-container {
+    max-width: 900px;
+    margin: 50px auto;
+    padding: 0 20px;
+}
+
+.results-card {
+    background-color: #ffffff;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    position: relative;
+}
+
+.results-header {
+    position: relative;
+    text-align: center;
+    padding: 40px 30px;
+    background: linear-gradient(135deg, #2980b9, #6dd5fa);
+    color: white;
+    overflow: hidden;
+}
+
+.confetti-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    z-index: 0;
+}
+
+.results-title {
+    font-size: 32px;
+    font-weight: 700;
+    margin-bottom: 10px;
+    position: relative;
+    z-index: 1;
+}
+
+.results-subtitle {
+    font-size: 18px;
+    opacity: 0.9;
+    margin-bottom: 20px;
+    position: relative;
+    z-index: 1;
+}
+
+.test-info {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    position: relative;
+    z-index: 1;
+}
+
+.test-info-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background-color: rgba(255, 255, 255, 0.2);
+    padding: 8px 15px;
+    border-radius: 50px;
+    font-size: 14px;
+}
+
+.test-info-item i {
+    font-size: 16px;
+}
+
+.results-body {
+    padding: 40px;
+}
+
+.score-section {
+    display: flex;
+    align-items: center;
+    margin-bottom: 40px;
+    flex-wrap: wrap;
+    gap: 30px;
+}
+
+.score-circle-container {
+    flex: 0 0 200px;
+    display: flex;
+    justify-content: center;
+}
+
+.score-circle {
+    width: 200px;
+    height: 200px;
+    position: relative;
+}
+
+.circular-chart {
+    display: block;
+    max-width: 100%;
+    max-height: 100%;
+}
+
+.circle-bg {
+    fill: none;
+    stroke: #eee;
+    stroke-width: 3.8;
+}
+
+.circle {
+    fill: none;
+    stroke-width: 3.8;
+    stroke-linecap: round;
+    transform: rotate(-90deg);
+    transform-origin: 50% 50%;
+    transition: stroke-dasharray 1.5s ease;
+}
+
+.score-circle.excellent .circle {
+    stroke: #2ecc71;
+}
+
+.score-circle.good .circle {
+    stroke: #f39c12;
+}
+
+.score-circle.needs-improvement .circle {
+    stroke: #e74c3c;
+}
+
+.percentage {
+    fill: #333;
+    font-family: sans-serif;
+    font-size: 0.5em;
+    text-anchor: middle;
+    font-weight: bold;
+}
+
+.score-details {
+    flex: 1;
+    min-width: 300px;
+}
+
+.result-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    padding: 15px;
+    background-color: #f8f9fa;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.result-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+}
+
+.result-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 50px;
+    height: 50px;
+    background: linear-gradient(135deg, #2980b9, #6dd5fa);
+    color: white;
+    border-radius: 12px;
+    margin-right: 15px;
+    font-size: 20px;
+}
+
+.result-info {
+    flex: 1;
+}
+
+.result-label {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 5px;
+}
+
+.result-value {
+    font-size: 18px;
+    font-weight: 600;
+    color: #333;
+}
+
+.status-excellent {
+    color: #2ecc71;
+}
+
+.status-good {
+    color: #f39c12;
+}
+
+.status-needs-improvement {
+    color: #e74c3c;
+}
+
+.result-message-container {
+    margin-bottom: 40px;
+}
+
+.result-message {
+    padding: 25px;
+    border-radius: 15px;
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+.result-message.excellent {
+    background-color: rgba(46, 204, 113, 0.1);
+    border-left: 5px solid #2ecc71;
+}
+
+.result-message.good {
+    background-color: rgba(243, 156, 18, 0.1);
+    border-left: 5px solid #f39c12;
+}
+
+.result-message.needs-improvement {
+    background-color: rgba(231, 76, 60, 0.1);
+    border-left: 5px solid #e74c3c;
+}
+
+.result-message h3 {
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.result-message.excellent h3 {
+    color: #2ecc71;
+}
+
+.result-message.good h3 {
+    color: #f39c12;
+}
+
+.result-message.needs-improvement h3 {
+    color: #e74c3c;
+}
+
+.result-message p {
+    color: #555;
+    line-height: 1.6;
+}
+
+.next-steps {
+    margin-bottom: 40px;
+}
+
+.next-steps-title {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 24px;
+    color: #333;
+}
+
+.next-steps-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+.next-step-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 25px;
+    background-color: #f8f9fa;
+    border-radius: 15px;
+    text-align: center;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    color: inherit;
+    height: 100%;
+}
+
+.next-step-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    text-decoration: none;
+}
+
+.next-step-icon {
+    width: 70px;
+    height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #2980b9, #6dd5fa);
+    color: white;
+    border-radius: 50%;
+    margin-bottom: 20px;
+    font-size: 28px;
+}
+
+.next-step-content h4 {
+    margin-bottom: 10px;
+    color: #333;
+    font-size: 18px;
+}
+
+.next-step-content p {
+    color: #666;
+    font-size: 14px;
+}
+
+.share-container {
+    text-align: center;
+    position: relative;
+}
+
+.share-title {
+    margin-bottom: 20px;
+    font-size: 24px;
+    color: #333;
+}
+
+.social-buttons {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.social-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 12px 25px;
+    border-radius: 10px;
+    border: none;
+    font-weight: 600;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    background-color: #f8f9fa;
+    color: #333;
+}
+
+.social-button:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+}
+
+.social-button.facebook {
+    background-color: #3b5998;
+    color: white;
+}
+
+.social-button.twitter {
+    background-color: #1da1f2;
+    color: white;
+}
+
+.social-button.telegram {
+    background-color: #0088cc;
+    color: white;
+}
+
+.copy-message {
+    position: absolute;
+    bottom: -40px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 8px 15px;
+    border-radius: 5px;
+    font-size: 14px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: 10;
+}
+
+.copy-message.show {
+    opacity: 1;
+}
+
+.confetti-piece {
+    position: absolute;
+    border-radius: 3px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    pointer-events: none;
+}
+
+/* Медиа-запросы для адаптивности */
+@@media (max-width: 768px) {
+    .results-card {
+        margin: 20px 0;
+    }
+    
+    .score-section {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .score-circle-container {
+        margin-bottom: 20px;
+    }
+    
+    .social-buttons {
+        flex-direction: column;
+    }
+}
+</style>
+
+@section Scripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Анимация прогресса круга
+            const score = @score;
+            setTimeout(() => {
+                const circle = document.querySelector('.circle');
+                if (circle) {
+                    circle.style.strokeDasharray = `${score}, 100`;
+                }
+            }, 500);
+            
+            // Копирование результата
+            const copyBtn = document.getElementById('copy-result');
+            const copyMsg = document.getElementById('copy-message');
+            
+            copyBtn.addEventListener('click', function() {
+                const resultText = `Тест: @test.Title\nРезультат: ${score}% (${@ViewBag.CorrectAnswers} из ${@ViewBag.TotalQuestions})`;
+                
+                // Создаем временный элемент для копирования
+                const tempInput = document.createElement('textarea');
+                tempInput.value = resultText;
+                document.body.appendChild(tempInput);
+                tempInput.select();
+                document.execCommand('copy');
+                document.body.removeChild(tempInput);
+                
+                // Показываем сообщение об успешном копировании
+                copyMsg.classList.add('show');
+                setTimeout(() => {
+                    copyMsg.classList.remove('show');
+                }, 2000);
+            });
+            
+            // Генерация конфетти для высоких результатов
+            if (score >= 80) {
+                createConfetti();
+            }
+            
+            // Функция для создания конфетти
+            function createConfetti() {
+                const confettiContainer = document.getElementById('confetti');
+                const colors = ['#f44336', '#e91e63', '#9c27b0', '#673ab7', '#3f51b5', '#2196f3', '#03a9f4', '#00bcd4', '#009688', '#4CAF50', '#8BC34A', '#CDDC39', '#FFEB3B', '#FFC107', '#FF9800', '#FF5722'];
+                
+                for (let i = 0; i < 100; i++) {
+                    const confetti = document.createElement('div');
+                    confetti.classList.add('confetti-piece');
+                    
+                    const size = Math.random() * 10 + 5;
+                    const color = colors[Math.floor(Math.random() * colors.length)];
+                    
+                    confetti.style.width = `${size}px`;
+                    confetti.style.height = `${size}px`;
+                    confetti.style.backgroundColor = color;
+                    
+                    confetti.style.left = `${Math.random() * 100}%`;
+                    confetti.style.top = '-50px';
+                    confetti.style.transform = `rotate(${Math.random() * 360}deg)`;
+                    
+                    // Анимация
+                    confetti.style.animation = `confetti-fall ${Math.random() * 3 + 2}s linear forwards, confetti-shake ${Math.random() * 2 + 0.5}s ease-in-out infinite`;
+                    confetti.style.animationDelay = `${Math.random() * 2}s`;
+                    
+                    confettiContainer.appendChild(confetti);
+                }
+            }
+            
+            // Обработчики для социальных кнопок
+            const fbBtn = document.querySelector('.social-button.facebook');
+            const twBtn = document.querySelector('.social-button.twitter');
+            const tgBtn = document.querySelector('.social-button.telegram');
+            
+            fbBtn.addEventListener('click', function() {
+                const url = encodeURIComponent(window.location.href);
+                const text = encodeURIComponent(`Мой результат теста "${@test.Title}": ${score}%`);
+                window.open(`https://www.facebook.com/sharer/sharer.php?u=${url}&quote=${text}`, '_blank');
+            });
+            
+            twBtn.addEventListener('click', function() {
+                const url = encodeURIComponent(window.location.href);
+                const text = encodeURIComponent(`Мой результат теста "${@test.Title}": ${score}%`);
+                window.open(`https://twitter.com/intent/tweet?url=${url}&text=${text}`, '_blank');
+            });
+            
+            tgBtn.addEventListener('click', function() {
+                const url = encodeURIComponent(window.location.href);
+                const text = encodeURIComponent(`Мой результат теста "${@test.Title}": ${score}%`);
+                window.open(`https://t.me/share/url?url=${url}&text=${text}`, '_blank');
+            });
+        });
+    </script>
+} 

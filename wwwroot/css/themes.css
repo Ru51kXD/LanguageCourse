@@ -1,0 +1,299 @@
+/* Dark Theme - Основная и единственная тема */
+:root {
+    --bg-color: #121218;
+    --text-color: #f5f5f5;
+    --navbar-bg: #171723;
+    --navbar-text: #ffffff;
+    --card-bg: #252538;
+    --card-border: #2c2c40;
+    --btn-primary-bg: #ce82ff;
+    --btn-primary-text: #ffffff;
+    --btn-secondary-bg: #2c2c40;
+    --btn-secondary-text: #ffffff;
+    --input-bg: #2c2c40;
+    --input-border: #3d3d5c;
+    --link-color: #ce82ff;
+    --hover-color: #dba5ff;
+    --duolingo-green: #58cc02;
+    --duolingo-blue: #1cb0f6;
+    --duolingo-red: #ff4b4b;
+    --duolingo-yellow: #ffc800;
+    --sidebar-bg: #171723;
+    --text-muted: #b0b0c0;
+}
+
+/* Base Styles */
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-family: 'Nunito', sans-serif;
+    text-align: center;
+}
+
+/* Navbar Styles */
+.navbar {
+    background-color: var(--navbar-bg);
+    color: var(--navbar-text);
+    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.3);
+    padding: 15px 0;
+    border-radius: 0 0 15px 15px;
+}
+
+.navbar-brand a, .site-logo a {
+    color: var(--navbar-text);
+    text-decoration: none;
+    font-weight: 800;
+    font-size: 1.8rem;
+    transition: all 0.3s ease;
+}
+
+.navbar-brand a:hover, .site-logo a:hover {
+    color: var(--link-color);
+}
+
+.nav-link {
+    color: var(--navbar-text);
+    padding: 0.9rem 1.2rem;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+    margin: 0 5px;
+    font-weight: 600;
+}
+
+.nav-link:hover {
+    color: var(--link-color);
+    background-color: rgba(206, 130, 255, 0.15);
+}
+
+/* Sidebar Styles */
+.sidebar {
+    background-color: var(--sidebar-bg);
+    border-right: 1px solid var(--card-border);
+}
+
+.sidebar-header {
+    padding: 20px;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.sidebar-brand a {
+    font-size: 1.6rem;
+    font-weight: 800;
+    color: var(--text-color);
+    text-decoration: none;
+}
+
+.text-gradient {
+    background: linear-gradient(45deg, #ce82ff, #58cc02);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    display: inline-block;
+}
+
+.sidebar-footer {
+    padding: 20px;
+    position: absolute;
+    bottom: 20px;
+    width: 100%;
+}
+
+.right-menu {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.auth-buttons {
+    display: flex;
+    gap: 10px;
+    margin-left: 15px;
+}
+
+.btn-circle {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--card-bg);
+    color: var(--text-color);
+    border: 1px solid var(--card-border);
+    margin-left: 15px;
+    transition: all 0.3s ease;
+}
+
+.btn-circle:hover {
+    background-color: var(--link-color);
+    color: white;
+    transform: scale(1.1);
+}
+
+/* Cards & Forms */
+.card {
+    background-color: var(--card-bg);
+    border-color: var(--card-border);
+    border-radius: 15px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+}
+
+.card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+}
+
+.card-title {
+    color: var(--text-color);
+    font-weight: 700;
+}
+
+.card-text {
+    color: var(--text-muted);
+}
+
+input, select, textarea, .form-control {
+    background-color: var(--input-bg);
+    border-color: var(--input-border);
+    color: var(--text-color);
+    border-radius: 10px;
+}
+
+input:focus, select:focus, textarea:focus, .form-control:focus {
+    background-color: var(--input-bg);
+    border-color: var(--link-color);
+    color: var(--text-color);
+    box-shadow: 0 0 0 3px rgba(206, 130, 255, 0.2);
+}
+
+/* Button Styles */
+.btn {
+    border-radius: 10px;
+    font-weight: 700;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.btn-primary {
+    background-color: var(--btn-primary-bg);
+    color: var(--btn-primary-text);
+    border: none;
+    box-shadow: 0 4px 0 var(--hover-color);
+}
+
+.btn-primary:hover {
+    background-color: var(--hover-color);
+    transform: translateY(2px);
+    box-shadow: 0 2px 0 var(--hover-color);
+}
+
+.btn-outline-primary {
+    color: var(--link-color);
+    border: 2px solid var(--link-color);
+    background-color: transparent;
+}
+
+.btn-outline-primary:hover {
+    background-color: var(--link-color);
+    color: white;
+    border-color: var(--link-color);
+}
+
+.btn-success {
+    background-color: var(--duolingo-green);
+    color: white;
+    box-shadow: 0 4px 0 #46a302;
+}
+
+.btn-success:hover {
+    background-color: #46a302;
+    transform: translateY(2px);
+    box-shadow: 0 2px 0 #46a302;
+}
+
+/* Links */
+a {
+    color: var(--link-color);
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+a:hover {
+    color: var(--hover-color);
+    text-decoration: none;
+}
+
+/* Main Content */
+.main-content {
+    padding: 30px 15px;
+}
+
+/* Language Selector */
+.language-selector .form-select {
+    background-color: var(--input-bg);
+    color: var(--text-color);
+    border: 1px solid var(--input-border);
+    border-radius: 10px;
+    padding: 8px 12px;
+    font-weight: 600;
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.fade-in {
+    animation: fadeIn 0.4s ease forwards;
+}
+
+/* Custom Elements */
+.language-card {
+    background: linear-gradient(135deg, var(--card-bg), var(--sidebar-bg));
+    border: 2px solid transparent;
+    border-radius: 15px;
+    padding: 30px 20px;
+    transition: all 0.4s ease;
+    text-align: center;
+    cursor: pointer;
+}
+
+.language-card:hover {
+    border-color: var(--link-color);
+    transform: translateY(-12px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+}
+
+.language-flag {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--bg-color);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--card-border);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--link-color);
+} 

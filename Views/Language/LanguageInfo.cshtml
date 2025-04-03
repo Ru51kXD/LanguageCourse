@@ -1,0 +1,120 @@
+@model WebApplication15.Models.LanguageInfoViewModel
+@{
+    ViewData["Title"] = Model.Name;
+}
+
+<link rel="stylesheet" href="~/css/language-info.css" asp-append-version="true" />
+
+<div class="language-page-container">
+    <!-- Анимированный баннер с изображением города -->
+    <div class="language-banner" style="background-image: url('@Model.BannerImage')">
+        <div class="language-banner-overlay">
+            <div class="language-banner-content animate-in">
+                <div class="language-flag">@Model.FlagEmoji</div>
+                <h1 class="language-title">@Model.Name</h1>
+                <p class="language-native">@Model.NativeName</p>
+                <p class="language-region">@Model.Region</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Описание языка -->
+    <div class="language-section animate-block">
+        <div class="section-container">
+            <h2 class="section-title"><i class="fas fa-info-circle"></i> О языке</h2>
+            <div class="language-description">
+                <p>@Model.Description</p>
+                <div class="language-stats">
+                    <div class="stat-item">
+                        <i class="fas fa-users"></i>
+                        <span>Количество носителей:</span>
+                        <strong>@Model.SpeakersCount</strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Интересные факты -->
+    <div class="language-section facts-section animate-block">
+        <div class="section-container">
+            <h2 class="section-title"><i class="fas fa-lightbulb"></i> Интересные факты</h2>
+            <div class="facts-container">
+                @foreach (var fact in Model.Facts)
+                {
+                    <div class="fact-card animate-item">
+                        <div class="fact-number">@fact.Number</div>
+                        <h3 class="fact-title">@fact.Title</h3>
+                        <p class="fact-text">@fact.Text</p>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+
+    <!-- Секция с кнопками навигации -->
+    <div class="language-section action-section animate-block">
+        <div class="section-container">
+            <h2 class="section-title"><i class="fas fa-graduation-cap"></i> Начните обучение</h2>
+            <p class="section-description">Выберите, что вы хотите изучать:</p>
+            
+            <div class="action-buttons">
+                <a href="/Test" class="action-button test-button">
+                    <div class="button-icon"><i class="fas fa-tasks"></i></div>
+                    <div class="button-text">
+                        <h3>Тесты</h3>
+                        <p>Проверьте свои знания</p>
+                    </div>
+                </a>
+                
+                <a href="/Video" class="action-button video-button">
+                    <div class="button-icon"><i class="fas fa-video"></i></div>
+                    <div class="button-text">
+                        <h3>Видеоуроки</h3>
+                        <p>Обучающие материалы</p>
+                    </div>
+                </a>
+                
+                <a href="/" class="action-button home-button">
+                    <div class="button-icon"><i class="fas fa-home"></i></div>
+                    <div class="button-text">
+                        <h3>На главную</h3>
+                        <p>Вернуться на главную страницу</p>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Анимация блоков при прокрутке
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        
+                        // Анимируем дочерние элементы с задержкой
+                        if (entry.target.classList.contains('animate-block')) {
+                            const items = entry.target.querySelectorAll('.animate-item');
+                            items.forEach((item, index) => {
+                                setTimeout(() => {
+                                    item.classList.add('visible');
+                                }, 100 + (index * 150));
+                            });
+                        }
+                    }
+                });
+            }, {
+                threshold: 0.1
+            });
+            
+            // Наблюдаем за блоками
+            document.querySelectorAll('.animate-block').forEach(block => {
+                observer.observe(block);
+            });
+        });
+    </script>
+} 

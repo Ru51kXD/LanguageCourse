@@ -1,0 +1,1026 @@
+/* Общие стили для страницы видеоуроков */
+.video-page-container {
+    width: 100%;
+    min-height: 100vh;
+    overflow-x: hidden;
+    background-color: rgb(18, 18, 18);
+    color: var(--text-light);
+}
+
+/* Стили для заголовка */
+.video-header {
+    position: relative;
+    background: var(--primary-gradient);
+    padding: 80px 0;
+    margin-bottom: 50px;
+    color: white;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    overflow: hidden;
+}
+
+.video-header:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('/images/pattern.svg');
+    background-size: cover;
+    opacity: 0.1;
+    animation: moveBackground 60s linear infinite;
+}
+
+@keyframes moveBackground {
+    0% {
+        background-position: 0 0;
+    }
+    100% {
+        background-position: 100% 100%;
+    }
+}
+
+.page-title {
+    font-size: 3.5rem;
+    font-weight: 800;
+    margin-bottom: 20px;
+    position: relative;
+    z-index: 2;
+}
+
+.page-description {
+    font-size: 1.3rem;
+    max-width: 700px;
+    margin: 0 auto;
+    opacity: 0.9;
+    position: relative;
+    z-index: 2;
+}
+
+/* Стили для фильтров */
+.filters-container {
+    background-color: var(--dark-card-bg);
+    border-radius: 15px;
+    padding: 20px;
+    margin-bottom: 40px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+}
+
+.filter-group {
+    margin-bottom: 15px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.filter-group:last-child {
+    margin-bottom: 0;
+    padding-bottom: 0;
+    border-bottom: none;
+}
+
+.filter-label {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    font-weight: 700;
+    color: var(--text-light);
+}
+
+.filter-label i {
+    margin-right: 10px;
+    color: var(--primary-color);
+}
+
+.filter-options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.filter-option {
+    padding: 8px 15px;
+    border-radius: 30px;
+    background-color: rgba(255, 255, 255, 0.05);
+    color: var(--text-light);
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.filter-option:hover {
+    background-color: rgba(206, 130, 255, 0.1);
+    color: var(--primary-color);
+}
+
+.filter-option.active {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.filter-actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 15px;
+}
+
+.reset-filters {
+    display: flex;
+    align-items: center;
+    color: var(--text-muted);
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.reset-filters i {
+    margin-right: 5px;
+}
+
+.reset-filters:hover {
+    color: var(--primary-color);
+}
+
+/* Обновленные стили для Секции языков */
+.language-sections {
+    margin-bottom: 60px;
+}
+
+.language-section {
+    margin-bottom: 50px;
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+    background-color: var(--dark-card-bg);
+    border-radius: 15px;
+    padding: 20px;
+}
+
+.language-section.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.language-title {
+    display: flex;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.flag {
+    font-size: 2.5rem;
+    margin-right: 15px;
+}
+
+.language-title h2 {
+    font-size: 2.2rem;
+    font-weight: 700;
+    margin: 0;
+    flex-grow: 1;
+    color: var(--text-light);
+}
+
+.view-all {
+    display: flex;
+    align-items: center;
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: 700;
+    transition: all 0.3s ease;
+}
+
+.view-all i {
+    margin-left: 5px;
+    transition: transform 0.3s ease;
+}
+
+.view-all:hover {
+    color: var(--accent-color);
+}
+
+.view-all:hover i {
+    transform: translateX(5px);
+}
+
+/* Обновленные стили для видео карточек */
+.videos-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 30px;
+    margin-bottom: 40px;
+}
+
+.video-card {
+    background-color: var(--dark-card-bg);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    cursor: pointer;
+    opacity: 0;
+    transform: translateY(30px);
+    height: 100%;
+    position: relative;
+}
+
+.video-card.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.video-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+    background-color: var(--dark-card-bg-hover);
+}
+
+.video-thumbnail {
+    position: relative;
+    height: 200px;
+    overflow: hidden;
+}
+
+.video-thumbnail img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.video-card:hover .video-thumbnail img {
+    transform: scale(1.1);
+}
+
+.play-button {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 60px;
+    height: 60px;
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.5rem;
+    opacity: 0;
+    transition: all 0.3s ease;
+}
+
+.video-card:hover .play-button {
+    opacity: 1;
+    background-color: var(--primary-color);
+}
+
+.video-level {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    padding: 5px 10px;
+    background-color: var(--primary-color);
+    color: white;
+    border-radius: 5px;
+    font-weight: 700;
+    font-size: 0.9rem;
+}
+
+.video-info {
+    padding: 15px 20px 20px;
+    color: var(--text-light);
+}
+
+.video-title {
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin-bottom: 15px;
+    color: var(--text-light);
+    line-height: 1.4;
+}
+
+.video-description {
+    font-size: 0.9rem;
+    margin-bottom: 20px;
+    opacity: 0.8;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    color: var(--text-muted);
+}
+
+.watch-button {
+    display: flex;
+    align-items: center;
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: 700;
+    transition: all 0.3s ease;
+}
+
+.watch-button i {
+    margin-left: 5px;
+    transition: transform 0.3s ease;
+}
+
+.watch-button:hover {
+    color: var(--accent-color);
+}
+
+.watch-button:hover i {
+    transform: translateX(5px);
+}
+
+.no-videos {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 40px;
+    background-color: var(--dark-card-bg);
+    border-radius: 15px;
+    color: var(--text-muted);
+}
+
+.btn-reset {
+    display: inline-block;
+    margin-top: 15px;
+    padding: 10px 20px;
+    background-color: var(--primary-color);
+    color: white;
+    text-decoration: none;
+    border-radius: 30px;
+    transition: all 0.3s ease;
+}
+
+.btn-reset:hover {
+    background-color: var(--primary-dark);
+}
+
+/* CTA секция */
+.cta-section {
+    background-color: var(--dark-card-bg);
+    padding: 60px 0;
+    margin-top: 60px;
+}
+
+.cta-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.cta-container.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.cta-content {
+    flex: 1;
+    padding-right: 40px;
+}
+
+.cta-content h2 {
+    font-size: 2.5rem;
+    font-weight: 800;
+    margin-bottom: 20px;
+    color: var(--text-light);
+}
+
+.cta-content p {
+    font-size: 1.1rem;
+    color: var(--text-muted);
+    margin-bottom: 30px;
+}
+
+.cta-buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    text-align: center;
+}
+
+.btn-primary {
+    padding: 12px 25px;
+    background-color: var(--primary-color);
+    color: white;
+    border-radius: 30px;
+    text-decoration: none;
+    font-weight: 700;
+    transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+    background-color: var(--primary-dark);
+    transform: translateY(-3px);
+}
+
+.btn-secondary {
+    padding: 12px 25px;
+    background-color: transparent;
+    color: var(--text-light);
+    border: 2px solid var(--primary-color);
+    border-radius: 30px;
+    text-decoration: none;
+    font-weight: 700;
+    transition: all 0.3s ease;
+}
+
+.btn-secondary:hover {
+    background-color: rgba(206, 130, 255, 0.1);
+    transform: translateY(-3px);
+}
+
+.cta-image {
+    flex: 1;
+    max-width: 400px;
+}
+
+.cta-image img {
+    width: 100%;
+    height: auto;
+}
+
+/* Медиа-запросы для адаптивности */
+@media (max-width: 992px) {
+    .cta-container {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .cta-content {
+        padding-right: 0;
+        margin-bottom: 40px;
+    }
+    
+    .cta-buttons {
+        justify-content: center;
+    }
+}
+
+@media (max-width: 768px) {
+    .video-header {
+        padding: 60px 0;
+    }
+    
+    .page-title {
+        font-size: 2.5rem;
+    }
+    
+    .page-description {
+        font-size: 1.1rem;
+    }
+    
+    .language-title {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .flag {
+        margin-bottom: 10px;
+    }
+    
+    .view-all {
+        margin-top: 15px;
+    }
+    
+    .videos-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 576px) {
+    .filter-options {
+        flex-direction: column;
+    }
+    
+    .filter-option {
+        width: 100%;
+    }
+}
+
+/* Стили для страницы Видеоуроки */
+
+/* Общие стили */
+.container-fluid {
+    padding: 0;
+}
+
+body {
+    background: var(--dark-bg);
+    color: var(--text-light);
+}
+
+body.video-page {
+    background-color: rgb(18, 18, 18);
+}
+
+.video-hero {
+    background: var(--primary-gradient);
+    padding: 60px 0;
+    color: white;
+    text-align: center;
+    border-radius: 20px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    margin-bottom: 30px;
+}
+
+.video-hero h1 {
+    font-size: 2.5rem;
+    margin-bottom: 15px;
+    animation: fadeInUp 0.3s ease-out;
+}
+
+.video-hero p {
+    font-size: 1.1rem;
+    max-width: 800px;
+    margin: 0 auto 20px;
+    opacity: 0.9;
+    animation: fadeInUp 0.3s ease-out 0.1s forwards;
+    opacity: 0;
+}
+
+/* Фильтры */
+.filters-section {
+    padding: 20px;
+    background: var(--dark-card-bg);
+    border-radius: 20px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 30px;
+    animation: fadeIn 0.3s ease-out;
+    text-align: center;
+    color: white;
+}
+
+.filters-section h2 {
+    margin-bottom: 20px;
+    font-size: 1.5rem;
+    color: white;
+    text-align: center;
+}
+
+.filters-row {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.filter-group {
+    min-width: 200px;
+    text-align: center;
+}
+
+.filter-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.9);
+    text-align: center;
+}
+
+.filter-group select {
+    width: 100%;
+    padding: 10px 15px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 15px;
+    background-color: rgba(255, 255, 255, 0.1);
+    color: white;
+    transition: all 0.2s;
+    text-align: center;
+}
+
+.filter-group select:focus {
+    border-color: white;
+    box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.2);
+    outline: none;
+    background-color: rgba(255, 255, 255, 0.15);
+}
+
+.filter-group select option {
+    background-color: var(--dark-card-bg);
+    color: white;
+}
+
+.apply-filters {
+    padding: 10px 25px;
+    background: rgba(255, 255, 255, 0.15);
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 15px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-align: center;
+}
+
+.apply-filters:hover {
+    background: rgba(255, 255, 255, 0.25);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Секции языков */
+.language-sections {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    animation: fadeIn 0.3s ease-out;
+    margin-top: 20px;
+}
+
+.language-section {
+    background: var(--dark-card-bg);
+    border-radius: 20px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: transform 0.2s;
+    color: white;
+}
+
+.language-section:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+.language-title {
+    display: flex;
+    align-items: center;
+    padding: 15px 20px;
+    background: rgba(255, 255, 255, 0.05);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    text-align: center;
+}
+
+.language-title h2 {
+    margin: 0;
+    font-size: 1.5rem;
+    color: white;
+    flex: 1;
+    text-align: center;
+}
+
+.flag {
+    font-size: 1.8rem;
+    margin-right: 10px;
+}
+
+.view-all {
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    transition: all 0.2s;
+    text-align: center;
+}
+
+.view-all i {
+    margin-left: 5px;
+    transition: transform 0.2s;
+}
+
+.view-all:hover {
+    color: var(--accent-color);
+    text-decoration: none;
+}
+
+.view-all:hover i {
+    transform: translateX(3px);
+}
+
+/* Сетка видео */
+.videos-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+    padding: 20px;
+}
+
+.video-card {
+    background: var(--dark-card-bg);
+    border-radius: 20px;
+    overflow: hidden;
+    transition: all 0.2s;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.video-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+    background: var(--dark-card-bg-hover);
+}
+
+.video-thumbnail {
+    position: relative;
+    padding-top: 56.25%; /* 16:9 аспект */
+    background: rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+}
+
+.video-thumbnail img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s;
+}
+
+.video-card:hover .video-thumbnail img {
+    transform: scale(1.05);
+}
+
+.play-button {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 50px;
+    height: 50px;
+    background: var(--primary-color-rgba);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.2rem;
+    opacity: 0;
+    transition: all 0.2s;
+}
+
+.video-card:hover .play-button {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1.1);
+}
+
+.video-level {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    background: rgba(0, 0, 0, 0.6);
+    color: white;
+    padding: 5px 10px;
+    border-radius: 10px;
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+
+.video-info {
+    padding: 15px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    color: white;
+}
+
+.video-title {
+    font-size: 1.1rem;
+    margin-bottom: 10px;
+    color: white;
+    line-height: 1.3;
+    text-align: center;
+}
+
+.video-description {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    margin-bottom: 15px;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    flex-grow: 1;
+    text-align: center;
+}
+
+.watch-button {
+    padding: 8px 15px;
+    background: var(--primary-color-rgba);
+    color: white;
+    border-radius: 15px;
+    text-decoration: none;
+    font-weight: 500;
+    display: inline-block;
+    transition: all 0.2s;
+    margin-top: auto;
+    text-align: center;
+    border: 1px solid var(--primary-color);
+}
+
+.watch-button i {
+    margin-left: 5px;
+    transition: transform 0.2s;
+}
+
+.watch-button:hover {
+    background: var(--primary-dark);
+    color: white;
+    text-decoration: none;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+}
+
+.watch-button:hover i {
+    transform: translateX(3px);
+}
+
+/* Сообщение о отсутствии видео */
+.no-videos {
+    text-align: center;
+    padding: 40px 20px;
+    color: white;
+}
+
+.no-videos i {
+    color: var(--text-muted);
+    margin-bottom: 15px;
+}
+
+.no-videos h3 {
+    font-size: 1.3rem;
+    margin-bottom: 10px;
+    color: white;
+}
+
+.no-videos p {
+    margin-bottom: 20px;
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+    color: var(--text-muted);
+}
+
+.btn-reset {
+    padding: 8px 20px;
+    background: var(--primary-color-rgba);
+    color: white;
+    border-radius: 15px;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.2s;
+    display: inline-block;
+    border: 1px solid var(--primary-color);
+}
+
+.btn-reset:hover {
+    background: var(--primary-dark);
+    color: white;
+    text-decoration: none;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* CTA секция */
+.cta-section {
+    background: var(--primary-gradient);
+    padding: 50px 0;
+    color: white;
+    text-align: center;
+    margin-top: 40px;
+    border-radius: 20px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.cta-section h2 {
+    font-size: 2rem;
+    margin-bottom: 15px;
+}
+
+.cta-section p {
+    font-size: 1.1rem;
+    max-width: 700px;
+    margin: 0 auto 25px;
+    opacity: 0.9;
+}
+
+.cta-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.cta-button {
+    padding: 12px 25px;
+    border-radius: 15px;
+    font-weight: 500;
+    transition: all 0.2s;
+    text-decoration: none;
+    text-align: center;
+}
+
+.cta-button-primary {
+    background: white;
+    color: var(--primary-color);
+    border: none;
+}
+
+.cta-button-secondary {
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.cta-button:hover {
+    transform: translateY(-3px);
+    text-decoration: none;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+}
+
+.cta-button-primary:hover {
+    background: #f8f9fa;
+    color: var(--primary-dark);
+}
+
+.cta-button-secondary:hover {
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+}
+
+/* Анимации */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(15px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Адаптивность */
+@media (max-width: 992px) {
+    .video-hero h1 {
+        font-size: 2.2rem;
+    }
+    
+    .language-title {
+        flex-direction: column;
+    }
+    
+    .language-title h2 {
+        margin-bottom: 10px;
+    }
+    
+    .flag {
+        margin-right: 0;
+        margin-bottom: 5px;
+    }
+    
+    .cta-section h2 {
+        font-size: 1.8rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .video-hero {
+        padding: 40px 0;
+    }
+    
+    .video-hero h1 {
+        font-size: 1.8rem;
+    }
+    
+    .videos-grid {
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    }
+    
+    .cta-section {
+        padding: 40px 0;
+    }
+    
+    .cta-section h2 {
+        font-size: 1.6rem;
+    }
+}
+
+.video-container {
+    background-color: rgb(18, 18, 18);
+}
+
+.video-detail-page {
+    background-color: rgb(18, 18, 18);
+}
+
+.video-list-page {
+    background-color: rgb(18, 18, 18);
+} 

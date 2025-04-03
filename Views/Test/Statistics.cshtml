@@ -1,0 +1,378 @@
+@model WebApplication15.ViewModels.StatisticsViewModel
+@{
+    ViewData["Title"] = "Статистика тестов";
+}
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.css">
+<link rel="stylesheet" href="~/css/tests.css" />
+<link rel="stylesheet" href="~/css/statistics.css" />
+
+<div class="test-page-container">
+    <div class="test-hero">
+        <div class="container">
+            <h1>Ваша личная статистика</h1>
+            <p>Изучите детальные данные о ваших результатах тестирования и отслеживайте свой прогресс во времени</p>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- Общая статистика -->
+        <div class="statistics-section">
+            <h2 class="section-title">Общая статистика</h2>
+            <div class="stats-overview">
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-file-alt"></i>
+                    </div>
+                    <div class="stat-content">
+                        <div class="stat-value">@Model.OverallStatistics.TotalTests</div>
+                        <div class="stat-label">Всего тестов</div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon success">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <div class="stat-content">
+                        <div class="stat-value">@Model.OverallStatistics.PassedTests</div>
+                        <div class="stat-label">Успешно сдано</div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon danger">
+                        <i class="fas fa-times-circle"></i>
+                    </div>
+                    <div class="stat-content">
+                        <div class="stat-value">@Model.OverallStatistics.FailedTests</div>
+                        <div class="stat-label">Не сдано</div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon info">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <div class="stat-content">
+                        <div class="stat-value">@Math.Round(Model.OverallStatistics.AverageScore, 1)%</div>
+                        <div class="stat-label">Средний результат</div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon primary">
+                        <i class="fas fa-globe"></i>
+                    </div>
+                    <div class="stat-content">
+                        <div class="stat-value">@Model.OverallStatistics.TotalLanguages</div>
+                        <div class="stat-label">Языков изучено</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Графики прогресса -->
+        <div class="statistics-section">
+            <h2 class="section-title">Прогресс во времени</h2>
+            <div class="charts-container">
+                <div class="chart-wrapper">
+                    <h3 class="chart-title">Средний результат по месяцам</h3>
+                    <canvas id="progressChart"></canvas>
+                </div>
+                <div class="chart-wrapper">
+                    <h3 class="chart-title">Распределение по языкам</h3>
+                    <canvas id="languageChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Статистика по языкам -->
+        <div class="statistics-section">
+            <h2 class="section-title">Статистика по языкам</h2>
+            
+            @if (!Model.LanguageStatistics.Any())
+            {
+                <div class="empty-tests-message">
+                    <i class="fas fa-chart-bar"></i>
+                    <h3>Статистика отсутствует</h3>
+                    <p>Пройдите хотя бы один тест, чтобы увидеть детальную статистику</p>
+                </div>
+            }
+            else
+            {
+                foreach (var langStat in Model.LanguageStatistics)
+                {
+                    <div class="language-stats-card">
+                        <div class="language-stats-header">
+                            <h3 class="language-name">
+                                <span class="language-flag">@Html.Raw(langStat.LanguageFlag)</span>
+                                @langStat.LanguageName
+                            </h3>
+                            <div class="language-totals">
+                                <div class="stat-item">
+                                    <span class="stat-label">Всего тестов:</span>
+                                    <span class="stat-value">@langStat.TotalTests</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-label">Успешно сдано:</span>
+                                    <span class="stat-value">@langStat.PassedTests</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-label">Средний результат:</span>
+                                    <span class="stat-value">@Math.Round(langStat.AverageScore, 1)%</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-label">Лучший результат:</span>
+                                    <span class="stat-value">@langStat.HighestScore баллов</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="level-stats-container">
+                            <h4 class="levels-title">Статистика по уровням</h4>
+                            <div class="level-stats-grid">
+                                @foreach (var levelStat in langStat.ResultsByLevel)
+                                {
+                                    <div class="level-stat-card">
+                                        <div class="level-badge">@levelStat.LevelName</div>
+                                        <div class="level-details">
+                                            <div class="detail-item">
+                                                <span class="detail-label">Тестов:</span>
+                                                <span class="detail-value">@levelStat.TotalTests</span>
+                                            </div>
+                                            <div class="detail-item">
+                                                <span class="detail-label">Успешно:</span>
+                                                <span class="detail-value">@levelStat.PassedTests</span>
+                                            </div>
+                                            <div class="detail-item">
+                                                <span class="detail-label">Средний результат:</span>
+                                                <span class="detail-value">@Math.Round(levelStat.AverageScore, 1)%</span>
+                                            </div>
+                                        </div>
+                                        <div class="progress-bar">
+                                            <div class="progress-fill" style="width: @Math.Round(levelStat.AverageScore, 0)%;"></div>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+        </div>
+
+        <!-- Статистика по времени -->
+        <div class="statistics-section">
+            <h2 class="section-title">Статистика по времени</h2>
+            <div class="time-stats-container">
+                <div class="time-stat-card">
+                    <div class="time-stat-icon">
+                        <i class="fas fa-stopwatch"></i>
+                    </div>
+                    <div class="time-stat-details">
+                        <div class="time-stat-value">@Math.Round(Model.TimeStatistics.AverageDuration, 1) мин</div>
+                        <div class="time-stat-label">Среднее время прохождения</div>
+                    </div>
+                </div>
+                <div class="time-stat-card">
+                    <div class="time-stat-icon">
+                        <i class="fas fa-hourglass-half"></i>
+                    </div>
+                    <div class="time-stat-details">
+                        <div class="time-stat-value">@Math.Round(Model.TimeStatistics.TotalTimeSpent / 60, 1) ч</div>
+                        <div class="time-stat-label">Всего затрачено времени</div>
+                    </div>
+                </div>
+                <div class="time-stat-card">
+                    <div class="time-stat-icon">
+                        <i class="fas fa-bolt"></i>
+                    </div>
+                    <div class="time-stat-details">
+                        <div class="time-stat-value">@Math.Round(Model.TimeStatistics.FastestTest, 1) мин</div>
+                        <div class="time-stat-label">Самый быстрый тест</div>
+                    </div>
+                </div>
+                <div class="time-stat-card">
+                    <div class="time-stat-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <div class="time-stat-details">
+                        <div class="time-stat-value">@Math.Round(Model.TimeStatistics.SlowestTest, 1) мин</div>
+                        <div class="time-stat-label">Самый долгий тест</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Последние пройденные тесты -->
+        <div class="statistics-section">
+            <h2 class="section-title">Недавно пройденные тесты</h2>
+            
+            @if (!Model.RecentTests.Any())
+            {
+                <div class="empty-tests-message">
+                    <i class="fas fa-history"></i>
+                    <h3>Нет пройденных тестов</h3>
+                    <p>Здесь будут отображаться последние пройденные вами тесты</p>
+                </div>
+            }
+            else
+            {
+                <div class="recent-tests-grid">
+                    @foreach (var result in Model.RecentTests)
+                    {
+                        var statusClass = result.IsPassed ? "passed" : "failed";
+                        var statusIcon = result.IsPassed ? "fas fa-check-circle" : "fas fa-times-circle";
+                        
+                        <div class="recent-test-card">
+                            <div class="test-status @statusClass">
+                                <i class="@statusIcon"></i>
+                            </div>
+                            <div class="test-info">
+                                <h3 class="test-title">@result.Title</h3>
+                                <div class="test-details">
+                                    <div class="test-detail">
+                                        <i class="fas fa-globe"></i>
+                                        <span>@result.Language</span>
+                                    </div>
+                                    <div class="test-detail">
+                                        <i class="fas fa-layer-group"></i>
+                                        <span>Уровень @result.Level</span>
+                                    </div>
+                                    <div class="test-detail">
+                                        <i class="fas fa-calendar-alt"></i>
+                                        <span>@result.CompletedDate.ToString("dd.MM.yyyy HH:mm")</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="test-score">
+                                <div class="score-circle">
+                                    <div class="score-value">@Math.Round(result.Percentage, 0)%</div>
+                                </div>
+                                <div class="score-details">
+                                    <div class="score-detail">
+                                        <span class="detail-value">@result.Score / @result.MaxScore</span>
+                                        <span class="detail-label">баллов</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            }
+        </div>
+
+        <div class="statistics-actions">
+            <a href="@Url.Action("Results", "Test")" class="stats-button">
+                <i class="fas fa-list"></i> Все результаты
+            </a>
+            <a href="@Url.Action("Index", "Test")" class="stats-button primary">
+                <i class="fas fa-arrow-right"></i> Пройти новый тест
+            </a>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Данные для графика прогресса
+            var monthlyData = @Json.Serialize(Model.MonthlyProgress);
+            var months = monthlyData.map(item => {
+                var date = new Date(item.month);
+                return date.toLocaleDateString('ru-RU', { month: 'short', year: 'numeric' });
+            });
+            var scores = monthlyData.map(item => item.averageScore);
+            var passRates = monthlyData.map(item => item.passRate);
+            
+            // График прогресса
+            var progressCtx = document.getElementById('progressChart').getContext('2d');
+            var progressChart = new Chart(progressCtx, {
+                type: 'line',
+                data: {
+                    labels: months,
+                    datasets: [{
+                        label: 'Средний результат (%)',
+                        data: scores,
+                        borderColor: '#58cc02',
+                        backgroundColor: 'rgba(88, 204, 2, 0.1)',
+                        borderWidth: 2,
+                        pointBackgroundColor: '#58cc02',
+                        tension: 0.4,
+                        fill: true
+                    }, {
+                        label: 'Процент успешных сдач (%)',
+                        data: passRates,
+                        borderColor: '#1cb0f6',
+                        backgroundColor: 'rgba(28, 176, 246, 0.1)',
+                        borderWidth: 2,
+                        pointBackgroundColor: '#1cb0f6',
+                        tension: 0.4,
+                        fill: true
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true,
+                                max: 100
+                            }
+                        }]
+                    }
+                }
+            });
+            
+            // Данные для графика по языкам
+            var languageData = @Json.Serialize(Model.LanguageStatistics);
+            var languages = languageData.map(item => item.languageName);
+            var testsPerLanguage = languageData.map(item => item.totalTests);
+            var avgScoresPerLanguage = languageData.map(item => item.averageScore);
+            
+            // График по языкам
+            var languageCtx = document.getElementById('languageChart').getContext('2d');
+            var languageChart = new Chart(languageCtx, {
+                type: 'bar',
+                data: {
+                    labels: languages,
+                    datasets: [{
+                        label: 'Количество тестов',
+                        data: testsPerLanguage,
+                        backgroundColor: 'rgba(132, 73, 255, 0.7)',
+                        borderWidth: 0
+                    }, {
+                        label: 'Средний результат (%)',
+                        data: avgScoresPerLanguage,
+                        backgroundColor: 'rgba(255, 176, 32, 0.7)',
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }]
+                    }
+                }
+            });
+            
+            // Анимации появления элементов
+            const elements = document.querySelectorAll('.stat-card, .language-stats-card, .recent-test-card, .time-stat-card');
+            
+            elements.forEach((element, index) => {
+                element.style.opacity = 0;
+                element.style.transform = 'translateY(20px)';
+                
+                setTimeout(() => {
+                    element.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                    element.style.opacity = 1;
+                    element.style.transform = 'translateY(0)';
+                }, 100 + index * 50);
+            });
+        });
+    </script>
+} 

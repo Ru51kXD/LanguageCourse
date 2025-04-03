@@ -1,0 +1,173 @@
+@model WebApplication15.Models.Video
+@{
+    ViewData["Title"] = "Детали видео";
+    Layout = "_AdminLayout";
+    
+    var watchCount = ViewBag.WatchCount;
+}
+
+<div class="container-fluid px-4 py-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="mb-0">
+            <i class="fas fa-video me-2"></i>Детали видео
+        </h1>
+        <a href="@Url.Action("Videos", "Admin")" class="btn btn-outline-secondary">
+            <i class="fas fa-arrow-left me-1"></i>Вернуться к списку
+        </a>
+    </div>
+    
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <i class="fas fa-check-circle me-2"></i>@TempData["SuccessMessage"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+
+    <div class="row">
+        <div class="col-lg-8">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <i class="fas fa-play-circle me-1"></i>
+                    Просмотр видео
+                </div>
+                <div class="card-body">
+                    <div class="ratio ratio-16x9 mb-3">
+                        @{
+                            string embedUrl = "";
+                            if (Model.VideoUrl.Contains("youtube") || Model.VideoUrl.Contains("youtu.be"))
+                            {
+                                // Обработка YouTube URL
+                                string youtubeId = "";
+                                if (Model.VideoUrl.Contains("youtu.be/"))
+                                {
+                                    youtubeId = Model.VideoUrl.Split(new[] { "youtu.be/" }, StringSplitOptions.None)[1];
+                                }
+                                else if (Model.VideoUrl.Contains("watch?v="))
+                                {
+                                    youtubeId = Model.VideoUrl.Split(new[] { "watch?v=" }, StringSplitOptions.None)[1];
+                                }
+                                
+                                // Удаляем параметры
+                                if (youtubeId.Contains("&"))
+                                {
+                                    youtubeId = youtubeId.Split('&')[0];
+                                }
+                                
+                                embedUrl = $"https://www.youtube.com/embed/{youtubeId}?autoplay=0&rel=0";
+                            }
+                            else if (Model.VideoUrl.Contains("vimeo"))
+                            {
+                                // Обработка Vimeo URL
+                                string vimeoId = "";
+                                if (Model.VideoUrl.Contains("vimeo.com/"))
+                                {
+                                    vimeoId = Model.VideoUrl.Split(new[] { "vimeo.com/" }, StringSplitOptions.None)[1];
+                                }
+                                
+                                embedUrl = $"https://player.vimeo.com/video/{vimeoId}";
+                            }
+                        }
+                        
+                        @if (!string.IsNullOrEmpty(embedUrl))
+                        {
+                            <iframe src="@embedUrl" title="@Model.Title" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        }
+                        else
+                        {
+                            <div class="alert alert-warning">
+                                <i class="fas fa-exclamation-triangle me-2"></i>Невозможно отобразить видео. Проверьте URL.
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-lg-4">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <i class="fas fa-info-circle me-1"></i>
+                    Информация о видео
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title mb-3">@Model.Title</h5>
+                    <p class="card-text">@Model.Description</p>
+                    
+                    <ul class="list-group list-group-flush mb-3">
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Язык
+                            <span class="badge bg-primary rounded-pill">@Model.LanguageLevel.Language.Name</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Уровень
+                            <span class="badge bg-secondary rounded-pill">@Model.LanguageLevel.Name</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Количество просмотров
+                            <span class="badge bg-info rounded-pill">@watchCount</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Дата добавления
+                            <span>@Model.CreatedDate.ToString("dd.MM.yyyy")</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Статус
+                            @if (Model.IsActive)
+                            {
+                                <span class="badge bg-success">Активно</span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-danger">Неактивно</span>
+                            }
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Рекомендуемое
+                            @if (Model.IsFeatured)
+                            {
+                                <span class="badge bg-success">Да</span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-secondary">Нет</span>
+                            }
+                        </li>
+                    </ul>
+                    
+                    <div class="d-grid gap-2">
+                        <a href="@Url.Action("EditVideo", "Admin", new { id = Model.Id })" class="btn btn-warning w-100">
+                            <i class="fas fa-edit me-1"></i>Редактировать видео
+                        </a>
+                        <button type="button" class="btn btn-danger w-100" data-bs-toggle="modal" data-bs-target="#deleteVideoModal">
+                            <i class="fas fa-trash me-1"></i>Удалить видео
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Модальное окно удаления видео -->
+<div class="modal fade" id="deleteVideoModal" tabindex="-1" aria-labelledby="deleteVideoModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteVideoModalLabel">Подтверждение удаления</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Вы уверены, что хотите удалить видео <strong>@Model.Title</strong>?</p>
+                <p class="text-danger">Это действие нельзя отменить. Все данные о просмотрах этого видео также будут удалены.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+                <form asp-action="DeleteVideo" method="post">
+                    <input type="hidden" name="id" value="@Model.Id" />
+                    <button type="submit" class="btn btn-danger">Удалить</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div> 

@@ -1,0 +1,233 @@
+@model IEnumerable<WebApplication15.Models.Video>
+@{
+    ViewData["Title"] = "Видеоуроки";
+    var languages = ViewBag.Languages as List<WebApplication15.Models.Language>;
+    var levels = ViewBag.Levels as List<WebApplication15.Models.LanguageLevel>;
+    var selectedLanguage = ViewBag.SelectedLanguage;
+    var selectedLevel = ViewBag.SelectedLevel;
+    
+    // Словарь эмодзи флагов для языков
+    var languageFlags = new Dictionary<string, string>
+    {
+        { "Казахский", "🇰🇿" },
+        { "Английский", "🇬🇧" },
+        { "Турецкий", "🇹🇷" },
+        { "Русский", "🇷🇺" },
+        { "Немецкий", "🇩🇪" },
+        { "Испанский", "🇪🇸" },
+        { "Французский", "🇫🇷" },
+        { "Китайский", "🇨🇳" },
+        { "Арабский", "🇦🇪" },
+        { "Японский", "🇯🇵" }
+    };
+    
+    // Группировка видео по языкам
+    var videosByLanguage = new Dictionary<string, List<WebApplication15.Models.Video>>();
+    if (Model != null)
+    {
+        foreach (var video in Model)
+        {
+            var language = languages?.FirstOrDefault(l => l.Id == video.LanguageLevel?.LanguageId)?.Name ?? "Другой";
+            if (!videosByLanguage.ContainsKey(language))
+            {
+                videosByLanguage[language] = new List<WebApplication15.Models.Video>();
+            }
+            videosByLanguage[language].Add(video);
+        }
+    }
+}
+
+<link rel="stylesheet" href="~/css/videos.css" asp-append-version="true" />
+
+<div class="video-page-container">
+    <!-- Заголовок страницы -->
+    <div class="video-hero">
+        <div class="container">
+            <h1>Видеоуроки по изучению языков</h1>
+            <p>Изучайте языки с помощью высококачественных видеоуроков от профессиональных преподавателей. Выберите язык и уровень, который вам подходит.</p>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- Фильтры -->
+        <div class="filters-section">
+            <div class="row">
+                <div class="col-md-5">
+                    <div class="filter-group">
+                        <label><i class="fas fa-globe"></i> Язык</label>
+                        <div class="filter-options">
+                            <a href="@Url.Action("Index", new { levelName = selectedLevel })" class="filter-option @(selectedLanguage == null ? "active" : "")">Все языки</a>
+                            @if (languages != null)
+                            {
+                                foreach (var language in languages)
+                                {
+                                    <a href="@Url.Action("Index", new { languageId = language.Id, levelName = selectedLevel })" 
+                                       class="filter-option @(selectedLanguage == language.Name ? "active" : "")">
+                                        @(languageFlags.ContainsKey(language.Name) ? languageFlags[language.Name] + " " : "")@language.Name
+                                    </a>
+                                }
+                            }
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-5">
+                    <div class="filter-group">
+                        <label><i class="fas fa-layer-group"></i> Уровень</label>
+                        <div class="filter-options">
+                            <a href="@Url.Action("Index", new { languageId = ViewBag.SelectedLanguageId })" class="filter-option @(selectedLevel == null ? "active" : "")">Все уровни</a>
+                            @if (levels != null)
+                            {
+                                foreach (var level in levels)
+                                {
+                                    <a href="@Url.Action("Index", new { languageId = ViewBag.SelectedLanguageId, levelName = level.Name })" 
+                                       class="filter-option @(selectedLevel == level.Name ? "active" : "")">
+                                        @level.Name
+                                    </a>
+                                }
+                            }
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-2 d-flex align-items-center justify-content-center">
+                    <a href="@Url.Action("Index")" class="apply-filters">
+                        <i class="fas fa-redo-alt"></i> Сбросить
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Результаты фильтрации или сгруппированные по языкам видео -->
+        @if (selectedLanguage != null || selectedLevel != null)
+        {
+            <div class="language-section" id="filtered-videos">
+                <div class="language-title">
+                    <h2>
+                        @if (selectedLanguage != null)
+                        {
+                            @(languageFlags.ContainsKey(selectedLanguage) ? languageFlags[selectedLanguage] + " " : "")
+                            @selectedLanguage
+                        }
+                        @(selectedLanguage != null && selectedLevel != null ? " - " : "")
+                        @(selectedLevel != null ? selectedLevel : "Все уровни")
+                    </h2>
+                </div>
+                
+                <div class="videos-grid">
+                    @if (Model != null && Model.Any())
+                    {
+                        foreach (var video in Model)
+                        {
+                            <div class="video-card" data-language="@languages?.FirstOrDefault(l => l.Id == video.LanguageLevel?.LanguageId)?.Name" data-level="@video.LanguageLevel?.Name">
+                                <div class="video-thumbnail">
+                                    <img src="~/images/videos/@(video.Id).jpg" onerror="this.src='/images/videos/default.jpg'" alt="@video.Title">
+                                    <div class="play-button">
+                                        <i class="fas fa-play"></i>
+                                    </div>
+                                    <div class="video-level">@video.LanguageLevel?.Name</div>
+                                </div>
+                                <div class="video-info">
+                                    <h3 class="video-title">@video.Title</h3>
+                                    <p class="video-description">@video.Description</p>
+                                    <a href="@Url.Action("Details", new { id = video.Id })" class="watch-button">
+                                        Смотреть видео <i class="fas fa-arrow-right"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <div class="no-videos">
+                            <i class="fas fa-video-slash fa-3x mb-3"></i>
+                            <h3>Видеоуроки не найдены</h3>
+                            <p>К сожалению, по вашему запросу не найдено видеоуроков. Попробуйте изменить параметры фильтра.</p>
+                            <a href="@Url.Action("Index")" class="btn-reset">Сбросить фильтр</a>
+                        </div>
+                    }
+                </div>
+            </div>
+        }
+        else
+        {
+            <!-- Секции по языкам -->
+            <div class="language-sections">
+                @foreach (var languageGroup in videosByLanguage.Take(3))
+                {
+                    <div class="language-section" id="@languageGroup.Key.ToLower()-section">
+                        <div class="language-title">
+                            <span class="flag">@(languageFlags.ContainsKey(languageGroup.Key) ? languageFlags[languageGroup.Key] : "")</span>
+                            <h2>@languageGroup.Key</h2>
+                            <a href="@Url.Action("Index", new { languageId = languages?.FirstOrDefault(l => l.Name == languageGroup.Key)?.Id })" class="view-all">
+                                Все видеоуроки <i class="fas fa-chevron-right"></i>
+                            </a>
+                        </div>
+                        
+                        <div class="videos-grid">
+                            @foreach (var video in languageGroup.Value.Take(3))
+                            {
+                                <div class="video-card">
+                                    <div class="video-thumbnail">
+                                        <img src="~/images/videos/@(video.Id).jpg" onerror="this.src='/images/videos/default.jpg'" alt="@video.Title">
+                                        <div class="play-button">
+                                            <i class="fas fa-play"></i>
+                                        </div>
+                                        <div class="video-level">@video.LanguageLevel?.Name</div>
+                                    </div>
+                                    <div class="video-info">
+                                        <h3 class="video-title">@video.Title</h3>
+                                        <p class="video-description">@video.Description</p>
+                                        <a href="@Url.Action("Details", new { id = video.Id })" class="watch-button">
+                                            Смотреть видео <i class="fas fa-arrow-right"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                }
+                
+                @if (!videosByLanguage.Any())
+                {
+                    <div class="no-videos">
+                        <i class="fas fa-video-slash fa-3x mb-3"></i>
+                        <h3>Видеоуроки не найдены</h3>
+                        <p>В данный момент в нашей базе нет видеоуроков. Пожалуйста, проверьте позже.</p>
+                    </div>
+                }
+            </div>
+        }
+        
+        <!-- CTA секция -->
+        <div class="cta-section">
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <h2>Хотите больше видеоуроков?</h2>
+                    <p>Зарегистрируйтесь на сайте, чтобы получить доступ к полной библиотеке видеоуроков.</p>
+                    <div class="cta-buttons">
+                        <a href="@Url.Action("Register", "Account")" class="cta-button cta-button-primary">Регистрация</a>
+                        <a href="@Url.Action("AboutUs", "Home")" class="cta-button cta-button-secondary">Узнать больше</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Инициализация элементов страницы
+            console.log('Страница видео загружена успешно');
+            
+            // Плавное появление элементов
+            const elements = document.querySelectorAll('.video-card, .language-section, .cta-section');
+            
+            elements.forEach(element => {
+                element.style.opacity = '1';
+                element.style.transform = 'translateY(0)';
+            });
+        });
+    </script>
+} 
