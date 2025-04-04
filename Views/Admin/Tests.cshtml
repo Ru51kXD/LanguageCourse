@@ -4,6 +4,65 @@
     Layout = "_AdminLayout";
 }
 
+<style>
+    /* Стили для таблицы тестов */
+    .table th {
+        white-space: nowrap;
+    }
+    
+    .table td {
+        max-width: 150px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    
+    /* Название теста может быть длинным, делаем его шире */
+    .table td:nth-child(2) {
+        max-width: 250px;
+    }
+    
+    /* Адаптивность для мобильных */
+    @@media (max-width: 768px) {
+        .table td {
+            max-width: 100px;
+        }
+        
+        .table td:nth-child(2) {
+            max-width: 150px;
+        }
+    }
+    
+    /* Стиль для кнопок действий */
+    .btn-action {
+        width: 38px;
+        height: 31px;
+        padding: 0.25rem;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .btn-red-delete {
+        color: white;
+        background-color: #dc3545;
+        border-color: #dc3545;
+    }
+    
+    .btn-red-delete:hover {
+        color: white;
+        background-color: #bb2d3b;
+        border-color: #b02a37;
+    }
+    
+    /* Компактные кнопки в колонке действий */
+    .action-buttons {
+        display: flex;
+        flex-wrap: nowrap;
+        gap: 3px;
+    }
+</style>
+
 <div class="container-fluid px-4 py-4">
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h1 class="mb-0">
@@ -50,36 +109,38 @@
                             @foreach (var test in Model)
                             {
                                 <tr>
-                                    <td>@test.Id</td>
-                                    <td>@test.Title</td>
-                                    <td>@(test.LanguageLevel?.Language?.Name ?? "Не указан")</td>
-                                    <td>
+                                    <td title="@test.Id">@test.Id</td>
+                                    <td title="@test.Title">@test.Title</td>
+                                    <td title="@(test.LanguageLevel?.Language?.Name ?? "Не указан")">@(test.LanguageLevel?.Language?.Name ?? "Не указан")</td>
+                                    <td title="@(test.LanguageLevel?.Name ?? "Не указан")">
                                         <span class="badge bg-info">@(test.LanguageLevel?.Name ?? "Не указан")</span>
                                     </td>
-                                    <td>@(test.Questions?.Count ?? 0)</td>
-                                    <td>@test.PassingScore%</td>
+                                    <td title="@(test.Questions?.Count ?? 0)">@(test.Questions?.Count ?? 0)</td>
+                                    <td title="@test.PassingScore%">@test.PassingScore%</td>
                                     <td>
                                         @if (test.IsActive)
                                         {
-                                            <span class="badge bg-success">Активен</span>
+                                            <span class="badge bg-success" title="Активен">Активен</span>
                                         }
                                         else
                                         {
-                                            <span class="badge bg-warning">Неактивен</span>
+                                            <span class="badge bg-warning" title="Неактивен">Неактивен</span>
                                         }
                                     </td>
                                     <td>
-                                        <div class="btn-group">
-                                            <a href="@Url.Action("TestDetails", "Admin", new { id = test.Id })" class="btn btn-sm btn-outline-primary">
+                                        <div class="action-buttons">
+                                            <a href="@Url.Action("TestDetails", "Admin", new { id = test.Id })" class="btn btn-sm btn-outline-primary btn-action" title="Просмотр">
                                                 <i class="fas fa-eye"></i>
                                             </a>
-                                            <a href="@Url.Action("EditTest", "Admin", new { id = test.Id })" class="btn btn-sm btn-outline-warning">
+                                            <a href="@Url.Action("EditTest", "Admin", new { id = test.Id })" class="btn btn-sm btn-outline-warning btn-action" title="Редактировать">
                                                 <i class="fas fa-edit"></i>
                                             </a>
-                                            <button type="button" class="btn btn-sm btn-outline-danger" 
-                                                   data-bs-toggle="modal" data-bs-target="#deleteTestModal" 
+                                            <button type="button" class="btn btn-sm btn-red-delete btn-action" 
+                                                   data-bs-toggle="modal" 
+                                                   data-bs-target="#deleteTestModal" 
                                                    data-test-id="@test.Id"
-                                                   data-test-title="@test.Title">
+                                                   data-test-title="@test.Title"
+                                                   title="Удалить">
                                                 <i class="fas fa-trash-alt"></i>
                                             </button>
                                         </div>

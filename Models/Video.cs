@@ -37,6 +37,9 @@ namespace WebApplication15.Models
         [Display(Name = "Активно")]
         public bool IsActive { get; set; } = true;
 
+        [Display(Name = "Рекомендуемое")]
+        public bool IsFeatured { get; set; } = false;
+
         [NotMapped]
         [Display(Name = "Просмотрено")]
         public bool IsWatched { get; set; }

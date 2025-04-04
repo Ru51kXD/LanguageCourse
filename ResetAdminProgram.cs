@@ -8,9 +8,9 @@ using WebApplication15.Models;
 
 namespace WebApplication15
 {
-    class ResetAdminProgram
+    partial class ResetAdminProgram
     {
-        static async Task Main(string[] args)
+        static async Task ResetAdminProgramMethod(string[] args)
         {
             // Создаем хост для получения сервисов
             var builder = WebApplication.CreateBuilder(args);

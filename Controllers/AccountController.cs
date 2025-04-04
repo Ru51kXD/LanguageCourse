@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 using System;
 using Microsoft.AspNetCore.Http;
 using System.Security.Claims;
+using System.Linq;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
 namespace WebApplication15.Controllers
 {
@@ -18,6 +21,7 @@ namespace WebApplication15.Controllers
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly TestService _testService;
+        private readonly ILogger<AccountController> _logger;
 
         public AccountController(
             AuthService authService,
@@ -25,7 +29,8 @@ namespace WebApplication15.Controllers
             LanguageService languageService,
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
-            TestService testService)
+            TestService testService,
+            ILogger<AccountController> logger)
         {
             _authService = authService;
             _themeService = themeService;
@@ -33,6 +38,7 @@ namespace WebApplication15.Controllers
             _userManager = userManager;
             _signInManager = signInManager;
             _testService = testService;
+            _logger = logger;
         }
 
         [HttpGet]
@@ -53,24 +59,54 @@ namespace WebApplication15.Controllers
         {
             if (ModelState.IsValid)
             {
-                // Проверяем существование пользователя
-                var user = await _userManager.FindByEmailAsync(model.Email);
-                if (user == null)
+                try
                 {
-                    ModelState.AddModelError("", "Пользователь с таким email не существует");
-                    ViewBag.IsDarkMode = _themeService.GetCurrentTheme();
-                    ViewBag.CurrentLanguage = _languageService.GetCurrentLanguage();
-                    return View(model);
+                    // Сначала пробуем найти пользователя по UserName
+                    var user = await _userManager.FindByNameAsync(model.Email);
+                    
+                    if (user == null)
+                    {
+                        // Если не нашли по UserName, ищем всех пользователей с таким email
+                        var users = await _userManager.Users
+                            .Where(u => u.NormalizedEmail == model.Email.ToUpper())
+                            .ToListAsync();
+
+                        if (!users.Any())
+                        {
+                            ModelState.AddModelError("", "Пользователь с таким email не существует");
+                            ViewBag.IsDarkMode = _themeService.GetCurrentTheme();
+                            ViewBag.CurrentLanguage = _languageService.GetCurrentLanguage();
+                            return View(model);
+                        }
+
+                        // Если нашли несколько пользователей, берем самого последнего (активного)
+                        user = users.OrderByDescending(u => u.RegistrationDate)
+                                   .FirstOrDefault(u => u.IsActive);
+
+                        if (user == null)
+                        {
+                            ModelState.AddModelError("", "Аккаунт деактивирован");
+                            ViewBag.IsDarkMode = _themeService.GetCurrentTheme();
+                            ViewBag.CurrentLanguage = _languageService.GetCurrentLanguage();
+                            return View(model);
+                        }
+                    }
+
+                    // Проверяем пароль
+                    var result = await _signInManager.PasswordSignInAsync(user.UserName, model.Password, model.RememberMe, false);
+
+                    if (result.Succeeded)
+                    {
+                        return RedirectToAction("Index", "Home");
+                    }
+
+                    ModelState.AddModelError("", "Неверный пароль");
                 }
-
-                var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, false);
-
-                if (result.Succeeded)
+                catch (Exception ex)
                 {
-                    return RedirectToAction("Index", "Home");
+                    _logger.LogError(ex, "Ошибка при входе в систему");
+                    ModelState.AddModelError("", "Произошла ошибка при входе в систему");
                 }
-
-                ModelState.AddModelError("", "Неверный пароль");
             }
             
             ViewBag.IsDarkMode = _themeService.GetCurrentTheme();
@@ -97,20 +133,64 @@ namespace WebApplication15.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
-                var result = await _userManager.CreateAsync(user, model.Password);
-
-                if (result.Succeeded)
+                try
                 {
-                    await _signInManager.SignInAsync(user, isPersistent: false);
-                    return RedirectToAction("Index", "Home");
+                    // Проверяем, существует ли пользователь с таким email
+                    var existingUser = await _userManager.FindByEmailAsync(model.Email);
+                    if (existingUser != null)
+                    {
+                        ModelState.AddModelError("Email", "Пользователь с таким email уже существует");
+                        ViewBag.IsDarkMode = _themeService.GetCurrentTheme();
+                        ViewBag.CurrentLanguage = _languageService.GetCurrentLanguage();
+                        return View(model);
+                    }
+
+                    // Проверяем, существует ли пользователь с таким именем пользователя
+                    var existingUserName = await _userManager.FindByNameAsync(model.Email);
+                    if (existingUserName != null)
+                    {
+                        ModelState.AddModelError("Email", "Пользователь с таким именем уже существует");
+                        ViewBag.IsDarkMode = _themeService.GetCurrentTheme();
+                        ViewBag.CurrentLanguage = _languageService.GetCurrentLanguage();
+                        return View(model);
+                    }
+
+                    // Создаем нового пользователя
+                    var user = new ApplicationUser 
+                    { 
+                        UserName = model.Email,  // Используем email как имя пользователя
+                        Email = model.Email,
+                        EmailConfirmed = true,   // Подтверждаем email автоматически
+                        RegistrationDate = DateTime.Now,
+                        IsActive = true
+                    };
+
+                    var result = await _userManager.CreateAsync(user, model.Password);
+
+                    if (result.Succeeded)
+                    {
+                        // Добавляем роль Student по умолчанию
+                        await _userManager.AddToRoleAsync(user, "Student");
+                        
+                        // Выполняем вход
+                        await _signInManager.SignInAsync(user, isPersistent: false);
+                        return RedirectToAction("Index", "Home");
+                    }
+
+                    foreach (var error in result.Errors)
+                    {
+                        ModelState.AddModelError("", error.Description);
+                    }
                 }
-
-                foreach (var error in result.Errors)
+                catch (Exception ex)
                 {
-                    ModelState.AddModelError("", error.Description);
+                    _logger.LogError(ex, "Ошибка при регистрации пользователя");
+                    ModelState.AddModelError("", "Произошла ошибка при регистрации. Пожалуйста, попробуйте еще раз.");
                 }
             }
+
+            ViewBag.IsDarkMode = _themeService.GetCurrentTheme();
+            ViewBag.CurrentLanguage = _languageService.GetCurrentLanguage();
             return View(model);
         }
 

@@ -18,11 +18,13 @@ namespace WebApplication15.Models
         [Display(Name = "Иконка")]
         public string Icon { get; set; }
 
+        public virtual ICollection<LanguageLevel> LanguageLevels { get; set; }
         public virtual ICollection<Test> Tests { get; set; }
         public virtual ICollection<Video> Videos { get; set; }
 
         public Language()
         {
+            LanguageLevels = new HashSet<LanguageLevel>();
             Tests = new HashSet<Test>();
             Videos = new HashSet<Video>();
         }

@@ -4,14 +4,33 @@
     Layout = "_AdminLayout";
 }
 
+<style>
+    /* Стили для таблицы пользователей */
+    .table th {
+        white-space: nowrap;
+    }
+    
+    .table td {
+        max-width: 150px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    
+    /* Адаптивность для мобильных */
+    @@media (max-width: 768px) {
+        .table td {
+            max-width: 100px;
+        }
+    }
+</style>
+
 <div class="container-fluid px-4 py-4">
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h1 class="mb-0">
             <i class="fas fa-users me-2"></i>Управление пользователями
         </h1>
-        <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addUserModal">
-            <i class="fas fa-user-plus me-1"></i>Добавить пользователя
-                </button>
+        <!-- Кнопка добавления пользователя удалена -->
     </div>
 
     <div class="card mb-4">
@@ -36,14 +55,14 @@
                         @foreach (var user in Model)
                             {
                                 <tr>
-                                <td>@user.User.Id</td>
-                                <td>@user.User.UserName</td>
-                                <td>@user.User.Email</td>
-                                <td>@user.User.RegistrationDate.ToString("dd.MM.yyyy HH:mm")</td>
+                                <td title="@user.User.Id">@user.User.Id</td>
+                                <td title="@user.User.UserName">@user.User.UserName</td>
+                                <td title="@user.User.Email">@user.User.Email</td>
+                                <td title="@user.User.RegistrationDate.ToString("dd.MM.yyyy HH:mm")">@user.User.RegistrationDate.ToString("dd.MM.yyyy HH:mm")</td>
                                 <td>
                                     @foreach (var role in user.Roles)
                                     {
-                                        <span class="badge bg-primary me-1">@role</span>
+                                        <span class="badge bg-primary me-1" title="@role">@role</span>
                                         }
                                     </td>
                                     <td>

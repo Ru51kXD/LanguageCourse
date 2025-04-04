@@ -142,3 +142,80 @@ function confirmAction(message, callback) {
         callback();
     }
 }
+
+// Функции для адаптивности
+
+// Добавляем обработчик события для улучшения адаптивности 
+document.addEventListener('DOMContentLoaded', function() {
+    // Обработка мобильного меню
+    const sidebarToggle = document.getElementById('sidebarToggle');
+    const sidebar = document.getElementById('sidebar');
+    
+    if (sidebarToggle && sidebar) {
+        sidebarToggle.addEventListener('click', function() {
+            sidebar.classList.toggle('active');
+        });
+    }
+    
+    // Обработка кликов вне сайдбара для закрытия на мобильных
+    document.addEventListener('click', function(event) {
+        if (sidebar && sidebar.classList.contains('active')) {
+            if (!sidebar.contains(event.target) && event.target !== sidebarToggle) {
+                sidebar.classList.remove('active');
+            }
+        }
+    });
+    
+    // Адаптивность таблиц
+    const tables = document.querySelectorAll('.table-responsive table');
+    tables.forEach(function(table) {
+        const headerCells = table.querySelectorAll('th');
+        const headerTexts = Array.from(headerCells).map(th => th.textContent.trim());
+        
+        const dataCells = table.querySelectorAll('tbody td');
+        dataCells.forEach(function(cell, index) {
+            const columnIndex = index % headerTexts.length;
+            if (!cell.hasAttribute('data-label')) {
+                cell.setAttribute('data-label', headerTexts[columnIndex]);
+            }
+        });
+    });
+    
+    // Проверка ширины экрана при загрузке для настройки интерфейса
+    checkScreenWidth();
+    
+    // Обработка изменения размера окна
+    window.addEventListener('resize', checkScreenWidth);
+    
+    // Функция проверки ширины экрана
+    function checkScreenWidth() {
+        if (window.innerWidth < 768) {
+            // Настройки для мобильных устройств
+            if (sidebar) {
+                sidebar.classList.remove('active');
+            }
+            
+            // Скрываем некоторые элементы на мобильных устройствах
+            const hiddenMobile = document.querySelectorAll('.hidden-mobile');
+            hiddenMobile.forEach(function(element) {
+                element.style.display = 'none';
+            });
+        } else {
+            // Настройки для десктопов
+            const hiddenMobile = document.querySelectorAll('.hidden-mobile');
+            hiddenMobile.forEach(function(element) {
+                element.style.display = '';
+            });
+        }
+    }
+    
+    // Улучшение доступности для модальных окон на мобильных устройствах
+    const modals = document.querySelectorAll('.modal');
+    modals.forEach(function(modal) {
+        modal.addEventListener('shown.bs.modal', function() {
+            if (window.innerWidth < 768) {
+                modal.querySelector('.modal-dialog').style.margin = '10px';
+            }
+        });
+    });
+});

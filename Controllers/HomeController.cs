@@ -1,4 +1,3 @@
-/*
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using WebApplication15.Models;
@@ -156,4 +155,3 @@ public class TeamMember
     public string Bio { get; set; } = string.Empty;
     public string AvatarUrl { get; set; } = string.Empty;
 }
-*/

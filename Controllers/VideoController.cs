@@ -50,11 +50,14 @@ namespace WebApplication15.Controllers
                 userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             }
             
-            // Получение списка всех языков и уровней для фильтрации
+            // Загружаем все языки
             var languages = await _context.Languages.ToListAsync();
             ViewBag.Languages = languages;
             
-            var levels = await _context.LanguageLevels.ToListAsync();
+            // Загружаем все уровни с информацией о языке
+            var levels = await _context.LanguageLevels
+                .Include(l => l.Language)
+                .ToListAsync();
             ViewBag.Levels = levels;
             
             // Формирование запроса с проверкой статуса просмотра
@@ -63,20 +66,33 @@ namespace WebApplication15.Controllers
                 .ThenInclude(ll => ll.Language)
                 .AsQueryable();
             
-            // Применение фильтров
+            // Применение фильтра по языку
             if (languageId.HasValue)
             {
                 query = query.Where(v => v.LanguageLevel.LanguageId == languageId.Value);
                 var selectedLanguage = languages.FirstOrDefault(l => l.Id == languageId.Value);
                 ViewBag.SelectedLanguage = selectedLanguage?.Name;
                 ViewBag.SelectedLanguageId = languageId;
+                
+                // Фильтруем уровни только для выбранного языка для показа в фильтре
+                var filteredLevels = levels.Where(l => l.LanguageId == languageId.Value).ToList();
+                ViewBag.FilteredLevels = filteredLevels;
+            }
+            else
+            {
+                ViewBag.FilteredLevels = levels;
             }
             
+            // Применение фильтра по уровню языка
             if (!string.IsNullOrEmpty(levelName))
             {
                 query = query.Where(v => v.LanguageLevel.Name == levelName);
                 ViewBag.SelectedLevel = levelName;
             }
+            
+            // Дополнительная диагностика
+            var videosCount = await query.CountAsync();
+            ViewBag.DiagnosticCount = videosCount;
             
             // Получение результатов
             var videos = await query.ToListAsync();

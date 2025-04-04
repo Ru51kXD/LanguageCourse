@@ -45,23 +45,22 @@ namespace WebApplication15.Controllers
             _userManager = userManager;
         }
 
-        public async Task<IActionResult> Index(string? language = null, string? level = null)
+        public async Task<IActionResult> Index(int? languageId = null, string? level = null)
         {
             // Устанавливаем ViewData для представления
             ViewData["IsDarkMode"] = _themeService.GetCurrentTheme();
             ViewData["CurrentLanguage"] = _languageService.GetCurrentLanguage();
             ViewData["IsAuthenticated"] = _authService.IsAuthenticated();
             
-            // Получаем языки и уровни
+            // Получаем языки с их ID для корректной фильтрации
             var languages = await _context.Languages.ToListAsync();
             ViewData["Languages"] = languages;
             
-            var levels = await _context.LanguageLevels.ToListAsync();
-            ViewData["Levels"] = levels;
-
-            // Сохраняем выбранные параметры фильтрации
-            ViewData["SelectedLanguage"] = language;
-            ViewData["SelectedLevel"] = level;
+            // Загружаем все уровни с информацией о языке
+            var allLevels = await _context.LanguageLevels
+                .Include(l => l.Language)
+                .ToListAsync();
+            ViewData["Levels"] = allLevels;
 
             // Получаем тесты с включением связанных данных
             IQueryable<Test> testsQuery = _context.Tests
@@ -70,17 +69,40 @@ namespace WebApplication15.Controllers
                 .Include(t => t.Questions)
                 .Where(t => t.IsActive);
 
-            // Применяем фильтрацию по языку
-            if (!string.IsNullOrEmpty(language))
+            // Применяем фильтрацию по языку (с использованием ID языка для точности)
+            if (languageId.HasValue)
             {
-                testsQuery = testsQuery.Where(t => t.LanguageLevel.Language.Name == language);
+                testsQuery = testsQuery.Where(t => t.LanguageLevel.LanguageId == languageId.Value);
+                var selectedLanguage = languages.FirstOrDefault(l => l.Id == languageId.Value);
+                ViewData["SelectedLanguage"] = selectedLanguage?.Name;
+                ViewData["SelectedLanguageId"] = languageId;
+                
+                // Фильтруем доступные уровни только для выбранного языка
+                var filteredLevels = allLevels.Where(l => l.LanguageId == languageId.Value).ToList();
+                ViewData["FilteredLevels"] = filteredLevels;
+            }
+            else
+            {
+                ViewData["FilteredLevels"] = allLevels;
+                
+                // Если выбран только уровень без языка, пробуем определить язык из URL
+                if (!string.IsNullOrEmpty(level) && !languageId.HasValue)
+                {
+                    var languageName = languages.FirstOrDefault()?.Name;
+                    ViewData["SelectedLanguage"] = languageName;
+                }
             }
 
             // Применяем фильтрацию по уровню
             if (!string.IsNullOrEmpty(level))
             {
                 testsQuery = testsQuery.Where(t => t.LanguageLevel.Name == level);
+                ViewData["SelectedLevel"] = level;
             }
+            
+            // Добавляем диагностическую информацию
+            var testsCount = await testsQuery.CountAsync();
+            ViewData["DiagnosticCount"] = testsCount;
             
             // Если пользователь авторизован, получаем информацию о пройденных тестах
             if (User.Identity != null && User.Identity.IsAuthenticated)

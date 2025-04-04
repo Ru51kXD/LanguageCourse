@@ -1,0 +1,170 @@
+/* Стили для страниц входа и регистрации */
+.login-header {
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+.login-header h1 {
+    display: inline-block;
+    color: #ce82ff;
+    font-weight: bold;
+    margin-bottom: 0;
+    text-align: center;
+    writing-mode: horizontal-tb !important;
+    text-orientation: mixed !important;
+    letter-spacing: normal !important;
+    word-spacing: normal !important;
+}
+
+.login-form {
+    background-color: rgba(30, 30, 46, 0.95) !important;
+    border: 1px solid #3f3f5a !important;
+    max-width: 400px;
+    margin: 100px auto !important;
+    border-radius: 10px;
+    padding: 2rem;
+    display: block !important;
+    writing-mode: horizontal-tb !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3) !important;
+    position: relative;
+    z-index: 10;
+}
+
+.form-control, .btn {
+    border-radius: 6px;
+    writing-mode: horizontal-tb !important;
+}
+
+.form-control {
+    background-color: #2d2d3a !important;
+    color: #f8f9fa !important;
+    border: 1px solid #3f3f5a;
+    writing-mode: horizontal-tb !important;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #5e35b1 0%, #4527a0 100%) !important;
+    border: none !important;
+    writing-mode: horizontal-tb !important;
+}
+
+.btn-outline-primary {
+    border-color: #5e35b1 !important;
+    color: #f8f9fa !important;
+    writing-mode: horizontal-tb !important;
+}
+
+.form-check-input {
+    background-color: #2d2d3a !important;
+    border-color: #3f3f5a !important;
+}
+
+.input-group .btn {
+    background-color: #2d2d3a !important;
+    color: #f8f9fa !important;
+    border-color: #3f3f5a !important;
+}
+
+/* Фиксация проблемы с вертикальным текстом */
+body, html, div, span, h1, h2, h3, h4, h5, h6, p, a, button, input, label {
+    writing-mode: horizontal-tb !important;
+    text-orientation: mixed !important;
+    direction: ltr !important;
+}
+
+.container, .row, .col-md-6, .login-form div, .form-label, .form-control {
+    display: block !important;
+}
+
+/* Принудительное применение стилей */
+[class*="login"] * {
+    writing-mode: horizontal-tb !important;
+}
+
+/* Дополнительное исправление для текста заголовка формы входа */
+.card-body h1, .text-gradient, .text-center, 
+h1.text-center, h1 .text-gradient, h1 span {
+    writing-mode: horizontal-tb !important;
+    text-orientation: mixed !important;
+    display: block !important;
+}
+
+/* Сброс потенциально проблемных CSS трансформаций */
+* {
+    transform: none !important;
+    transform-origin: center center !important;
+}
+
+/* Стили для login-simple */
+.login-simple {
+    max-width: 400px;
+    margin: 100px auto !important;
+    padding: 30px;
+    background-color: rgba(30, 30, 46, 0.95);
+    border-radius: 10px;
+    border: 1px solid #3f3f5a;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    position: relative;
+    z-index: 10;
+}
+
+.login-simple h1 {
+    color: #ce82ff;
+    text-align: center;
+    margin-bottom: 20px;
+    font-weight: bold;
+}
+
+.login-simple .form-control {
+    background-color: #2d2d3a;
+    color: #f8f9fa;
+    border: 1px solid #3f3f5a;
+    padding: 10px;
+    margin-bottom: 15px;
+    width: 100%;
+    border-radius: 6px;
+}
+
+.login-simple .btn-primary {
+    background: linear-gradient(135deg, #5e35b1 0%, #4527a0 100%);
+    color: white;
+    border: none;
+    padding: 10px;
+    width: 100%;
+    margin-top: 10px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.login-simple .btn-outline {
+    background: transparent;
+    color: #f8f9fa;
+    border: 1px solid #5e35b1;
+    padding: 10px;
+    width: 100%;
+    margin-top: 10px;
+    border-radius: 6px;
+    cursor: pointer;
+    text-align: center;
+    display: block;
+    text-decoration: none;
+}
+
+.login-simple label {
+    color: #f8f9fa;
+    margin-bottom: 5px;
+    display: block;
+}
+
+/* Исправления для макета страницы */
+.main-content {
+    margin-top: 0;
+    padding-top: 0;
+}
+
+.centered-content {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    min-height: calc(100vh - 76px);
+} 

@@ -4,6 +4,79 @@
     Layout = "_AdminLayout";
 }
 
+<style>
+    /* Стили для таблицы видео */
+    .table th {
+        white-space: nowrap;
+    }
+    
+    .table td {
+        max-width: 150px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        vertical-align: middle;
+    }
+    
+    /* Название видео может быть длинным, делаем его шире */
+    .table td:nth-child(3) {
+        max-width: 200px;
+    }
+    
+    /* Адаптивность для мобильных */
+    @@media (max-width: 768px) {
+        .table td {
+            max-width: 100px;
+        }
+        
+        .table td:nth-child(3) {
+            max-width: 120px;
+        }
+    }
+    
+    /* Стиль для кнопок действий */
+    .btn-action {
+        width: 38px;
+        height: 31px;
+        padding: 0.25rem;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .btn-red-delete {
+        color: white;
+        background-color: #dc3545;
+        border-color: #dc3545;
+    }
+    
+    .btn-red-delete:hover {
+        color: white;
+        background-color: #bb2d3b;
+        border-color: #b02a37;
+    }
+    
+    /* Компактные кнопки в колонке действий */
+    .action-buttons {
+        display: flex;
+        flex-wrap: nowrap;
+        gap: 3px;
+    }
+    
+    /* Устанавливаем максимальную ширину таблицы */
+    .table-responsive {
+        overflow-x: auto;
+    }
+    
+    /* Минимальная ширина изображения */
+    .thumbnail-image {
+        min-width: 80px;
+        width: 80px;
+        height: 45px;
+        object-fit: cover;
+    }
+</style>
+
 <div class="container-fluid px-4 py-4">
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h1 class="mb-0">
@@ -52,35 +125,39 @@
                             @foreach (var video in Model)
                             {
                                 <tr>
-                                    <td>@video.Id</td>
-                                    <td>
-                                        <img src="@video.ThumbnailUrl" alt="@video.Title" class="img-thumbnail" style="width: 80px; height: 45px; object-fit: cover;">
+                                    <td data-label="ID" title="@video.Id">@video.Id</td>
+                                    <td data-label="Миниатюра">
+                                        <img src="@video.ThumbnailUrl" alt="@video.Title" class="img-thumbnail thumbnail-image">
                                     </td>
-                                    <td>@video.Title</td>
-                                    <td>@(video.LanguageLevel?.Language?.Name ?? "Не указан")</td>
-                                    <td>
+                                    <td data-label="Название" title="@video.Title">@video.Title</td>
+                                    <td data-label="Язык" title="@(video.LanguageLevel?.Language?.Name ?? "Не указан")">@(video.LanguageLevel?.Language?.Name ?? "Не указан")</td>
+                                    <td data-label="Уровень" title="@(video.LanguageLevel?.Name ?? "Не указан")">
                                         <span class="badge bg-info">@(video.LanguageLevel?.Name ?? "Не указан")</span>
                                     </td>
-                                    <td>
+                                    <td data-label="Статус">
                                         @if (video.IsActive)
                                         {
-                                            <span class="badge bg-success">Активно</span>
+                                            <span class="badge bg-success" title="Активно">Активно</span>
                                         }
                                         else
                                         {
-                                            <span class="badge bg-warning">Неактивно</span>
+                                            <span class="badge bg-warning" title="Неактивно">Неактивно</span>
                                         }
                                     </td>
-                                    <td>
-                                        <div class="btn-group">
-                                            <a href="@Url.Action("EditVideo", "Admin", new { id = video.Id })" class="btn btn-sm btn-outline-warning me-1">
-                                                <i class="fas fa-edit"></i> Редактировать
+                                    <td data-label="Действия">
+                                        <div class="action-buttons">
+                                            <a href="@Url.Action("VideoDetails", "Admin", new { id = video.Id })" class="btn btn-sm btn-outline-primary btn-action" title="Просмотр">
+                                                <i class="fas fa-eye"></i>
                                             </a>
-                                            <button type="button" class="btn btn-sm btn-outline-danger" 
+                                            <a href="@Url.Action("EditVideo", "Admin", new { id = video.Id })" class="btn btn-sm btn-outline-warning btn-action" title="Редактировать">
+                                                <i class="fas fa-edit"></i>
+                                            </a>
+                                            <button type="button" class="btn btn-sm btn-red-delete btn-action" 
                                                    data-bs-toggle="modal" data-bs-target="#deleteVideoModal" 
                                                    data-video-id="@video.Id"
-                                                   data-video-title="@video.Title">
-                                                <i class="fas fa-trash-alt"></i> Удалить
+                                                   data-video-title="@video.Title"
+                                                   title="Удалить">
+                                                <i class="fas fa-trash-alt"></i>
                                             </button>
                                         </div>
                                     </td>

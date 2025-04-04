@@ -3,9 +3,9 @@ using System.Threading.Tasks;
 
 namespace WebApplication15
 {
-    class ResetAdminMain
+    partial class ResetAdminMain
     {
-        static async Task Main(string[] args)
+        static async Task ResetAdminMainMethod(string[] args)
         {
             Console.WriteLine("Запуск скрипта сброса пароля администратора...");
             
