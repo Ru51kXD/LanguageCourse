@@ -1114,3 +1114,271 @@ header {
         transform: translateY(0);
     }
 }
+
+/* Дополнительные медиа-запросы для адаптивности */
+@media (max-width: 576px) {
+  html {
+    font-size: 14px;
+  }
+
+  .container {
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+
+  .hero-section {
+    padding: 50px 0;
+  }
+
+  .hero-section h1 {
+    font-size: 2rem;
+  }
+
+  .hero-section p {
+    font-size: 1rem;
+  }
+
+  .language-cards {
+    gap: 10px;
+  }
+
+  .language-card {
+    width: 100%;
+  }
+
+  .language-card-front,
+  .language-card-back {
+    padding: 15px;
+  }
+
+  .btn {
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+  }
+
+  .table-responsive {
+    overflow-x: auto;
+  }
+
+  .video-thumbnail img {
+    max-width: 100%;
+    height: auto;
+  }
+
+  .sidebar {
+    width: 100%;
+    transform: translateX(-100%);
+  }
+
+  .sidebar.active {
+    transform: translateX(0);
+    width: 100%;
+  }
+
+  .content-wrapper {
+    margin-left: 0;
+  }
+
+  .table th, .table td {
+    padding: 0.5rem;
+  }
+
+  .stat-cards, .videos-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .filters-section .row {
+    flex-direction: column;
+  }
+
+  .filters-section .col-md-5,
+  .filters-section .col-md-2 {
+    width: 100%;
+    margin-bottom: 15px;
+  }
+
+  .filter-options {
+    flex-wrap: wrap;
+  }
+}
+
+@media (min-width: 577px) and (max-width: 768px) {
+  .language-card {
+    width: calc(50% - 10px);
+  }
+
+  .sidebar {
+    width: 70px;
+  }
+
+  .sidebar.active {
+    width: 250px;
+  }
+
+  .content-wrapper {
+    margin-left: 70px;
+  }
+
+  .content-wrapper.expanded {
+    margin-left: 0;
+  }
+
+  .sidebar-brand span,
+  .sidebar-nav span {
+    display: none;
+  }
+
+  .sidebar.active .sidebar-brand span,
+  .sidebar.active .sidebar-nav span {
+    display: inline;
+  }
+
+  .stat-cards {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .filters-section .col-md-5 {
+    width: 50%;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 992px) {
+  .language-card {
+    width: calc(33.33% - 10px);
+  }
+
+  .hero-section h1 {
+    font-size: 2.8rem;
+  }
+
+  .stat-cards {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* Улучшения для административной части */
+@media (max-width: 768px) {
+  .admin-wrapper {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .admin-sidebar {
+    width: 100%;
+    height: auto;
+    position: relative;
+  }
+
+  .admin-content {
+    margin-left: 0;
+    width: 100%;
+  }
+
+  .admin-content.active {
+    margin-left: 0;
+  }
+
+  .admin-sidebar.active {
+    height: 100vh;
+    position: fixed;
+    z-index: 1050;
+  }
+
+  .card-body {
+    padding: 15px;
+  }
+
+  .btn-group {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .btn-group .btn {
+    margin-bottom: 5px;
+  }
+}
+
+/* Фиксы для форм входа/регистрации */
+@media (max-width: 576px) {
+  .login-form, .register-form {
+    width: 100%;
+    padding: 20px;
+  }
+
+  .form-control {
+    font-size: 14px;
+  }
+}
+
+/* Улучшение отображения для таблиц на мобильных устройствах */
+@media (max-width: 767px) {
+  .table-responsive {
+    border: 0;
+  }
+
+  .table-responsive table {
+    border: 0;
+  }
+
+  .table-responsive table caption {
+    font-size: 1.3em;
+  }
+  
+  .table-responsive table thead {
+    border: none;
+    clip: rect(0 0 0 0);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    width: 1px;
+  }
+  
+  .table-responsive table tr {
+    border-bottom: 3px solid #ddd;
+    display: block;
+    margin-bottom: .625em;
+  }
+  
+  .table-responsive table td {
+    border-bottom: 1px solid #ddd;
+    display: block;
+    font-size: .8em;
+    text-align: right !important;
+    position: relative;
+    padding-left: 50% !important;
+  }
+  
+  .table-responsive table td::before {
+    content: attr(data-label);
+    float: left;
+    font-weight: bold;
+    text-transform: uppercase;
+    position: absolute;
+    left: 10px;
+  }
+  
+  .table-responsive table td:last-child {
+    border-bottom: 0;
+  }
+}
+
+/* Исправление для страницы с видео */
+.video-page-container {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+.video-hero {
+  width: 100%;
+}
+
+/* Для экрана входа в систему */
+@media (max-width: 576px) {
+  .login-container {
+    width: 100%;
+    max-width: 100%;
+    padding: 1rem;
+  }
+}

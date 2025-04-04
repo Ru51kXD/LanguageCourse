@@ -18,6 +18,14 @@ namespace WebApplication15.Models
         [MaxLength(100)]
         public string TestTitle { get; set; } = string.Empty;
 
+        // Свойство Title с геттером и сеттером для совместимости
+        [NotMapped]
+        public string Title 
+        { 
+            get => TestTitle; 
+            set => TestTitle = value; 
+        }
+
         [MaxLength(50)]
         public string Language { get; set; } = string.Empty;
 
@@ -38,6 +46,13 @@ namespace WebApplication15.Models
         public bool IsPassed { get; set; }
 
         public DateTime CompletedDate { get; set; } = DateTime.Now;
+
+        // Длительность прохождения теста в секундах
+        public int DurationSeconds { get; set; } = 0;
+
+        // Свойство Duration для обратной совместимости
+        [NotMapped]
+        public TimeSpan Duration => TimeSpan.FromSeconds(DurationSeconds);
 
         // Навигационные свойства
         [ForeignKey("UserId")]

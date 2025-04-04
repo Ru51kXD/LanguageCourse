@@ -3,11 +3,61 @@
     Layout = "_AdminLayout";
 }
 
+<style>
+    /* Стили для карточек статистики */
+    .card-title {
+        font-size: 1rem;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 150px;
+    }
+
+    .card-text.display-4 {
+        font-size: 2.5rem;
+        line-height: 1.1;
+    }
+
+    /* Стили для таблицы информации о системе */
+    .table th {
+        width: 40%;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .table td {
+        width: 60%;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    /* Стили для быстрых действий */
+    .list-group-item-action div {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: calc(100% - 20px);
+    }
+
+    /* Адаптивность для мобильных */
+    @@media (max-width: 576px) {
+        .card-title {
+            max-width: 100px;
+        }
+        
+        .card-text.display-4 {
+            font-size: 2rem;
+        }
+    }
+</style>
+
 <div class="admin-dashboard">
     <h1 class="mb-4">Панель администратора</h1>
     
     <div class="row">
-        <div class="col-md-3">
+        <div class="col-md-3 col-sm-6">
             <div class="card bg-primary text-white mb-4">
                 <div class="card-body">
                     <div class="d-flex justify-content-between align-items-center">
@@ -25,7 +75,7 @@
             </div>
         </div>
         
-        <div class="col-md-3">
+        <div class="col-md-3 col-sm-6">
             <div class="card bg-success text-white mb-4">
                 <div class="card-body">
                     <div class="d-flex justify-content-between align-items-center">
@@ -43,7 +93,7 @@
             </div>
         </div>
         
-        <div class="col-md-3">
+        <div class="col-md-3 col-sm-6">
             <div class="card bg-info text-white mb-4">
                 <div class="card-body">
                     <div class="d-flex justify-content-between align-items-center">
@@ -61,12 +111,12 @@
             </div>
         </div>
         
-        <div class="col-md-3">
+        <div class="col-md-3 col-sm-6">
             <div class="card bg-warning text-white mb-4">
                 <div class="card-body">
                     <div class="d-flex justify-content-between align-items-center">
                         <div>
-                            <h5 class="card-title mb-0">Результаты тестов</h5>
+                            <h5 class="card-title mb-0" title="Результаты тестов">Результаты тестов</h5>
                             <p class="card-text display-4">@ViewBag.TestResultCount</p>
                         </div>
                         <i class="fas fa-chart-bar fa-3x"></i>
@@ -90,28 +140,28 @@
                 <div class="card-body">
                     <div class="list-group">
                         <a href="@Url.Action("CreateTest", "Admin")" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
-                            <div>
+                            <div title="Создать новый тест">
                                 <i class="fas fa-plus-circle me-2 text-success"></i>
                                 Создать новый тест
                             </div>
                             <i class="fas fa-chevron-right"></i>
                         </a>
                         <a href="@Url.Action("CreateVideo", "Admin")" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
-                            <div>
+                            <div title="Добавить новое видео">
                                 <i class="fas fa-plus-circle me-2 text-info"></i>
                                 Добавить новое видео
                             </div>
                             <i class="fas fa-chevron-right"></i>
                         </a>
                         <a href="@Url.Action("Users", "Admin")" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
-                            <div>
+                            <div title="Управление пользователями">
                                 <i class="fas fa-users me-2 text-primary"></i>
                                 Управление пользователями
                             </div>
                             <i class="fas fa-chevron-right"></i>
                         </a>
                         <a href="@Url.Action("Tests", "Admin")" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
-                            <div>
+                            <div title="Управление тестами">
                                 <i class="fas fa-list me-2 text-warning"></i>
                                 Управление тестами
                             </div>
@@ -132,20 +182,20 @@
                     <table class="table table-bordered">
                         <tbody>
                             <tr>
-                                <th scope="row">Версия системы</th>
-                                <td>1.0.0</td>
+                                <th scope="row" title="Версия системы">Версия системы</th>
+                                <td title="1.0.0">1.0.0</td>
                             </tr>
                             <tr>
-                                <th scope="row">Последнее обновление</th>
-                                <td>@DateTime.Now.ToString("dd.MM.yyyy")</td>
+                                <th scope="row" title="Последнее обновление">Последнее обновление</th>
+                                <td title="@DateTime.Now.ToString("dd.MM.yyyy")">@DateTime.Now.ToString("dd.MM.yyyy")</td>
                             </tr>
                             <tr>
-                                <th scope="row">Среда выполнения</th>
-                                <td>ASP.NET Core</td>
+                                <th scope="row" title="Среда выполнения">Среда выполнения</th>
+                                <td title="ASP.NET Core">ASP.NET Core</td>
                             </tr>
                             <tr>
-                                <th scope="row">База данных</th>
-                                <td>SQL Server</td>
+                                <th scope="row" title="База данных">База данных</th>
+                                <td title="SQL Server">SQL Server</td>
                             </tr>
                         </tbody>
                     </table>

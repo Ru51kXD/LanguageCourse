@@ -7,8 +7,15 @@
 
     var languages = ViewData["Languages"] as List<Language> ?? new List<Language>();
     var levels = ViewData["Levels"] as List<LanguageLevel> ?? new List<LanguageLevel>();
+    var filteredLevels = ViewData["FilteredLevels"] as List<LanguageLevel> ?? levels;
     var selectedLanguage = ViewData["SelectedLanguage"] as string;
+    var selectedLanguageId = ViewData["SelectedLanguageId"] as int?;
     var selectedLevel = ViewData["SelectedLevel"] as string;
+    var diagnosticCount = ViewData["DiagnosticCount"] as int?;
+
+    // Получаем только уникальные названия уровней для фильтрации
+    var uniqueLevels = filteredLevels?.Select(l => l.Name).Distinct().ToList() ?? 
+                        new List<string>() { "A1", "A2", "B1", "B2", "C1", "C2" };
 
     // Группируем тесты по языкам
     var testsByLanguage = Model
@@ -49,10 +56,6 @@
         { "Казахский", "🇰🇿" }
     };
     
-    // Получаем список всех языков и уровней для фильтрации
-    var allLanguages = testsByLanguage.Keys.ToList();
-    var allLevels = new List<string>() { "A1", "A2", "B1", "B2", "C1", "C2" };
-    
     // Мотивационные фразы
     var motivationalPhrases = new string[] {
         "Учить язык - значит открывать новый мир!",
@@ -88,17 +91,18 @@
                 Выберите язык
             </h5>
             <div class="filter-options" style="margin-top:20px">
-                <a href="#" class="filter-option active" data-language="all">
+                <a href="@Url.Action("Index", new { level = selectedLevel })" class="filter-option @(selectedLanguageId == null ? "active" : "")">
                     Все языки
                 </a>
-                @foreach (var language in allLanguages)
+                @foreach (var language in languages)
                 {
-                    <a href="#" class="filter-option" data-language="@language">
-                        @if (languageFlags.ContainsKey(language))
+                    <a href="@Url.Action("Index", new { languageId = language.Id, level = selectedLevel })" 
+                       class="filter-option @(selectedLanguageId == language.Id ? "active" : "")">
+                        @if (languageFlags.ContainsKey(language.Name))
                         {
-                            <span class="filter-icon">@languageFlags[language]</span>
+                            <span class="filter-icon">@languageFlags[language.Name]</span>
                         }
-                        @language
+                        @language.Name
                     </a>
                 }
             </div>
@@ -110,31 +114,28 @@
                 Выберите уровень
             </h5>
             <div class="filter-options" style="margin-top:20px; margin-bottom:20px">
-                <a href="#" class="filter-option active" data-level="all">
+                <a href="@Url.Action("Index", new { languageId = selectedLanguageId })" class="filter-option @(selectedLevel == null ? "active" : "")">
                     Все уровни
                 </a>
-                <a href="#" class="filter-option" data-level="A1">
-                    <span class="level-badge">A1</span>
-                </a>
-                <a href="#" class="filter-option" data-level="A2">
-                    <span class="level-badge">A2</span>
-                </a>
-                <a href="#" class="filter-option" data-level="B1">
-                    <span class="level-badge">B1</span>
-                </a>
-                <a href="#" class="filter-option" data-level="B2">
-                    <span class="level-badge">B2</span>
-                </a>
-                <a href="#" class="filter-option" data-level="C1">
-                    <span class="level-badge">C1</span>
-                </a>
-                <a href="#" class="filter-option" data-level="C2">
-                    <span class="level-badge">C2</span>
-                </a>
+                @foreach (var levelName in uniqueLevels)
+                {
+                    <a href="@Url.Action("Index", new { languageId = selectedLanguageId, level = levelName })" 
+                       class="filter-option @(selectedLevel == levelName ? "active" : "")">
+                        <span class="level-badge">@levelName</span>
+                    </a>
+                }
             </div>
         </div>
     </div>
-        
+
+    <!-- Диагностическая информация (для отладки) -->
+    <div class="alert alert-info">
+        <p>Диагностика: найдено @(diagnosticCount ?? 0) тестов с выбранными фильтрами</p>
+        <p>Выбранный язык: @(selectedLanguage ?? "Не выбран")</p>
+        <p>Выбранный уровень: @(selectedLevel ?? "Не выбран")</p>
+        <p>Доступные уровни: @(string.Join(", ", uniqueLevels ?? new List<string>()))</p>
+    </div>
+
     <!-- Списки тестов по языкам -->
     <div class="language-sections">
         @if (!testsByLanguage.Any())
@@ -142,7 +143,8 @@
             <div class="empty-tests-message">
                 <i class="fas fa-book"></i>
                 <h3>Тесты не найдены</h3>
-                <p>В данный момент тесты не доступны. Пожалуйста, зайдите позже, когда будут добавлены новые тесты, или обратитесь к администратору.</p>
+                <p>К сожалению, по вашему запросу не найдено тестов. Попробуйте изменить параметры фильтра.</p>
+                <a href="@Url.Action("Index")" class="btn btn-primary">Сбросить фильтр</a>
             </div>
         }
         else
@@ -168,7 +170,7 @@
                         }
                         @foreach (var test in testsForLanguage)
                         {
-                            string levelName = test.LanguageLevel?.Level.ToString() ?? "Unknown";
+                            string levelName = test.LanguageLevel?.Name ?? "Unknown";
                             
                             <div class="demo-test-card" style="--animation-order: @animationOrder" data-level="@levelName">
                                 <div class="demo-test-header">
@@ -211,97 +213,29 @@
 @section Scripts {
     <script>
         $(document).ready(function() {
-            // Фильтрация по языку
-            $('.filter-option[data-language]').click(function(e) {
-                e.preventDefault();
-                $('.filter-option[data-language]').removeClass('active');
-                $(this).addClass('active');
-                
-                var selectedLanguage = $(this).data('language');
-                
-                if (selectedLanguage === 'all') {
-                    $('.language-section').fadeIn(300);
-                } else {
-                    $('.language-section').hide();
-                    $('.language-section[data-language="' + selectedLanguage + '"]').fadeIn(300);
-                }
-                
-                // Показываем сообщение Duo
-                if (selectedLanguage !== 'all') {
-                    showDuoMessage('Отличный выбор! Язык ' + selectedLanguage + ' открывает много возможностей!');
-                } else {
-                    showDuoMessage('Выбери тест, который тебе интересен!');
-                }
-            });
+            // Показываем случайное сообщение от Duo при загрузке страницы
+            showDuoMessage('@randomPhrase');
             
-            // Фильтрация по уровню
-            $('.filter-option[data-level]').click(function(e) {
-                e.preventDefault();
-                $('.filter-option[data-level]').removeClass('active');
-                $(this).addClass('active');
-                
-                var selectedLevel = $(this).data('level');
-                
-                if (selectedLevel === 'all') {
-                    $('.demo-test-card').fadeIn(300);
-                } else {
-                    $('.demo-test-card').hide();
-                    $('.demo-test-card[data-level="' + selectedLevel + '"]').fadeIn(300);
-                }
-                
-                // Показываем сообщение от Duo при выборе уровня
-                if (selectedLevel !== 'all') {
-                    const levelMessages = {
-                        'A1': 'Уровень A1 - отличное начало для изучения языка!',
-                        'A2': 'На уровне A2 ты уже сможешь вести простые разговоры!',
-                        'B1': 'Уровень B1 - это уже средний уровень, ты молодец!',
-                        'B2': 'B2 - отличный уровень для работы и путешествий!',
-                        'C1': 'C1 - почти профессиональный уровень!',
-                        'C2': 'C2 - ты практически носитель языка!'
-                    };
-                    showDuoMessage(levelMessages[selectedLevel] || 'Выбери тест, который подходит твоему уровню.');
-                }
-            });
-            
-            // Отображение сообщений Duo
+            // Функция для показа сообщения от Duo
             function showDuoMessage(message) {
-                const duoSpeech = document.getElementById('duoSpeech');
-                duoSpeech.textContent = message;
-                duoSpeech.classList.add('show');
-                
-                setTimeout(() => {
-                    duoSpeech.classList.remove('show');
+                $('#duoSpeech').text(message).fadeIn(300);
+                setTimeout(function() {
+                    $('#duoSpeech').fadeOut(300);
                 }, 5000);
             }
             
-            // Взаимодействие с персонажем
+            // Показываем сообщение при клике на Duo
             $('#fixedDuo').click(function() {
-                const encouragingMessages = [
-                    'Ты справишься! Я в тебя верю!',
-                    'Регулярная практика - залог успеха!',
-                    'Каждый тест - это шаг вперед!',
-                    'Не бойся ошибок, они помогают учиться!',
-                    'Постоянство и упорство приведут к результату!'
+                var messages = [
+                    'Регулярное тестирование помогает лучше запоминать слова!',
+                    'Не забывай повторять пройденный материал!',
+                    'Удачи с тестами!',
+                    'Ты молодец, что учишься!',
+                    'Изучение языка - это увлекательное путешествие!'
                 ];
-                
-                const randomIndex = Math.floor(Math.random() * encouragingMessages.length);
-                showDuoMessage(encouragingMessages[randomIndex]);
+                var randomMessage = messages[Math.floor(Math.random() * messages.length)];
+                showDuoMessage(randomMessage);
             });
-            
-            // Показываем приветственное сообщение
-            setTimeout(() => {
-                const welcomeMessages = [
-                    'Привет! Готов проверить свои знания?',
-                    'Выбери язык и уровень, который хочешь проверить!',
-                    'Тренировки помогают совершенствоваться!',
-                    'Начни сейчас!',
-                    'Регулярное тестирование - ключ к успеху!',
-                    'Пройди все тесты и улучши свои знания!'
-                ];
-                
-                const randomIndex = Math.floor(Math.random() * welcomeMessages.length);
-                showDuoMessage(welcomeMessages[randomIndex]);
-            }, 1000);
         });
     </script>
 } 

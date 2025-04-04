@@ -18,6 +18,14 @@ namespace WebApplication15.Models
         [Display(Name = "Тест")]
         public int TestId { get; set; }
 
+        // Тип вопроса: 0 - одиночный выбор, 1 - множественный выбор, 2 - ввод текста
+        [Display(Name = "Тип вопроса")]
+        public int QuestionType { get; set; } = 0;
+
+        // Порядок вопроса в тесте
+        [Display(Name = "Порядок")]
+        public int Order { get; set; } = 0;
+
         [Display(Name = "Правильный ответ")]
         public string CorrectAnswer { get; set; }
 

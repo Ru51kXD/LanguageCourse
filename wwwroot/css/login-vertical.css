@@ -1,0 +1,217 @@
+/* Стили для страниц входа и регистрации с вертикальным текстом */
+
+/* Сброс для конфликтующих стилей */
+.page-animation, .card.login-form, .row, .col-md-6, .card-body {
+    all: initial;
+}
+
+/* Контейнер для формы авторизации */
+.auth-container {
+    display: flex !important;
+    flex-direction: row !important;
+    justify-content: center !important;
+    align-items: stretch !important;
+    min-height: 100vh !important;
+    background-color: #121212 !important;
+    overflow: hidden !important;
+    width: 100% !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    z-index: 100 !important;
+}
+
+/* Вертикальный заголовок */
+.login-vertical-header {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    padding: 2rem !important;
+    background-color: rgba(30, 30, 46, 0.95) !important;
+    border-right: 1px solid #3f3f5a !important;
+    width: auto !important;
+    min-width: 120px !important;
+    z-index: 101 !important;
+}
+
+.vertical-title {
+    writing-mode: vertical-rl !important;
+    text-orientation: mixed !important;
+    transform: rotate(180deg) !important;
+    margin: 0 !important;
+    padding: 1rem 0 !important;
+    font-size: 2rem !important;
+    font-weight: 700 !important;
+    color: white !important;
+    line-height: 1.2 !important;
+}
+
+.text-gradient {
+    background: linear-gradient(45deg, #ce82ff, #58cc02) !important;
+    -webkit-background-clip: text !important;
+    background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    display: inline-block !important;
+}
+
+/* Контейнер для формы */
+.login-form-container {
+    flex: 1 !important;
+    padding: 2rem !important;
+    background-color: rgba(30, 30, 46, 0.95) !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    max-width: 400px !important;
+    box-shadow: none !important;
+    border-radius: 0 !important;
+    border: none !important;
+    margin: 0 !important;
+    z-index: 101 !important;
+}
+
+/* Стили полей формы */
+.form-field {
+    margin-bottom: 1.5rem !important;
+    width: 100% !important;
+}
+
+.form-label {
+    display: block !important;
+    margin-bottom: 0.5rem !important;
+    color: #f8f9fa !important;
+    font-weight: 600 !important;
+    font-size: 1rem !important;
+}
+
+.form-control {
+    width: 100% !important;
+    padding: 0.75rem 1rem !important;
+    background-color: #2d2d3a !important;
+    color: #f8f9fa !important;
+    border: 1px solid #3f3f5a !important;
+    border-radius: 6px !important;
+    font-size: 1rem !important;
+    box-shadow: none !important;
+}
+
+/* Контейнер для поля пароля */
+.password-input-container {
+    position: relative !important;
+    display: flex !important;
+    align-items: center !important;
+    width: 100% !important;
+}
+
+.password-toggle {
+    position: absolute !important;
+    right: 10px !important;
+    background: none !important;
+    border: none !important;
+    color: #a0a0a0 !important;
+    cursor: pointer !important;
+    font-size: 1.1rem !important;
+    z-index: 102 !important;
+}
+
+/* Стиль для чекбокса */
+.form-check-field {
+    margin-bottom: 1.5rem !important;
+    display: flex !important;
+    align-items: center !important;
+}
+
+.form-check-input {
+    margin-right: 0.5rem !important;
+    background-color: #2d2d3a !important;
+    border-color: #3f3f5a !important;
+}
+
+.form-check-label {
+    color: #f8f9fa !important;
+}
+
+/* Кнопки формы */
+.form-buttons {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 1rem !important;
+    width: 100% !important;
+}
+
+.auth-container .btn {
+    padding: 0.75rem 1.5rem !important;
+    font-weight: 600 !important;
+    border-radius: 6px !important;
+    font-size: 1rem !important;
+    cursor: pointer !important;
+    transition: all 0.3s ease !important;
+    display: inline-block !important;
+    text-align: center !important;
+    text-decoration: none !important;
+    width: 100% !important;
+}
+
+.auth-container .btn-primary {
+    background: linear-gradient(135deg, #5e35b1 0%, #4527a0 100%) !important;
+    color: white !important;
+    border: none !important;
+}
+
+.auth-container .btn-outline-primary {
+    background: transparent !important;
+    color: #f8f9fa !important;
+    border: 1px solid #5e35b1 !important;
+    text-align: center !important;
+    text-decoration: none !important;
+}
+
+/* Стили сообщений об ошибках */
+.auth-container .alert {
+    margin-bottom: 1.5rem !important;
+    padding: 0.75rem 1rem !important;
+    border-radius: 6px !important;
+}
+
+.auth-container .alert-danger {
+    background-color: rgba(220, 53, 69, 0.2) !important;
+    color: #f8d7da !important;
+    border: 1px solid rgba(220, 53, 69, 0.3) !important;
+}
+
+.auth-container .invalid-feedback {
+    color: #ff6b6b !important;
+    margin-top: 0.25rem !important;
+    font-size: 0.875rem !important;
+}
+
+/* Адаптивность для мобильных устройств */
+@media (max-width: 768px) {
+    .auth-container {
+        flex-direction: column !important;
+    }
+    
+    .login-vertical-header {
+        padding: 1rem !important;
+        border-right: none !important;
+        border-bottom: 1px solid #3f3f5a !important;
+        width: 100% !important;
+        min-width: 100% !important;
+    }
+    
+    .vertical-title {
+        writing-mode: horizontal-tb !important;
+        text-orientation: mixed !important;
+        transform: none !important;
+        padding: 0.5rem 0 !important;
+    }
+    
+    .login-form-container {
+        max-width: 100% !important;
+        width: 100% !important;
+    }
+} 

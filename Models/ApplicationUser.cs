@@ -1,4 +1,3 @@
-/*
 using Microsoft.AspNetCore.Identity;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -47,5 +46,4 @@ namespace WebApplication15.Models
         [Display(Name = "Полное имя")]
         public string FullName => $"{FirstName} {LastName}";
     }
-}
-*/ 
+} 

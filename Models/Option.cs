@@ -1,4 +1,3 @@
-/*
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -21,5 +20,4 @@ namespace WebApplication15.Models
         // Навигационные свойства
         public virtual Question? Question { get; set; }
     }
-}
-*/ 
+} 

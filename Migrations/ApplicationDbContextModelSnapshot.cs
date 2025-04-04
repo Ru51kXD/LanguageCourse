@@ -280,7 +280,8 @@ namespace WebApplication15.Migrations
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
 
                     b.Property<int>("LanguageId")
                         .HasColumnType("int");
@@ -293,7 +294,8 @@ namespace WebApplication15.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)");
 
                     b.HasKey("Id");
 
@@ -320,7 +322,8 @@ namespace WebApplication15.Migrations
 
                     b.Property<string>("Text")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
 
                     b.HasKey("Id");
 
@@ -340,6 +343,12 @@ namespace WebApplication15.Migrations
                     b.Property<string>("CorrectAnswer")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Order")
+                        .HasColumnType("int");
+
+                    b.Property<int>("QuestionType")
+                        .HasColumnType("int");
 
                     b.Property<int>("TestId")
                         .HasColumnType("int");
@@ -373,6 +382,9 @@ namespace WebApplication15.Migrations
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
+                    b.Property<int?>("LanguageId")
+                        .HasColumnType("int");
+
                     b.Property<int>("LanguageLevelId")
                         .HasColumnType("int");
 
@@ -394,6 +406,8 @@ namespace WebApplication15.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("LanguageId");
+
                     b.HasIndex("LanguageLevelId");
 
                     b.HasIndex("LanguageLevelId1");
@@ -413,6 +427,9 @@ namespace WebApplication15.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<int>("CorrectAnswers")
+                        .HasColumnType("int");
+
+                    b.Property<int>("DurationSeconds")
                         .HasColumnType("int");
 
                     b.Property<bool>("IsPassed")
@@ -440,7 +457,7 @@ namespace WebApplication15.Migrations
                     b.Property<int>("TestId")
                         .HasColumnType("int");
 
-                    b.Property<string>("Title")
+                    b.Property<string>("TestTitle")
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
@@ -486,6 +503,9 @@ namespace WebApplication15.Migrations
                     b.Property<bool>("IsFeatured")
                         .HasColumnType("bit");
 
+                    b.Property<int?>("LanguageId")
+                        .HasColumnType("int");
+
                     b.Property<int>("LanguageLevelId")
                         .HasColumnType("int");
 
@@ -505,6 +525,8 @@ namespace WebApplication15.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("LanguageId");
 
                     b.HasIndex("LanguageLevelId");
 
@@ -630,6 +652,10 @@ namespace WebApplication15.Migrations
 
             modelBuilder.Entity("WebApplication15.Models.Test", b =>
                 {
+                    b.HasOne("WebApplication15.Models.Language", null)
+                        .WithMany("Tests")
+                        .HasForeignKey("LanguageId");
+
                     b.HasOne("WebApplication15.Models.LanguageLevel", "LanguageLevel")
                         .WithMany()
                         .HasForeignKey("LanguageLevelId")
@@ -664,6 +690,10 @@ namespace WebApplication15.Migrations
 
             modelBuilder.Entity("WebApplication15.Models.Video", b =>
                 {
+                    b.HasOne("WebApplication15.Models.Language", null)
+                        .WithMany("Videos")
+                        .HasForeignKey("LanguageId");
+
                     b.HasOne("WebApplication15.Models.LanguageLevel", "LanguageLevel")
                         .WithMany()
                         .HasForeignKey("LanguageLevelId")
@@ -706,6 +736,10 @@ namespace WebApplication15.Migrations
             modelBuilder.Entity("WebApplication15.Models.Language", b =>
                 {
                     b.Navigation("LanguageLevels");
+
+                    b.Navigation("Tests");
+
+                    b.Navigation("Videos");
                 });
 
             modelBuilder.Entity("WebApplication15.Models.LanguageLevel", b =>

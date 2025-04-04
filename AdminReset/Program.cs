@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace AdminReset;
 
-class Program
+partial class Program
 {
-    static async Task Main(string[] args)
+    static async Task AdminResetMain(string[] args)
     {
         Console.WriteLine("Запуск скрипта сброса пароля администратора...");
         

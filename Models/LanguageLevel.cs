@@ -1,4 +1,3 @@
-/*
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -39,5 +38,4 @@ namespace WebApplication15.Models
         [NotMapped]
         public string FullName => $"{LanguageName} - {Name}";
     }
-}
-*/ 
+} 

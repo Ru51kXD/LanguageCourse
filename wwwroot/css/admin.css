@@ -245,4 +245,101 @@
         width: calc(100% - 250px);
         margin-left: 250px;
     }
+}
+
+/* Мобильные стили для админки */
+@media (max-width: 767px) {
+  #sidebar {
+    margin-left: -250px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    z-index: 999;
+    transition: all 0.3s;
+  }
+
+  #sidebar.active {
+    margin-left: 0;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+  }
+
+  #content {
+    width: 100%;
+    padding: 15px;
+  }
+
+  .card-body {
+    padding: 15px;
+    overflow-x: auto;
+  }
+
+  .container-fluid {
+    padding: 15px;
+  }
+
+  h1 {
+    font-size: 1.5rem;
+  }
+
+  .btn-group {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .btn-group .btn {
+    margin-bottom: 5px;
+    width: 100%;
+  }
+
+  .modal-dialog {
+    margin: 0.5rem;
+  }
+
+  .navbar .container-fluid {
+    padding: 0.5rem;
+  }
+
+  .nav-link span {
+    display: none;
+  }
+
+  .sidebar-header h3 span {
+    display: none;
+  }
+
+  .sidebar-footer {
+    bottom: 10px;
+  }
+
+  .sidebar-footer .logout-btn span {
+    display: none;
+  }
+}
+
+/* Планшеты */
+@media (min-width: 768px) and (max-width: 992px) {
+  .btn-group .btn {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.875rem;
+  }
+}
+
+/* Улучшение доступности таблиц */
+.table {
+  width: 100%;
+  table-layout: fixed;
+}
+
+.table th:first-child,
+.table td:first-child {
+  width: 50px;
+}
+
+/* Улучшения для модальных окон */
+@media (max-width: 576px) {
+  .modal-dialog {
+    max-width: 100%;
+    margin: 0.5rem;
+  }
 } 

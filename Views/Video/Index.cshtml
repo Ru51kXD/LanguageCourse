@@ -3,8 +3,14 @@
     ViewData["Title"] = "Видеоуроки";
     var languages = ViewBag.Languages as List<WebApplication15.Models.Language>;
     var levels = ViewBag.Levels as List<WebApplication15.Models.LanguageLevel>;
+    var filteredLevels = ViewBag.FilteredLevels as List<WebApplication15.Models.LanguageLevel>;
     var selectedLanguage = ViewBag.SelectedLanguage;
     var selectedLevel = ViewBag.SelectedLevel;
+    var diagnosticCount = ViewBag.DiagnosticCount;
+    
+    // Получаем только уникальные уровни для отображения в фильтре
+    var uniqueLevels = filteredLevels?.Select(l => l.Name).Distinct().ToList() ?? 
+                       levels?.Select(l => l.Name).Distinct().ToList();
     
     // Словарь эмодзи флагов для языков
     var languageFlags = new Dictionary<string, string>
@@ -76,13 +82,13 @@
                         <label><i class="fas fa-layer-group"></i> Уровень</label>
                         <div class="filter-options">
                             <a href="@Url.Action("Index", new { languageId = ViewBag.SelectedLanguageId })" class="filter-option @(selectedLevel == null ? "active" : "")">Все уровни</a>
-                            @if (levels != null)
+                            @if (uniqueLevels != null)
                             {
-                                foreach (var level in levels)
+                                foreach (var levelName in uniqueLevels)
                                 {
-                                    <a href="@Url.Action("Index", new { languageId = ViewBag.SelectedLanguageId, levelName = level.Name })" 
-                                       class="filter-option @(selectedLevel == level.Name ? "active" : "")">
-                                        @level.Name
+                                    <a href="@Url.Action("Index", new { languageId = ViewBag.SelectedLanguageId, levelName = levelName })" 
+                                       class="filter-option @(selectedLevel == levelName ? "active" : "")">
+                                        @levelName
                                     </a>
                                 }
                             }
@@ -96,6 +102,14 @@
                     </a>
                 </div>
             </div>
+        </div>
+
+        <!-- Диагностическая информация (временно) -->
+        <div class="alert alert-info">
+            <p>Диагностика: найдено @diagnosticCount видео с выбранными фильтрами</p>
+            <p>Выбранный язык: @(selectedLanguage ?? "Не выбран")</p>
+            <p>Выбранный уровень: @(selectedLevel ?? "Не выбран")</p>
+            <p>Доступные уровни: @(string.Join(", ", uniqueLevels ?? new List<string>()))</p>
         </div>
 
         <!-- Результаты фильтрации или сгруппированные по языкам видео -->
@@ -121,7 +135,8 @@
                         {
                             <div class="video-card" data-language="@languages?.FirstOrDefault(l => l.Id == video.LanguageLevel?.LanguageId)?.Name" data-level="@video.LanguageLevel?.Name">
                                 <div class="video-thumbnail">
-                                    <img src="~/images/videos/@(video.Id).jpg" onerror="this.src='/images/videos/default.jpg'" alt="@video.Title">
+                                    <img src="@(string.IsNullOrEmpty(video.ThumbnailUrl) ? "/images/videos/default.jpg" : video.ThumbnailUrl)" 
+                                         onerror="this.src='/images/videos/default.jpg'" alt="@video.Title">
                                     <div class="play-button">
                                         <i class="fas fa-play"></i>
                                     </div>
@@ -169,7 +184,8 @@
                             {
                                 <div class="video-card">
                                     <div class="video-thumbnail">
-                                        <img src="~/images/videos/@(video.Id).jpg" onerror="this.src='/images/videos/default.jpg'" alt="@video.Title">
+                                        <img src="@(string.IsNullOrEmpty(video.ThumbnailUrl) ? "/images/videos/default.jpg" : video.ThumbnailUrl)" 
+                                             onerror="this.src='/images/videos/default.jpg'" alt="@video.Title">
                                         <div class="play-button">
                                             <i class="fas fa-play"></i>
                                         </div>
