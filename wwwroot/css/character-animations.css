@@ -1,0 +1,120 @@
+/* Анимации для персонажа и сообщений */
+@keyframes pulseAnim {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.08); }
+    100% { transform: scale(1); }
+}
+
+@keyframes bounceIn {
+    0% { opacity: 0; transform: translateY(10px) translateX(-50%); }
+    70% { transform: translateY(-3px) translateX(-50%); }
+    100% { opacity: 1; transform: translateY(0) translateX(-50%); }
+}
+
+/* Дополнительные анимации */
+@keyframes fadeIn {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+}
+
+@keyframes slideUp {
+    from { transform: translateY(10px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes wiggle {
+    0%, 100% { transform: rotate(0deg); }
+    25% { transform: rotate(-7deg); }
+    75% { transform: rotate(7deg); }
+}
+
+/* Анимации для использования в JavaScript */
+.character-bounce {
+    animation: bounceIn 0.5s ease-out forwards;
+}
+
+.character-pulse {
+    animation: pulseAnim 0.5s ease-in-out;
+}
+
+.character-fade {
+    animation: fadeIn 0.5s ease forwards;
+}
+
+.character-slide {
+    animation: slideUp 0.5s ease forwards;
+}
+
+.character-wiggle {
+    animation: wiggle 0.5s ease;
+}
+
+/* Классы для анимаций */
+.pulse {
+    animation: pulseAnim 0.5s ease-in-out;
+}
+
+.bounce-in {
+    animation: bounceIn 0.5s ease-out;
+}
+
+.fade-in {
+    animation: fadeIn 0.5s ease;
+}
+
+.wiggle {
+    animation: wiggle 0.5s ease-in-out;
+}
+
+/* Дополнительные анимации */
+@keyframes floatAnimation {
+    0% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+    100% { transform: translateY(0); }
+}
+
+@keyframes popIn {
+    0% { transform: scale(0); opacity: 0; }
+    80% { transform: scale(1.1); opacity: 1; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+@keyframes confetti-fall {
+    0% {
+        top: -50px;
+        opacity: 1;
+    }
+    80% {
+        opacity: 1;
+    }
+    100% {
+        top: calc(100% + 50px);
+        opacity: 0;
+    }
+}
+
+@keyframes confetti-shake {
+    0% {
+        transform: rotate(0deg) translateX(0);
+    }
+    25% {
+        transform: rotate(45deg) translateX(10px);
+    }
+    50% {
+        transform: rotate(0deg) translateX(0);
+    }
+    75% {
+        transform: rotate(-45deg) translateX(-10px);
+    }
+    100% {
+        transform: rotate(0deg) translateX(0);
+    }
+}
+
+.float {
+    animation: floatAnimation 3s ease-in-out infinite;
+}
+
+.pop-in {
+    animation: popIn 0.5s ease-out forwards;
+} 

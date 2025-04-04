@@ -14,6 +14,11 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.AspNetCore.Identity.UI;
 using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.DataProtection;
+using System.IO;
+using Microsoft.AspNetCore.DataProtection.AuthenticatedEncryption;
+using Microsoft.AspNetCore.DataProtection.AuthenticatedEncryption.ConfigurationModel;
 
 // Вспомогательный класс, используемый для логгера
 internal class ProgramHelper { }
@@ -55,7 +60,20 @@ public static class Program
             options.IdleTimeout = TimeSpan.FromMinutes(30);
             options.Cookie.HttpOnly = true;
             options.Cookie.IsEssential = true;
+            // Добавляем настройки для режима разработки
+            options.Cookie.SameSite = SameSiteMode.Lax;
+            options.Cookie.SecurePolicy = CookieSecurePolicy.None;
         });
+
+        // Настройка защиты данных для сессий
+        builder.Services.AddDataProtection()
+            .SetApplicationName("WebApplication15")
+            .PersistKeysToFileSystem(new DirectoryInfo(Path.Combine(builder.Environment.ContentRootPath, "keys")))
+            .UseCryptographicAlgorithms(new AuthenticatedEncryptorConfiguration
+            {
+                EncryptionAlgorithm = EncryptionAlgorithm.AES_256_CBC,
+                ValidationAlgorithm = ValidationAlgorithm.HMACSHA256
+            });
 
         // Настройка Identity
         builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options => 

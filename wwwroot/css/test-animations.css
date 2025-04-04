@@ -1,0 +1,105 @@
+/* Файл анимаций для тестов */
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+@keyframes slideInRight {
+    from { transform: translateX(100px); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes slideInLeft {
+    from { transform: translateX(-100px); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes fadeInUp {
+    from { transform: translateY(20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes confetti {
+    0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+    100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+}
+
+@keyframes confetti-fall {
+    0% {
+        top: -50px;
+        opacity: 1;
+    }
+    80% {
+        opacity: 1;
+    }
+    100% {
+        top: calc(100% + 50px);
+        opacity: 0;
+    }
+}
+
+@keyframes confetti-shake {
+    0% {
+        transform: rotate(0deg) translateX(0);
+    }
+    25% {
+        transform: rotate(45deg) translateX(10px);
+    }
+    50% {
+        transform: rotate(0deg) translateX(0);
+    }
+    75% {
+        transform: rotate(-45deg) translateX(-10px);
+    }
+    100% {
+        transform: rotate(0deg) translateX(0);
+    }
+}
+
+@keyframes bounceIn {
+    0% { transform: scale(0.3); opacity: 0; }
+    50% { transform: scale(1.05); }
+    70% { transform: scale(0.9); }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+/* Классы для использования анимаций */
+.fade-in {
+    animation: fadeIn 0.5s ease forwards;
+}
+
+.bounce-in {
+    animation: bounceIn 0.5s ease-out forwards;
+}
+
+.fade-in-up {
+    animation: fadeInUp 0.5s ease forwards;
+}
+
+.success-animation {
+    animation: pulse 0.5s ease;
+}
+
+.slide-in-right {
+    animation: slideInRight 0.5s ease forwards;
+}
+
+.slide-in-left {
+    animation: slideInLeft 0.5s ease forwards;
+}
+
+/* Анимации для персонажа */
+.character-pulse {
+    animation: pulse 0.5s ease-in-out;
+}
+
+.character-bounce {
+    animation: bounceIn 0.5s ease-out;
+} 

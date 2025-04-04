@@ -1,396 +1,373 @@
+@using System.Text.Json
 @model WebApplication15.Controllers.TestViewModel
 @{
     ViewData["Title"] = Model.TestTitle;
+    Layout = "~/Views/Shared/_Layout.cshtml";
     var totalQuestions = Model.Questions.Count;
 }
 
-@section Styles {
-    <link rel="stylesheet" href="~/css/tests.css" />
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
-    <style>
-        body {
-            background-color: #f5f5f5;
-            color: #3c3c3c;
-            font-family: 'Nunito', sans-serif;
-            overflow-x: hidden;
-        }
-        
-        .duolingo-test-container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-            position: relative;
-            min-height: 80vh;
-        }
-        
-        .timer-container {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 15px;
-            font-size: 18px;
-            font-weight: bold;
-            color: #4b4b4b;
-        }
-        
-        .timer-container i {
-            margin-right: 8px;
-            color: #58cc02;
-        }
-        
-        .test-progress-bar {
-            height: 12px;
-            background-color: #e5e5e5;
-            border-radius: 10px;
-            overflow: hidden;
-            margin-bottom: 25px;
-        }
-        
-        .test-progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, #58cc02, #8ae600);
-            transition: width 0.5s ease;
-            border-radius: 10px;
-        }
-        
-        .question-card {
-            background-color: white;
-            border-radius: 16px;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.07);
-            padding: 30px;
-            margin-bottom: 30px;
-            position: relative;
-            overflow: hidden;
-            transition: all 0.3s ease;
-        }
-        
-        .question-card::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 8px;
-            background: linear-gradient(90deg, #58cc02, #8ae600);
-        }
-        
-        .question-text {
-            font-size: 26px;
-            font-weight: 700;
-            margin-bottom: 25px;
-            color: #3c3c3c;
-            line-height: 1.4;
-        }
-        
-        .options-container {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            margin-bottom: 30px;
-        }
-        
-        .option-item {
-            position: relative;
-            border: 2px solid #e5e5e5;
-            border-radius: 12px;
-            transition: all 0.2s ease;
-            overflow: hidden;
-        }
-        
-        .option-item:hover {
-            border-color: #58cc02;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
-        }
-        
-        .option-item input[type="radio"] {
-            position: absolute;
-            opacity: 0;
-            cursor: pointer;
-        }
-        
-        .option-item label {
-            display: block;
-            padding: 16px 20px;
-            cursor: pointer;
-            font-size: 18px;
-            font-weight: 600;
-            color: #4b4b4b;
-            width: 100%;
-            height: 100%;
-            transition: background-color 0.2s ease;
-        }
-        
-        .option-item input[type="radio"]:checked + label {
-            background-color: #edf8e7;
-            color: #58cc02;
-            border-color: #58cc02;
-        }
-        
-        .option-item input[type="radio"]:checked + label::before {
-            content: "✓";
-            margin-right: 10px;
-            color: #58cc02;
-        }
-        
-        .navigation-buttons {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 20px;
-        }
-        
-        .nav-button {
-            padding: 14px 24px;
-            border-radius: 12px;
-            font-weight: 700;
-            font-size: 16px;
-            border: none;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-        
-        .button-prev {
-            background-color: #e5e5e5;
-            color: #4b4b4b;
-        }
-        
-        .button-prev:hover:not(:disabled) {
-            background-color: #d5d5d5;
-        }
-        
-        .button-prev:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
-        
-        .button-next {
-            background-color: #58cc02;
-            color: white;
-            box-shadow: 0 4px 0 #45a100;
-        }
-        
-        .button-next:hover {
-            background-color: #66d612;
-            transform: translateY(-2px);
-        }
-        
-        .button-next:active {
-            background-color: #58cc02;
-            transform: translateY(2px);
-            box-shadow: 0 2px 0 #45a100;
-        }
-        
-        /* Дополнительные стили для анимаций */
-        @@keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
-        }
-        
-        @@keyframes slideInRight {
-            from { transform: translateX(100px); opacity: 0; }
-            to { transform: translateX(0); opacity: 1; }
-        }
-        
-        @@keyframes slideInLeft {
-            from { transform: translateX(-100px); opacity: 0; }
-            to { transform: translateX(0); opacity: 1; }
-        }
-        
-        @@keyframes fadeInUp {
-            from { transform: translateY(20px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
-        }
-        
-        .fade-in-up {
-            animation: fadeInUp 0.5s ease forwards;
-        }
-        
-        .success-animation {
-            animation: pulse 0.5s ease;
-        }
-        
-        .slide-in-right {
-            animation: slideInRight 0.5s ease forwards;
-        }
-        
-        .slide-in-left {
-            animation: slideInLeft 0.5s ease forwards;
-        }
-        
-        .correct-answer {
-            background-color: rgba(88, 204, 2, 0.2) !important;
-            border-color: #58cc02 !important;
-        }
-        
-        .wrong-answer {
-            background-color: rgba(255, 83, 83, 0.2) !important;
-            border-color: #ff5353 !important;
-        }
-        
-        .score-title {
-            font-size: 2.5rem;
-            font-weight: 800;
-            margin-bottom: 20px;
-            color: #3c3c3c;
-        }
-        
-        .confetti {
-            position: fixed;
-            width: 10px;
-            height: 10px;
-            background-color: #58cc02;
-            opacity: 0;
-            border-radius: 50%;
-            animation: confetti 5s ease-in-out infinite;
-        }
-        
-        @@keyframes confetti {
-            0% { transform: translateY(0) rotate(0deg); opacity: 1; }
-            100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
-        }
-        
-        .result-summary {
-            background-color: white;
-            border-radius: 16px;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.07);
-            text-align: center;
-        }
-        
-        .score-circle {
-            width: 150px;
-            height: 150px;
-            border-radius: 50%;
-            margin: 0 auto;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border: 8px solid #e5e5e5;
-            position: relative;
-            background: conic-gradient(#58cc02 calc(var(--score) * 1%), #e5e5e5 0);
-        }
-        
-        .score-circle::before {
-            content: "";
-            position: absolute;
-            inset: 10px;
-            border-radius: 50%;
-            background-color: white;
-        }
-        
-        .score-value {
-            position: relative;
-            z-index: 1;
-            font-size: 36px;
-            font-weight: 800;
-            color: #3c3c3c;
-        }
-        
-        .score-message {
-            font-size: 24px;
-            font-weight: 700;
-        }
-        
-        .score-message.excellent {
-            color: #58cc02;
-        }
-        
-        .score-message.good {
-            color: #fecb2e;
-        }
-        
-        .score-message.poor {
-            color: #ff5353;
-        }
-        
-        .score-circle.excellent {
-            --score: 0;
-            border-color: #58cc02;
-        }
-        
-        .score-circle.good {
-            --score: 0;
-            border-color: #fecb2e;
-        }
-        
-        .score-circle.poor {
-            --score: 0;
-            border-color: #ff5353;
-        }
-        
-        .details-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 15px;
-            margin-top: 30px;
-        }
-        
-        .detail-item {
-            background-color: #f9f9f9;
-            padding: 15px;
-            border-radius: 10px;
-        }
-        
-        .detail-label {
-            font-size: 14px;
-            color: #777;
-            margin-bottom: 5px;
-        }
-        
-        .detail-value {
-            font-size: 18px;
-            font-weight: 700;
-            color: #3c3c3c;
-        }
-        
-        .duolingo-character {
-            position: absolute;
-            bottom: -100px;
-            left: 50%;
-            transform: translateX(-50%);
-            transition: bottom 0.5s ease;
-        }
-        
-        .duolingo-character img {
-            width: 120px;
-            height: auto;
-        }
-        
-        .character-bubble {
-            position: absolute;
-            top: -80px;
-            left: 50%;
-            transform: translateX(-50%);
-            background-color: white;
-            border-radius: 20px;
-            padding: 10px 15px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-            font-weight: 600;
-            min-width: 200px;
-            text-align: center;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-        
-        .character-bubble::after {
-            content: "";
-            position: absolute;
-            bottom: -10px;
-            left: 50%;
-            transform: translateX(-50%);
-            border-width: 10px 10px 0;
-            border-style: solid;
-            border-color: white transparent transparent;
-        }
-        
-        .answer-required-message {
-            animation: fadeInUp 0.3s ease forwards;
-            border-radius: 10px;
-            padding: 10px 15px;
-            font-weight: 600;
-        }
-    </style>
-}
+<link rel="stylesheet" href="~/css/tests.css" />
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="~/css/test.css" />
+<link rel="stylesheet" href="~/css/test-animations.css" />
+
+<style>
+    body {
+        font-family: 'Nunito', sans-serif;
+        background-color: #f7f7f7;
+    }
+    
+    .duolingo-test-container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+    
+    .test-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 30px;
+        background-color: white;
+        padding: 15px 20px;
+        border-radius: 16px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    }
+    
+    .progress-container {
+        flex: 1;
+        margin: 0 20px;
+    }
+    
+    .progress-bar {
+        height: 12px;
+        background-color: #e5e5e5;
+        border-radius: 6px;
+        overflow: hidden;
+    }
+    
+    .progress-fill {
+        height: 100%;
+        background-color: #58cc02;
+        width: 0%;
+        border-radius: 6px;
+        transition: width 0.3s ease;
+    }
+    
+    .question-number {
+        font-weight: 700;
+        color: #4b4b4b;
+    }
+    
+    .timer {
+        font-weight: 800;
+        color: #4b4b4b;
+        display: flex;
+        align-items: center;
+    }
+    
+    .timer-icon {
+        margin-right: 8px;
+        color: #ff5353;
+    }
+    
+    .question-container {
+        background-color: white;
+        border-radius: 16px;
+        padding: 30px;
+        margin-bottom: 30px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    }
+    
+    .question-text {
+        font-size: 24px;
+        font-weight: 700;
+        color: #3c3c3c;
+        margin-bottom: 30px;
+    }
+    
+    .options-container {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+    
+    .option {
+        padding: 15px 20px;
+        border: 2px solid #e5e5e5;
+        border-radius: 12px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        display: flex;
+        align-items: center;
+    }
+    
+    .option:hover {
+        border-color: #a5a5a5;
+        background-color: #f9f9f9;
+    }
+    
+    .option.selected {
+        border-color: #1cb0f6;
+        background-color: rgba(28, 176, 246, 0.1);
+    }
+    
+    .option-letter {
+        width: 32px;
+        height: 32px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        background-color: #f0f0f0;
+        margin-right: 15px;
+        font-weight: 700;
+        color: #4b4b4b;
+    }
+    
+    .option.selected .option-letter {
+        background-color: #1cb0f6;
+        color: white;
+    }
+    
+    .option-text {
+        font-size: 18px;
+        font-weight: 600;
+        color: #3c3c3c;
+    }
+    
+    .action-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    
+    .button {
+        padding: 12px 24px;
+        border-radius: 12px;
+        font-weight: 700;
+        font-size: 16px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        border: none;
+    }
+    
+    .primary-button {
+        background-color: #58cc02;
+        color: white;
+        box-shadow: 0 4px 0 #58a700;
+    }
+    
+    .primary-button:hover {
+        background-color: #62de03;
+        transform: translateY(-2px);
+    }
+    
+    .primary-button:active {
+        background-color: #58cc02;
+        transform: translateY(0);
+        box-shadow: 0 2px 0 #58a700;
+    }
+    
+    .secondary-button {
+        background-color: #f7f7f7;
+        color: #3c3c3c;
+        box-shadow: 0 4px 0 #e5e5e5;
+    }
+    
+    .secondary-button:hover {
+        background-color: #f0f0f0;
+        transform: translateY(-2px);
+    }
+    
+    .secondary-button:active {
+        background-color: #f7f7f7;
+        transform: translateY(0);
+        box-shadow: 0 2px 0 #e5e5e5;
+    }
+    
+    .button:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+        transform: none !important;
+    }
+    
+    .fade-in-up {
+        animation: fadeInUp 0.5s ease forwards;
+    }
+    
+    .success-animation {
+        animation: pulse 0.5s ease;
+    }
+    
+    .slide-in-right {
+        animation: slideInRight 0.5s ease forwards;
+    }
+    
+    .slide-in-left {
+        animation: slideInLeft 0.5s ease forwards;
+    }
+    
+    .correct-answer {
+        background-color: rgba(88, 204, 2, 0.2) !important;
+        border-color: #58cc02 !important;
+    }
+    
+    .wrong-answer {
+        background-color: rgba(255, 83, 83, 0.2) !important;
+        border-color: #ff5353 !important;
+    }
+    
+    .score-title {
+        font-size: 2.5rem;
+        font-weight: 800;
+        margin-bottom: 20px;
+        color: #3c3c3c;
+    }
+    
+    .confetti {
+        position: fixed;
+        width: 10px;
+        height: 10px;
+        background-color: #58cc02;
+        opacity: 0;
+        border-radius: 50%;
+        animation: confetti 5s ease-in-out infinite;
+    }
+    
+    .result-summary {
+        background-color: white;
+        border-radius: 16px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.07);
+        text-align: center;
+    }
+    
+    .score-circle {
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        margin: 0 auto;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 8px solid #e5e5e5;
+        position: relative;
+        background: conic-gradient(#58cc02 calc(var(--score) * 1%), #e5e5e5 0);
+    }
+    
+    .score-circle::before {
+        content: "";
+        position: absolute;
+        inset: 10px;
+        border-radius: 50%;
+        background-color: white;
+    }
+    
+    .score-value {
+        position: relative;
+        z-index: 1;
+        font-size: 36px;
+        font-weight: 800;
+        color: #3c3c3c;
+    }
+    
+    .score-message {
+        font-size: 24px;
+        font-weight: 700;
+    }
+    
+    .score-message.excellent {
+        color: #58cc02;
+    }
+    
+    .score-message.good {
+        color: #fecb2e;
+    }
+    
+    .score-message.poor {
+        color: #ff5353;
+    }
+    
+    .score-circle.excellent {
+        --score: 0;
+        border-color: #58cc02;
+    }
+    
+    .score-circle.good {
+        --score: 0;
+        border-color: #fecb2e;
+    }
+    
+    .score-circle.poor {
+        --score: 0;
+        border-color: #ff5353;
+    }
+    
+    .details-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+        margin-top: 30px;
+    }
+    
+    .detail-item {
+        background-color: #f9f9f9;
+        padding: 15px;
+        border-radius: 10px;
+    }
+    
+    .detail-label {
+        font-size: 14px;
+        color: #777;
+        margin-bottom: 5px;
+    }
+    
+    .detail-value {
+        font-size: 18px;
+        font-weight: 700;
+        color: #3c3c3c;
+    }
+    
+    .duolingo-character {
+        position: absolute;
+        bottom: -100px;
+        left: 50%;
+        transform: translateX(-50%);
+        transition: bottom 0.5s ease;
+    }
+    
+    .duolingo-character img {
+        width: 120px;
+        height: auto;
+    }
+    
+    .character-bubble {
+        position: absolute;
+        top: -80px;
+        left: 50%;
+        transform: translateX(-50%);
+        background-color: white;
+        border-radius: 20px;
+        padding: 10px 15px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        font-weight: 600;
+        min-width: 200px;
+        text-align: center;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+    
+    .character-bubble::after {
+        content: "";
+        position: absolute;
+        bottom: -10px;
+        left: 50%;
+        transform: translateX(-50%);
+        border-width: 10px 10px 0;
+        border-style: solid;
+        border-color: white transparent transparent;
+    }
+</style>
 
 <div class="duolingo-test-container">
     <div class="timer-container">

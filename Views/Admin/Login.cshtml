@@ -3,33 +3,107 @@
     ViewData["Title"] = "Вход в панель администратора";
 }
 
-<div class="container mt-5">
-    <div class="row justify-content-center">
-        <div class="col-md-6">
-            <div class="card shadow">
-                <div class="card-header bg-primary text-white">
-                    <h4 class="mb-0">Вход в панель администратора</h4>
-                </div>
-                <div class="card-body">
-                    <form asp-controller="Admin" asp-action="Login" method="post">
-                        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
-                        
-                        <div class="mb-3">
-                            <label for="Username" class="form-label">Имя пользователя</label>
-                            <input type="text" class="form-control" id="Username" name="Username" required>
-                        </div>
-                        
-                        <div class="mb-3">
-                            <label for="Password" class="form-label">Пароль</label>
-                            <input type="password" class="form-control" id="Password" name="Password" required>
-                        </div>
-                        
-                        <div class="text-end">
-                            <button type="submit" class="btn btn-primary">Войти</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
+<link rel="stylesheet" href="~/css/login-vertical.css" asp-append-version="true" />
+
+<div class="auth-container">
+    <div class="login-vertical-header">
+        <h1 class="vertical-title">
+            <span class="text-gradient">Вход администратора</span>
+        </h1>
     </div>
-</div> 
+    
+    <div class="login-form-container">
+        @if (!ViewData.ModelState.IsValid && ViewData.ModelState[""].Errors.Count > 0)
+        {
+            <div class="alert alert-danger" role="alert">
+                @foreach (var error in ViewData.ModelState[""].Errors)
+                {
+                    <p class="mb-0"><i class="fas fa-exclamation-circle me-2"></i>@error.ErrorMessage</p>
+                }
+            </div>
+        }
+        
+        <form asp-controller="Admin" asp-action="Login" method="post" class="login-form-animation">
+            <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+            
+            <div class="form-field">
+                <label for="Username" class="form-label">
+                    <i class="fas fa-user me-2"></i> Имя пользователя
+                </label>
+                <input type="text" class="form-control @(ViewData.ModelState["Username"]?.Errors.Count > 0 ? "is-invalid" : "")" id="Username" name="Username" required placeholder="Введите имя пользователя">
+                @if (ViewData.ModelState["Username"]?.Errors.Count > 0)
+                {
+                    <div class="invalid-feedback">
+                        @foreach (var error in ViewData.ModelState["Username"].Errors)
+                        {
+                            <span>@error.ErrorMessage</span>
+                        }
+                    </div>
+                }
+            </div>
+            
+            <div class="form-field">
+                <label for="Password" class="form-label">
+                    <i class="fas fa-lock me-2"></i> Пароль
+                </label>
+                <div class="password-input-container">
+                    <input type="password" class="form-control @(ViewData.ModelState["Password"]?.Errors.Count > 0 ? "is-invalid" : "")" id="Password" name="Password" required placeholder="Введите пароль">
+                    <button class="password-toggle" type="button" id="togglePassword">
+                        <i class="fas fa-eye"></i>
+                    </button>
+                </div>
+                @if (ViewData.ModelState["Password"]?.Errors.Count > 0)
+                {
+                    <div class="invalid-feedback">
+                        @foreach (var error in ViewData.ModelState["Password"].Errors)
+                        {
+                            <span>@error.ErrorMessage</span>
+                        }
+                    </div>
+                }
+            </div>
+            
+            <div class="form-buttons">
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-sign-in-alt me-2"></i> Войти
+                </button>
+                <a href="/" class="btn btn-outline-primary">
+                    <i class="fas fa-home me-2"></i> Вернуться на главную
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Переключение видимости пароля
+            const togglePassword = document.getElementById('togglePassword');
+            const password = document.getElementById('Password');
+            
+            if (togglePassword && password) {
+                togglePassword.addEventListener('click', function() {
+                    const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+                    password.setAttribute('type', type);
+                    togglePassword.querySelector('i').classList.toggle('fa-eye');
+                    togglePassword.querySelector('i').classList.toggle('fa-eye-slash');
+                });
+            }
+            
+            // Анимация формы
+            const formElements = document.querySelectorAll('.login-form-animation .form-control, .login-form-animation .btn');
+            formElements.forEach((element, index) => {
+                element.style.opacity = '0';
+                element.style.transform = 'translateY(20px)';
+                element.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                element.style.transitionDelay = (index * 0.1) + 's';
+                
+                setTimeout(() => {
+                    element.style.opacity = '1';
+                    element.style.transform = 'translateY(0)';
+                }, 100);
+            });
+        });
+    </script>
+} 
