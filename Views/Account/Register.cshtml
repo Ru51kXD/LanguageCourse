@@ -1,9 +1,39 @@
 @model WebApplication15.Models.RegisterViewModel
 @{
     ViewData["Title"] = "Регистрация";
+    Layout = "_Layout";
 }
 
 <link rel="stylesheet" href="~/css/login-vertical.css" asp-append-version="true" />
+<style>
+    /* Дополнительные стили для совместимости с шапкой */
+    .top-navigation {
+        z-index: 1000 !important;
+        position: relative !important;
+    }
+    
+    .main-nav {
+        z-index: 1001 !important;
+    }
+    
+    .auth-container {
+        margin-top: 1rem !important;
+    }
+    
+    /* Фиксируем шапку при прокрутке */
+    html, body {
+        overflow-x: hidden !important;
+    }
+    
+    body {
+        padding-top: 0 !important;
+        margin-top: 0 !important;
+    }
+    
+    .centered-content {
+        padding-top: 0 !important;
+    }
+</style>
 
 <div class="auth-container">
     <div class="login-vertical-header">

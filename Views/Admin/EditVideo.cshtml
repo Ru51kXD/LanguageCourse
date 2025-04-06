@@ -22,6 +22,14 @@
         </div>
     }
 
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <i class="fas fa-exclamation-circle me-2"></i>@TempData["ErrorMessage"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+
     <div class="card mb-4">
         <div class="card-header">
             <i class="fas fa-edit me-1"></i>
@@ -31,7 +39,11 @@
             <form asp-action="EditVideo" method="post">
                 <input type="hidden" asp-for="Id" />
                 <input type="hidden" asp-for="CreatedDate" />
-                <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+                @if (!string.IsNullOrEmpty(Model.ThumbnailUrl))
+                {
+                    <input type="hidden" name="OriginalThumbnailUrl" value="@Model.ThumbnailUrl" />
+                }
+                <div asp-validation-summary="All" class="text-danger mb-3"></div>
 
                 <div class="mb-3">
                     <label asp-for="Title" class="form-label">Название видео</label>
@@ -55,6 +67,7 @@
                                 @foreach (var language in ViewBag.Languages)
                                 {
                                     var isSelected = Model.LanguageLevel?.Language?.Id == language.Id;
+                                    
                                     if (isSelected)
                                     {
                                         <option value="@language.Id" selected>@language.Name</option>
@@ -66,6 +79,7 @@
                                 }
                             }
                         </select>
+                        <span class="text-danger field-validation-error" id="languageError"></span>
                     </div>
                     <div class="col-md-6 mb-3">
                         <label asp-for="LanguageLevelId" class="form-label">Уровень</label>
@@ -93,6 +107,7 @@
                             }
                         </select>
                         <span asp-validation-for="LanguageLevelId" class="text-danger"></span>
+                        <span class="text-danger field-validation-error" id="levelError"></span>
                     </div>
                 </div>
 
@@ -147,6 +162,8 @@
             
             $('#LanguageId').change(function() {
                 var languageId = $(this).val();
+                $('#languageError').text('');
+                
                 if (languageId) {
                     updateLevels(languageId);
                 } else {
@@ -165,6 +182,7 @@
                     });
                     
                     $('#LanguageLevelId').html(options);
+                    $('#levelError').text('');
                 });
             }
 
@@ -172,6 +190,30 @@
             if (initialLanguageId) {
                 updateLevels(initialLanguageId);
             }
+            
+            // Проверка перед отправкой формы
+            $('form').submit(function(e) {
+                var languageId = $('#LanguageId').val();
+                var languageLevelId = $('#LanguageLevelId').val();
+                var hasErrors = false;
+                
+                if (!languageId || languageId === "") {
+                    $('#languageError').text('Необходимо выбрать язык');
+                    hasErrors = true;
+                }
+                
+                if (!languageLevelId || languageLevelId === "") {
+                    $('#levelError').text('Необходимо выбрать уровень языка');
+                    hasErrors = true;
+                }
+                
+                if (hasErrors) {
+                    e.preventDefault();
+                    return false;
+                }
+                
+                return true;
+            });
         });
     </script>
 } 

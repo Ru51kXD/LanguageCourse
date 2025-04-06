@@ -156,8 +156,8 @@
       <RelatedAsset></RelatedAsset>
       <AssetTraitName></AssetTraitName>
       <AssetTraitValue></AssetTraitValue>
-      <Fingerprint>8pricbsapu</Fingerprint>
-      <Integrity>RMvk+80dwcO7R7NYOehOD/lpmucoCzqfJIg3oiwLoAE=</Integrity>
+      <Fingerprint>2ep1s71q9x</Fingerprint>
+      <Integrity>NiHYkBCDEs+h6JmeJxbauJU6afOEHD7t5VjfY2UtLgk=</Integrity>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\css\login-vertical.css'))</OriginalItemSpec>

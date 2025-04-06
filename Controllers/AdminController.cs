@@ -406,7 +406,10 @@ namespace WebApplication15.Controllers
                     PassingScore = PassingScore,
                     IsActive = isActiveValue,
                     OrderInLevel = 1,
-                    CreatedDate = DateTime.Now
+                    CreatedDate = DateTime.Now,
+                    // Инициализируем коллекции
+                    Questions = new List<Question>(),
+                    TestResults = new List<TestResult>()
                 };
                 
                 _context.Tests.Add(test);
@@ -417,7 +420,12 @@ namespace WebApplication15.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Ошибка при создании теста");
+                _logger.LogError(ex, "Ошибка при создании теста: {Message}", ex.Message);
+                // Логируем внутреннее исключение, если оно есть
+                if (ex.InnerException != null)
+                {
+                    _logger.LogError(ex.InnerException, "Внутреннее исключение: {Message}", ex.InnerException.Message);
+                }
                 ModelState.AddModelError("", $"Произошла ошибка при создании теста: {ex.Message}");
                 
                 ViewBag.ValidationErrors = ModelState.ToDictionary(
@@ -442,55 +450,76 @@ namespace WebApplication15.Controllers
                 
             ViewBag.Languages = languages;
 
-            // Отладочная информация: проверка валидности модели
-            if (!ModelState.IsValid)
+            try
             {
-                // Выводим все ошибки валидации в ModelState для отладки
-                foreach (var key in ModelState.Keys)
+                // Проверяем правильность данных
+                if (ModelState.IsValid)
                 {
-                    var state = ModelState[key];
-                    if (state.Errors.Count > 0)
+                    // Проверяем, что выбранный уровень принадлежит выбранному языку
+                    var level = await _context.LanguageLevels
+                        .FirstOrDefaultAsync(ll => ll.Id == test.LanguageLevelId && ll.LanguageId == LanguageId);
+                        
+                    if (level == null)
                     {
-                        var errors = string.Join(", ", state.Errors.Select(e => e.ErrorMessage));
-                        ViewBag.ValidationErrors = ViewBag.ValidationErrors ?? new Dictionary<string, string>();
-                        ViewBag.ValidationErrors[key] = errors;
+                        ModelState.AddModelError("LanguageLevelId", "Выбранный уровень не принадлежит выбранному языку");
+                        return View(test);
+                    }
+                    
+                    // Используем транзакцию для обеспечения целостности данных
+                    using (var transaction = await _context.Database.BeginTransactionAsync())
+                    {
+                        try
+                        {
+                            // Устанавливаем значения по умолчанию
+                            test.CreatedDate = DateTime.Now;
+                            if (string.IsNullOrEmpty(test.Description))
+                            {
+                                test.Description = "";
+                            }
+                            
+                            // Сохраняем тест без коллекций сначала
+                            var testEntity = new Test
+                            {
+                                Title = test.Title,
+                                Description = test.Description,
+                                LanguageLevelId = test.LanguageLevelId,
+                                TimeLimit = test.TimeLimit,
+                                PassingScore = test.PassingScore,
+                                IsActive = test.IsActive,
+                                OrderInLevel = test.OrderInLevel,
+                                CreatedDate = test.CreatedDate
+                            };
+                            
+                            _context.Tests.Add(testEntity);
+                            await _context.SaveChangesAsync();
+                            
+                            // Подтверждаем транзакцию
+                            await transaction.CommitAsync();
+                            
+                            // Перенаправляем на страницу добавления вопросов
+                            return RedirectToAction("AddQuestion", new { testId = testEntity.Id });
+                        }
+                        catch (Exception ex)
+                        {
+                            // Откатываем транзакцию в случае ошибки
+                            await transaction.RollbackAsync();
+                            throw;
+                        }
                     }
                 }
-                
-                // Записываем полученные данные для отладки
-                ViewBag.ReceivedData = new { 
-                    TestTitle = test.Title, 
-                    TestDescription = test.Description,
-                    LanguageId = LanguageId,
-                    LanguageLevelId = test.LanguageLevelId,
-                    TimeLimit = test.TimeLimit,
-                    PassingScore = test.PassingScore
-                };
-
-            return View(test);
             }
-
-            // Проверяем, что выбранный уровень принадлежит выбранному языку
-            var level = await _context.LanguageLevels
-                .FirstOrDefaultAsync(ll => ll.Id == test.LanguageLevelId && ll.LanguageId == LanguageId);
-                
-            if (level == null)
+            catch (Exception ex)
             {
-                ModelState.AddModelError("LanguageLevelId", "Выбранный уровень не принадлежит выбранному языку");
-                return View(test);
+                _logger.LogError(ex, "Ошибка при создании теста: {Message}", ex.Message);
+                // Логируем внутреннее исключение, если оно есть
+                if (ex.InnerException != null)
+                {
+                    _logger.LogError(ex.InnerException, "Внутреннее исключение: {Message}", ex.InnerException.Message);
+                }
+                ModelState.AddModelError("", $"Произошла ошибка при сохранении теста: {ex.Message}");
             }
             
-            // Инициализируем другие обязательные поля по умолчанию, если они не установлены
-            test.OrderInLevel = test.OrderInLevel <= 0 ? 1 : test.OrderInLevel;
-            test.CreatedDate = DateTime.Now;
-            test.IsActive = true;
-            
-            // Добавляем тест в базу данных
-            _context.Tests.Add(test);
-            await _context.SaveChangesAsync();
-            
-            // Перенаправляем на страницу добавления вопроса
-            return RedirectToAction("AddQuestion", new { testId = test.Id });
+            return View(test);
         }
 
         // GET: /Admin/EditTest/5
@@ -603,30 +632,71 @@ namespace WebApplication15.Controllers
         // GET: /Admin/Videos
         public async Task<IActionResult> Videos()
         {
-            ViewBag.Theme = "admin";
+            ViewBag.Theme = _themeService.GetCurrentTheme();
             
-            var videos = await _context.Videos
-                .Include(v => v.LanguageLevel)
-                    .ThenInclude(ll => ll.Language)
-                .OrderBy(v => v.LanguageLevel.Language.Name)
-                .ThenBy(v => v.LanguageLevel.Name)
-                .ToListAsync();
+            try
+            {
+                var videos = await _context.Videos
+                    .Include(v => v.LanguageLevel)
+                        .ThenInclude(ll => ll.Language)
+                    .OrderBy(v => v.LanguageLevel.Language.Name)
+                    .ThenBy(v => v.LanguageLevel.Name)
+                    .ToListAsync();
 
-            return View(videos);
+                return View(videos);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Ошибка при загрузке списка видео: {Message}", ex.Message);
+                TempData["ErrorMessage"] = "Ошибка при загрузке списка видео";
+                return View(new List<Video>());
+            }
         }
 
         // GET: /Admin/VideoDetails/5
         public async Task<IActionResult> VideoDetails(int id)
         {
-            TempData["ErrorMessage"] = "Функциональность просмотра деталей видео временно отключена";
-            return RedirectToAction("Videos");
+            _logger.LogInformation($"Запрос деталей видео с ID {id}");
+            ViewBag.Theme = _themeService.GetCurrentTheme();
+            
+            var video = await _context.Videos
+                .Include(v => v.LanguageLevel)
+                    .ThenInclude(ll => ll.Language)
+                .AsNoTracking() // Убедимся, что получаем актуальные данные из базы
+                .FirstOrDefaultAsync(v => v.Id == id);
+                
+            if (video == null)
+            {
+                _logger.LogWarning($"Видео с ID {id} не найдено при запросе деталей");
+                return NotFound();
+            }
+            
+            _logger.LogInformation($"Видео найдено: ID={video.Id}, Название={video.Title}, " +
+                $"Язык={video.LanguageLevel.Language.Name}, Уровень={video.LanguageLevel.Name}");
+            
+            // Получаем количество просмотров
+            var watchCount = await _context.WatchedVideos
+                .CountAsync(wv => wv.VideoId == id);
+            
+            _logger.LogInformation($"Количество просмотров видео: {watchCount}");
+            
+            ViewBag.WatchCount = watchCount;
+            
+            return View(video);
         }
 
         // GET: /Admin/CreateVideo
         public IActionResult CreateVideo()
         {
-            TempData["ErrorMessage"] = "Функциональность добавления видео временно отключена";
-            return RedirectToAction("Videos");
+            ViewBag.Theme = _themeService.GetCurrentTheme();
+            
+            var languages = _context.Languages
+                .Include(l => l.LanguageLevels)
+                .ToList();
+                
+            ViewBag.Languages = languages;
+            
+            return View();
         }
 
         // POST: /Admin/CreateVideo
@@ -634,8 +704,52 @@ namespace WebApplication15.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CreateVideo(Video video, int LanguageId)
         {
-            TempData["ErrorMessage"] = "Функциональность добавления видео временно отключена";
-            return RedirectToAction("Videos");
+            ViewBag.Theme = _themeService.GetCurrentTheme();
+            
+            var languages = _context.Languages
+                .Include(l => l.LanguageLevels)
+                .ToList();
+                
+            ViewBag.Languages = languages;
+            
+            if (ModelState.IsValid)
+            {
+                // Проверяем, что выбранный уровень принадлежит выбранному языку
+                var level = await _context.LanguageLevels
+                    .FirstOrDefaultAsync(ll => ll.Id == video.LanguageLevelId && ll.LanguageId == LanguageId);
+                    
+                if (level == null)
+                {
+                    ModelState.AddModelError("LanguageLevelId", "Выбранный уровень не принадлежит выбранному языку");
+                    return View(video);
+                }
+                
+                try 
+                {
+                    // Получаем миниатюру из URL видео
+                    if (!string.IsNullOrEmpty(video.VideoUrl) && string.IsNullOrEmpty(video.ThumbnailUrl))
+                    {
+                        video.ThumbnailUrl = await _videoService.GetThumbnailUrlFromVideoUrl(video.VideoUrl);
+                    }
+                    
+                    // Устанавливаем дату создания
+                    video.CreatedDate = DateTime.Now;
+                    
+                    _context.Videos.Add(video);
+                    await _context.SaveChangesAsync();
+                    
+                    _logger.LogInformation($"Видео \"{video.Title}\" успешно создано с ID {video.Id}");
+                    TempData["SuccessMessage"] = "Видео успешно создано!";
+                    return RedirectToAction("VideoDetails", new { id = video.Id });
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex, $"Ошибка при создании видео: {ex.Message}");
+                    ModelState.AddModelError("", $"Ошибка при создании видео: {ex.Message}");
+                }
+            }
+            
+            return View(video);
         }
 
         // GET: /Admin/EditVideo/5
@@ -665,7 +779,7 @@ namespace WebApplication15.Controllers
         // POST: /Admin/EditVideo/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EditVideo(int id, Video video, int LanguageId)
+        public async Task<IActionResult> EditVideo(int id, Video videoModel, int LanguageId)
         {
             ViewBag.Theme = _themeService.GetCurrentTheme();
             
@@ -675,60 +789,83 @@ namespace WebApplication15.Controllers
                 
             ViewBag.Languages = languages;
 
-            if (id != video.Id)
+            if (id != videoModel.Id)
             {
                 return NotFound();
             }
-
-            if (ModelState.IsValid)
+            
+            // Игнорируем ModelState полностью и делаем обновление вручную
+            
+            try
             {
                 // Проверяем, что выбранный уровень принадлежит выбранному языку
                 var level = await _context.LanguageLevels
-                    .FirstOrDefaultAsync(ll => ll.Id == video.LanguageLevelId && ll.LanguageId == LanguageId);
+                    .FirstOrDefaultAsync(ll => ll.Id == videoModel.LanguageLevelId && ll.LanguageId == LanguageId);
                     
                 if (level == null)
                 {
-                    ModelState.AddModelError("LanguageLevelId", "Выбранный уровень не принадлежит выбранному языку");
-                    return View(video);
+                    // Уровень не принадлежит языку, добавляем сообщение об ошибке
+                    TempData["ErrorMessage"] = "Выбранный уровень не принадлежит выбранному языку";
+                    return View(videoModel);
                 }
-            
-                try
+                
+                // Получаем существующее видео
+                var existingVideo = await _context.Videos.FindAsync(id);
+                if (existingVideo == null)
                 {
-                    // Обновляем URL миниатюры только если URL видео изменился
-                    var existingVideo = await _context.Videos.AsNoTracking().FirstOrDefaultAsync(v => v.Id == id);
-                    if (existingVideo != null && existingVideo.VideoUrl != video.VideoUrl)
-                    {
-                        video.ThumbnailUrl = await _videoService.GetThumbnailUrlFromVideoUrl(video.VideoUrl);
-                    }
-
-                    _context.Update(video);
-                    await _context.SaveChangesAsync();
-                    
-                    _logger.LogInformation($"Видео с ID {id} успешно обновлено");
-                    TempData["SuccessMessage"] = "Видео успешно обновлено!";
-                    return RedirectToAction("Videos");
+                    return NotFound();
                 }
-                catch (DbUpdateConcurrencyException ex)
+                
+                // Сохраняем старую миниатюру, на случай если нужно будет использовать
+                var oldThumbnail = existingVideo.ThumbnailUrl;
+                
+                // Обновляем поля видео вручную
+                existingVideo.Title = videoModel.Title;
+                existingVideo.Description = videoModel.Description;
+                existingVideo.LanguageLevelId = videoModel.LanguageLevelId;
+                existingVideo.IsActive = videoModel.IsActive;
+                existingVideo.IsFeatured = videoModel.IsFeatured;
+                
+                // Проверяем, изменился ли URL видео
+                bool videoUrlChanged = existingVideo.VideoUrl != videoModel.VideoUrl;
+                
+                // Обновляем URL видео
+                existingVideo.VideoUrl = videoModel.VideoUrl;
+                
+                // Обрабатываем миниатюру
+                if (videoUrlChanged || string.IsNullOrEmpty(existingVideo.ThumbnailUrl))
                 {
-                    if (!VideoExists(video.Id))
+                    try
                     {
-                        _logger.LogWarning($"Видео с ID {id} не найдено при обновлении");
-                        return NotFound();
+                        // Пытаемся получить новую миниатюру из видео
+                        string newThumb = await _videoService.GetThumbnailUrlFromVideoUrl(existingVideo.VideoUrl);
+                        if (!string.IsNullOrEmpty(newThumb))
+                        {
+                            existingVideo.ThumbnailUrl = newThumb;
+                        }
                     }
-                    else
+                    catch
                     {
-                        _logger.LogError(ex, $"Ошибка при обновлении видео с ID {id}: {ex.Message}");
-                        throw;
+                        // В случае ошибки, оставляем старую миниатюру
+                        if (string.IsNullOrEmpty(existingVideo.ThumbnailUrl))
+                        {
+                            existingVideo.ThumbnailUrl = oldThumbnail;
+                        }
                     }
                 }
+                
+                // Сохраняем изменения
+                await _context.SaveChangesAsync();
+                
+                // Перенаправляем на страницу деталей видео
+                TempData["SuccessMessage"] = "Видео успешно обновлено!";
+                return RedirectToAction("VideoDetails", new { id = existingVideo.Id });
             }
-            else
+            catch (Exception ex)
             {
-                _logger.LogWarning("Ошибка валидации формы редактирования видео: " + 
-                    string.Join("; ", ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage)));
+                TempData["ErrorMessage"] = $"Ошибка при сохранении: {ex.Message}";
+                return View(videoModel);
             }
-            
-            return View(video);
         }
 
         // POST: /Admin/DeleteVideo/5
@@ -742,12 +879,24 @@ namespace WebApplication15.Controllers
                 return NotFound();
             }
 
-            // Удаляем связанные записи о просмотрах
-            await _videoService.DeleteWatchedVideoRecords(id);
+            try
+            {
+                // Удаляем связанные записи о просмотрах
+                await _videoService.DeleteWatchedVideoRecords(id);
 
-            _context.Videos.Remove(video);
-            await _context.SaveChangesAsync();
-            return RedirectToAction("Videos");
+                _context.Videos.Remove(video);
+                await _context.SaveChangesAsync();
+                
+                _logger.LogInformation($"Видео с ID {id} успешно удалено");
+                TempData["SuccessMessage"] = "Видео успешно удалено!";
+                return RedirectToAction("Videos");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Ошибка при удалении видео с ID {id}: {ex.Message}");
+                TempData["ErrorMessage"] = $"Ошибка при удалении видео: {ex.Message}";
+                return RedirectToAction("VideoDetails", new { id });
+            }
         }
 
         // GET: /Admin/Logout
@@ -894,30 +1043,83 @@ namespace WebApplication15.Controllers
         {
             ViewBag.Theme = _themeService.GetCurrentTheme();
             
-            if (ModelState.IsValid)
+            try
             {
-                _context.Questions.Add(question);
-                await _context.SaveChangesAsync();
-                
-                // В зависимости от выбранного действия перенаправляем пользователя
-                if (action == "saveAndAddOptions")
+                if (ModelState.IsValid)
                 {
-                    // Перенаправляем на страницу добавления вариантов ответа
-                    return RedirectToAction("AddOptions", new { questionId = question.Id });
-                }
-                else
-                {
-                    // Просто сохраняем вопрос и возвращаемся к деталям теста
-                    return RedirectToAction("TestDetails", new { id = question.TestId });
+                    // Используем транзакцию
+                    using (var transaction = await _context.Database.BeginTransactionAsync())
+                    {
+                        try
+                        {
+                            // Получаем связанный тест
+                            var test = await _context.Tests
+                                .Include(t => t.Questions)
+                                .FirstOrDefaultAsync(t => t.Id == question.TestId);
+                            
+                            if (test == null)
+                            {
+                                return NotFound("Тест не найден");
+                            }
+                            
+                            // Устанавливаем порядок вопроса
+                            question.Order = test.Questions?.Count ?? 0;
+                            question.QuestionType = question.QuestionType >= 0 ? question.QuestionType : 0;
+                            
+                            // Создаем новый экземпляр вопроса без навигационных свойств
+                            var newQuestion = new Question
+                            {
+                                Text = question.Text,
+                                TestId = question.TestId,
+                                Order = question.Order,
+                                QuestionType = question.QuestionType,
+                                CorrectAnswer = string.IsNullOrEmpty(question.CorrectAnswer) ? "" : question.CorrectAnswer
+                            };
+                            
+                            // Добавляем вопрос в базу данных
+                            _context.Questions.Add(newQuestion);
+                            await _context.SaveChangesAsync();
+                            
+                            await transaction.CommitAsync();
+                            
+                            if (action == "AddOptions")
+                            {
+                                // Переходим к добавлению вариантов ответа
+                                return RedirectToAction("AddOptions", new { questionId = newQuestion.Id });
+                            }
+                            else
+                            {
+                                // Возвращаемся к редактированию теста
+                                return RedirectToAction("EditTest", new { id = question.TestId });
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            await transaction.RollbackAsync();
+                            throw;
+                        }
+                    }
                 }
             }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Ошибка при добавлении вопроса: {Message}", ex.Message);
+                if (ex.InnerException != null)
+                {
+                    _logger.LogError(ex.InnerException, "Внутреннее исключение: {Message}", ex.InnerException.Message);
+                }
+                ModelState.AddModelError("", $"Произошла ошибка при сохранении вопроса: {ex.Message}");
+            }
             
-            var test = await _context.Tests
+            // Загружаем тест для отображения в форме
+            var testForView = await _context.Tests
                 .Include(t => t.LanguageLevel)
-                    .ThenInclude(ll => ll.Language)
+                .ThenInclude(ll => ll.Language)
                 .FirstOrDefaultAsync(t => t.Id == question.TestId);
                 
-            ViewBag.Test = test;
+            ViewBag.Test = testForView;
+            
+            // Переходим обратно на форму с вопросом в случае ошибки
             return View(question);
         }
         
@@ -1035,33 +1237,99 @@ namespace WebApplication15.Controllers
         {
             ViewBag.Theme = _themeService.GetCurrentTheme();
             
+            if (string.IsNullOrEmpty(optionText))
+            {
+                ModelState.AddModelError("", "Текст варианта ответа не может быть пустым");
+                
+                var questionForView = await _context.Questions
+                    .Include(q => q.Test)
+                    .Include(q => q.Options)
+                    .FirstOrDefaultAsync(q => q.Id == questionId);
+                
+                ViewBag.Question = questionForView;
+                return View("AddOptions");
+            }
+            
+            // Получаем вопрос из базы данных
             var question = await _context.Questions
                 .Include(q => q.Options)
+                .Include(q => q.Test)
                 .FirstOrDefaultAsync(q => q.Id == questionId);
                 
             if (question == null)
             {
-                return NotFound();
+                return NotFound("Вопрос не найден");
             }
             
-            if (string.IsNullOrEmpty(optionText))
+            try
             {
-                ModelState.AddModelError("", "Текст варианта ответа не может быть пустым");
+                // Используем транзакцию для обеспечения целостности данных
+                using (var transaction = await _context.Database.BeginTransactionAsync())
+                {
+                    try
+                    {
+                        // Создаем новый вариант ответа
+                        var option = new Option
+                        {
+                            Text = optionText,
+                            IsCorrect = isCorrect,
+                            QuestionId = questionId
+                        };
+                        
+                        // Добавляем вариант ответа в базу данных
+                        _context.Options.Add(option);
+                        await _context.SaveChangesAsync();
+                        
+                        // Если это правильный ответ для вопроса с одиночным выбором
+                        if (isCorrect && question.QuestionType == 0) // Тип 0 - одиночный выбор
+                        {
+                            // Если был другой правильный ответ, снимаем флаг
+                            var previousCorrectOptions = await _context.Options
+                                .Where(o => o.QuestionId == questionId && o.IsCorrect && o.Id != option.Id)
+                                .ToListAsync();
+                                
+                            foreach (var prevOption in previousCorrectOptions)
+                            {
+                                prevOption.IsCorrect = false;
+                            }
+                            
+                            if (previousCorrectOptions.Any())
+                            {
+                                _context.Options.UpdateRange(previousCorrectOptions);
+                                await _context.SaveChangesAsync();
+                            }
+                            
+                            // Обновляем правильный ответ в вопросе
+                            question.CorrectAnswer = optionText;
+                            _context.Questions.Update(question);
+                            await _context.SaveChangesAsync();
+                        }
+                        
+                        await transaction.CommitAsync();
+                        
+                        // Перенаправляем обратно на страницу с вариантами ответов
+                        return RedirectToAction("AddOptions", new { questionId = questionId });
+                    }
+                    catch (Exception ex)
+                    {
+                        await transaction.RollbackAsync();
+                        throw;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Ошибка при добавлении варианта ответа: {Message}", ex.Message);
+                if (ex.InnerException != null)
+                {
+                    _logger.LogError(ex.InnerException, "Внутреннее исключение: {Message}", ex.InnerException.Message);
+                }
+                ModelState.AddModelError("", $"Произошла ошибка при сохранении варианта ответа: {ex.Message}");
+                
+                // В случае ошибки возвращаемся на ту же страницу
                 ViewBag.Question = question;
-                return View("AddOptions");
+                return View("AddOptions", question);
             }
-            
-            var option = new Option
-            {
-                Text = optionText,
-                IsCorrect = isCorrect,
-                QuestionId = questionId
-            };
-            
-            _context.Options.Add(option);
-            await _context.SaveChangesAsync();
-            
-            return RedirectToAction("AddOptions", new { questionId });
         }
         
         // POST: /Admin/DeleteOption/{id}
@@ -1273,72 +1541,118 @@ namespace WebApplication15.Controllers
                     return View("CreateTest");
                 }
                 
-                // Создаем тест
-                var test = new Test
+                // Начинаем транзакцию для гарантии целостности данных
+                using (var transaction = await _context.Database.BeginTransactionAsync())
                 {
-                    Title = Title,
-                    Description = Description ?? "",
-                    LanguageLevelId = LanguageLevelId,
-                    TimeLimit = TimeLimit,
-                    PassingScore = PassingScore,
-                    IsActive = IsActive == "on",
-                    CreatedDate = DateTime.Now,
-                    OrderInLevel = 0 // Будет обновлено позже
-                };
-                
-                _context.Tests.Add(test);
-                await _context.SaveChangesAsync();
-                
-                _logger.LogInformation($"Создан тест с ID: {test.Id}");
-                
-                // Добавляем вопросы
-                foreach (var questionVM in questions)
-                {
-                    if (string.IsNullOrEmpty(questionVM.Text))
-                        continue;
-                        
-                    var question = new Question
+                    try
                     {
-                        Text = questionVM.Text,
-                        TestId = test.Id
-                    };
-                    
-                    _context.Questions.Add(question);
-                    await _context.SaveChangesAsync();
-                    
-                    _logger.LogInformation($"Создан вопрос с ID: {question.Id}");
-                    
-                    // Добавляем варианты ответов
-                    if (questionVM.Options != null && questionVM.Options.Any())
-                    {
-                        for (int i = 0; i < questionVM.Options.Count; i++)
+                        // Создаем тест
+                        var test = new Test
                         {
-                            var optionVM = questionVM.Options[i];
-                            if (string.IsNullOrEmpty(optionVM.Text))
+                            Title = Title,
+                            Description = Description ?? "",
+                            LanguageLevelId = LanguageLevelId,
+                            TimeLimit = TimeLimit,
+                            PassingScore = PassingScore,
+                            IsActive = !string.IsNullOrEmpty(IsActive),
+                            OrderInLevel = 1,
+                            CreatedDate = DateTime.Now
+                        };
+                        
+                        _context.Tests.Add(test);
+                        await _context.SaveChangesAsync();
+                        _logger.LogInformation($"Создан тест с ID={test.Id}");
+                        
+                        int questionOrder = 0;
+                        // Добавляем вопросы
+                        foreach (var questionVM in questions)
+                        {
+                            if (string.IsNullOrEmpty(questionVM.Text))
                                 continue;
                                 
-                            var option = new Option
+                            var question = new Question
                             {
-                                Text = optionVM.Text,
-                                IsCorrect = (i == questionVM.CorrectOption),
-                                QuestionId = question.Id
+                                Text = questionVM.Text,
+                                TestId = test.Id,
+                                Order = questionOrder++,
+                                QuestionType = 0, // Одиночный выбор
+                                Options = new List<Option>(),
+                                // Инициализируем CorrectAnswer пустой строкой, чтобы избежать NULL
+                                CorrectAnswer = ""
                             };
                             
-                            _context.Options.Add(option);
+                            _context.Questions.Add(question);
+                            await _context.SaveChangesAsync();
+                            
+                            _logger.LogInformation($"Создан вопрос с ID: {question.Id}");
+                            
+                            // Добавляем варианты ответов
+                            if (questionVM.Options != null && questionVM.Options.Any())
+                            {
+                                string correctAnswerText = null;
+                                
+                                for (int i = 0; i < questionVM.Options.Count; i++)
+                                {
+                                    var optionVM = questionVM.Options[i];
+                                    if (string.IsNullOrEmpty(optionVM.Text))
+                                        continue;
+                                        
+                                    bool isCorrect = (i == questionVM.CorrectOption);
+                                    
+                                    var option = new Option
+                                    {
+                                        Text = optionVM.Text,
+                                        IsCorrect = isCorrect,
+                                        QuestionId = question.Id
+                                    };
+                                    
+                                    if (isCorrect)
+                                    {
+                                        correctAnswerText = optionVM.Text;
+                                    }
+                                    
+                                    _context.Options.Add(option);
+                                }
+                                
+                                // Устанавливаем правильный ответ в вопросе
+                                if (!string.IsNullOrEmpty(correctAnswerText))
+                                {
+                                    question.CorrectAnswer = correctAnswerText;
+                                    _context.Questions.Update(question);
+                                }
+                                else if (questionVM.Options.Count > 0) // Если не выбран правильный ответ, берем первый вариант
+                                {
+                                    question.CorrectAnswer = questionVM.Options[0].Text;
+                                    _context.Questions.Update(question);
+                                }
+                                
+                                await _context.SaveChangesAsync();
+                            }
                         }
                         
-                        await _context.SaveChangesAsync();
+                        // Если всё успешно, подтверждаем транзакцию
+                        await transaction.CommitAsync();
+                        
+                        TempData["SuccessMessage"] = "Тест успешно создан!";
+                        return RedirectToAction("TestDetails", new { id = test.Id });
+                    }
+                    catch (Exception ex)
+                    {
+                        // В случае ошибки отменяем транзакцию
+                        await transaction.RollbackAsync();
+                        throw; // Пробрасываем исключение для обработки во внешнем блоке catch
                     }
                 }
-                
-                TempData["SuccessMessage"] = "Тест успешно создан!";
-                return RedirectToAction("TestDetails", new { id = test.Id });
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Ошибка при создании теста: {Message}", ex.Message);
-                ModelState.AddModelError("", $"Ошибка при создании теста: {ex.Message}");
-                TempData["ErrorMessage"] = $"Ошибка при создании теста: {ex.Message}";
+                _logger.LogError(ex, "Ошибка при создании теста с вопросами: {Message}", ex.Message);
+                if (ex.InnerException != null)
+                {
+                    _logger.LogError(ex.InnerException, "Внутреннее исключение: {Message}", ex.InnerException.Message);
+                }
+                ModelState.AddModelError("", $"Произошла ошибка при создании теста: {ex.Message}");
+                TempData["ErrorMessage"] = $"Произошла ошибка при создании теста: {ex.Message}";
                 return View("CreateTest");
             }
         }

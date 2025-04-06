@@ -7892,11 +7892,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\ForWinkk\\Desktop\\языки\\LanguageCourse\\WebApplication15.csproj",
+      "projectUniqueName": "C:\\Users\\ForWinkk\\Desktop\\LanguageCourse\\LanguageCourse\\WebApplication15.csproj",
       "projectName": "WebApplication15",
-      "projectPath": "C:\\Users\\ForWinkk\\Desktop\\языки\\LanguageCourse\\WebApplication15.csproj",
+      "projectPath": "C:\\Users\\ForWinkk\\Desktop\\LanguageCourse\\LanguageCourse\\WebApplication15.csproj",
       "packagesPath": "C:\\Users\\ForWinkk\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\ForWinkk\\Desktop\\языки\\LanguageCourse\\obj\\",
+      "outputPath": "C:\\Users\\ForWinkk\\Desktop\\LanguageCourse\\LanguageCourse\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

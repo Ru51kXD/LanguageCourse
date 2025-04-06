@@ -72,15 +72,30 @@
     <script src="~/js/site.js" asp-append-version="true"></script>
     <script>
         // Управление навигацией
-        document.getElementById('navToggle').addEventListener('click', function() {
-            const nav = document.getElementById('topNav');
-            nav.classList.toggle('active');
-            this.classList.toggle('active');
-        });
-
-        // Анимации для всех блоков при скролле
         document.addEventListener('DOMContentLoaded', function() {
-            // Добавляем класс fade-in-up ко всем блокам, которые хотим анимировать
+            const navToggle = document.getElementById('navToggle');
+            if (navToggle) {
+                navToggle.addEventListener('click', function() {
+                    const nav = document.getElementById('topNav');
+                    if (nav) {
+                        nav.classList.toggle('active');
+                        this.classList.toggle('active');
+                    }
+                });
+            }
+
+            // Добавляем класс для шапки, чтобы она всегда отображалась
+            const topNav = document.getElementById('topNav');
+            if (topNav) {
+                // Проверяем, находимся ли мы на странице авторизации
+                const isAuthPage = document.querySelector('.auth-container') !== null;
+                if (isAuthPage) {
+                    topNav.style.position = 'relative';
+                    topNav.style.zIndex = '1000';
+                }
+            }
+
+            // Анимации для всех блоков при скролле
             const animateElements = document.querySelectorAll('.card, .card-body, .hero-section, .container > .row, .city-card');
             animateElements.forEach(element => {
                 if (!element.classList.contains('fade-in-up')) {

@@ -27,7 +27,7 @@ namespace WebApplication15.Models
         public int Order { get; set; } = 0;
 
         [Display(Name = "Правильный ответ")]
-        public string CorrectAnswer { get; set; }
+        public string CorrectAnswer { get; set; } = "";
 
         [ForeignKey("TestId")]
         public virtual Test Test { get; set; }
