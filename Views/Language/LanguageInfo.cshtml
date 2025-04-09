@@ -1,9 +1,12 @@
 @model WebApplication15.Models.LanguageInfoViewModel
+@using WebApplication15.Models
+
 @{
     ViewData["Title"] = Model.Name;
 }
 
 <link rel="stylesheet" href="~/css/language-info.css" asp-append-version="true" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
 <div class="language-page-container">
     <!-- Анимированный баннер с изображением города -->
@@ -13,7 +16,7 @@
                 <div class="language-flag">@Model.FlagEmoji</div>
                 <h1 class="language-title">@Model.Name</h1>
                 <p class="language-native">@Model.NativeName</p>
-                <p class="language-region">@Model.Region</p>
+                <p class="language-region"><i class="fas fa-map-marker-alt"></i> @Model.Region</p>
             </div>
         </div>
     </div>
@@ -56,24 +59,45 @@
     <div class="language-section action-section animate-block">
         <div class="section-container">
             <h2 class="section-title"><i class="fas fa-graduation-cap"></i> Начните обучение</h2>
-            <p class="section-description">Выберите, что вы хотите изучать:</p>
+            <p class="section-description">Выберите направление вашего обучения:</p>
             
             <div class="action-buttons">
-                <a href="/Test" class="action-button test-button">
-                    <div class="button-icon"><i class="fas fa-tasks"></i></div>
-                    <div class="button-text">
-                        <h3>Тесты</h3>
-                        <p>Проверьте свои знания</p>
-                    </div>
-                </a>
-                
-                <a href="/Video" class="action-button video-button">
-                    <div class="button-icon"><i class="fas fa-video"></i></div>
-                    <div class="button-text">
-                        <h3>Видеоуроки</h3>
-                        <p>Обучающие материалы</p>
-                    </div>
-                </a>
+                @if (ViewBag.Levels != null && ViewBag.Levels.Count > 0)
+                {
+                    <a href="@Url.Action("Tests", "Language", new { id = ViewBag.Levels[0].Id })" class="action-button test-button">
+                        <div class="button-icon"><i class="fas fa-tasks"></i></div>
+                        <div class="button-text">
+                            <h3>Тесты</h3>
+                            <p>Проверьте свои знания</p>
+                        </div>
+                    </a>
+                    
+                    <a href="@Url.Action("Videos", "Language", new { id = ViewBag.Levels[0].Id })" class="action-button video-button">
+                        <div class="button-icon"><i class="fas fa-video"></i></div>
+                        <div class="button-text">
+                            <h3>Видеоуроки</h3>
+                            <p>Обучающие материалы</p>
+                        </div>
+                    </a>
+                }
+                else
+                {
+                    <a href="#" class="action-button test-button disabled">
+                        <div class="button-icon"><i class="fas fa-tasks"></i></div>
+                        <div class="button-text">
+                            <h3>Тесты</h3>
+                            <p>Скоро будут доступны</p>
+                        </div>
+                    </a>
+                    
+                    <a href="#" class="action-button video-button disabled">
+                        <div class="button-icon"><i class="fas fa-video"></i></div>
+                        <div class="button-text">
+                            <h3>Видеоуроки</h3>
+                            <p>Скоро будут доступны</p>
+                        </div>
+                    </a>
+                }
                 
                 <a href="/" class="action-button home-button">
                     <div class="button-icon"><i class="fas fa-home"></i></div>
@@ -82,6 +106,20 @@
                         <p>Вернуться на главную страницу</p>
                     </div>
                 </a>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Вдохновляющая цитата -->
+    <div class="language-section quote-section animate-block">
+        <div class="section-container">
+            <div class="quote-container">
+                <i class="quote-icon fas fa-quote-left"></i>
+                <blockquote class="language-quote">
+                    Изучение нового языка — это не только приобретение нового навыка, 
+                    это открытие новой двери в мир, новый образ мышления и новый взгляд на жизнь.
+                </blockquote>
+                <p class="quote-author">— Frank Smith</p>
             </div>
         </div>
     </div>
@@ -102,18 +140,28 @@
                             items.forEach((item, index) => {
                                 setTimeout(() => {
                                     item.classList.add('visible');
-                                }, 100 + (index * 150));
+                                }, 150 + (index * 200));
                             });
                         }
                     }
                 });
             }, {
-                threshold: 0.1
+                threshold: 0.15,
+                rootMargin: '0px 0px -100px 0px'
             });
             
             // Наблюдаем за блоками
             document.querySelectorAll('.animate-block').forEach(block => {
                 observer.observe(block);
+            });
+            
+            // Параллакс эффект для баннера
+            const banner = document.querySelector('.language-banner');
+            window.addEventListener('scroll', function() {
+                const scrollTop = window.pageYOffset;
+                if (scrollTop < banner.offsetHeight) {
+                    banner.style.backgroundPositionY = `calc(50% + ${scrollTop * 0.4}px)`;
+                }
             });
         });
     </script>
