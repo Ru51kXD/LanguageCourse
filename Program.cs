@@ -19,6 +19,7 @@ using Microsoft.AspNetCore.DataProtection;
 using System.IO;
 using Microsoft.AspNetCore.DataProtection.AuthenticatedEncryption;
 using Microsoft.AspNetCore.DataProtection.AuthenticatedEncryption.ConfigurationModel;
+using System.Collections.Generic;
 
 // Вспомогательный класс, используемый для логгера
 internal class ProgramHelper { }
@@ -40,8 +41,26 @@ public static class Program
         builder.Services.AddControllersWithViews();
         builder.Services.AddHttpContextAccessor();
 
-        // Добавление сервисов локализации
+        // Добавление сервисов локализации (должен быть перед AddMvc)
         builder.Services.AddLocalization(options => options.ResourcesPath = "Resources");
+        
+        // Регистрация сервисов
+        builder.Services.AddScoped<WebApplication15.Models.LocalizationService>();
+        builder.Services.AddScoped<AuthService>();
+        builder.Services.AddScoped<LanguageService>();
+        builder.Services.AddScoped<TestService>();
+        builder.Services.AddScoped<ThemeService>();
+        builder.Services.AddScoped<TestDataService>();
+        builder.Services.AddScoped<VideoService>();
+
+        // Настройка MVC с поддержкой локализации
+        builder.Services.AddMvc()
+            .AddViewLocalization()
+            .AddDataAnnotationsLocalization(options =>
+            {
+                options.DataAnnotationLocalizerProvider = (type, factory) =>
+                    factory.Create(typeof(WebApplication15.Models.LocalizationService));
+            });
 
         // Получаем строку подключения
         string connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
@@ -88,37 +107,33 @@ public static class Program
         .AddEntityFrameworkStores<ApplicationDbContext>()
         .AddDefaultTokenProviders();
 
-        // Регистрация сервисов
-        builder.Services.AddScoped<AuthService>();
-        builder.Services.AddScoped<LanguageService>();
-        builder.Services.AddScoped<TestService>();
-        builder.Services.AddScoped<ThemeService>();
-        builder.Services.AddScoped<TestDataService>();
-        builder.Services.AddScoped<VideoService>();
-        builder.Services.AddScoped<WebApplication15.Models.LocalizationService>();
-
-        // Настройка MVC с поддержкой локализации
-        builder.Services.AddMvc()
-            .AddViewLocalization()
-            .AddDataAnnotationsLocalization(options =>
-            {
-                options.DataAnnotationLocalizerProvider = (type, factory) =>
-                    factory.Create(typeof(LocalizationService));
-            });
-
         // Настройка поддерживаемых культур
         builder.Services.Configure<RequestLocalizationOptions>(options =>
         {
             var supportedCultures = new[]
             {
+                new CultureInfo("ru"),
                 new CultureInfo("kk"),
                 new CultureInfo("en"),
                 new CultureInfo("tr")
             };
 
-            options.DefaultRequestCulture = new RequestCulture("en");
+            options.DefaultRequestCulture = new RequestCulture("ru");
             options.SupportedCultures = supportedCultures;
             options.SupportedUICultures = supportedCultures;
+            
+            // Настройка провайдеров для определения культуры
+            options.RequestCultureProviders = new List<IRequestCultureProvider>
+            {
+                // Порядок провайдеров имеет значение - первый имеет высший приоритет
+                new CookieRequestCultureProvider
+                {
+                    CookieName = CookieRequestCultureProvider.DefaultCookieName,
+                    Options = options
+                },
+                new QueryStringRequestCultureProvider(),
+                new AcceptLanguageHeaderRequestCultureProvider()
+            };
         });
 
         var app = builder.Build();
@@ -244,6 +259,17 @@ public static class Program
         if (localizationOptions != null)
         {
             app.UseRequestLocalization(localizationOptions.Value);
+        }
+
+        if (app.Environment.IsDevelopment())
+        {
+            // Отладочная информация о локализации
+            app.Use(async (context, next) =>
+            {
+                var currentCulture = context.Features.Get<IRequestCultureFeature>()?.RequestCulture.Culture?.Name;
+                //Console.WriteLine($"Current culture: {currentCulture}");
+                await next();
+            });
         }
 
         app.UseRouting();

@@ -5,6 +5,8 @@ using WebApplication15.Services;
 using Microsoft.AspNetCore.Localization;
 using WebApplication15.Data;
 using Microsoft.EntityFrameworkCore;
+using System.Globalization;
+using System.Threading;
 
 namespace WebApplication15.Controllers;
 
@@ -34,8 +36,28 @@ public class HomeController : Controller
 
     public async Task<IActionResult> Index()
     {
+        // Устанавливаем текущую культуру принудительно
+        var currentLanguage = _languageService.GetCurrentLanguage();
+        var cultureInfo = new CultureInfo(currentLanguage);
+        Thread.CurrentThread.CurrentCulture = cultureInfo;
+        Thread.CurrentThread.CurrentUICulture = cultureInfo;
+        
+        // Устанавливаем культуру для Request
+        var requestCultureFeature = HttpContext.Features.Get<IRequestCultureFeature>();
+        if (requestCultureFeature != null)
+        {
+            var cookieName = CookieRequestCultureProvider.DefaultCookieName;
+            var cookieValue = CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(cultureInfo));
+            
+            Response.Cookies.Append(cookieName, cookieValue, new CookieOptions
+            {
+                Expires = DateTimeOffset.UtcNow.AddYears(1),
+                IsEssential = true
+            });
+        }
+        
         ViewBag.IsDarkMode = _themeService.GetCurrentTheme();
-        ViewBag.CurrentLanguage = _languageService.GetCurrentLanguage();
+        ViewBag.CurrentLanguage = currentLanguage;
         ViewBag.IsAuthenticated = _authService.IsAuthenticated();
         ViewBag.LocalizationService = _localizationService;
         
@@ -51,11 +73,27 @@ public class HomeController : Controller
     [HttpPost]
     public IActionResult SetLanguage(string culture, string returnUrl)
     {
+        // Установка cookie для локализации
         Response.Cookies.Append(
             CookieRequestCultureProvider.DefaultCookieName,
             CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(culture)),
-            new CookieOptions { Expires = DateTimeOffset.UtcNow.AddYears(1) }
+            new CookieOptions 
+            { 
+                Expires = DateTimeOffset.UtcNow.AddYears(1),
+                IsEssential = true,
+                SameSite = SameSiteMode.Lax,
+                HttpOnly = true,
+                Secure = false
+            }
         );
+
+        // Установка текущей культуры для текущего запроса
+        var cultureInfo = new CultureInfo(culture);
+        CultureInfo.CurrentCulture = cultureInfo;
+        CultureInfo.CurrentUICulture = cultureInfo;
+        
+        // Сохранение выбранного языка в сессии
+        _languageService.SetCurrentLanguage(culture);
 
         return LocalRedirect(returnUrl ?? "~/");
     }

@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "x8YdHfqmfL5pvGQuv5fOr4IQ/S7E2xNgjvjSfJYWH3E=",
+  "Hash": "rcpcbZ5CVV4NByKhTyJSk+E04XURghTwqFQY5BkNlc8=",
   "Source": "WebApplication15",
   "BasePath": "_content/WebApplication15",
   "Mode": "Default",
@@ -1319,12 +1319,12 @@
       "OriginalItemSpec": "C:\\Users\\user\\OneDrive\\Рабочий стол\\Новая папка (4)\\LanguageCourse\\wwwroot\\images\\empty-state.svg"
     },
     {
-      "Identity": "C:\\Users\\user\\OneDrive\\Рабочий стол\\Новая папка (4)\\LanguageCourse\\obj\\Debug\\net9.0\\compressed\\rgyc60bnt6-bp7snzj0im.gz",
+      "Identity": "C:\\Users\\user\\OneDrive\\Рабочий стол\\Новая папка (4)\\LanguageCourse\\obj\\Debug\\net9.0\\compressed\\rgyc60bnt6-2jo65582r7.gz",
       "SourceId": "WebApplication15",
       "SourceType": "Discovered",
       "ContentRoot": "C:\\Users\\user\\OneDrive\\Рабочий стол\\Новая папка (4)\\LanguageCourse\\obj\\Debug\\net9.0\\compressed\\",
       "BasePath": "_content/WebApplication15",
-      "RelativePath": "css/site#[.{fingerprint=bp7snzj0im}]?.css.gz",
+      "RelativePath": "css/site#[.{fingerprint=2jo65582r7}]?.css.gz",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Alternative",
@@ -1333,8 +1333,8 @@
       "RelatedAsset": "C:\\Users\\user\\OneDrive\\Рабочий стол\\Новая папка (4)\\LanguageCourse\\wwwroot\\css\\site.css",
       "AssetTraitName": "Content-Encoding",
       "AssetTraitValue": "gzip",
-      "Fingerprint": "3l0dpjtdma",
-      "Integrity": "ycYP9MX6JfvzXbTsG2F6HuhkBmgq0z8ze1J2LPXqJXg=",
+      "Fingerprint": "uaylz319d6",
+      "Integrity": "5t+UzPEqWNJ1kczcAqlun76E3yeQm5op6sjwPOuAUTU=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "C:\\Users\\user\\OneDrive\\Рабочий стол\\Новая папка (4)\\LanguageCourse\\wwwroot\\css\\site.css"
@@ -1984,8 +1984,8 @@
       "RelatedAsset": "",
       "AssetTraitName": "",
       "AssetTraitValue": "",
-      "Fingerprint": "bp7snzj0im",
-      "Integrity": "AdcxoqbWIl7kX3t9ah3bi8b+hF/iz21jXnesZifqyhc=",
+      "Fingerprint": "2jo65582r7",
+      "Integrity": "UuXp6A43jL+t9dK5YaiOKQWol7LGQrwEhtmLtuAh2uw=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\css\\site.css"
@@ -6334,13 +6334,13 @@
       ]
     },
     {
-      "Route": "css/site.bp7snzj0im.css",
-      "AssetFile": "C:\\Users\\user\\OneDrive\\Рабочий стол\\Новая папка (4)\\LanguageCourse\\obj\\Debug\\net9.0\\compressed\\rgyc60bnt6-bp7snzj0im.gz",
+      "Route": "css/site.2jo65582r7.css",
+      "AssetFile": "C:\\Users\\user\\OneDrive\\Рабочий стол\\Новая папка (4)\\LanguageCourse\\obj\\Debug\\net9.0\\compressed\\rgyc60bnt6-2jo65582r7.gz",
       "Selectors": [
         {
           "Name": "Content-Encoding",
           "Value": "gzip",
-          "Quality": "0.000179307872"
+          "Quality": "0.000175162025"
         }
       ],
       "ResponseHeaders": [
@@ -6350,15 +6350,15 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "5576"
+          "Value": "5708"
         },
         {
           "Name": "ETag",
-          "Value": "\"ycYP9MX6JfvzXbTsG2F6HuhkBmgq0z8ze1J2LPXqJXg=\""
+          "Value": "\"5t+UzPEqWNJ1kczcAqlun76E3yeQm5op6sjwPOuAUTU=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Wed, 09 Apr 2025 22:13:59 GMT"
+          "Value": "Wed, 09 Apr 2025 23:23:07 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -6378,13 +6378,13 @@
         },
         {
           "Name": "ETag",
-          "Value": "W/\"AdcxoqbWIl7kX3t9ah3bi8b+hF/iz21jXnesZifqyhc=\""
+          "Value": "W/\"UuXp6A43jL+t9dK5YaiOKQWol7LGQrwEhtmLtuAh2uw=\""
         }
       ],
       "EndpointProperties": [
         {
           "Name": "fingerprint",
-          "Value": "bp7snzj0im"
+          "Value": "2jo65582r7"
         },
         {
           "Name": "label",
@@ -6392,12 +6392,12 @@
         },
         {
           "Name": "integrity",
-          "Value": "sha256-AdcxoqbWIl7kX3t9ah3bi8b+hF/iz21jXnesZifqyhc="
+          "Value": "sha256-UuXp6A43jL+t9dK5YaiOKQWol7LGQrwEhtmLtuAh2uw="
         }
       ]
     },
     {
-      "Route": "css/site.bp7snzj0im.css",
+      "Route": "css/site.2jo65582r7.css",
       "AssetFile": "C:\\Users\\user\\OneDrive\\Рабочий стол\\Новая папка (4)\\LanguageCourse\\wwwroot\\css\\site.css",
       "Selectors": [],
       "ResponseHeaders": [
@@ -6407,7 +6407,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "26971"
+          "Value": "27784"
         },
         {
           "Name": "Content-Type",
@@ -6415,11 +6415,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"AdcxoqbWIl7kX3t9ah3bi8b+hF/iz21jXnesZifqyhc=\""
+          "Value": "\"UuXp6A43jL+t9dK5YaiOKQWol7LGQrwEhtmLtuAh2uw=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Wed, 09 Apr 2025 22:13:59 GMT"
+          "Value": "Wed, 09 Apr 2025 23:23:07 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -6429,7 +6429,7 @@
       "EndpointProperties": [
         {
           "Name": "fingerprint",
-          "Value": "bp7snzj0im"
+          "Value": "2jo65582r7"
         },
         {
           "Name": "label",
@@ -6437,13 +6437,13 @@
         },
         {
           "Name": "integrity",
-          "Value": "sha256-AdcxoqbWIl7kX3t9ah3bi8b+hF/iz21jXnesZifqyhc="
+          "Value": "sha256-UuXp6A43jL+t9dK5YaiOKQWol7LGQrwEhtmLtuAh2uw="
         }
       ]
     },
     {
-      "Route": "css/site.bp7snzj0im.css.gz",
-      "AssetFile": "C:\\Users\\user\\OneDrive\\Рабочий стол\\Новая папка (4)\\LanguageCourse\\obj\\Debug\\net9.0\\compressed\\rgyc60bnt6-bp7snzj0im.gz",
+      "Route": "css/site.2jo65582r7.css.gz",
+      "AssetFile": "C:\\Users\\user\\OneDrive\\Рабочий стол\\Новая папка (4)\\LanguageCourse\\obj\\Debug\\net9.0\\compressed\\rgyc60bnt6-2jo65582r7.gz",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -6452,7 +6452,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "5576"
+          "Value": "5708"
         },
         {
           "Name": "Content-Type",
@@ -6460,11 +6460,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"ycYP9MX6JfvzXbTsG2F6HuhkBmgq0z8ze1J2LPXqJXg=\""
+          "Value": "\"5t+UzPEqWNJ1kczcAqlun76E3yeQm5op6sjwPOuAUTU=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Wed, 09 Apr 2025 22:13:59 GMT"
+          "Value": "Wed, 09 Apr 2025 23:23:07 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -6482,7 +6482,7 @@
       "EndpointProperties": [
         {
           "Name": "fingerprint",
-          "Value": "bp7snzj0im"
+          "Value": "2jo65582r7"
         },
         {
           "Name": "label",
@@ -6490,18 +6490,18 @@
         },
         {
           "Name": "integrity",
-          "Value": "sha256-ycYP9MX6JfvzXbTsG2F6HuhkBmgq0z8ze1J2LPXqJXg="
+          "Value": "sha256-5t+UzPEqWNJ1kczcAqlun76E3yeQm5op6sjwPOuAUTU="
         }
       ]
     },
     {
       "Route": "css/site.css",
-      "AssetFile": "C:\\Users\\user\\OneDrive\\Рабочий стол\\Новая папка (4)\\LanguageCourse\\obj\\Debug\\net9.0\\compressed\\rgyc60bnt6-bp7snzj0im.gz",
+      "AssetFile": "C:\\Users\\user\\OneDrive\\Рабочий стол\\Новая папка (4)\\LanguageCourse\\obj\\Debug\\net9.0\\compressed\\rgyc60bnt6-2jo65582r7.gz",
       "Selectors": [
         {
           "Name": "Content-Encoding",
           "Value": "gzip",
-          "Quality": "0.000179307872"
+          "Quality": "0.000175162025"
         }
       ],
       "ResponseHeaders": [
@@ -6511,15 +6511,15 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "5576"
+          "Value": "5708"
         },
         {
           "Name": "ETag",
-          "Value": "\"ycYP9MX6JfvzXbTsG2F6HuhkBmgq0z8ze1J2LPXqJXg=\""
+          "Value": "\"5t+UzPEqWNJ1kczcAqlun76E3yeQm5op6sjwPOuAUTU=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Wed, 09 Apr 2025 22:13:59 GMT"
+          "Value": "Wed, 09 Apr 2025 23:23:07 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -6539,13 +6539,13 @@
         },
         {
           "Name": "ETag",
-          "Value": "W/\"AdcxoqbWIl7kX3t9ah3bi8b+hF/iz21jXnesZifqyhc=\""
+          "Value": "W/\"UuXp6A43jL+t9dK5YaiOKQWol7LGQrwEhtmLtuAh2uw=\""
         }
       ],
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-AdcxoqbWIl7kX3t9ah3bi8b+hF/iz21jXnesZifqyhc="
+          "Value": "sha256-UuXp6A43jL+t9dK5YaiOKQWol7LGQrwEhtmLtuAh2uw="
         }
       ]
     },
@@ -6560,7 +6560,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "26971"
+          "Value": "27784"
         },
         {
           "Name": "Content-Type",
@@ -6568,11 +6568,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"AdcxoqbWIl7kX3t9ah3bi8b+hF/iz21jXnesZifqyhc=\""
+          "Value": "\"UuXp6A43jL+t9dK5YaiOKQWol7LGQrwEhtmLtuAh2uw=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Wed, 09 Apr 2025 22:13:59 GMT"
+          "Value": "Wed, 09 Apr 2025 23:23:07 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -6582,13 +6582,13 @@
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-AdcxoqbWIl7kX3t9ah3bi8b+hF/iz21jXnesZifqyhc="
+          "Value": "sha256-UuXp6A43jL+t9dK5YaiOKQWol7LGQrwEhtmLtuAh2uw="
         }
       ]
     },
     {
       "Route": "css/site.css.gz",
-      "AssetFile": "C:\\Users\\user\\OneDrive\\Рабочий стол\\Новая папка (4)\\LanguageCourse\\obj\\Debug\\net9.0\\compressed\\rgyc60bnt6-bp7snzj0im.gz",
+      "AssetFile": "C:\\Users\\user\\OneDrive\\Рабочий стол\\Новая папка (4)\\LanguageCourse\\obj\\Debug\\net9.0\\compressed\\rgyc60bnt6-2jo65582r7.gz",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -6597,7 +6597,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "5576"
+          "Value": "5708"
         },
         {
           "Name": "Content-Type",
@@ -6605,11 +6605,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"ycYP9MX6JfvzXbTsG2F6HuhkBmgq0z8ze1J2LPXqJXg=\""
+          "Value": "\"5t+UzPEqWNJ1kczcAqlun76E3yeQm5op6sjwPOuAUTU=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Wed, 09 Apr 2025 22:13:59 GMT"
+          "Value": "Wed, 09 Apr 2025 23:23:07 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -6627,7 +6627,7 @@
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-ycYP9MX6JfvzXbTsG2F6HuhkBmgq0z8ze1J2LPXqJXg="
+          "Value": "sha256-5t+UzPEqWNJ1kczcAqlun76E3yeQm5op6sjwPOuAUTU="
         }
       ]
     },

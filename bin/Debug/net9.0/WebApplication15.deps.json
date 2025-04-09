@@ -346,6 +346,9 @@
           "kk/WebApplication15.resources.dll": {
             "locale": "kk"
           },
+          "ru/WebApplication15.resources.dll": {
+            "locale": "ru"
+          },
           "tr/WebApplication15.resources.dll": {
             "locale": "tr"
           }

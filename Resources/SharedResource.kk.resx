@@ -119,6 +119,78 @@
     <value>Бейне сабақтар</value>
   </data>
   <data name="VideosDescription" xml:space="preserve">
-    <value>Дағдыларыңызды жетілдіру үшін бейне сабақтарды қараңыз. Біздің мұғалімдер тақырыптарды қарапайым және түсінікті тілмен түсіндіреді.</value>
+    <value>Дағдыларыңызды жақсарту үшін бейне сабақтарды көріңіз. Біздің мұғалімдер тақырыптарды қарапайым және түсінікті тілде түсіндіреді.</value>
+  </data>
+  <data name="EnglishLanguage" xml:space="preserve">
+    <value>Ағылшын тілі</value>
+  </data>
+  <data name="KazakhLanguage" xml:space="preserve">
+    <value>Қазақ тілі</value>
+  </data>
+  <data name="TurkishLanguage" xml:space="preserve">
+    <value>Түрік тілі</value>
+  </data>
+  <data name="English" xml:space="preserve">
+    <value>Ағылшын</value>
+  </data>
+  <data name="Kazakh" xml:space="preserve">
+    <value>Қазақ</value>
+  </data>
+  <data name="Turkish" xml:space="preserve">
+    <value>Түрік</value>
+  </data>
+  <data name="ChooseLanguageToLearn" xml:space="preserve">
+    <value>Оқу үшін тілді таңдаңыз</value>
+  </data>
+  <data name="EnglishDescription" xml:space="preserve">
+    <value>Бизнес, технология және мәдениетаралық қарым-қатынастың халықаралық тілі.</value>
+  </data>
+  <data name="KazakhDescription" xml:space="preserve">
+    <value>Бай тарихы мен мәдениеті бар Қазақстанның мемлекеттік тілі.</value>
+  </data>
+  <data name="TurkishDescription" xml:space="preserve">
+    <value>Еуропа мен Азияны байланыстыратын ежелгі тарихы бар тіл.</value>
+  </data>
+  <data name="LearnMore" xml:space="preserve">
+    <value>Көбірек білу</value>
+  </data>
+  <data name="WhyLearnWithUs" xml:space="preserve">
+    <value>Неге бізбен тілдерді үйрену керек?</value>
+  </data>
+  <data name="InteractiveLearning" xml:space="preserve">
+    <value>Интерактивті оқыту</value>
+  </data>
+  <data name="CulturalImmersion" xml:space="preserve">
+    <value>Мәдениетке ену</value>
+  </data>
+  <data name="Certification" xml:space="preserve">
+    <value>Тіл меңгеру сертификаты</value>
+  </data>
+  <data name="InteractiveLearningDescription" xml:space="preserve">
+    <value>Біздің курстар белсенді өзара әрекеттесу мен практикаға негізделген, бұл оқуды тиімді және қызықты етеді.</value>
+  </data>
+  <data name="CulturalImmersionDescription" xml:space="preserve">
+    <value>Тек тілді ғана емес, сонымен қатар елдің мәдениетін, дәстүрлері мен салт-дәстүрлерін контекстті жақсы түсіну үшін үйреніңіз.</value>
+  </data>
+  <data name="CertificationDescription" xml:space="preserve">
+    <value>Біздің курстарды аяқтағаннан кейін халықаралық үлгідегі тіл меңгеру сертификатын алыңыз.</value>
+  </data>
+  <data name="Practice" xml:space="preserve">
+    <value>Практика</value>
+  </data>
+  <data name="TakeTests" xml:space="preserve">
+    <value>Тестілерді өту</value>
+  </data>
+  <data name="PersonalAccount" xml:space="preserve">
+    <value>Жеке кабинет</value>
+  </data>
+  <data name="MasterLanguagesDescription" xml:space="preserve">
+    <value>Біздің интерактивті тестілер мен бейне сабақтар арқылы жаңа тілдерді меңгеріңіз</value>
+  </data>
+  <data name="PlatformDetailedDescription" xml:space="preserve">
+    <value>Біздің платформа интерактивті тесттер, бейне сабақтар және практикалық жаттығулар арқылы тілдерді оқытудың тиімді әдістемелерін ұсынады. Бізге қосылыңыз және бүгіннен бастап шет тілдерін еркін меңгеруге бастар жолыңызды бастаңыз.</value>
+  </data>
+  <data name="AboutUs" xml:space="preserve">
+    <value>Біз туралы</value>
   </data>
 </root> 

@@ -1,25 +1,282 @@
 ﻿@model IEnumerable<WebApplication15.Models.Language>
 @using WebApplication15.Models
-@using static WebApplication15.Models.LocalizationService
+@using Microsoft.AspNetCore.Mvc.Localization
+@using Microsoft.AspNetCore.Localization
+@using System.Globalization
+@inject IViewLocalizer Localizer
+@inject WebApplication15.Models.LocalizationService LocalizationService
 @{
-    ViewData["Title"] = "Главная";
+    ViewData["Title"] = Localizer["Home"];
+    
+    // Принудительно получаем текущую культуру
+    var requestCultureFeature = Context.Features.Get<IRequestCultureFeature>();
+    var requestCulture = requestCultureFeature?.RequestCulture;
+    var culture = requestCulture?.Culture.Name ?? "ru-RU";
+    var uiCulture = requestCulture?.UICulture.Name ?? "ru-RU";
+    
+    // Локализация для блоков на главной странице
+    string learnLanguagesWithUsText;
+    string masterLanguagesDescriptionText;
+    string takeTestsText;
+    string personalAccountText;
+    string chooseLanguageToLearnText;
+    string whyLearnWithUsText;
+    string interactiveLearningText;
+    string interactiveLearningDescriptionText;
+    string culturalImmersionText;
+    string culturalImmersionDescriptionText;
+    string certificationText;
+    string certificationDescriptionText;
+    string englishText;
+    string kazakhText;
+    string turkishText;
+    string profileText;
+    string videosText;
+    string practiceText;
+    
+    // Локализация для описаний языков
+    string kazakhDescriptionText;
+    string englishDescriptionText;
+    string turkishDescriptionText;
+    string learnMoreText;
+    
+    // Локализация для блока Start Learning
+    string startLearningText;
+    string availableLanguagesText;
+    string platformDescriptionText;
+    string registerText;
+    string testsText;
+    
+    // Устанавливаем тексты в зависимости от текущей культуры
+    switch (culture)
+    {
+        case "ru-RU":
+        case "ru":
+            // Блок LearnLanguagesWithUs
+            learnLanguagesWithUsText = "Изучайте языки с нами";
+            masterLanguagesDescriptionText = "Освойте новые языки с помощью наших интерактивных тестов и видеоуроков";
+            takeTestsText = "Пройти тесты";
+            personalAccountText = "Личный кабинет";
+            
+            // Блок Choose Language
+            chooseLanguageToLearnText = "Выберите язык для изучения";
+            
+            // Блок WhyLearnWithUs
+            whyLearnWithUsText = "Почему стоит учить языки с нами?";
+            interactiveLearningText = "Интерактивное обучение";
+            interactiveLearningDescriptionText = "Наши курсы построены на активном взаимодействии и практике, что делает обучение эффективным и увлекательным.";
+            culturalImmersionText = "Погружение в культуру";
+            culturalImmersionDescriptionText = "Изучайте не только язык, но и культуру страны, традиции и обычаи, чтобы лучше понимать контекст.";
+            certificationText = "Сертификация о владении";
+            certificationDescriptionText = "Получите сертификат о владении языком международного образца после прохождения наших курсов.";
+            
+            // Описания языков
+            kazakhDescriptionText = "Государственный язык Казахстана с богатой историей и культурой.";
+            englishDescriptionText = "Международный язык бизнеса, технологий и межкультурного общения.";
+            turkishDescriptionText = "Язык с древней историей, связывающий Европу и Азию.";
+            learnMoreText = "Узнать больше";
+            
+            // Названия языков и разделов
+            englishText = "Английский";
+            kazakhText = "Казахский";
+            turkishText = "Турецкий";
+            profileText = "Профиль";
+            videosText = "Видеоуроки";
+            practiceText = "Практика";
+            
+            // Блок Start Learning
+            startLearningText = "Начать обучение";
+            availableLanguagesText = "Доступные языки";
+            platformDescriptionText = "Наша платформа предлагает эффективные методики обучения языкам с использованием интерактивных тестов, видеоуроков и практических упражнений. Присоединяйтесь к нам и начните свой путь к свободному владению иностранными языками.";
+            registerText = "Регистрация";
+            testsText = "Тесты";
+            break;
+            
+        case "kk-KZ":
+        case "kk":
+            // Блок LearnLanguagesWithUs
+            learnLanguagesWithUsText = "Бізбен бірге тілдерді үйреніңіз";
+            masterLanguagesDescriptionText = "Интерактивті тесттер мен бейнесабақтардың көмегімен жаңа тілдерді меңгеріңіз";
+            takeTestsText = "Тесттерді тапсыру";
+            personalAccountText = "Жеке кабинет";
+            
+            // Блок Choose Language
+            chooseLanguageToLearnText = "Үйрену үшін тілді таңдаңыз";
+            
+            // Блок WhyLearnWithUs
+            whyLearnWithUsText = "Неге бізбен тілдерді үйрену керек?";
+            interactiveLearningText = "Интерактивті оқыту";
+            interactiveLearningDescriptionText = "Біздің курстар белсенді өзара әрекеттесу мен тәжірибеге негізделген, бұл оқуды тиімді және қызықты етеді.";
+            culturalImmersionText = "Мәдениетке ену";
+            culturalImmersionDescriptionText = "Тек тілді ғана емес, сонымен қатар елдің мәдениетін, дәстүрлері мен әдет-ғұрыптарын да үйреніңіз.";
+            certificationText = "Тіл білу сертификаты";
+            certificationDescriptionText = "Біздің курстарды аяқтағаннан кейін халықаралық үлгідегі тіл білу сертификатын алыңыз.";
+            
+            // Описания языков
+            kazakhDescriptionText = "Қазақстанның бай тарихы мен мәдениеті бар мемлекеттік тілі.";
+            englishDescriptionText = "Бизнес, технология және мәдениетаралық қарым-қатынастың халықаралық тілі.";
+            turkishDescriptionText = "Еуропа мен Азияны байланыстыратын көне тарихы бар тіл.";
+            learnMoreText = "Толығырақ білу";
+            
+            // Названия языков и разделов
+            englishText = "Ағылшын";
+            kazakhText = "Қазақ";
+            turkishText = "Түрік";
+            profileText = "Профиль";
+            videosText = "Бейнесабақтар";
+            practiceText = "Тәжірибе";
+            
+            // Блок Start Learning
+            startLearningText = "Оқуды бастау";
+            availableLanguagesText = "Қол жетімді тілдер";
+            platformDescriptionText = "Біздің платформа интерактивті тесттер, бейне сабақтар және практикалық жаттығулар арқылы тілдерді оқытудың тиімді әдістемелерін ұсынады. Бізге қосылыңыз және бүгіннен бастап шет тілдерін еркін меңгеруге бастар жолыңызды бастаңыз.";
+            registerText = "Тіркелу";
+            testsText = "Тесттер";
+            break;
+            
+        case "en-US":
+        case "en-GB":
+        case "en":
+            // Блок LearnLanguagesWithUs
+            learnLanguagesWithUsText = "Learn Languages With Us";
+            masterLanguagesDescriptionText = "Master new languages with our interactive tests and video lessons";
+            takeTestsText = "Take Tests";
+            personalAccountText = "Personal Account";
+            
+            // Блок Choose Language
+            chooseLanguageToLearnText = "Choose a Language to Learn";
+            
+            // Блок WhyLearnWithUs
+            whyLearnWithUsText = "Why Learn With Us?";
+            interactiveLearningText = "Interactive Learning";
+            interactiveLearningDescriptionText = "Our courses are built on active interaction and practice, making learning effective and engaging.";
+            culturalImmersionText = "Cultural Immersion";
+            culturalImmersionDescriptionText = "Study not only the language but also the culture of the country, traditions and customs to better understand the context.";
+            certificationText = "Language Proficiency Certification";
+            certificationDescriptionText = "Get an international language proficiency certificate after completing our courses.";
+            
+            // Описания языков
+            kazakhDescriptionText = "The state language of Kazakhstan with a rich history and culture.";
+            englishDescriptionText = "The international language of business, technology, and cross-cultural communication.";
+            turkishDescriptionText = "A language with ancient history, connecting Europe and Asia.";
+            learnMoreText = "Learn More";
+            
+            // Названия языков и разделов
+            englishText = "English";
+            kazakhText = "Kazakh";
+            turkishText = "Turkish";
+            profileText = "Profile";
+            videosText = "Videos";
+            practiceText = "Practice";
+            
+            // Блок Start Learning
+            startLearningText = "Start Learning";
+            availableLanguagesText = "Available Languages";
+            platformDescriptionText = "Our platform offers effective language learning methodologies using interactive tests, video lessons, and practical exercises. Join us today and begin your journey to fluency in foreign languages.";
+            registerText = "Register";
+            testsText = "Tests";
+            break;
+            
+        case "tr-TR":
+        case "tr":
+            // Блок LearnLanguagesWithUs
+            learnLanguagesWithUsText = "Bizimle Dilleri Öğrenin";
+            masterLanguagesDescriptionText = "İnteraktif testler ve video derslerle yeni dilleri öğrenin";
+            takeTestsText = "Testleri Çöz";
+            personalAccountText = "Kişisel Hesap";
+            
+            // Блок Choose Language
+            chooseLanguageToLearnText = "Öğrenmek İçin Bir Dil Seçin";
+            
+            // Блок WhyLearnWithUs
+            whyLearnWithUsText = "Neden Bizimle Öğrenmelisiniz?";
+            interactiveLearningText = "İnteraktif Öğrenme";
+            interactiveLearningDescriptionText = "Kurslarımız aktif etkileşim ve pratik üzerine kuruludur, bu da öğrenmeyi etkili ve ilgi çekici hale getirir.";
+            culturalImmersionText = "Kültürel Dalış";
+            culturalImmersionDescriptionText = "Sadece dili değil, aynı zamanda ülkenin kültürünü, geleneklerini ve göreneklerini de öğrenerek bağlamı daha iyi anlayın.";
+            certificationText = "Dil Yeterlilik Sertifikası";
+            certificationDescriptionText = "Kurslarımızı tamamladıktan sonra uluslararası dil yeterlilik sertifikası alın.";
+            
+            // Описания языков
+            kazakhDescriptionText = "Zengin bir tarihe ve kültüre sahip Kazakistan'ın resmi dilidir.";
+            englishDescriptionText = "İş, teknoloji ve kültürlerarası iletişimin uluslararası dilidir.";
+            turkishDescriptionText = "Avrupa ve Asya'yı birbirine bağlayan, eski bir tarihe sahip bir dildir.";
+            learnMoreText = "Daha Fazla Bilgi";
+            
+            // Названия языков и разделов
+            englishText = "İngilizce";
+            kazakhText = "Kazakça";
+            turkishText = "Türkçe";
+            profileText = "Profil";
+            videosText = "Videolar";
+            practiceText = "Pratik";
+            
+            // Блок Start Learning
+            startLearningText = "Öğrenmeye Başla";
+            availableLanguagesText = "Mevcut Diller";
+            platformDescriptionText = "Platformumuz, etkileşimli testler, video dersler ve pratik alıştırmalar kullanarak etkili dil öğrenme metodolojileri sunar. Bugün bize katılın ve yabancı dillerde akıcılık kazanma yolculuğunuza başlayın.";
+            registerText = "Kayıt Ol";
+            testsText = "Testler";
+            break;
+            
+        default:
+            // Блок LearnLanguagesWithUs
+            learnLanguagesWithUsText = "Изучайте языки с нами";
+            masterLanguagesDescriptionText = "Освойте новые языки с помощью наших интерактивных тестов и видеоуроков";
+            takeTestsText = "Пройти тесты";
+            personalAccountText = "Личный кабинет";
+            
+            // Блок Choose Language
+            chooseLanguageToLearnText = "Выберите язык для изучения";
+            
+            // Блок WhyLearnWithUs
+            whyLearnWithUsText = "Почему стоит учить языки с нами?";
+            interactiveLearningText = "Интерактивное обучение";
+            interactiveLearningDescriptionText = "Наши курсы построены на активном взаимодействии и практике, что делает обучение эффективным и увлекательным.";
+            culturalImmersionText = "Погружение в культуру";
+            culturalImmersionDescriptionText = "Изучайте не только язык, но и культуру страны, традиции и обычаи, чтобы лучше понимать контекст.";
+            certificationText = "Сертификация о владении";
+            certificationDescriptionText = "Получите сертификат о владении языком международного образца после прохождения наших курсов.";
+            
+            // Описания языков
+            kazakhDescriptionText = "Государственный язык Казахстана с богатой историей и культурой.";
+            englishDescriptionText = "Международный язык бизнеса, технологий и межкультурного общения.";
+            turkishDescriptionText = "Язык с древней историей, связывающий Европу и Азию.";
+            learnMoreText = "Узнать больше";
+            
+            // Названия языков и разделов
+            englishText = "Английский";
+            kazakhText = "Казахский";
+            turkishText = "Турецкий";
+            profileText = "Профиль";
+            videosText = "Видеоуроки";
+            practiceText = "Практика";
+            
+            // Блок Start Learning
+            startLearningText = "Начать обучение";
+            availableLanguagesText = "Доступные языки";
+            platformDescriptionText = "Наша платформа предлагает эффективные методики обучения языкам с использованием интерактивных тестов, видеоуроков и практических упражнений. Присоединяйтесь к нам и начните свой путь к свободному владению иностранными языками.";
+            registerText = "Регистрация";
+            testsText = "Тесты";
+            break;
+    }
 }
 
 <link rel="stylesheet" href="~/css/home.css" asp-append-version="true" />
 
 <div class="hero-section">
     <div class="container">
-        <h1 class="text-center">Изучайте языки с нами</h1>
-        <p class="text-center">Освойте новые языки с помощью наших интерактивных тестов и видеоуроков</p>
+        <h1 class="text-center">@learnLanguagesWithUsText</h1>
+        <p class="text-center">@masterLanguagesDescriptionText</p>
         <div class="hero-buttons text-center mt-4">
-            <a href="/Test" class="btn btn-primary btn-lg me-3">Пройти тесты</a>
-            <a href="/Account/Profile" class="btn btn-outline-light btn-lg">Личный кабинет</a>
+            <a href="/Test" class="btn btn-primary btn-lg me-3">@takeTestsText</a>
+            <a href="/Account/Profile" class="btn btn-outline-light btn-lg">@personalAccountText</a>
         </div>
     </div>
 </div>
 
 <div class="container fade-in-up" id="language-section">
-    <h2 class="text-center mb-5">Выберите язык для изучения</h2>
+    <h2 class="text-center mb-5">@chooseLanguageToLearnText</h2>
     <div class="language-cards-row">
         <div class="language-card-container">
             <div class="language-card language-card-kazakh fade-in-up" data-delay="0.1">
@@ -28,15 +285,15 @@
                         <img src="~/images/astana.jpg"> 
                         <div class="language-card-content">
                             <div class="language-card-flag">🇰🇿</div>
-                            <h3 class="language-card-title">Казахский язык</h3>
+                            <h3 class="language-card-title">@kazakhText</h3>
                             <p class="language-card-native">Қазақ тілі</p>
                         </div>
                     </div>
                     <div class="language-card-back">
                         <div class="language-card-back-content">
-                            <h3>Казахский язык</h3>
-                            <p>Государственный язык Казахстана с богатой историей и культурой.</p>
-                            <a href="/Language/Kazakh" class="btn btn-learn-more">Узнать больше</a>
+                            <h3>@kazakhText</h3>
+                            <p>@kazakhDescriptionText</p>
+                            <a href="/Language/Kazakh" class="btn btn-learn-more">@learnMoreText</a>
                         </div>
                     </div>
                 </div>
@@ -50,15 +307,15 @@
                         <img src="~/images/london.jpg"> 
                         <div class="language-card-content">
                             <div class="language-card-flag">🇬🇧</div>
-                            <h3 class="language-card-title">Английский язык</h3>
+                            <h3 class="language-card-title">@englishText</h3>
                             <p class="language-card-native">English</p>
                         </div>
                     </div>
                     <div class="language-card-back">
                         <div class="language-card-back-content">
-                            <h3>Английский язык</h3>
-                            <p>Международный язык бизнеса, технологий и межкультурного общения.</p>
-                            <a href="/Language/English" class="btn btn-learn-more">Узнать больше</a>
+                            <h3>@englishText</h3>
+                            <p>@englishDescriptionText</p>
+                            <a href="/Language/English" class="btn btn-learn-more">@learnMoreText</a>
                         </div>
                     </div>
                 </div>
@@ -72,15 +329,15 @@
                         <img src="~/images/ankara.jpg"> 
                         <div class="language-card-content">
                             <div class="language-card-flag">🇹🇷</div>
-                            <h3 class="language-card-title">Турецкий язык</h3>
+                            <h3 class="language-card-title">@turkishText</h3>
                             <p class="language-card-native">Türkçe</p>
                         </div>
                     </div>
                     <div class="language-card-back">
                         <div class="language-card-back-content">
-                            <h3>Турецкий язык</h3>
-                            <p>Язык с древней историей, связывающий Европу и Азию.</p>
-                            <a href="/Language/Turkish" class="btn btn-learn-more">Узнать больше</a>
+                            <h3>@turkishText</h3>
+                            <p>@turkishDescriptionText</p>
+                            <a href="/Language/Turkish" class="btn btn-learn-more">@learnMoreText</a>
                         </div>
                     </div>
                 </div>
@@ -90,14 +347,14 @@
 </div>
 
 <div class="features-section mb-5">
-    <h2 class="text-center mb-4">Почему стоит учить языки с нами?</h2>
+    <h2 class="text-center mb-4">@whyLearnWithUsText</h2>
     <div class="row">
         <div class="col-md-4">
             <div class="card mb-4 h-100 lift-on-hover">
                 <div class="card-body text-center">
                     <i class="fas fa-graduation-cap fa-3x mb-3 text-primary"></i>
-                    <h3 class="card-title">Интерактивное обучение</h3>
-                    <p class="card-text">Наши курсы построены на активном взаимодействии и практике, что делает обучение эффективным и увлекательным.</p>
+                    <h3 class="card-title">@interactiveLearningText</h3>
+                    <p class="card-text">@interactiveLearningDescriptionText</p>
                 </div>
             </div>
         </div>
@@ -105,8 +362,8 @@
             <div class="card mb-4 h-100 lift-on-hover">
                 <div class="card-body text-center">
                     <i class="fas fa-globe fa-3x mb-3 text-primary"></i>
-                    <h3 class="card-title">Погружение в культуру</h3>
-                    <p class="card-text">Изучайте не только язык, но и культуру страны, традиции и обычаи, чтобы лучше понимать контекст.</p>
+                    <h3 class="card-title">@culturalImmersionText</h3>
+                    <p class="card-text">@culturalImmersionDescriptionText</p>
                 </div>
             </div>
         </div>
@@ -114,8 +371,8 @@
             <div class="card mb-4 h-100 lift-on-hover">
                 <div class="card-body text-center">
                     <i class="fas fa-medal fa-3x mb-3 text-primary"></i>
-                    <h3 class="card-title">Сертификация о владении</h3>
-                    <p class="card-text">Получите сертификат о владении языком международного образца после прохождения наших курсов.</p>
+                    <h3 class="card-title">@certificationText</h3>
+                    <p class="card-text">@certificationDescriptionText</p>
                 </div>
             </div>
         </div>
@@ -123,7 +380,7 @@
 </div>
 
 <div class="features-section mb-5 fade-in-up">
-    <div class="learning-start-block py-5 px-4" style="border-radius: 20px; box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);">
+    <div class="learning-start-block py-5 px-4" style="border-radius: 20px; box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3); margin-top: 60px; margin-bottom: 60px;">
         <div class="row align-items-start">
             <div class="col-md-3 col-sm-6 text-center mb-md-0 mb-4 language-column">
                 <a href="/Language/English" class="language-feature-link mb-4 d-block">
@@ -132,7 +389,7 @@
                             <i class="fas fa-language icon-language-feature"></i>
                         </div>
                     </div>
-                    <h5 class="language-name">Английский</h5>
+                    <h5 class="language-name">@englishText</h5>
                 </a>
                 
                 <a href="/Language/Kazakh" class="language-feature-link mb-4 d-block">
@@ -141,7 +398,7 @@
                             <i class="fas fa-comments icon-language-feature"></i>
                         </div>
                     </div>
-                    <h5 class="language-name">Казахский</h5>
+                    <h5 class="language-name">@kazakhText</h5>
                 </a>
                 
                 <a href="/Language/Turkish" class="language-feature-link d-block">
@@ -150,21 +407,21 @@
                             <i class="fas fa-book icon-language-feature"></i>
                         </div>
                     </div>
-                    <h5 class="language-name">Турецкий</h5>
+                    <h5 class="language-name">@turkishText</h5>
                 </a>
             </div>
             
             <div class="col-md-6 text-center mb-md-0 mb-4 d-flex flex-column justify-content-between" style="min-height: 450px;">
                 <div>
-                    <h2 class="text-white mb-4" style="margin-top: 8px;">Начать обучение</h2>
-                    <h5 class="text-secondary mb-4">Доступные языки</h5>
+                    <h2 class="text-white mb-4" style="margin-top: 8px;">@startLearningText</h2>
+                    <h5 class="text-secondary mb-4">@availableLanguagesText</h5>
                     <p class="platform-description" style="font-size: 1.2rem; line-height: 1.9;">
-                        Наша платформа предлагает эффективные методики обучения языкам с использованием интерактивных тестов, видеоуроков и практических упражнений. Присоединяйтесь к нам и начните свой путь к свободному владению иностранными языками уже сегодня.
+                        @platformDescriptionText
                     </p>
                 </div>
                 <div class="action-buttons" style="margin-bottom: 7px;">
-                    <a href="/Account/Register" class="btn btn-register me-2 me-sm-3 mb-2 mb-sm-0">РЕГИСТРАЦИЯ</a>
-                    <a href="/Test" class="btn btn-tests">ТЕСТЫ</a>
+                    <a href="/Account/Register" class="btn btn-register me-2 me-sm-3 mb-2 mb-sm-0">@registerText</a>
+                    <a href="/Test" class="btn btn-tests">@testsText</a>
                 </div>
             </div>
             
@@ -175,7 +432,7 @@
                             <i class="fas fa-user-graduate icon-language-feature"></i>
                         </div>
                     </div>
-                    <h5 class="language-name">Профиль</h5>
+                    <h5 class="language-name">@profileText</h5>
                 </a>
                 
                 <a href="/Video" class="language-feature-link mb-4 d-block">
@@ -184,7 +441,7 @@
                             <i class="fas fa-video icon-language-feature"></i>
                         </div>
                     </div>
-                    <h5 class="language-name">Видеоуроки</h5>
+                    <h5 class="language-name">@videosText</h5>
                 </a>
                 
                 <a href="/Test" class="language-feature-link d-block">
@@ -193,7 +450,7 @@
                             <i class="fas fa-tasks icon-language-feature"></i>
                         </div>
                     </div>
-                    <h5 class="language-name">Практика</h5>
+                    <h5 class="language-name">@practiceText</h5>
                 </a>
             </div>
         </div>
@@ -361,6 +618,29 @@
         flex-direction: column;
         justify-content: space-between;
     }
+    
+    /* Стили для выпадающего меню языков */
+    .dropdown-item.active {
+        background-color: rgba(126, 91, 239, 0.15);
+        color: #fff;
+        font-weight: bold;
+    }
+    
+    .dropdown-menu {
+        background-color: #2a2e3f;
+        border: 1px solid rgba(101, 74, 184, 0.2);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+    }
+    
+    .dropdown-item {
+        color: #caced8;
+        transition: all 0.2s ease;
+    }
+    
+    .dropdown-item:hover {
+        background-color: rgba(126, 91, 239, 0.2);
+        color: #fff;
+    }
 </style>
 
 <div class="container-fluid footer-section py-3">
@@ -397,6 +677,42 @@
                     observer.observe(element);
                 }
             });
+            
+            // Принудительно делаем блок "Начать обучение" видимым
+            const learningStartBlock = document.querySelector('.learning-start-block');
+            if (learningStartBlock) {
+                setTimeout(() => {
+                    const parentEl = learningStartBlock.closest('.fade-in-up');
+                    if (parentEl) {
+                        parentEl.classList.add('visible');
+                    }
+                    
+                    // Обновляем стили для элементов внутри блока
+                    const startLearningTitle = learningStartBlock.querySelector('h2.text-white');
+                    if (startLearningTitle) {
+                        startLearningTitle.style.opacity = '1';
+                        startLearningTitle.style.visibility = 'visible';
+                    }
+                    
+                    const availableLanguagesSubtitle = learningStartBlock.querySelector('h5.text-secondary');
+                    if (availableLanguagesSubtitle) {
+                        availableLanguagesSubtitle.style.opacity = '1';
+                        availableLanguagesSubtitle.style.visibility = 'visible';
+                    }
+                    
+                    const platformDescription = learningStartBlock.querySelector('p.platform-description');
+                    if (platformDescription) {
+                        platformDescription.style.opacity = '1';
+                        platformDescription.style.visibility = 'visible';
+                    }
+                    
+                    const actionButtons = learningStartBlock.querySelector('.action-buttons');
+                    if (actionButtons) {
+                        actionButtons.style.opacity = '1';
+                        actionButtons.style.visibility = 'visible';
+                    }
+                }, 500);
+            }
         });
     </script>
 }

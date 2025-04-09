@@ -3553,7 +3553,6 @@ C:\Users\user\OneDrive\Рабочий стол\Новая папка (4)\Languag
 C:\Users\user\OneDrive\Рабочий стол\Новая папка (4)\LanguageCourse\obj\Debug\net9.0\compressed\ma0e4h6pe0-0bccvrf7v1.gz
 C:\Users\user\OneDrive\Рабочий стол\Новая папка (4)\LanguageCourse\obj\Debug\net9.0\compressed\21hcsvbx3m-2ep1s71q9x.gz
 C:\Users\user\OneDrive\Рабочий стол\Новая папка (4)\LanguageCourse\obj\Debug\net9.0\compressed\je9ulnphck-i8gdqzl8kw.gz
-C:\Users\user\OneDrive\Рабочий стол\Новая папка (4)\LanguageCourse\obj\Debug\net9.0\compressed\rgyc60bnt6-bp7snzj0im.gz
 C:\Users\user\OneDrive\Рабочий стол\Новая папка (4)\LanguageCourse\obj\Debug\net9.0\compressed\y1kwv8ptik-l9fi2ifa04.gz
 C:\Users\user\OneDrive\Рабочий стол\Новая папка (4)\LanguageCourse\obj\Debug\net9.0\compressed\4cqn5tlck7-jz9pqo8uql.gz
 C:\Users\user\OneDrive\Рабочий стол\Новая папка (4)\LanguageCourse\obj\Debug\net9.0\compressed\taljbrj27e-k07zc6gm2k.gz
@@ -3642,3 +3641,8 @@ C:\Users\user\OneDrive\Рабочий стол\Новая папка (4)\Languag
 C:\Users\user\OneDrive\Рабочий стол\Новая папка (4)\LanguageCourse\obj\Debug\net9.0\WebApplication15.genruntimeconfig.cache
 C:\Users\user\OneDrive\Рабочий стол\Новая папка (4)\LanguageCourse\obj\Debug\net9.0\ref\WebApplication15.dll
 C:\Users\user\OneDrive\Рабочий стол\Новая папка (4)\LanguageCourse\obj\Debug\net9.0\compressed\30yr3w7u55-se85ze333p.gz
+C:\Users\user\OneDrive\Рабочий стол\Новая папка (4)\LanguageCourse\bin\Debug\net9.0\ru\WebApplication15.resources.dll
+C:\Users\user\OneDrive\Рабочий стол\Новая папка (4)\LanguageCourse\obj\Debug\net9.0\WebApplication15.Resources.SharedResource.ru.resources
+C:\Users\user\OneDrive\Рабочий стол\Новая папка (4)\LanguageCourse\obj\Debug\net9.0\ru\WebApplication15.resources.cs
+C:\Users\user\OneDrive\Рабочий стол\Новая папка (4)\LanguageCourse\obj\Debug\net9.0\ru\WebApplication15.resources.dll
+C:\Users\user\OneDrive\Рабочий стол\Новая папка (4)\LanguageCourse\obj\Debug\net9.0\compressed\rgyc60bnt6-2jo65582r7.gz

@@ -59,138 +59,138 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Home" xml:space="preserve">
-    <value>Ana Sayfa</value>
+    <value>Главная</value>
   </data>
   <data name="Courses" xml:space="preserve">
-    <value>Kurslar</value>
+    <value>Курсы</value>
   </data>
   <data name="Login" xml:space="preserve">
-    <value>Giriş</value>
+    <value>Войти</value>
   </data>
   <data name="Register" xml:space="preserve">
-    <value>Kayıt Ol</value>
+    <value>Регистрация</value>
   </data>
   <data name="MyResults" xml:space="preserve">
-    <value>Sonuçlarım</value>
+    <value>Мои результаты</value>
   </data>
   <data name="Profile" xml:space="preserve">
-    <value>Profil</value>
+    <value>Профиль</value>
   </data>
   <data name="Logout" xml:space="preserve">
-    <value>Çıkış</value>
+    <value>Выйти</value>
   </data>
   <data name="Email" xml:space="preserve">
-    <value>E-posta</value>
+    <value>Email</value>
   </data>
   <data name="Password" xml:space="preserve">
-    <value>Şifre</value>
+    <value>Пароль</value>
   </data>
   <data name="Tests" xml:space="preserve">
-    <value>Testler</value>
+    <value>Тесты</value>
   </data>
   <data name="Videos" xml:space="preserve">
-    <value>Video Dersler</value>
+    <value>Видеоуроки</value>
   </data>
   <data name="LearnLanguagesWithUs" xml:space="preserve">
-    <value>Bizimle Dilleri Öğrenin</value>
+    <value>Изучайте языки с нами</value>
   </data>
   <data name="PlatformDescription" xml:space="preserve">
-    <value>Kazakça, İngilizce ve Türkçe dillerini öğrenmek için kullanışlı platform.</value>
+    <value>Удобная платформа для изучения казахского, английского и турецкого языков.</value>
   </data>
   <data name="StartLearning" xml:space="preserve">
-    <value>Öğrenmeye Başla</value>
+    <value>Начать обучение</value>
   </data>
   <data name="AvailableLanguages" xml:space="preserve">
-    <value>Mevcut Diller</value>
+    <value>Доступные языки</value>
   </data>
   <data name="StudyFromBeginnerToAdvanced" xml:space="preserve">
-    <value>Başlangıçtan ileri seviyeye kadar öğrenin</value>
+    <value>Изучайте от начального до продвинутого уровня</value>
   </data>
   <data name="SelectLevel" xml:space="preserve">
-    <value>Seviye Seç</value>
+    <value>Выберите уровень</value>
   </data>
   <data name="InteractiveTests" xml:space="preserve">
-    <value>İnteraktif Testler</value>
+    <value>Интерактивные тесты</value>
   </data>
   <data name="TestsDescription" xml:space="preserve">
-    <value>Testlerimizle bilgi seviyenizi kontrol edin. Her test, öğrendiğiniz materyali pekiştirmenize yardımcı olacak bir dizi soru içerir.</value>
+    <value>Проверьте свой уровень знаний с помощью наших тестов. Каждый тест содержит серию вопросов, которые помогут вам закрепить изученный материал.</value>
   </data>
   <data name="VideoLessons" xml:space="preserve">
-    <value>Video Dersler</value>
+    <value>Видеоуроки</value>
   </data>
   <data name="VideosDescription" xml:space="preserve">
-    <value>Becerilerinizi geliştirmek için video derslerini izleyin. Öğretmenlerimiz konuları basit ve anlaşılır bir dille açıklar.</value>
+    <value>Смотрите видеоуроки для улучшения ваших навыков. Наши преподаватели объясняют темы простым и понятным языком.</value>
   </data>
   <data name="EnglishLanguage" xml:space="preserve">
-    <value>İngilizce</value>
+    <value>Английский язык</value>
   </data>
   <data name="KazakhLanguage" xml:space="preserve">
-    <value>Kazakça</value>
+    <value>Казахский язык</value>
   </data>
   <data name="TurkishLanguage" xml:space="preserve">
-    <value>Türkçe</value>
+    <value>Турецкий язык</value>
   </data>
   <data name="English" xml:space="preserve">
-    <value>İngilizce</value>
+    <value>Английский</value>
   </data>
   <data name="Kazakh" xml:space="preserve">
-    <value>Kazakça</value>
+    <value>Казахский</value>
   </data>
   <data name="Turkish" xml:space="preserve">
-    <value>Türkçe</value>
+    <value>Турецкий</value>
   </data>
   <data name="ChooseLanguageToLearn" xml:space="preserve">
-    <value>Öğrenmek için bir dil seçin</value>
+    <value>Выберите язык для изучения</value>
   </data>
   <data name="EnglishDescription" xml:space="preserve">
-    <value>İş, teknoloji ve kültürlerarası iletişimin uluslararası dili.</value>
+    <value>Международный язык бизнеса, технологий и межкультурного общения.</value>
   </data>
   <data name="KazakhDescription" xml:space="preserve">
-    <value>Zengin bir tarih ve kültüre sahip Kazakistan'ın resmi dili.</value>
+    <value>Государственный язык Казахстана с богатой историей и культурой.</value>
   </data>
   <data name="TurkishDescription" xml:space="preserve">
-    <value>Avrupa ve Asya'yı birbirine bağlayan kadim bir tarihe sahip dil.</value>
+    <value>Язык с древней историей, связывающий Европу и Азию.</value>
   </data>
   <data name="LearnMore" xml:space="preserve">
-    <value>Daha fazla bilgi</value>
+    <value>Узнать больше</value>
   </data>
   <data name="WhyLearnWithUs" xml:space="preserve">
-    <value>Neden bizimle dil öğrenmelisiniz?</value>
+    <value>Почему стоит учить языки с нами?</value>
   </data>
   <data name="InteractiveLearning" xml:space="preserve">
-    <value>İnteraktif Öğrenme</value>
+    <value>Интерактивное обучение</value>
   </data>
   <data name="CulturalImmersion" xml:space="preserve">
-    <value>Kültürel Deneyim</value>
+    <value>Погружение в культуру</value>
   </data>
   <data name="Certification" xml:space="preserve">
-    <value>Dil Sertifikası</value>
+    <value>Сертификация о владении</value>
   </data>
   <data name="InteractiveLearningDescription" xml:space="preserve">
-    <value>Kurslarımız aktif etkileşim ve pratik üzerine kurulmuştur, bu da öğrenmeyi etkili ve ilgi çekici hale getirir.</value>
+    <value>Наши курсы построены на активном взаимодействии и практике, что делает обучение эффективным и увлекательным.</value>
   </data>
   <data name="CulturalImmersionDescription" xml:space="preserve">
-    <value>Sadece dili değil, bağlamı daha iyi anlamak için ülkenin kültürünü, geleneklerini ve göreneklerini de öğrenin.</value>
+    <value>Изучайте не только язык, но и культуру страны, традиции и обычаи, чтобы лучше понимать контекст.</value>
   </data>
   <data name="CertificationDescription" xml:space="preserve">
-    <value>Kurslarımızı tamamladıktan sonra uluslararası standartlarda dil yeterlilik sertifikası alın.</value>
+    <value>Получите сертификат о владении языком международного образца после прохождения наших курсов.</value>
   </data>
   <data name="Practice" xml:space="preserve">
-    <value>Pratik</value>
+    <value>Практика</value>
   </data>
   <data name="TakeTests" xml:space="preserve">
-    <value>Testlere Katılın</value>
+    <value>Пройти тесты</value>
   </data>
   <data name="PersonalAccount" xml:space="preserve">
-    <value>Kişisel Hesap</value>
+    <value>Личный кабинет</value>
   </data>
   <data name="MasterLanguagesDescription" xml:space="preserve">
-    <value>İnteraktif testlerimiz ve video derslerimiz ile yeni dilleri öğrenin</value>
+    <value>Освойте новые языки с помощью наших интерактивных тестов и видеоуроков</value>
   </data>
   <data name="PlatformDetailedDescription" xml:space="preserve">
-    <value>Platformumuz, interaktif testler, video dersler ve pratik alıştırmalar kullanarak etkili dil öğrenme metodolojileri sunuyor. Bugün bize katılın ve yabancı dillerde akıcılığa giden yolculuğunuza başlayın.</value>
+    <value>Наша платформа предлагает эффективные методики обучения языкам с использованием интерактивных тестов, видеоуроков и практических упражнений. Присоединяйтесь к нам и начните свой путь к свободному владению иностранными языками уже сегодня.</value>
   </data>
   <data name="AboutUs" xml:space="preserve">
-    <value>Hakkımızda</value>
+    <value>О нас</value>
   </data>
 </root> 

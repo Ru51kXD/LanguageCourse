@@ -1,12 +1,23 @@
 ﻿@using Microsoft.AspNetCore.Mvc.Localization
+@using Microsoft.AspNetCore.Localization
 @inject IViewLocalizer Localizer
 @inject WebApplication15.Models.LocalizationService LocalizationService
 @{
     var isAuthenticated = Context.Session.GetString("UserId") != null;
     var isDarkTheme = Context.Session.GetString("Theme") == "dark";
+    
+    // Получаем текущую культуру напрямую из Request
+    var requestCulture = Context.Features.Get<IRequestCultureFeature>();
+    var currentCulture = requestCulture?.RequestCulture.Culture.TwoLetterISOLanguageName ?? "ru";
+    var flagEmoji = currentCulture switch {
+        "kk" => "🇰🇿",
+        "en" => "🇬🇧",
+        "tr" => "🇹🇷",
+        _ => "🇷🇺"
+    };
 }
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="@currentCulture">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
@@ -37,22 +48,68 @@
                 </div>
                 <div class="col-md-8">
                     <nav class="main-nav">
-                        <a href="/" class="nav-link">Главная</a>
-                        <a href="/Test" class="nav-link">Тесты</a>
-                        <a href="/Video" class="nav-link">Видео</a>
-                        <a href="/Home/AboutUs" class="nav-link">О нас</a>
-                        <a href="/Home/LearnMore" class="nav-link">Узнать больше</a>
+                        <a href="/" class="nav-link">@Localizer["Home"]</a>
+                        <a href="/Test" class="nav-link">@Localizer["Tests"]</a>
+                        <a href="/Video" class="nav-link">@Localizer["Videos"]</a>
+                        <a href="/Home/AboutUs" class="nav-link">@Localizer["AboutUs"]</a>
+                        <a href="/Home/LearnMore" class="nav-link">@Localizer["LearnMore"]</a>
+                        
+                        <div class="language-selector dropdown">
+                            <a href="#" class="nav-link dropdown-toggle" id="languageDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="fas fa-globe"></i>
+                                <span class="flag-emoji">@flagEmoji</span>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="languageDropdown">
+                                <li>
+                                    <form id="selectRU" asp-controller="Home" asp-action="SetLanguage" method="post" class="language-form">
+                                        <input type="hidden" name="culture" value="ru" />
+                                        <input type="hidden" name="returnUrl" value="@Context.Request.Path@Context.Request.QueryString" />
+                                        <button type="submit" class="dropdown-item @(currentCulture == "ru" ? "active" : "")">
+                                            <span class="flag-emoji">🇷🇺</span> Русский
+                                        </button>
+                                    </form>
+                                </li>
+                                <li>
+                                    <form id="selectKZ" asp-controller="Home" asp-action="SetLanguage" method="post" class="language-form">
+                                        <input type="hidden" name="culture" value="kk" />
+                                        <input type="hidden" name="returnUrl" value="@Context.Request.Path@Context.Request.QueryString" />
+                                        <button type="submit" class="dropdown-item @(currentCulture == "kk" ? "active" : "")">
+                                            <span class="flag-emoji">🇰🇿</span> Қазақша
+                                        </button>
+                                    </form>
+                                </li>
+                                <li>
+                                    <form id="selectEN" asp-controller="Home" asp-action="SetLanguage" method="post" class="language-form">
+                                        <input type="hidden" name="culture" value="en" />
+                                        <input type="hidden" name="returnUrl" value="@Context.Request.Path@Context.Request.QueryString" />
+                                        <button type="submit" class="dropdown-item @(currentCulture == "en" ? "active" : "")">
+                                            <span class="flag-emoji">🇬🇧</span> English
+                                        </button>
+                                    </form>
+                                </li>
+                                <li>
+                                    <form id="selectTR" asp-controller="Home" asp-action="SetLanguage" method="post" class="language-form">
+                                        <input type="hidden" name="culture" value="tr" />
+                                        <input type="hidden" name="returnUrl" value="@Context.Request.Path@Context.Request.QueryString" />
+                                        <button type="submit" class="dropdown-item @(currentCulture == "tr" ? "active" : "")">
+                                            <span class="flag-emoji">🇹🇷</span> Türkçe
+                                        </button>
+                                    </form>
+                                </li>
+                            </ul>
+                        </div>
+                        
                         @if (User.Identity != null && User.Identity.IsAuthenticated)
                         {
-                            <a href="/Account/Profile" class="nav-link">Профиль</a>
+                            <a href="/Account/Profile" class="nav-link">@Localizer["Profile"]</a>
                             <form asp-controller="Account" asp-action="Logout" method="post" class="d-inline">
-                                <button type="submit" class="nav-link btn btn-link">Выйти</button>
+                                <button type="submit" class="nav-link btn btn-link">@Localizer["Logout"]</button>
                             </form>
                         }
                         else
                         {
-                            <a href="/Account/Login" class="nav-link">Войти</a>
-                            <a href="/Account/Register" class="nav-link">Регистрация</a>
+                            <a href="/Account/Login" class="nav-link">@Localizer["Login"]</a>
+                            <a href="/Account/Register" class="nav-link">@Localizer["Register"]</a>
                         }
                     </nav>
                 </div>
@@ -83,6 +140,27 @@
                     }
                 });
             }
+
+            // Обработка переключения языка
+            document.querySelectorAll('.language-form .dropdown-item').forEach(button => {
+                button.addEventListener('click', function(e) {
+                    // Показываем индикатор загрузки
+                    const form = this.closest('form');
+                    if (form) {
+                        // Добавляем состояние загрузки
+                        this.disabled = true;
+                        this.innerHTML += ' <i class="fas fa-spinner fa-spin"></i>';
+                        
+                        // Очищаем запомненное состояние выбора языка, чтобы принудительно обновить страницу
+                        localStorage.removeItem('selectedLanguage');
+                        
+                        // Отправляем форму
+                        setTimeout(() => {
+                            form.submit();
+                        }, 100);
+                    }
+                });
+            });
 
             // Добавляем класс для шапки, чтобы она всегда отображалась
             const topNav = document.getElementById('topNav');

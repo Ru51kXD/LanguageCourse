@@ -121,4 +121,76 @@
   <data name="VideosDescription" xml:space="preserve">
     <value>Watch video lessons to improve your skills. Our teachers explain topics in a simple and clear language.</value>
   </data>
+  <data name="EnglishLanguage" xml:space="preserve">
+    <value>English Language</value>
+  </data>
+  <data name="KazakhLanguage" xml:space="preserve">
+    <value>Kazakh Language</value>
+  </data>
+  <data name="TurkishLanguage" xml:space="preserve">
+    <value>Turkish Language</value>
+  </data>
+  <data name="English" xml:space="preserve">
+    <value>English</value>
+  </data>
+  <data name="Kazakh" xml:space="preserve">
+    <value>Kazakh</value>
+  </data>
+  <data name="Turkish" xml:space="preserve">
+    <value>Turkish</value>
+  </data>
+  <data name="ChooseLanguageToLearn" xml:space="preserve">
+    <value>Choose a language to learn</value>
+  </data>
+  <data name="EnglishDescription" xml:space="preserve">
+    <value>International language of business, technology and cross-cultural communication.</value>
+  </data>
+  <data name="KazakhDescription" xml:space="preserve">
+    <value>The official language of Kazakhstan with a rich history and culture.</value>
+  </data>
+  <data name="TurkishDescription" xml:space="preserve">
+    <value>Language with an ancient history, connecting Europe and Asia.</value>
+  </data>
+  <data name="LearnMore" xml:space="preserve">
+    <value>Learn more</value>
+  </data>
+  <data name="WhyLearnWithUs" xml:space="preserve">
+    <value>Why learn languages with us?</value>
+  </data>
+  <data name="InteractiveLearning" xml:space="preserve">
+    <value>Interactive Learning</value>
+  </data>
+  <data name="CulturalImmersion" xml:space="preserve">
+    <value>Cultural Immersion</value>
+  </data>
+  <data name="Certification" xml:space="preserve">
+    <value>Language Certification</value>
+  </data>
+  <data name="InteractiveLearningDescription" xml:space="preserve">
+    <value>Our courses are built on active interaction and practice, making learning effective and engaging.</value>
+  </data>
+  <data name="CulturalImmersionDescription" xml:space="preserve">
+    <value>Learn not just the language, but also the culture, traditions and customs to better understand the context.</value>
+  </data>
+  <data name="CertificationDescription" xml:space="preserve">
+    <value>Receive an internationally recognized language proficiency certificate after completing our courses.</value>
+  </data>
+  <data name="Practice" xml:space="preserve">
+    <value>Practice</value>
+  </data>
+  <data name="TakeTests" xml:space="preserve">
+    <value>Take Tests</value>
+  </data>
+  <data name="PersonalAccount" xml:space="preserve">
+    <value>Personal Account</value>
+  </data>
+  <data name="MasterLanguagesDescription" xml:space="preserve">
+    <value>Master new languages through our interactive tests and video lessons</value>
+  </data>
+  <data name="PlatformDetailedDescription" xml:space="preserve">
+    <value>Our platform offers effective language learning methodologies using interactive tests, video lessons, and practical exercises. Join us today and begin your journey to fluency in foreign languages.</value>
+  </data>
+  <data name="AboutUs" xml:space="preserve">
+    <value>About Us</value>
+  </data>
 </root> 
