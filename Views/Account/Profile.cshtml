@@ -1,6 +1,21 @@
 @model WebApplication15.Models.ApplicationUser
+@using Microsoft.AspNetCore.Mvc.Localization
+@using Microsoft.AspNetCore.Localization
+@using System.Globalization
+@inject IViewLocalizer Localizer
 @{
-    ViewData["Title"] = "Профиль";
+    // Получаем текущую культуру
+    var requestCulture = Context.Features.Get<IRequestCultureFeature>();
+    var cultureTwoLetter = requestCulture?.RequestCulture.Culture.TwoLetterISOLanguageName ?? "ru";
+    
+    ViewData["Title"] = cultureTwoLetter switch
+    {
+        "ru" => "Профиль",
+        "kk" => "Профиль",
+        "en" => "Profile",
+        "tr" => "Profil",
+        _ => "Профиль"
+    };
     
     // Получение данных о результатах тестов из ViewBag
     var testResults = ViewBag.TestResults as List<WebApplication15.Models.TestResult>;
@@ -248,8 +263,32 @@
     <!-- Заголовок страницы -->
     <div class="test-hero" style="margin-bottom: 25px;">
         <div class="container">
-            <h1>Личный кабинет</h1>
-            <p>Отслеживайте свой прогресс, просматривайте результаты тестов и настраивайте свой профиль</p>
+            <h1>
+                @{
+                    var personalAccountText = cultureTwoLetter switch
+                    {
+                        "ru" => "Личный кабинет",
+                        "kk" => "Жеке кабинет",
+                        "en" => "Personal Account",
+                        "tr" => "Kişisel Hesap",
+                        _ => "Личный кабинет"
+                    };
+                }
+                @personalAccountText
+            </h1>
+            <p>
+                @{
+                    var accountDescriptionText = cultureTwoLetter switch
+                    {
+                        "ru" => "Отслеживайте свой прогресс, просматривайте результаты тестов и настраивайте свой профиль",
+                        "kk" => "Прогресіңізді қадағалаңыз, тест нәтижелерін қараңыз және профиліңізді баптаңыз",
+                        "en" => "Track your progress, view test results, and customize your profile",
+                        "tr" => "İlerlemenizi takip edin, test sonuçlarını görüntüleyin ve profilinizi özelleştirin",
+                        _ => "Отслеживайте свой прогресс, просматривайте результаты тестов и настраивайте свой профиль"
+                    };
+                }
+                @accountDescriptionText
+            </p>
         </div>
     </div>
 
@@ -258,7 +297,19 @@
         <div class="profile-section" id="personal-info">
             <div class="profile-title">
                 <i class="fas fa-user-circle"></i>
-                <h2">Личная информация</h2>
+                <h2>
+                    @{
+                        var personalInfoText = cultureTwoLetter switch
+                        {
+                            "ru" => "Личная информация",
+                            "kk" => "Жеке ақпарат",
+                            "en" => "Personal Information",
+                            "tr" => "Kişisel Bilgiler",
+                            _ => "Личная информация"
+                        };
+                    }
+                    @personalInfoText
+                </h2>
             </div>
             
             <div class="avatar-container">
@@ -271,15 +322,51 @@
             
             <div class="info-content">
                 <div class="info-row">
-                    <div class="info-label">Имя пользователя:</div>
+                    <div class="info-label">
+                        @{
+                            var usernameText = cultureTwoLetter switch
+                            {
+                                "ru" => "Имя пользователя:",
+                                "kk" => "Пайдаланушы аты:",
+                                "en" => "Username:",
+                                "tr" => "Kullanıcı adı:",
+                                _ => "Имя пользователя:"
+                            };
+                        }
+                        @usernameText
+                    </div>
                     <div class="info-value">@Model.UserName</div>
                 </div>
                 <div class="info-row">
-                    <div class="info-label">Электронная почта:</div>
+                    <div class="info-label">
+                        @{
+                            var emailText = cultureTwoLetter switch
+                            {
+                                "ru" => "Электронная почта:",
+                                "kk" => "Электрондық пошта:",
+                                "en" => "Email:",
+                                "tr" => "E-posta:",
+                                _ => "Электронная почта:"
+                            };
+                        }
+                        @emailText
+                    </div>
                     <div class="info-value">@Model.Email</div>
                 </div>
                 <div class="info-row">
-                    <div class="info-label">Предпочитаемый язык:</div>
+                    <div class="info-label">
+                        @{
+                            var preferredLanguageText = cultureTwoLetter switch
+                            {
+                                "ru" => "Предпочитаемый язык:",
+                                "kk" => "Таңдаулы тіл:",
+                                "en" => "Preferred Language:",
+                                "tr" => "Tercih Edilen Dil:",
+                                _ => "Предпочитаемый язык:"
+                            };
+                        }
+                        @preferredLanguageText
+                    </div>
                     <div class="info-value">@Model.PreferredLanguage</div>
                 </div>
             </div>
@@ -289,7 +376,19 @@
         <div class="profile-section" id="test-results">
             <div class="profile-title">
                 <i class="fas fa-tasks"></i>
-                <h2>Результаты тестов</h2>
+                <h2>
+                    @{
+                        var testResultsText = cultureTwoLetter switch
+                        {
+                            "ru" => "Результаты тестов",
+                            "kk" => "Тест нәтижелері",
+                            "en" => "Test Results",
+                            "tr" => "Test Sonuçları",
+                            _ => "Результаты тестов"
+                        };
+                    }
+                    @testResultsText
+                </h2>
             </div>
             
             @if (testResults != null && testResults.Any())
@@ -298,12 +397,84 @@
                     <table class="test-results-table">
                         <thead>
                             <tr>
-                                <th>Тест</th>
-                                <th>Язык</th>
-                                <th>Уровень</th>
-                                <th>Результат</th>
-                                <th>Дата</th>
-                                <th>Повтор</th>
+                                <th>
+                                    @{
+                                        var testText = cultureTwoLetter switch
+                                        {
+                                            "ru" => "Тест",
+                                            "kk" => "Тест",
+                                            "en" => "Test",
+                                            "tr" => "Test",
+                                            _ => "Тест"
+                                        };
+                                    }
+                                    @testText
+                                </th>
+                                <th>
+                                    @{
+                                        var languageText = cultureTwoLetter switch
+                                        {
+                                            "ru" => "Язык",
+                                            "kk" => "Тіл",
+                                            "en" => "Language",
+                                            "tr" => "Dil",
+                                            _ => "Язык"
+                                        };
+                                    }
+                                    @languageText
+                                </th>
+                                <th>
+                                    @{
+                                        var levelText = cultureTwoLetter switch
+                                        {
+                                            "ru" => "Уровень",
+                                            "kk" => "Деңгей",
+                                            "en" => "Level",
+                                            "tr" => "Seviye",
+                                            _ => "Уровень"
+                                        };
+                                    }
+                                    @levelText
+                                </th>
+                                <th>
+                                    @{
+                                        var resultText = cultureTwoLetter switch
+                                        {
+                                            "ru" => "Результат",
+                                            "kk" => "Нәтиже",
+                                            "en" => "Result",
+                                            "tr" => "Sonuç",
+                                            _ => "Результат"
+                                        };
+                                    }
+                                    @resultText
+                                </th>
+                                <th>
+                                    @{
+                                        var dateText = cultureTwoLetter switch
+                                        {
+                                            "ru" => "Дата",
+                                            "kk" => "Күні",
+                                            "en" => "Date",
+                                            "tr" => "Tarih",
+                                            _ => "Дата"
+                                        };
+                                    }
+                                    @dateText
+                                </th>
+                                <th>
+                                    @{
+                                        var retakeText = cultureTwoLetter switch
+                                        {
+                                            "ru" => "Повтор",
+                                            "kk" => "Қайталау",
+                                            "en" => "Retake",
+                                            "tr" => "Tekrar",
+                                            _ => "Повтор"
+                                        };
+                                    }
+                                    @retakeText
+                                </th>
                             </tr>
                         </thead>
                         <tbody>
@@ -325,7 +496,18 @@
                                     <td>
                                         <div class="btn-group">
                                             <a href="@Url.Action("Take", "Test", new { id = result.TestId })" class="btn-action">
-                                                <i class="fas fa-redo-alt"></i> Повторить
+                                                <i class="fas fa-redo-alt"></i> 
+                                                @{
+                                                    var retakeButtonText = cultureTwoLetter switch
+                                                    {
+                                                        "ru" => "Повторить",
+                                                        "kk" => "Қайталау",
+                                                        "en" => "Retake",
+                                                        "tr" => "Tekrarla",
+                                                        _ => "Повторить"
+                                                    };
+                                                }
+                                                @retakeButtonText
                                             </a>
                                         </div>
                                     </td>
@@ -339,10 +521,45 @@
             {
                 <div class="no-tests">
                     <i class="fas fa-clipboard-list fa-3x mb-3"></i>
-                    <h3>У вас пока нет пройденных тестов</h3>
-                    <p>Перейдите в раздел тестов, чтобы начать изучение языков</p>
+                    <h3>
+                        @{
+                            var noTestsText = cultureTwoLetter switch
+                            {
+                                "ru" => "У вас пока нет пройденных тестов",
+                                "kk" => "Сізде әлі тапсырған тесттер жоқ",
+                                "en" => "You don't have any completed tests yet",
+                                "tr" => "Henüz tamamlanmış testiniz yok",
+                                _ => "У вас пока нет пройденных тестов"
+                            };
+                        }
+                        @noTestsText
+                    </h3>
+                    <p>
+                        @{
+                            var noTestsDescriptionText = cultureTwoLetter switch
+                            {
+                                "ru" => "Перейдите в раздел тестов, чтобы начать изучение языков",
+                                "kk" => "Тілдерді үйренуді бастау үшін тесттер бөліміне өтіңіз",
+                                "en" => "Go to the tests section to start learning languages",
+                                "tr" => "Dilleri öğrenmeye başlamak için testler bölümüne gidin",
+                                _ => "Перейдите в раздел тестов, чтобы начать изучение языков"
+                            };
+                        }
+                        @noTestsDescriptionText
+                    </p>
                     <a href="@Url.Action("Index", "Test")" class="apply-filters">
-                        <i class="fas fa-tasks me-2"></i> Перейти к тестам
+                        <i class="fas fa-tasks me-2"></i> 
+                        @{
+                            var goToTestsText = cultureTwoLetter switch
+                            {
+                                "ru" => "Перейти к тестам",
+                                "kk" => "Тесттерге өту",
+                                "en" => "Go to Tests",
+                                "tr" => "Testlere Git",
+                                _ => "Перейти к тестам"
+                            };
+                        }
+                        @goToTestsText
                     </a>
                 </div>
             }
@@ -352,7 +569,19 @@
         <div class="profile-section" id="statistics">
             <div class="profile-title">
                 <i class="fas fa-chart-bar"></i>
-                <h2>Статистика</h2>
+                <h2>
+                    @{
+                        var statisticsText = cultureTwoLetter switch
+                        {
+                            "ru" => "Статистика",
+                            "kk" => "Статистика",
+                            "en" => "Statistics",
+                            "tr" => "İstatistikler",
+                            _ => "Статистика"
+                        };
+                    }
+                    @statisticsText
+                </h2>
             </div>
             
             @if (testResults != null && testResults.Any())
@@ -362,14 +591,38 @@
                         <div class="stat-icon">
                             <i class="fas fa-tasks"></i>
                         </div>
-                        <div class="stat-title">Всего тестов</div>
+                        <div class="stat-title">
+                            @{
+                                var totalTestsText = cultureTwoLetter switch
+                                {
+                                    "ru" => "Всего тестов",
+                                    "kk" => "Барлық тесттер",
+                                    "en" => "Total Tests",
+                                    "tr" => "Toplam Testler",
+                                    _ => "Всего тестов"
+                                };
+                            }
+                            @totalTestsText
+                        </div>
                         <div class="stat-value">@testResults.Count</div>
                     </div>
                     <div class="stat-card">
                         <div class="stat-icon">
                             <i class="fas fa-trophy"></i>
                         </div>
-                        <div class="stat-title">Средний результат</div>
+                        <div class="stat-title">
+                            @{
+                                var avgResultText = cultureTwoLetter switch
+                                {
+                                    "ru" => "Средний результат",
+                                    "kk" => "Орташа нәтиже",
+                                    "en" => "Average Result",
+                                    "tr" => "Ortalama Sonuç",
+                                    _ => "Средний результат"
+                                };
+                            }
+                            @avgResultText
+                        </div>
                         <div class="stat-value">
                             @{
                                 var avgCorrect = testResults.Average(r => r.CorrectAnswers);
@@ -382,14 +635,38 @@
                         <div class="stat-icon">
                             <i class="fas fa-globe"></i>
                         </div>
-                        <div class="stat-title">Языки</div>
+                        <div class="stat-title">
+                            @{
+                                var languagesText = cultureTwoLetter switch
+                                {
+                                    "ru" => "Языки",
+                                    "kk" => "Тілдер",
+                                    "en" => "Languages",
+                                    "tr" => "Diller",
+                                    _ => "Языки"
+                                };
+                            }
+                            @languagesText
+                        </div>
                         <div class="stat-value">@testResults.Select(r => r.Language).Distinct().Count()</div>
                     </div>
                     <div class="stat-card">
                         <div class="stat-icon">
                             <i class="fas fa-calendar-alt"></i>
                         </div>
-                        <div class="stat-title">Последний тест</div>
+                        <div class="stat-title">
+                            @{
+                                var lastTestText = cultureTwoLetter switch
+                                {
+                                    "ru" => "Последний тест",
+                                    "kk" => "Соңғы тест",
+                                    "en" => "Last Test",
+                                    "tr" => "Son Test",
+                                    _ => "Последний тест"
+                                };
+                            }
+                            @lastTestText
+                        </div>
                         <div class="stat-value">@testResults.OrderByDescending(r => r.CompletedDate).First().CompletedDate.ToString("dd.MM")</div>
                     </div>
                 </div>
@@ -397,7 +674,19 @@
             else
             {
                 <div class="text-center py-4">
-                    <p class="text-muted">Статистика будет доступна после прохождения тестов</p>
+                    <p class="text-muted">
+                        @{
+                            var statsUnavailableText = cultureTwoLetter switch
+                            {
+                                "ru" => "Статистика будет доступна после прохождения тестов",
+                                "kk" => "Статистика тесттер тапсырылғаннан кейін қол жетімді болады",
+                                "en" => "Statistics will be available after completing tests",
+                                "tr" => "İstatistikler testleri tamamladıktan sonra kullanılabilir olacak",
+                                _ => "Статистика будет доступна после прохождения тестов"
+                            };
+                        }
+                        @statsUnavailableText
+                    </p>
                 </div>
             }
         </div>
@@ -407,14 +696,60 @@
             <div class="container">
                 <div class="row">
                     <div class="col-md-8 offset-md-2 text-center">
-                        <h1 class="journey-title">Продолжайте свое языковое путешествие</h1>
-                        <p class="journey-text">Пройдите больше тестов, чтобы улучшить свои навыки в изучении языков. Регулярное тестирование помогает закрепить знания!</p>
+                        <h1 class="journey-title">
+                            @{
+                                var continueJourneyText = cultureTwoLetter switch
+                                {
+                                    "ru" => "Продолжайте свое языковое путешествие",
+                                    "kk" => "Тілдік саяхатыңызды жалғастырыңыз",
+                                    "en" => "Continue Your Language Journey",
+                                    "tr" => "Dil Yolculuğunuza Devam Edin",
+                                    _ => "Продолжайте свое языковое путешествие"
+                                };
+                            }
+                            @continueJourneyText
+                        </h1>
+                        <p class="journey-text">
+                            @{
+                                var journeyDescriptionText = cultureTwoLetter switch
+                                {
+                                    "ru" => "Пройдите больше тестов, чтобы улучшить свои навыки в изучении языков. Регулярное тестирование помогает закрепить знания!",
+                                    "kk" => "Тіл үйрену дағдыларыңызды жақсарту үшін көбірек тесттер тапсырыңыз. Тұрақты тестілеу біліміңізді бекітуге көмектеседі!",
+                                    "en" => "Take more tests to improve your language learning skills. Regular testing helps reinforce knowledge!",
+                                    "tr" => "Dil öğrenme becerilerinizi geliştirmek için daha fazla test yapın. Düzenli test etmek bilgiyi pekiştirmeye yardımcı olur!",
+                                    _ => "Пройдите больше тестов, чтобы улучшить свои навыки в изучении языков. Регулярное тестирование помогает закрепить знания!"
+                                };
+                            }
+                            @journeyDescriptionText
+                        </p>
                         <div class="journey-buttons">
                             <a href="@Url.Action("Index", "Test")" class="journey-button journey-button-primary">
-                                <i class="fas fa-tasks"></i> Перейти к тестам
+                                <i class="fas fa-tasks"></i> 
+                                @{
+                                    var goToTestsButtonText = cultureTwoLetter switch
+                                    {
+                                        "ru" => "Перейти к тестам",
+                                        "kk" => "Тесттерге өту",
+                                        "en" => "Go to Tests",
+                                        "tr" => "Testlere Git",
+                                        _ => "Перейти к тестам"
+                                    };
+                                }
+                                @goToTestsButtonText
                             </a>
                             <a href="@Url.Action("Index", "Video")" class="journey-button journey-button-secondary">
-                                <i class="fas fa-video"></i> Смотреть видеоуроки
+                                <i class="fas fa-video"></i> 
+                                @{
+                                    var watchVideosText = cultureTwoLetter switch
+                                    {
+                                        "ru" => "Смотреть видеоуроки",
+                                        "kk" => "Бейне сабақтарды қарау",
+                                        "en" => "Watch Video Lessons",
+                                        "tr" => "Video Dersleri İzle",
+                                        _ => "Смотреть видеоуроки"
+                                    };
+                                }
+                                @watchVideosText
                             </a>
                         </div>
                     </div>

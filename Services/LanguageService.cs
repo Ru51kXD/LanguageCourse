@@ -38,14 +38,75 @@ namespace WebApplication15.Services
         // Получение текущего языка пользователя
         public string GetCurrentLanguage()
         {
-            var userLanguage = _httpContextAccessor.HttpContext?.Session.GetString("CurrentLanguage");
-            return userLanguage ?? "kk"; // По умолчанию казахский
+            if (_httpContextAccessor.HttpContext == null)
+                return "ru";
+
+            // Сначала проверяем язык в сессии
+            var sessionLanguage = _httpContextAccessor.HttpContext.Session.GetString("CurrentLanguage");
+            if (!string.IsNullOrEmpty(sessionLanguage))
+                return sessionLanguage;
+
+            // Затем проверяем язык в куки
+            var cookieValue = _httpContextAccessor.HttpContext.Request.Cookies[CookieRequestCultureProvider.DefaultCookieName];
+            if (!string.IsNullOrEmpty(cookieValue))
+            {
+                try
+                {
+                    // Формат куки: c=CULTURE|UICULTURE or c=CULTURE
+                    var cultureParts = cookieValue.Split('|');
+                    var culture = cultureParts[0].Substring(2);
+                    
+                    // Сохраняем в сессию для согласованности
+                    SetCurrentLanguage(culture);
+                    
+                    return culture;
+                }
+                catch
+                {
+                    // В случае ошибки используем RequestCultureFeature
+                }
+            }
+            
+            // Пробуем через RequestCultureFeature
+            var requestCultureFeature = _httpContextAccessor.HttpContext.Features.Get<IRequestCultureFeature>();
+            if (requestCultureFeature != null)
+            {
+                var culture = requestCultureFeature.RequestCulture.Culture.TwoLetterISOLanguageName;
+                if (!string.IsNullOrEmpty(culture))
+                {
+                    // Сохраняем в сессию для согласованности
+                    SetCurrentLanguage(culture);
+                    return culture;
+                }
+            }
+
+            // По умолчанию возвращаем русский и сохраняем его в сессию
+            SetCurrentLanguage("ru");
+            return "ru";
         }
 
         // Установка текущего языка для пользователя
         public void SetCurrentLanguage(string languageCode)
         {
-            _httpContextAccessor.HttpContext?.Session.SetString("CurrentLanguage", languageCode);
+            if (_httpContextAccessor.HttpContext == null)
+                return;
+                
+            // Устанавливаем язык в сессии
+            _httpContextAccessor.HttpContext.Session.SetString("CurrentLanguage", languageCode);
+            
+            // И в куки для надежности
+            var cookieValue = CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(languageCode));
+            _httpContextAccessor.HttpContext.Response.Cookies.Append(
+                CookieRequestCultureProvider.DefaultCookieName,
+                cookieValue,
+                new CookieOptions 
+                { 
+                    Expires = DateTimeOffset.UtcNow.AddYears(1),
+                    IsEssential = true,
+                    SameSite = SameSiteMode.Lax,
+                    HttpOnly = false
+                }
+            );
         }
 
         // Установка языка для пользователя в базе данных

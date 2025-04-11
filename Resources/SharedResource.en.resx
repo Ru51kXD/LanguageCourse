@@ -193,4 +193,169 @@
   <data name="AboutUs" xml:space="preserve">
     <value>About Us</value>
   </data>
+  <data name="VideoLessonsHeader" xml:space="preserve">
+    <value>Language Learning Video Lessons</value>
+  </data>
+  <data name="VideoLessonsDescription" xml:space="preserve">
+    <value>Learn languages with high-quality video lessons from professional teachers. Choose the language and level that suits you.</value>
+  </data>
+  <data name="Language" xml:space="preserve">
+    <value>Language</value>
+  </data>
+  <data name="Level" xml:space="preserve">
+    <value>Level</value>
+  </data>
+  <data name="AllLanguages" xml:space="preserve">
+    <value>All languages</value>
+  </data>
+  <data name="AllLevels" xml:space="preserve">
+    <value>All levels</value>
+  </data>
+  <data name="Reset" xml:space="preserve">
+    <value>Reset</value>
+  </data>
+  <data name="Diagnostics" xml:space="preserve">
+    <value>Diagnostics</value>
+  </data>
+  <data name="DiagnosticsFound" xml:space="preserve">
+    <value>Found {0} videos with selected filters</value>
+  </data>
+  <data name="SelectedLanguage" xml:space="preserve">
+    <value>Selected language</value>
+  </data>
+  <data name="SelectedLevel" xml:space="preserve">
+    <value>Selected level</value>
+  </data>
+  <data name="AvailableLevels" xml:space="preserve">
+    <value>Available levels</value>
+  </data>
+  <data name="NotSelected" xml:space="preserve">
+    <value>Not selected</value>
+  </data>
+  <data name="WatchVideo" xml:space="preserve">
+    <value>Watch video</value>
+  </data>
+  <data name="NoVideosFound" xml:space="preserve">
+    <value>No videos found</value>
+  </data>
+  <data name="NoVideosMessage" xml:space="preserve">
+    <value>Sorry, no videos were found for your request. Try changing the filter parameters.</value>
+  </data>
+  <data name="NoVideosInDb" xml:space="preserve">
+    <value>There are currently no video lessons in our database. Please check back later.</value>
+  </data>
+  <data name="ResetFilter" xml:space="preserve">
+    <value>Reset filter</value>
+  </data>
+  <data name="AllVideos" xml:space="preserve">
+    <value>All videos</value>
+  </data>
+  <data name="WantMoreVideos" xml:space="preserve">
+    <value>Want more video lessons?</value>
+  </data>
+  <data name="RegisterForFullAccess" xml:space="preserve">
+    <value>Register on the site to get access to the full library of video lessons.</value>
+  </data>
+  <data name="UnknownLanguage" xml:space="preserve">
+    <value>Unknown language</value>
+  </data>
+  <data name="NotSpecified" xml:space="preserve">
+    <value>Not specified</value>
+  </data>
+  <data name="Watched" xml:space="preserve">
+    <value>Watched</value>
+  </data>
+  <data name="VideoNotAvailable" xml:space="preserve">
+    <value>Video is not available. Please contact the administrator.</value>
+  </data>
+  <data name="MarkAsWatched" xml:space="preserve">
+    <value>Mark as watched</value>
+  </data>
+  <data name="VideoDescription" xml:space="preserve">
+    <value>Description</value>
+  </data>
+  <data name="RelatedVideos" xml:space="preserve">
+    <value>Related video lessons</value>
+  </data>
+  <data name="MasterNewLanguages" xml:space="preserve">
+    <value>Master new languages with our interactive tests and video lessons</value>
+  </data>
+  <data name="ChooseLanguageToLearn" xml:space="preserve">
+    <value>Choose a Language to Learn</value>
+  </data>
+  <data name="KazakhLanguage" xml:space="preserve">
+    <value>Kazakh Language</value>
+  </data>
+  <data name="KazakhDescription" xml:space="preserve">
+    <value>The state language of Kazakhstan with a rich history and culture.</value>
+  </data>
+  <data name="EnglishLanguage" xml:space="preserve">
+    <value>English Language</value>
+  </data>
+  <data name="EnglishDescription" xml:space="preserve">
+    <value>The international language of business, technology, and cross-cultural communication.</value>
+  </data>
+  <data name="TurkishLanguage" xml:space="preserve">
+    <value>Turkish Language</value>
+  </data>
+  <data name="TurkishDescription" xml:space="preserve">
+    <value>A language with ancient history connecting Europe and Asia.</value>
+  </data>
+  <data name="LearnMore" xml:space="preserve">
+    <value>Learn More</value>
+  </data>
+  <data name="WhyLearnWithUs" xml:space="preserve">
+    <value>Why Learn Languages With Us?</value>
+  </data>
+  <data name="InteractiveLearning" xml:space="preserve">
+    <value>Interactive Learning</value>
+  </data>
+  <data name="InteractiveLearningDescription" xml:space="preserve">
+    <value>Our courses are built on active interaction and practice, making learning effective and engaging.</value>
+  </data>
+  <data name="CulturalImmersion" xml:space="preserve">
+    <value>Cultural Immersion</value>
+  </data>
+  <data name="CulturalImmersionDescription" xml:space="preserve">
+    <value>Learn not only the language but also the country's culture, traditions, and customs to better understand the context.</value>
+  </data>
+  <data name="Certification" xml:space="preserve">
+    <value>Language Proficiency Certification</value>
+  </data>
+  <data name="CertificationDescription" xml:space="preserve">
+    <value>Receive an internationally recognized language proficiency certificate after completing our courses.</value>
+  </data>
+  <data name="English" xml:space="preserve">
+    <value>English</value>
+  </data>
+  <data name="Kazakh" xml:space="preserve">
+    <value>Kazakh</value>
+  </data>
+  <data name="Turkish" xml:space="preserve">
+    <value>Turkish</value>
+  </data>
+  <data name="StartLearning" xml:space="preserve">
+    <value>Start Learning</value>
+  </data>
+  <data name="AvailableLanguages" xml:space="preserve">
+    <value>Available Languages</value>
+  </data>
+  <data name="PlatformDescription" xml:space="preserve">
+    <value>Our platform offers effective language learning methods using interactive tests, video lessons, and practical exercises. Join us and start your journey to mastering foreign languages today.</value>
+  </data>
+  <data name="Register" xml:space="preserve">
+    <value>REGISTER</value>
+  </data>
+  <data name="Tests" xml:space="preserve">
+    <value>TESTS</value>
+  </data>
+  <data name="Profile" xml:space="preserve">
+    <value>Profile</value>
+  </data>
+  <data name="VideoLessons" xml:space="preserve">
+    <value>Video Lessons</value>
+  </data>
+  <data name="Practice" xml:space="preserve">
+    <value>Practice</value>
+  </data>
 </root> 

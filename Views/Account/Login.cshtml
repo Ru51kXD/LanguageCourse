@@ -1,6 +1,21 @@
 @model WebApplication15.Models.LoginViewModel
+@using Microsoft.AspNetCore.Mvc.Localization
+@using Microsoft.AspNetCore.Localization
+@using System.Globalization
+@inject IViewLocalizer Localizer
 @{
-    ViewData["Title"] = "Вход";
+    // Получаем текущую культуру
+    var requestCulture = Context.Features.Get<IRequestCultureFeature>();
+    var cultureTwoLetter = requestCulture?.RequestCulture.Culture.TwoLetterISOLanguageName ?? "ru";
+    
+    ViewData["Title"] = cultureTwoLetter switch
+    {
+        "ru" => "Вход",
+        "kk" => "Кіру",
+        "en" => "Sign In",
+        "tr" => "Giriş",
+        _ => "Вход"
+    };
     Layout = "_Layout";
 }
 
@@ -38,7 +53,19 @@
 <div class="auth-container">
     <div class="login-vertical-header">
         <h1 class="vertical-title">
-            <span class="text-gradient">Вход в систему</span>
+            <span class="text-gradient">
+                @{
+                    var loginText = cultureTwoLetter switch
+                    {
+                        "ru" => "Вход в систему",
+                        "kk" => "Жүйеге кіру",
+                        "en" => "Sign In",
+                        "tr" => "Sisteme Giriş",
+                        _ => "Вход в систему"
+                    };
+                }
+                @loginText
+            </span>
         </h1>
     </div>
     
@@ -56,16 +83,41 @@
                 <label for="Email" class="form-label">
                     <i class="fas fa-envelope me-2"></i> Email
                 </label>
-                <input type="email" id="Email" name="Email" class="form-control" required placeholder="Введите email">
+                <input type="email" id="Email" name="Email" class="form-control" required placeholder="@(cultureTwoLetter switch
+                {
+                    "ru" => "Введите email",
+                    "kk" => "Email енгізіңіз",
+                    "en" => "Enter your email",
+                    "tr" => "E-posta adresinizi girin",
+                    _ => "Введите email"
+                })">
                 <span asp-validation-for="Email" class="text-danger"></span>
             </div>
             
             <div class="form-field">
                 <label for="Password" class="form-label">
-                    <i class="fas fa-lock me-2"></i> Пароль
+                    <i class="fas fa-lock me-2"></i> 
+                    @{
+                        var passwordText = cultureTwoLetter switch
+                        {
+                            "ru" => "Пароль",
+                            "kk" => "Құпия сөз",
+                            "en" => "Password",
+                            "tr" => "Şifre",
+                            _ => "Пароль"
+                        };
+                    }
+                    @passwordText
                 </label>
                 <div class="password-input-container">
-                    <input type="password" id="Password" name="Password" class="form-control" required placeholder="Введите пароль">
+                    <input type="password" id="Password" name="Password" class="form-control" required placeholder="@(cultureTwoLetter switch
+                    {
+                        "ru" => "Введите пароль",
+                        "kk" => "Құпия сөзді енгізіңіз",
+                        "en" => "Enter your password",
+                        "tr" => "Şifrenizi girin",
+                        _ => "Введите пароль"
+                    })">
                     <button class="password-toggle" type="button" id="togglePassword">
                         <i class="fas fa-eye"></i>
                     </button>
@@ -76,16 +128,48 @@
             <div class="form-check-field">
                 <input class="form-check-input" type="checkbox" id="RememberMe" name="RememberMe">
                 <label class="form-check-label" for="RememberMe">
-                    Запомнить меня
+                    @{
+                        var rememberMeText = cultureTwoLetter switch
+                        {
+                            "ru" => "Запомнить меня",
+                            "kk" => "Мені есте сақтау",
+                            "en" => "Remember me",
+                            "tr" => "Beni hatırla",
+                            _ => "Запомнить меня"
+                        };
+                    }
+                    @rememberMeText
                 </label>
             </div>
             
             <div class="form-buttons">
                 <button type="submit" class="btn btn-primary">
-                    <i class="fas fa-sign-in-alt me-2"></i> Войти
+                    <i class="fas fa-sign-in-alt me-2"></i> 
+                    @{
+                        var signInButtonText = cultureTwoLetter switch
+                        {
+                            "ru" => "Войти",
+                            "kk" => "Кіру",
+                            "en" => "Sign In",
+                            "tr" => "Giriş Yap",
+                            _ => "Войти"
+                        };
+                    }
+                    @signInButtonText
                 </button>
                 <a asp-controller="Account" asp-action="Register" class="btn btn-outline-primary">
-                    <i class="fas fa-user-plus me-2"></i> Нет аккаунта? Зарегистрироваться
+                    <i class="fas fa-user-plus me-2"></i> 
+                    @{
+                        var noAccountText = cultureTwoLetter switch
+                        {
+                            "ru" => "Нет аккаунта? Зарегистрироваться",
+                            "kk" => "Тіркелгіңіз жоқ па? Тіркелу",
+                            "en" => "No account? Register",
+                            "tr" => "Hesabınız yok mu? Kayıt olun",
+                            _ => "Нет аккаунта? Зарегистрироваться"
+                        };
+                    }
+                    @noAccountText
                 </a>
             </div>
         </form>

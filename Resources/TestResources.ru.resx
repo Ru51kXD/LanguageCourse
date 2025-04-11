@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  
+  <!-- Levels -->
+  <data name="Level_A1" xml:space="preserve">
+    <value>начальный</value>
+  </data>
+  <data name="Level_A2" xml:space="preserve">
+    <value>базовый</value>
+  </data>
+  <data name="Level_B1" xml:space="preserve">
+    <value>средний</value>
+  </data>
+  <data name="Level_B2" xml:space="preserve">
+    <value>выше среднего</value>
+  </data>
+  <data name="Level_C1" xml:space="preserve">
+    <value>продвинутый</value>
+  </data>
+  <data name="Level_C2" xml:space="preserve">
+    <value>свободное владение</value>
+  </data>
+  
+  <!-- Test description templates -->
+  <data name="Vocabulary_Test_Description" xml:space="preserve">
+    <value>Проверьте свои знания {0} на уровне {1}. Этот тест фокусируется на словарном запасе и базовых грамматических структурах.</value>
+  </data>
+  <data name="Grammar_Test_Description" xml:space="preserve">
+    <value>Расширенный тест по {0} на уровне {1}. Проверьте свои знания грамматики, идиом и сложных конструкций.</value>
+  </data>
+  
+  <!-- English language -->
+  <data name="Английский_A1_Vocabulary_Title" xml:space="preserve">
+    <value>Основы английского языка</value>
+  </data>
+  <data name="Английский_A1_Grammar_Title" xml:space="preserve">
+    <value>Грамматика английского для начинающих</value>
+  </data>
+  <data name="Английский_A2_Vocabulary_Title" xml:space="preserve">
+    <value>Английский язык (A2)</value>
+  </data>
+  <data name="Английский_A2_Grammar_Title" xml:space="preserve">
+    <value>Времена в английском языке</value>
+  </data>
+  <data name="Английский_B1_Vocabulary_Title" xml:space="preserve">
+    <value>Английский среднего уровня (B1)</value>
+  </data>
+  <data name="Английский_B1_Grammar_Title" xml:space="preserve">
+    <value>Идиомы и фразовые глаголы английского (B1)</value>
+  </data>
+  <data name="Английский_B2_Vocabulary_Title" xml:space="preserve">
+    <value>Английский выше среднего (B2)</value>
+  </data>
+  <data name="Английский_B2_Grammar_Title" xml:space="preserve">
+    <value>Сложные конструкции в английском (B2)</value>
+  </data>
+  <data name="Английский_C1_Vocabulary_Title" xml:space="preserve">
+    <value>Продвинутый английский (C1)</value>
+  </data>
+  <data name="Английский_C1_Grammar_Title" xml:space="preserve">
+    <value>Академический английский (C1)</value>
+  </data>
+  <data name="Английский_C2_Vocabulary_Title" xml:space="preserve">
+    <value>Свободное владение английским (C2)</value>
+  </data>
+  <data name="Английский_C2_Grammar_Title" xml:space="preserve">
+    <value>Литературный английский (C2)</value>
+  </data>
+  
+  <!-- Kazakh language -->
+  <data name="Казахский_A1_Vocabulary_Title" xml:space="preserve">
+    <value>Основы казахского языка</value>
+  </data>
+  <data name="Казахский_A1_Grammar_Title" xml:space="preserve">
+    <value>Казахский - числа и цвета</value>
+  </data>
+  <data name="Казахский_A2_Vocabulary_Title" xml:space="preserve">
+    <value>Казахский для начинающих (A2)</value>
+  </data>
+  <data name="Казахский_A2_Grammar_Title" xml:space="preserve">
+    <value>Грамматика казахского (A2)</value>
+  </data>
+  <data name="Казахский_B1_Vocabulary_Title" xml:space="preserve">
+    <value>Казахский среднего уровня (B1)</value>
+  </data>
+  <data name="Казахский_B1_Grammar_Title" xml:space="preserve">
+    <value>Идиомы и фразы казахского (B1)</value>
+  </data>
+  <data name="Казахский_B2_Vocabulary_Title" xml:space="preserve">
+    <value>Казахский выше среднего (B2)</value>
+  </data>
+  <data name="Казахский_B2_Grammar_Title" xml:space="preserve">
+    <value>Казахская литература (B2)</value>
+  </data>
+  <data name="Казахский_C1_Vocabulary_Title" xml:space="preserve">
+    <value>Продвинутый казахский (C1)</value>
+  </data>
+  <data name="Казахский_C1_Grammar_Title" xml:space="preserve">
+    <value>Деловой казахский (C1)</value>
+  </data>
+  <data name="Казахский_C2_Vocabulary_Title" xml:space="preserve">
+    <value>Свободное владение казахским (C2)</value>
+  </data>
+  <data name="Казахский_C2_Grammar_Title" xml:space="preserve">
+    <value>Академический казахский (C2)</value>
+  </data>
+  
+  <!-- Turkish language -->
+  <data name="Турецкий_A1_Vocabulary_Title" xml:space="preserve">
+    <value>Основы турецкого языка</value>
+  </data>
+  <data name="Турецкий_A1_Grammar_Title" xml:space="preserve">
+    <value>Турецкий - числа и дни недели</value>
+  </data>
+  <data name="Турецкий_A2_Vocabulary_Title" xml:space="preserve">
+    <value>Турецкий для начинающих (A2)</value>
+  </data>
+  <data name="Турецкий_A2_Grammar_Title" xml:space="preserve">
+    <value>Грамматика турецкого (A2)</value>
+  </data>
+  <data name="Турецкий_B1_Vocabulary_Title" xml:space="preserve">
+    <value>Турецкий среднего уровня (B1)</value>
+  </data>
+  <data name="Турецкий_B1_Grammar_Title" xml:space="preserve">
+    <value>Идиомы и фразы турецкого (B1)</value>
+  </data>
+  <data name="Турецкий_B2_Vocabulary_Title" xml:space="preserve">
+    <value>Турецкий выше среднего (B2)</value>
+  </data>
+  <data name="Турецкий_B2_Grammar_Title" xml:space="preserve">
+    <value>Турецкая литература (B2)</value>
+  </data>
+  <data name="Турецкий_C1_Vocabulary_Title" xml:space="preserve">
+    <value>Продвинутый турецкий (C1)</value>
+  </data>
+  <data name="Турецкий_C1_Grammar_Title" xml:space="preserve">
+    <value>Деловой турецкий (C1)</value>
+  </data>
+  <data name="Турецкий_C2_Vocabulary_Title" xml:space="preserve">
+    <value>Свободное владение турецким (C2)</value>
+  </data>
+  <data name="Турецкий_C2_Grammar_Title" xml:space="preserve">
+    <value>Академический турецкий (C2)</value>
+  </data>
+  
+  <!-- Russian language -->
+  <data name="Русский_A1_Vocabulary_Title" xml:space="preserve">
+    <value>Основы русского языка</value>
+  </data>
+  <data name="Русский_A1_Grammar_Title" xml:space="preserve">
+    <value>Русский алфавит и произношение</value>
+  </data>
+  <data name="Русский_A2_Vocabulary_Title" xml:space="preserve">
+    <value>Русский для начинающих (A2)</value>
+  </data>
+  <data name="Русский_A2_Grammar_Title" xml:space="preserve">
+    <value>Грамматика русского (A2)</value>
+  </data>
+  <data name="Русский_B1_Vocabulary_Title" xml:space="preserve">
+    <value>Русский среднего уровня (B1)</value>
+  </data>
+  <data name="Русский_B1_Grammar_Title" xml:space="preserve">
+    <value>Идиомы и фразы русского (B1)</value>
+  </data>
+  <data name="Русский_B2_Vocabulary_Title" xml:space="preserve">
+    <value>Русский выше среднего (B2)</value>
+  </data>
+  <data name="Русский_B2_Grammar_Title" xml:space="preserve">
+    <value>Русская литература (B2)</value>
+  </data>
+  <data name="Русский_C1_Vocabulary_Title" xml:space="preserve">
+    <value>Продвинутый русский (C1)</value>
+  </data>
+  <data name="Русский_C1_Grammar_Title" xml:space="preserve">
+    <value>Деловой русский (C1)</value>
+  </data>
+  <data name="Русский_C2_Vocabulary_Title" xml:space="preserve">
+    <value>Свободное владение русским (C2)</value>
+  </data>
+  <data name="Русский_C2_Grammar_Title" xml:space="preserve">
+    <value>Академический русский (C2)</value>
+  </data>
+</root> 

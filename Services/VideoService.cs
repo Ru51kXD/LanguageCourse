@@ -83,6 +83,7 @@ namespace WebApplication15.Services
             if (video == null)
                 return new List<Video>();
                 
+            // Сначала ищем видео того же уровня
             var relatedVideos = await _context.Videos
                 .Include(v => v.LanguageLevel)
                     .ThenInclude(ll => ll.Language)
@@ -91,21 +92,36 @@ namespace WebApplication15.Services
                 .Take(6)
                 .ToListAsync();
                 
-            // Если недостаточно видео того же уровня, добавляем видео того же языка
-            if (relatedVideos.Count < 3 && video.LanguageLevel != null)
+            // Если недостаточно видео того же уровня, добавляем видео того же языка, но разных уровней
+            if (relatedVideos.Count < 6 && video.LanguageLevel?.Language != null)
             {
+                var languageId = video.LanguageLevel.Language.Id;
                 var additionalVideos = await _context.Videos
                     .Include(v => v.LanguageLevel)
                         .ThenInclude(ll => ll.Language)
                     .Where(v => v.Id != videoId && 
-                                v.LanguageLevel.LanguageId == video.LanguageLevel.LanguageId && 
+                                v.LanguageLevel.Language.Id == languageId && 
                                 v.LanguageLevelId != video.LanguageLevelId)
-                    .OrderBy(v => v.LanguageLevel.Level)
-                    .ThenBy(v => v.Title)
+                    .OrderBy(v => v.Title)
                     .Take(6 - relatedVideos.Count)
                     .ToListAsync();
                     
                 relatedVideos.AddRange(additionalVideos);
+            }
+            
+            // Если все еще недостаточно видео, добавляем видео любого языка
+            if (relatedVideos.Count < 3)
+            {
+                var anyVideos = await _context.Videos
+                    .Include(v => v.LanguageLevel)
+                        .ThenInclude(ll => ll.Language)
+                    .Where(v => v.Id != videoId && 
+                                !relatedVideos.Select(rv => rv.Id).Contains(v.Id))
+                    .OrderByDescending(v => v.CreatedDate)
+                    .Take(6 - relatedVideos.Count)
+                    .ToListAsync();
+                    
+                relatedVideos.AddRange(anyVideos);
             }
 
             if (!string.IsNullOrEmpty(userId))

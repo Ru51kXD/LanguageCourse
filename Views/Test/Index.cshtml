@@ -1,3 +1,4 @@
+@using Microsoft.AspNetCore.Localization
 @model List<Test>
 @{
     ViewData["Title"] = "Тесты";
@@ -12,6 +13,11 @@
     var selectedLanguageId = ViewData["SelectedLanguageId"] as int?;
     var selectedLevel = ViewData["SelectedLevel"] as string;
     var diagnosticCount = ViewData["DiagnosticCount"] as int?;
+    
+    // Получаем текущую культуру напрямую из Request
+    var requestCulture = Context.Features.Get<IRequestCultureFeature>();
+    var culture = requestCulture?.RequestCulture.Culture.Name ?? "ru-RU";
+    var currentCulture = requestCulture?.RequestCulture.Culture.TwoLetterISOLanguageName ?? "ru";
 
     // Получаем только уникальные названия уровней для фильтрации
     var uniqueLevels = filteredLevels?.Select(l => l.Name).Distinct().ToList() ?? 
@@ -56,8 +62,27 @@
         { "Казахский", "🇰🇿" }
     };
     
+    // Локализация для текстов страницы
+    string titleText;
+    string subtitleText;
+    string chooseLanguageText;
+    string chooseLevelText;
+    string allLanguagesText;
+    string allLevelsText;
+    string testsNotFoundText;
+    string testsNotFoundDescriptionText;
+    string resetFilterText;
+    string moreTestsText;
+    string startTestText;
+    string minutesText;
+    string questionsText;
+    string diagnosticText;
+    string selectedLanguageText;
+    string selectedLevelText;
+    string availableLevelsText;
+    
     // Мотивационные фразы
-    var motivationalPhrases = new string[] {
+    string[] motivationalPhrasesRu = {
         "Учить язык - значит открывать новый мир! 🌎",
         "Каждый тест - шаг к свободному владению языком! 🚶‍♂️",
         "Не останавливайся на достигнутом! 🏆",
@@ -74,6 +99,173 @@
         "Твои усилия обязательно принесут плоды! 🌱"
     };
     
+    string[] motivationalPhrasesKk = {
+        "Тіл үйрену - жаңа әлемді ашу! 🌎",
+        "Әр тест - тілді еркін меңгеруге қадам! 🚶‍♂️",
+        "Қол жеткізгенге тоқтама! 🏆",
+        "Тұрақты тестілеу - табысқа жету кілті! 🔑",
+        "Күн сайын жаттығып, нәтиже күттірмейді! ⏱️",
+        "Тілдерді білу көптеген есіктерді ашады! 🚪",
+        "Сен шеберлікке дұрыс жолдасың! 🛤️",
+        "Ми тесттерді жақсы көреді! Өзіңді тексер! 🧠",
+        "Есіңде болсын: тәжірибе жетілдіреді! 💯",
+        "Тіл үйрену әлемге көзқарасыңды өзгертеді! 👁️",
+        "Жаңа тіл - жаңа жан! ✨",
+        "Қазір дағдыларыңды тексер! 📝",
+        "Тілдер әлемдегі адамдарды жақындатады! 🤝",
+        "Сенің күш-жігерің міндетті түрде жеміс береді! 🌱"
+    };
+    
+    string[] motivationalPhrasesEn = {
+        "Learning a language means discovering a new world! 🌎",
+        "Each test is a step towards language fluency! 🚶‍♂️",
+        "Don't stop at what you've achieved! 🏆",
+        "Regular testing is the key to success! 🔑",
+        "Practice every day, and results won't keep you waiting! ⏱️",
+        "Language knowledge opens many doors! 🚪",
+        "You're on the right path to mastery! 🛤️",
+        "Your brain loves tests! Check yourself! 🧠",
+        "Remember: practice leads to perfection! 💯",
+        "Learning a language changes your perspective on the world! 👁️",
+        "New language - new soul! ✨",
+        "Test your skills right now! 📝",
+        "Languages bring people together around the world! 🤝",
+        "Your efforts will definitely bear fruit! 🌱"
+    };
+    
+    string[] motivationalPhrasesTr = {
+        "Dil öğrenmek yeni bir dünya keşfetmek demektir! 🌎",
+        "Her test, dil akıcılığına giden bir adımdır! 🚶‍♂️",
+        "Elde ettiklerinle yetinme! 🏆",
+        "Düzenli test başarının anahtarıdır! 🔑",
+        "Her gün pratik yap, sonuçlar seni bekletmeyecek! ⏱️",
+        "Dil bilgisi birçok kapıyı açar! 🚪",
+        "Ustalığa giden doğru yoldasın! 🛤️",
+        "Beynin testleri sever! Kendini kontrol et! 🧠",
+        "Unutma: pratik mükemmelliğe götürür! 💯",
+        "Dil öğrenmek dünyaya bakış açını değiştirir! 👁️",
+        "Yeni dil - yeni ruh! ✨",
+        "Becerilerini hemen test et! 📝",
+        "Diller dünya çapında insanları bir araya getirir! 🤝",
+        "Çabaların kesinlikle meyvesini verecek! 🌱"
+    };
+    
+    string[] motivationalPhrases;
+    
+    // Устанавливаем тексты в зависимости от текущей культуры
+    switch (culture)
+    {
+        case "ru-RU":
+        case "ru":
+            titleText = "Проверьте свои языковые навыки";
+            subtitleText = "Наши онлайн-тесты помогут вам определить уровень владения языком и выявить области для улучшения. Выберите язык и уровень сложности ниже, чтобы начать.";
+            chooseLanguageText = "Выберите язык";
+            chooseLevelText = "Выберите уровень";
+            allLanguagesText = "Все языки";
+            allLevelsText = "Все уровни";
+            testsNotFoundText = "Тесты не найдены";
+            testsNotFoundDescriptionText = "К сожалению, по вашему запросу не найдено тестов. Попробуйте изменить параметры фильтра.";
+            resetFilterText = "Сбросить фильтр";
+            moreTestsText = "Еще тесты";
+            startTestText = "Начать тест";
+            minutesText = "мин.";
+            questionsText = "вопросов";
+            diagnosticText = "Диагностика: найдено";
+            selectedLanguageText = "Выбранный язык:";
+            selectedLevelText = "Выбранный уровень:";
+            availableLevelsText = "Доступные уровни:";
+            motivationalPhrases = motivationalPhrasesRu;
+            break;
+            
+        case "kk-KZ":
+        case "kk":
+            titleText = "Тілдік дағдыларыңызды тексеріңіз";
+            subtitleText = "Біздің онлайн-тесттер сізге тілді меңгеру деңгейін анықтауға және жақсарту үшін салаларды анықтауға көмектеседі. Бастау үшін төменде тілді және қиындық деңгейін таңдаңыз.";
+            chooseLanguageText = "Тілді таңдаңыз";
+            chooseLevelText = "Деңгейді таңдаңыз";
+            allLanguagesText = "Барлық тілдер";
+            allLevelsText = "Барлық деңгейлер";
+            testsNotFoundText = "Тесттер табылмады";
+            testsNotFoundDescriptionText = "Өкінішке орай, сұрауыңыз бойынша тесттер табылмады. Сүзгі параметрлерін өзгертіп көріңіз.";
+            resetFilterText = "Сүзгіні қалпына келтіру";
+            moreTestsText = "Тағы тесттер";
+            startTestText = "Тестті бастау";
+            minutesText = "мин.";
+            questionsText = "сұрақтар";
+            diagnosticText = "Диагностика: табылды";
+            selectedLanguageText = "Таңдалған тіл:";
+            selectedLevelText = "Таңдалған деңгей:";
+            availableLevelsText = "Қол жетімді деңгейлер:";
+            motivationalPhrases = motivationalPhrasesKk;
+            break;
+            
+        case "en-US":
+        case "en-GB":
+        case "en":
+            titleText = "Test Your Language Skills";
+            subtitleText = "Our online tests will help you determine your language proficiency level and identify areas for improvement. Choose a language and difficulty level below to get started.";
+            chooseLanguageText = "Choose Language";
+            chooseLevelText = "Choose Level";
+            allLanguagesText = "All Languages";
+            allLevelsText = "All Levels";
+            testsNotFoundText = "Tests Not Found";
+            testsNotFoundDescriptionText = "Unfortunately, no tests were found for your request. Try changing the filter parameters.";
+            resetFilterText = "Reset Filter";
+            moreTestsText = "More Tests";
+            startTestText = "Start Test";
+            minutesText = "min.";
+            questionsText = "questions";
+            diagnosticText = "Diagnostic: found";
+            selectedLanguageText = "Selected language:";
+            selectedLevelText = "Selected level:";
+            availableLevelsText = "Available levels:";
+            motivationalPhrases = motivationalPhrasesEn;
+            break;
+            
+        case "tr-TR":
+        case "tr":
+            titleText = "Dil Becerilerinizi Test Edin";
+            subtitleText = "Çevrimiçi testlerimiz, dil yeterlilik seviyenizi belirlemenize ve geliştirilecek alanları tanımlamanıza yardımcı olacaktır. Başlamak için aşağıdan bir dil ve zorluk seviyesi seçin.";
+            chooseLanguageText = "Dil Seçin";
+            chooseLevelText = "Seviye Seçin";
+            allLanguagesText = "Tüm Diller";
+            allLevelsText = "Tüm Seviyeler";
+            testsNotFoundText = "Test Bulunamadı";
+            testsNotFoundDescriptionText = "Maalesef, isteğiniz için hiçbir test bulunamadı. Filtre parametrelerini değiştirmeyi deneyin.";
+            resetFilterText = "Filtreyi Sıfırla";
+            moreTestsText = "Daha Fazla Test";
+            startTestText = "Testi Başlat";
+            minutesText = "dk.";
+            questionsText = "soru";
+            diagnosticText = "Teşhis: bulundu";
+            selectedLanguageText = "Seçilen dil:";
+            selectedLevelText = "Seçilen seviye:";
+            availableLevelsText = "Mevcut seviyeler:";
+            motivationalPhrases = motivationalPhrasesTr;
+            break;
+            
+        default:
+            titleText = "Проверьте свои языковые навыки";
+            subtitleText = "Наши онлайн-тесты помогут вам определить уровень владения языком и выявить области для улучшения. Выберите язык и уровень сложности ниже, чтобы начать.";
+            chooseLanguageText = "Выберите язык";
+            chooseLevelText = "Выберите уровень";
+            allLanguagesText = "Все языки";
+            allLevelsText = "Все уровни";
+            testsNotFoundText = "Тесты не найдены";
+            testsNotFoundDescriptionText = "К сожалению, по вашему запросу не найдено тестов. Попробуйте изменить параметры фильтра.";
+            resetFilterText = "Сбросить фильтр";
+            moreTestsText = "Еще тесты";
+            startTestText = "Начать тест";
+            minutesText = "мин.";
+            questionsText = "вопросов";
+            diagnosticText = "Диагностика: найдено";
+            selectedLanguageText = "Выбранный язык:";
+            selectedLevelText = "Выбранный уровень:";
+            availableLevelsText = "Доступные уровни:";
+            motivationalPhrases = motivationalPhrasesRu;
+            break;
+    }
+    
     // Выбираем случайную фразу
     var randomPhrase = motivationalPhrases[new Random().Next(0, motivationalPhrases.Length)];
 }
@@ -86,8 +278,8 @@
     <div class="container">
         <div class="row">
             <div class="col-md-12">
-                <h1 class="display-4">Проверьте свои языковые навыки</h1>
-                <p class="lead">Наши онлайн-тесты помогут вам определить уровень владения языком и выявить области для улучшения. Выберите язык и уровень сложности ниже, чтобы начать.</p>
+                <h1 class="display-4">@titleText</h1>
+                <p class="lead">@subtitleText</p>
             </div>
         </div>
     </div>
@@ -99,11 +291,11 @@
         <div class="filter-section">
             <h5 class="filter-heading" style="margin-top:75px">
                 <i class="fas fa-globe"></i> 
-                Выберите язык
+                @chooseLanguageText
             </h5>
             <div class="filter-options" style="margin-top:20px">
                 <a href="@Url.Action("Index", new { level = selectedLevel })" class="filter-option @(selectedLanguageId == null ? "active" : "")">
-                    Все языки
+                    @allLanguagesText
                 </a>
                 @foreach (var language in languages)
                 {
@@ -122,11 +314,11 @@
         <div class="filter-section">
             <h5 class="filter-heading" style="margin-top:25px">
                 <i class="fas fa-layer-group"></i>
-                Выберите уровень
+                @chooseLevelText
             </h5>
             <div class="filter-options" style="margin-top:20px; margin-bottom:20px">
                 <a href="@Url.Action("Index", new { languageId = selectedLanguageId })" class="filter-option @(selectedLevel == null ? "active" : "")">
-                    Все уровни
+                    @allLevelsText
                 </a>
                 @foreach (var levelName in uniqueLevels)
                 {
@@ -141,10 +333,10 @@
 
     <!-- Диагностическая информация (для отладки) -->
     <div class="alert alert-info">
-        <p>Диагностика: найдено @(diagnosticCount ?? 0) тестов с выбранными фильтрами</p>
-        <p>Выбранный язык: @(selectedLanguage ?? "Не выбран")</p>
-        <p>Выбранный уровень: @(selectedLevel ?? "Не выбран")</p>
-        <p>Доступные уровни: @(string.Join(", ", uniqueLevels ?? new List<string>()))</p>
+        <p>@diagnosticText @(diagnosticCount ?? 0) тестов с выбранными фильтрами</p>
+        <p>@selectedLanguageText @(selectedLanguage ?? "Не выбран")</p>
+        <p>@selectedLevelText @(selectedLevel ?? "Не выбран")</p>
+        <p>@availableLevelsText @(string.Join(", ", uniqueLevels ?? new List<string>()))</p>
     </div>
 
     <!-- Списки тестов по языкам -->
@@ -153,9 +345,9 @@
         {
             <div class="empty-tests-message">
                 <i class="fas fa-book"></i>
-                <h3>Тесты не найдены</h3>
-                <p>К сожалению, по вашему запросу не найдено тестов. Попробуйте изменить параметры фильтра.</p>
-                <a href="@Url.Action("Index")" class="btn btn-primary">Сбросить фильтр</a>
+                <h3>@testsNotFoundText</h3>
+                <p>@testsNotFoundDescriptionText</p>
+                <a href="@Url.Action("Index")" class="btn btn-primary">@resetFilterText</a>
             </div>
         }
         else
@@ -172,7 +364,7 @@
                             <span class="language-flag">@flag</span>
                             @languageName
                         </h2>
-                        <a href="#" class="view-more">Еще тесты <i class="fas fa-arrow-right"></i></a>
+                        <a href="#" class="view-more">@moreTestsText <i class="fas fa-arrow-right"></i></a>
                     </div>
                     
                     <div class="demo-tests-grid">
@@ -195,13 +387,13 @@
                                     <h3 class="demo-test-title">@test.Title</h3>
                                     <p class="demo-test-description">@test.Description</p>
                                     <div class="demo-test-meta">
-                                        <span><i class="fas fa-clock"></i> @test.TimeLimit мин.</span>
-                                        <span><i class="fas fa-question-circle"></i> @(test.Questions?.Count ?? 0) вопросов</span>
+                                        <span><i class="fas fa-clock"></i> @test.TimeLimit @minutesText</span>
+                                        <span><i class="fas fa-question-circle"></i> @(test.Questions?.Count ?? 0) @questionsText</span>
                                     </div>
                                 </div>
                                 <div class="demo-test-footer">
                                     <a href="@Url.Action("StartTest", "Test", new { id = test.Id })" class="duolingo-button">
-                                        Начать тест <i class="fas fa-arrow-right"></i>
+                                        @startTestText <i class="fas fa-arrow-right"></i>
                                     </a>
                                 </div>
                             </div>
@@ -352,34 +544,306 @@
                     }, 20000); // 20 секунд между сообщениями
                 }
                 
+                // Определяем сообщения в зависимости от языка
+                let currentCulture = '@currentCulture';
+                
                 // Сократим сообщения для лучшего отображения
-                const autoMessages = [
-                    'Регулярное тестирование улучшает память! 📚',
-                    'Не забывай повторять материал! 🔄',
-                    'Удачи с тестами! 🍀',
-                    'Молодец, что учишься! 👏',
-                    'Языки - это увлекательное путешествие! 🌍',
-                    'Даже малый прогресс важен! 🚶',
-                    'Ошибки - часть обучения! 😊',
-                    'Учи что-то новое каждый день! 🆕',
-                    'Повторение - мать учения! 🔄',
-                    'У каждого свой темп обучения! 🏃',
-                    'Твой мозг любит новые вызовы! 🧠',
-                    'Знания остаются с тобой навсегда! 💪',
-                    'Сосредоточься на качестве! ⏱️',
-                    'Всего 15 минут в день для успеха! ⏰',
-                    'Изучение языка расширяет кругозор! 🌈',
-                    'С каждым днем ты лучше! 📈'
-                ];
+                const autoMessages = getAutoMessages(currentCulture);
                 
                 // Приветственные сообщения при загрузке страницы
-                const welcomeMessages = [
-                    'Привет! Рад видеть тебя снова! 👋',
-                    'Добро пожаловать в языковой центр! 🎓',
-                    'Готов к новым достижениям? 🚀',
-                    'Какой язык будем изучать сегодня? 🌐',
-                    'Ты молодец, что учишься! 👍'
-                ];
+                const welcomeMessages = getWelcomeMessages(currentCulture);
+                
+                // Сообщения при клике на персонаже
+                const clickMessages = getClickMessages(currentCulture);
+                
+                // Сообщения при наведении на карточки тестов
+                const hoverMessages = getHoverMessages(currentCulture);
+                
+                // Функция для получения сообщений в зависимости от языка
+                function getAutoMessages(culture) {
+                    switch(culture) {
+                        case 'ru':
+                            return [
+                                'Регулярное тестирование улучшает память! 📚',
+                                'Не забывай повторять материал! 🔄',
+                                'Удачи с тестами! 🍀',
+                                'Молодец, что учишься! 👏',
+                                'Языки - это увлекательное путешествие! 🌍',
+                                'Даже малый прогресс важен! 🚶',
+                                'Ошибки - часть обучения! 😊',
+                                'Учи что-то новое каждый день! 🆕',
+                                'Повторение - мать учения! 🔄',
+                                'У каждого свой темп обучения! 🏃',
+                                'Твой мозг любит новые вызовы! 🧠',
+                                'Знания остаются с тобой навсегда! 💪',
+                                'Сосредоточься на качестве! ⏱️',
+                                'Всего 15 минут в день для успеха! ⏰',
+                                'Изучение языка расширяет кругозор! 🌈',
+                                'С каждым днем ты лучше! 📈'
+                            ];
+                        case 'kk':
+                            return [
+                                'Тұрақты тестілеу жадыңызды жақсартады! 📚',
+                                'Материалды қайталауды ұмытпаңыз! 🔄',
+                                'Тесттерде сәттілік тілеймін! 🍀',
+                                'Оқығаныңыз үшін жарайсыз! 👏',
+                                'Тілдер - қызықты саяхат! 🌍',
+                                'Тіпті аз прогресс те маңызды! 🚶',
+                                'Қателер - оқу процесінің бөлігі! 😊',
+                                'Күн сайын жаңа нәрсе үйреніңіз! 🆕',
+                                'Қайталау - оқу анасы! 🔄',
+                                'Әр адамның өз оқу қарқыны бар! 🏃',
+                                'Миыңыз жаңа қиындықтарды ұнатады! 🧠',
+                                'Білім әрқашан сізбен бірге! 💪',
+                                'Сапаға назар аударыңыз! ⏱️',
+                                'Күніне тек 15 минут жетістікке! ⏰',
+                                'Тіл үйрену көкжиегіңізді кеңейтеді! 🌈',
+                                'Күн сайын жақсарып келесіз! 📈'
+                            ];
+                        case 'en':
+                            return [
+                                'Regular testing improves memory! 📚',
+                                'Don\'t forget to review material! 🔄',
+                                'Good luck with the tests! 🍀',
+                                'Well done for learning! 👏',
+                                'Languages are an exciting journey! 🌍',
+                                'Even small progress is important! 🚶',
+                                'Mistakes are part of learning! 😊',
+                                'Learn something new every day! 🆕',
+                                'Repetition is the mother of learning! 🔄',
+                                'Everyone has their own learning pace! 🏃',
+                                'Your brain loves new challenges! 🧠',
+                                'Knowledge stays with you forever! 💪',
+                                'Focus on quality! ⏱️',
+                                'Just 15 minutes a day for success! ⏰',
+                                'Learning a language broadens your horizons! 🌈',
+                                'You get better every day! 📈'
+                            ];
+                        case 'tr':
+                            return [
+                                'Düzenli test hafızayı geliştirir! 📚',
+                                'Malzemeyi gözden geçirmeyi unutma! 🔄',
+                                'Testlerde başarılar! 🍀',
+                                'Öğrendiğin için aferin! 👏',
+                                'Diller heyecan verici bir yolculuktur! 🌍',
+                                'Küçük ilerleme bile başarıya doğru bir adımdır! 🚶',
+                                'Hatalar öğrenmenin bir parçasıdır! 😊',
+                                'Her gün yeni bir şey öğren! 🆕',
+                                'Tekrar öğrenmenin anasıdır! 🔄',
+                                'Herkesin kendi öğrenme hızı vardır! 🏃',
+                                'Beynin yeni zorlukları sever! 🧠',
+                                'Bilgi sonsuza kadar seninle kalır! 💪',
+                                'Kaliteye odaklan! ⏱️',
+                                'Başarı için günde sadece 15 dakika! ⏰',
+                                'Dil öğrenmek ufkunuzu genişletir! 🌈',
+                                'Her gün daha iyiye gidiyorsun! 📈'
+                            ];
+                        default:
+                            return [
+                                'Регулярное тестирование улучшает память! 📚',
+                                'Не забывай повторять материал! 🔄',
+                                'Удачи с тестами! 🍀',
+                                'Молодец, что учишься! 👏',
+                                'Языки - это увлекательное путешествие! 🌍',
+                                'Даже малый прогресс важен! 🚶',
+                                'Ошибки - часть обучения! 😊',
+                                'Учи что-то новое каждый день! 🆕',
+                                'Повторение - мать учения! 🔄',
+                                'У каждого свой темп обучения! 🏃',
+                                'Твой мозг любит новые вызовы! 🧠',
+                                'Знания остаются с тобой навсегда! 💪',
+                                'Сосредоточься на качестве! ⏱️',
+                                'Всего 15 минут в день для успеха! ⏰',
+                                'Изучение языка расширяет кругозор! 🌈',
+                                'С каждым днем ты лучше! 📈'
+                            ];
+                    }
+                }
+                
+                function getWelcomeMessages(culture) {
+                    switch(culture) {
+                        case 'ru':
+                            return [
+                                'Привет! Рад видеть тебя снова! 👋',
+                                'Добро пожаловать в языковой центр! 🎓',
+                                'Готов к новым достижениям? 🚀',
+                                'Какой язык будем изучать сегодня? 🌐',
+                                'Ты молодец, что учишься! 👍'
+                            ];
+                        case 'kk':
+                            return [
+                                'Сәлем! Сізді қайта көргеніме қуаныштымын! 👋',
+                                'Тіл орталығына қош келдіңіз! 🎓',
+                                'Жаңа жетістіктерге дайынсыз ба? 🚀',
+                                'Бүгін қай тілді үйренеміз? 🌐',
+                                'Оқып жатқаның үшін жарайсың! 👍'
+                            ];
+                        case 'en':
+                            return [
+                                'Hello! Glad to see you again! 👋',
+                                'Welcome to the language center! 🎓',
+                                'Ready for new achievements? 🚀',
+                                'Which language shall we learn today? 🌐',
+                                'Well done for studying! 👍'
+                            ];
+                        case 'tr':
+                            return [
+                                'Merhaba! Seni tekrar görmek güzel! 👋',
+                                'Dil merkezine hoş geldiniz! 🎓',
+                                'Yeni başarılara hazır mısın? 🚀',
+                                'Bugün hangi dili öğreneceğiz? 🌐',
+                                'Çalışma için harika! 👍'
+                            ];
+                        default:
+                            return [
+                                'Привет! Рад видеть тебя снова! 👋',
+                                'Добро пожаловать в языковой центр! 🎓',
+                                'Готов к новым достижениям? 🚀',
+                                'Какой язык будем изучать сегодня? 🌐',
+                                'Ты молодец, что учишься! 👍'
+                            ];
+                    }
+                }
+                
+                function getClickMessages(culture) {
+                    switch(culture) {
+                        case 'ru':
+                            return [
+                                'Регулярное тестирование помогает лучше запоминать слова! 📚',
+                                'Не забывай повторять пройденный материал! 🔄',
+                                'Удачи с тестами! 🍀',
+                                'Ты молодец, что учишься! 👏',
+                                'Изучение языка - это увлекательное путешествие! 🌍',
+                                'Даже небольшой прогресс - это шаг к успеху! 🚶',
+                                'Ошибки - это часть обучения! Не бойся их! 😊',
+                                'Каждый день учи что-то новое! 🆕',
+                                'Повторение - мать учения! 🔄',
+                                'Не сравнивай себя с другими, у каждого свой темп! 🏃',
+                                'Твой мозг любит новые вызовы! 🧠',
+                                'Знания, полученные на тестах, останутся с тобой навсегда! 💪'
+                            ];
+                        case 'kk':
+                            return [
+                                'Тұрақты тестілеу сөздерді жақсы есте сақтауға көмеkтеседі! 📚',
+                                'Өткен материалды қайталауды ұмытпаңыз! 🔄',
+                                'Тесттерде сәттілік тілеймін! 🍀',
+                                'Оқып жатқаның үшін жарайсың! 👏',
+                                'Тілді үйрену - қызықты саяхат! 🌍',
+                                'Тіпті шағын прогресс - бұл жетістікке қадам! 🚶',
+                                'Қателер - оқу процесінің бөлігі! Олардан қорықпаңыз! 😊',
+                                'Күн сайын жаңа нәрсе үйреніңіз! 🆕',
+                                'Қайталау - оқу анасы! 🔄',
+                                'Өзіңді басқалармен салыстырма, әркімнің өз қарқыны бар! 🏃',
+                                'Миыңыз жаңа қиындықтарды ұнатады! 🧠',
+                                'Тесттерде алған білім сізбен мәңгі қалады! 💪'
+                            ];
+                        case 'en':
+                            return [
+                                'Regular testing helps you remember words better! 📚',
+                                'Don\'t forget to review what you\'ve learned! 🔄',
+                                'Good luck with the tests! 🍀',
+                                'Well done for learning! 👏',
+                                'Learning a language is an exciting journey! 🌍',
+                                'Even small progress is a step towards success! 🚶',
+                                'Mistakes are part of learning! Don\'t fear them! 😊',
+                                'Learn something new every day! 🆕',
+                                'Repetition is the mother of learning! 🔄',
+                                'Don\'t compare yourself to others, everyone has their own pace! 🏃',
+                                'Your brain loves new challenges! 🧠',
+                                'Knowledge gained from tests will stay with you forever! 💪'
+                            ];
+                        case 'tr':
+                            return [
+                                'Düzenli test, kelimeleri daha iyi hatırlamanıza yardımcı olur! 📚',
+                                'Öğrendiklerinizi gözden geçirmeyi unutmayın! 🔄',
+                                'Testlerde başarılar! 🍀',
+                                'Öğrendiğin için aferin! 👏',
+                                'Dil öğrenmek heyecan verici bir yolculuktur! 🌍',
+                                'Küçük ilerleme bile başarıya doğru bir adımdır! 🚶',
+                                'Hatalar öğrenmenin bir parçasıdır! Onlardan korkma! 😊',
+                                'Her gün yeni bir şey öğren! 🆕',
+                                'Tekrar öğrenmenin anasıdır! 🔄',
+                                'Kendini başkalarıyla karşılaştırma, herkesin kendi hızı var! 🏃',
+                                'Beynin yeni zorlukları sever! 🧠',
+                                'Testlerden kazanılan bilgi sonsuza dek seninle kalacak! 💪'
+                            ];
+                        default:
+                            return [
+                                'Регулярное тестирование помогает лучше запоминать слова! 📚',
+                                'Не забывай повторять пройденный материал! 🔄',
+                                'Удачи с тестами! 🍀',
+                                'Ты молодец, что учишься! 👏',
+                                'Изучение языка - это увлекательное путешествие! 🌍',
+                                'Даже небольшой прогресс - это шаг к успеху! 🚶',
+                                'Ошибки - это часть обучения! Не бойся их! 😊',
+                                'Каждый день учи что-то новое! 🆕',
+                                'Повторение - мать учения! 🔄',
+                                'Не сравнивай себя с другими, у каждого свой темп! 🏃',
+                                'Твой мозг любит новые вызовы! 🧠',
+                                'Знания, полученные на тестах, останутся с тобой навсегда! 💪'
+                            ];
+                    }
+                }
+                
+                function getHoverMessages(culture) {
+                    switch(culture) {
+                        case 'ru':
+                            return [
+                                'Отличный выбор! 👍',
+                                'Попробуй пройти этот тест! 🎯',
+                                'Этот тест поможет проверить навыки! 📚',
+                                'Готов проверить себя? 💪',
+                                'Хороший тест для твоего уровня! ⭐',
+                                'Этот тест - отличная тренировка! 🏋️',
+                                'Проверь свои знания с этим тестом! 🧐',
+                                'Не помешает немного практики! 🔄'
+                            ];
+                        case 'kk':
+                            return [
+                                'Тамаша таңдау! 👍',
+                                'Бұл тестті өтіп көріңіз! 🎯',
+                                'Бұл тест дағдыларыңызды тексеруге көмеkтеседі! 📚',
+                                'Өзіңді тексеруге дайынсың ба? 💪',
+                                'Деңгейіңіз үшін жақсы тест! ⭐',
+                                'Бұл тест - керемет жаттығу! 🏋️',
+                                'Білімді осы тестпен тексер! 🧐',
+                                'Біраз тәжірибе алу артық болмайды! 🔄'
+                            ];
+                        case 'en':
+                            return [
+                                'Excellent choice! 👍',
+                                'Try taking this test! 🎯',
+                                'This test will help check your skills! 📚',
+                                'Ready to test yourself? 💪',
+                                'Great test for your level! ⭐',
+                                'This test is excellent practice! 🏋️',
+                                'Check your knowledge with this test! 🧐',
+                                'A bit of practice won\'t hurt! 🔄'
+                            ];
+                        case 'tr':
+                            return [
+                                'Mükemmel seçim! 👍',
+                                'Bu testi denemeye ne dersin! 🎯',
+                                'Bu test becerilerinizi kontrol etmenize yardımcı olacak! 📚',
+                                'Kendini test etmeye hazır mısın? 💪',
+                                'Seviyeniz için harika bir test! ⭐',
+                                'Bu test mükemmel bir alıştırmadır! 🏋️',
+                                'Bu testle bilgini kontrol et! 🧐',
+                                'Biraz pratik zarar vermez! 🔄'
+                            ];
+                        default:
+                            return [
+                                'Отличный выбор! 👍',
+                                'Попробуй пройти этот тест! 🎯',
+                                'Этот тест поможет проверить навыки! 📚',
+                                'Готов проверить себя? 💪',
+                                'Хороший тест для твоего уровня! ⭐',
+                                'Этот тест - отличная тренировка! 🏋️',
+                                'Проверь свои знания с этим тестом! 🧐',
+                                'Не помешает немного практики! 🔄'
+                            ];
+                    }
+                }
                 
                 // Массив для отслеживания уже показанных автоматических сообщений
                 let usedAutoMessages = [];
@@ -411,87 +875,8 @@
                     }, 5000); // 5 секунд после приветствия
                 }, 1000);
                 
-                // Сообщения при клике на персонаже
-                const clickMessages = [
-                    'Регулярное тестирование помогает лучше запоминать слова! 📚',
-                    'Не забывай повторять пройденный материал! 🔄',
-                    'Удачи с тестами! 🍀',
-                    'Ты молодец, что учишься! 👏',
-                    'Изучение языка - это увлекательное путешествие! 🌍',
-                    'Даже небольшой прогресс - это шаг к успеху! 🚶',
-                    'Ошибки - это часть обучения! Не бойся их! 😊',
-                    'Каждый день учи что-то новое! 🆕',
-                    'Повторение - мать учения! 🔄',
-                    'Не сравнивай себя с другими, у каждого свой темп! 🏃',
-                    'Твой мозг любит новые вызовы! 🧠',
-                    'Знания, полученные на тестах, останутся с тобой навсегда! 💪'
-                ];
-                
                 // Массив для отслеживания уже показанных сообщений
                 let usedClickMessages = [];
-                
-                // Показываем сообщение при клике на Duo
-                duoCharacter.addEventListener('click', function() {
-                    console.log('Клик по персонажу');
-                    
-                    // Если уже есть активное сообщение, сначала очищаем таймер
-                    if (messageTimeout) {
-                        clearTimeout(messageTimeout);
-                    }
-                    
-                    // Если все сообщения были показаны, сбрасываем массив
-                    if (usedClickMessages.length >= clickMessages.length) {
-                        usedClickMessages = [];
-                    }
-                    
-                    // Выбираем сообщение, которое еще не было показано
-                    let randomMessage;
-                    do {
-                        randomMessage = clickMessages[Math.floor(Math.random() * clickMessages.length)];
-                    } while (usedClickMessages.includes(randomMessage));
-                    
-                    // Добавляем сообщение в список показанных
-                    usedClickMessages.push(randomMessage);
-                    
-                    // Напрямую используем innerHTML для отображения сообщения
-                    characterBubble.innerHTML = randomMessage;
-                    
-                    // Обновляем время последнего сообщения
-                    lastMessageTime = new Date().getTime();
-                    
-                    // Отображаем сообщение с анимацией
-                    characterBubble.classList.add('active');
-                    characterBubble.style.opacity = '1';
-                    characterBubble.style.transform = 'translateY(0)';
-                    characterBubble.style.pointerEvents = 'auto';
-                    isMessageShowing = true;
-                    
-                    duoCharacter.classList.add('pulse');
-                    setTimeout(() => {
-                        duoCharacter.classList.remove('pulse');
-                    }, 300);
-                    
-                    // Скрываем сообщение через 1,5 секунды
-                    messageTimeout = setTimeout(() => {
-                        characterBubble.classList.remove('active');
-                        characterBubble.style.opacity = '0';
-                        characterBubble.style.transform = 'translateY(10px)';
-                        characterBubble.style.pointerEvents = 'none';
-                        isMessageShowing = false;
-                    }, 3000);
-                });
-                
-                // Сообщения при наведении на карточки тестов
-                const hoverMessages = [
-                    'Отличный выбор! 👍',
-                    'Попробуй пройти этот тест! 🎯',
-                    'Этот тест поможет проверить навыки! 📚',
-                    'Готов проверить себя? 💪',
-                    'Хороший тест для твоего уровня! ⭐',
-                    'Этот тест - отличная тренировка! 🏋️',
-                    'Проверь свои знания с этим тестом! 🧐',
-                    'Не помешает немного практики! 🔄'
-                ];
                 
                 // Массив для отслеживания уже показанных сообщений при наведении
                 let usedHoverMessages = [];
@@ -566,6 +951,57 @@
                             hoverTimer = null;
                         }
                     });
+                });
+                
+                // Показываем сообщение при клике на Duo
+                duoCharacter.addEventListener('click', function() {
+                    console.log('Клик по персонажу');
+                    
+                    // Если уже есть активное сообщение, сначала очищаем таймер
+                    if (messageTimeout) {
+                        clearTimeout(messageTimeout);
+                    }
+                    
+                    // Если все сообщения были показаны, сбрасываем массив
+                    if (usedClickMessages.length >= clickMessages.length) {
+                        usedClickMessages = [];
+                    }
+                    
+                    // Выбираем сообщение, которое еще не было показано
+                    let randomMessage;
+                    do {
+                        randomMessage = clickMessages[Math.floor(Math.random() * clickMessages.length)];
+                    } while (usedClickMessages.includes(randomMessage));
+                    
+                    // Добавляем сообщение в список показанных
+                    usedClickMessages.push(randomMessage);
+                    
+                    // Напрямую используем innerHTML для отображения сообщения
+                    characterBubble.innerHTML = randomMessage;
+                    
+                    // Обновляем время последнего сообщения
+                    lastMessageTime = new Date().getTime();
+                    
+                    // Отображаем сообщение с анимацией
+                    characterBubble.classList.add('active');
+                    characterBubble.style.opacity = '1';
+                    characterBubble.style.transform = 'translateY(0)';
+                    characterBubble.style.pointerEvents = 'auto';
+                    isMessageShowing = true;
+                    
+                    duoCharacter.classList.add('pulse');
+                    setTimeout(() => {
+                        duoCharacter.classList.remove('pulse');
+                    }, 300);
+                    
+                    // Скрываем сообщение через 1,5 секунды
+                    messageTimeout = setTimeout(() => {
+                        characterBubble.classList.remove('active');
+                        characterBubble.style.opacity = '0';
+                        characterBubble.style.transform = 'translateY(10px)';
+                        characterBubble.style.pointerEvents = 'none';
+                        isMessageShowing = false;
+                    }, 3000);
                 });
             });
         }

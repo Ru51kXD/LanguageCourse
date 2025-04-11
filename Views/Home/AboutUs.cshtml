@@ -1,13 +1,52 @@
 @model List<WebApplication15.Models.Video>
+@using Microsoft.AspNetCore.Mvc.Localization
+@using Microsoft.AspNetCore.Localization
+@using System.Globalization
+@inject IViewLocalizer Localizer
 @{
-    ViewData["Title"] = "О нас";
+    // Получаем текущую культуру
+    var requestCulture = Context.Features.Get<IRequestCultureFeature>();
+    var cultureTwoLetter = requestCulture?.RequestCulture.Culture.TwoLetterISOLanguageName ?? "ru";
+    
+    ViewData["Title"] = cultureTwoLetter switch
+    {
+        "ru" => "О нас",
+        "kk" => "Біз туралы",
+        "en" => "About Us",
+        "tr" => "Hakkımızda",
+        _ => "О нас"
+    };
 }
 
 <div class="container mt-5">
     <div class="row">
         <div class="col-md-12 text-center mb-5 about-header">
-            <h1 class="display-4 about-title">О образовательной платформе</h1>
-            <p class="lead about-subtitle">Помощь людям изучать языки эффективно и с удовольствием</p>
+            <h1 class="display-4 about-title">
+                @{
+                    var aboutPlatformTitle = cultureTwoLetter switch
+                    {
+                        "ru" => "О образовательной платформе",
+                        "kk" => "Білім беру платформасы туралы",
+                        "en" => "About the Educational Platform",
+                        "tr" => "Eğitim Platformu Hakkında",
+                        _ => "О образовательной платформе"
+                    };
+                }
+                @aboutPlatformTitle
+            </h1>
+            <p class="lead about-subtitle">
+                @{
+                    var helpingPeopleText = cultureTwoLetter switch
+                    {
+                        "ru" => "Помощь людям изучать языки эффективно и с удовольствием",
+                        "kk" => "Адамдарға тілдерді тиімді және қызықты үйренуге көмектесу",
+                        "en" => "Helping people learn languages effectively and enjoyably",
+                        "tr" => "İnsanların dilleri etkili ve keyifli bir şekilde öğrenmelerine yardımcı olmak",
+                        _ => "Помощь людям изучать языки эффективно и с удовольствием"
+                    };
+                }
+                @helpingPeopleText
+            </p>
         </div>
     </div>
     
@@ -18,14 +57,56 @@
                 <div class="row">
                     <div class="col-md-6 d-flex align-items-center">
                         <div class="p-4 text-center">
-                            <h2 class="mb-4">Глобальная миссия</h2>
-                            <p>Мы стремимся сделать изучение языков доступным для всех. Наша платформа предлагает разнообразные видеоуроки и интерактивные тесты, которые помогают эффективно осваивать новые языки.</p>
-                            <p>Мы верим, что знание языков открывает новые возможности и соединяет людей из разных культур.</p>
+                            <h2 class="mb-4">
+                                @{
+                                    var globalMissionText = cultureTwoLetter switch
+                                    {
+                                        "ru" => "Глобальная миссия",
+                                        "kk" => "Жаһандық миссия",
+                                        "en" => "Global Mission",
+                                        "tr" => "Küresel Misyon",
+                                        _ => "Глобальная миссия"
+                                    };
+                                }
+                                @globalMissionText
+                            </h2>
+                            <p>
+                                @{
+                                    var missionDescriptionText = cultureTwoLetter switch
+                                    {
+                                        "ru" => "Мы стремимся сделать изучение языков доступным для всех. Наша платформа предлагает разнообразные видеоуроки и интерактивные тесты, которые помогают эффективно осваивать новые языки.",
+                                        "kk" => "Біз тіл үйренуді барлығына қолжетімді етуге тырысамыз. Біздің платформа жаңа тілдерді тиімді меңгеруге көмектесетін әртүрлі бейне сабақтар мен интерактивті тесттерді ұсынады.",
+                                        "en" => "We strive to make language learning accessible to everyone. Our platform offers a variety of video lessons and interactive tests that help effectively master new languages.",
+                                        "tr" => "Dil öğrenimini herkes için erişilebilir kılmaya çalışıyoruz. Platformumuz, yeni dilleri etkili bir şekilde öğrenmeye yardımcı olan çeşitli video dersler ve interaktif testler sunmaktadır.",
+                                        _ => "Мы стремимся сделать изучение языков доступным для всех. Наша платформа предлагает разнообразные видеоуроки и интерактивные тесты, которые помогают эффективно осваивать новые языки."
+                                    };
+                                }
+                                @missionDescriptionText
+                            </p>
+                            <p>
+                                @{
+                                    var missionBeliefText = cultureTwoLetter switch
+                                    {
+                                        "ru" => "Мы верим, что знание языков открывает новые возможности и соединяет людей из разных культур.",
+                                        "kk" => "Біз тілдерді білу жаңа мүмкіндіктерді ашып, әртүрлі мәдениеттерден адамдарды біріктіреді деп сенеміз.",
+                                        "en" => "We believe that knowledge of languages opens up new opportunities and connects people from different cultures.",
+                                        "tr" => "Dil bilgisinin yeni fırsatlar açtığına ve farklı kültürlerden insanları bir araya getirdiğine inanıyoruz.",
+                                        _ => "Мы верим, что знание языков открывает новые возможности и соединяет людей из разных культур."
+                                    };
+                                }
+                                @missionBeliefText
+                            </p>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="ratio ratio-16x9 p-3">
-                            <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="О нашей платформе" allowfullscreen></iframe>
+                            <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="@(cultureTwoLetter switch {
+                                "ru" => "О нашей платформе",
+                                "kk" => "Біздің платформа туралы",
+                                "en" => "About our platform",
+                                "tr" => "Platformumuz hakkında",
+                                _ => "О нашей платформе"
+                            })" allowfullscreen></iframe>
                         </div>
                     </div>
                 </div>
@@ -37,8 +118,32 @@
     <!-- Демонстрация видеоуроков -->
     <div class="row mb-5">
         <div class="col-12 text-center">
-            <h2 class="mb-4">Примеры наших видеоуроков</h2>
-            <p class="lead mb-5">Изучайте языки с помощью профессиональных видеоматериалов</p>
+            <h2 class="mb-4">
+                @{
+                    var videosExamplesText = cultureTwoLetter switch
+                    {
+                        "ru" => "Примеры наших видеоуроков",
+                        "kk" => "Біздің бейне сабақтардың мысалдары",
+                        "en" => "Examples of our video lessons",
+                        "tr" => "Video derslerimizden örnekler",
+                        _ => "Примеры наших видеоуроков"
+                    };
+                }
+                @videosExamplesText
+            </h2>
+            <p class="lead mb-5">
+                @{
+                    var learnWithVideosText = cultureTwoLetter switch
+                    {
+                        "ru" => "Изучайте языки с помощью профессиональных видеоматериалов",
+                        "kk" => "Кәсіби бейне материалдардың көмегімен тілдерді үйреніңіз",
+                        "en" => "Learn languages with professional video materials",
+                        "tr" => "Profesyonel video materyalleriyle dil öğrenin",
+                        _ => "Изучайте языки с помощью профессиональных видеоматериалов"
+                    };
+                }
+                @learnWithVideosText
+            </p>
         </div>
         
         <div class="col-12">
@@ -56,7 +161,19 @@
                                     <p class="card-text">@video.Description</p>
                                     <div class="d-flex justify-content-center align-items-center gap-2">
                                         <span class="badge bg-primary">@video.LanguageLevel?.Language?.Name</span>
-                                        <span class="badge bg-secondary">Уровень: @video.LanguageLevel?.Name</span>
+                                        <span class="badge bg-secondary">
+                                            @{
+                                                var levelText = cultureTwoLetter switch
+                                                {
+                                                    "ru" => "Уровень",
+                                                    "kk" => "Деңгей",
+                                                    "en" => "Level",
+                                                    "tr" => "Seviye",
+                                                    _ => "Уровень"
+                                                };
+                                            }
+                                            @levelText: @video.LanguageLevel?.Name
+                                        </span>
                                     </div>
                                 </div>
                             </div>
@@ -72,11 +189,59 @@
         <div class="col-12">
             <div class="card cta-card text-center rounded-card">
                 <div class="card-body py-5">
-                    <h2 class="card-title mb-4">Хотите больше видеоуроков?</h2>
-                    <p class="card-text lead mb-4">Присоединяйтесь к тысячам студентов, которые уже улучшили свои языковые навыки!</p>
+                    <h2 class="card-title mb-4">
+                        @{
+                            var wantMoreVideosText = cultureTwoLetter switch
+                            {
+                                "ru" => "Хотите больше видеоуроков?",
+                                "kk" => "Көбірек бейне сабақтар қалайсыз ба?",
+                                "en" => "Want more video lessons?",
+                                "tr" => "Daha fazla video dersi ister misiniz?",
+                                _ => "Хотите больше видеоуроков?"
+                            };
+                        }
+                        @wantMoreVideosText
+                    </h2>
+                    <p class="card-text lead mb-4">
+                        @{
+                            var joinStudentsText = cultureTwoLetter switch
+                            {
+                                "ru" => "Присоединяйтесь к тысячам студентов, которые уже улучшили свои языковые навыки!",
+                                "kk" => "Өздерінің тілдік дағдыларын жақсартқан мыңдаған студенттерге қосылыңыз!",
+                                "en" => "Join thousands of students who have already improved their language skills!",
+                                "tr" => "Dil becerilerini zaten geliştirmiş binlerce öğrenciye katılın!",
+                                _ => "Присоединяйтесь к тысячам студентов, которые уже улучшили свои языковые навыки!"
+                            };
+                        }
+                        @joinStudentsText
+                    </p>
                     <div class="d-flex justify-content-center gap-3">
-                        <a href="@Url.Action("Register", "Account")" class="btn btn-primary btn-lg">Зарегистрироваться</a>
-                        <a href="@Url.Action("Index", "Video")" class="btn btn-outline-light btn-lg">Посмотреть все видеоуроки</a>
+                        <a href="@Url.Action("Register", "Account")" class="btn btn-primary btn-lg">
+                            @{
+                                var registerText = cultureTwoLetter switch
+                                {
+                                    "ru" => "Зарегистрироваться",
+                                    "kk" => "Тіркелу",
+                                    "en" => "Register",
+                                    "tr" => "Kaydol",
+                                    _ => "Зарегистрироваться"
+                                };
+                            }
+                            @registerText
+                        </a>
+                        <a href="@Url.Action("Index", "Video")" class="btn btn-outline-light btn-lg">
+                            @{
+                                var viewAllVideosText = cultureTwoLetter switch
+                                {
+                                    "ru" => "Посмотреть все видеоуроки",
+                                    "kk" => "Барлық бейне сабақтарды қарау",
+                                    "en" => "View all video lessons",
+                                    "tr" => "Tüm video dersleri görüntüle",
+                                    _ => "Посмотреть все видеоуроки"
+                                };
+                            }
+                            @viewAllVideosText
+                        </a>
                     </div>
                 </div>
             </div>

@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  
+  <!-- Названия тестов английского языка -->
+  <data name="English_A1_Vocabulary_Title" xml:space="preserve">
+    <value>Ағылшын тілінің негізгі тесті</value>
+  </data>
+  <data name="English_A1_Grammar_Title" xml:space="preserve">
+    <value>Бастаушыларға арналған ағылшын грамматикасы</value>
+  </data>
+  <data name="English_A2_Vocabulary_Title" xml:space="preserve">
+    <value>Ағылшын тілі тесті (A2)</value>
+  </data>
+  <data name="English_A2_Grammar_Title" xml:space="preserve">
+    <value>Ағылшын тілінің шақтар грамматикасы</value>
+  </data>
+  <data name="English_B1_Vocabulary_Title" xml:space="preserve">
+    <value>Ағылшын тілі орта деңгей (B1)</value>
+  </data>
+  <data name="English_B1_Grammar_Title" xml:space="preserve">
+    <value>Ағылшын идиомалары мен фразалық етістіктер (B1)</value>
+  </data>
+  <data name="English_B2_Vocabulary_Title" xml:space="preserve">
+    <value>Ағылшын тілі орта деңгейден жоғары (B2)</value>
+  </data>
+  <data name="English_B2_Grammar_Title" xml:space="preserve">
+    <value>Ағылшын тіліндегі күрделі құрылымдар (B2)</value>
+  </data>
+  <data name="English_C1_Vocabulary_Title" xml:space="preserve">
+    <value>Кәсіби ағылшын тілі (C1)</value>
+  </data>
+  <data name="English_C1_Grammar_Title" xml:space="preserve">
+    <value>Академиялық ағылшын тілі (C1)</value>
+  </data>
+  <data name="English_C2_Vocabulary_Title" xml:space="preserve">
+    <value>Жоғары деңгейлі ағылшын тілі (C2)</value>
+  </data>
+  <data name="English_C2_Grammar_Title" xml:space="preserve">
+    <value>Әдеби ағылшын тілі (C2)</value>
+  </data>
+  
+  <!-- Названия тестов казахского языка -->
+  <data name="Kazakh_A1_Vocabulary_Title" xml:space="preserve">
+    <value>Қазақ тілінің негізгі тесті</value>
+  </data>
+  <data name="Kazakh_A1_Grammar_Title" xml:space="preserve">
+    <value>Қазақ тілі - Сандар мен түстер</value>
+  </data>
+  <data name="Kazakh_A2_Vocabulary_Title" xml:space="preserve">
+    <value>Бастаушыларға арналған қазақ тілі (A2)</value>
+  </data>
+  <data name="Kazakh_A2_Grammar_Title" xml:space="preserve">
+    <value>Қазақ грамматикасы (A2)</value>
+  </data>
+  <data name="Kazakh_B1_Vocabulary_Title" xml:space="preserve">
+    <value>Қазақ тілі орта деңгей (B1)</value>
+  </data>
+  <data name="Kazakh_B1_Grammar_Title" xml:space="preserve">
+    <value>Қазақ идиомалары мен сөз тіркестері (B1)</value>
+  </data>
+  <data name="Kazakh_B2_Vocabulary_Title" xml:space="preserve">
+    <value>Қазақ тілі орта деңгейден жоғары (B2)</value>
+  </data>
+  <data name="Kazakh_B2_Grammar_Title" xml:space="preserve">
+    <value>Қазақ әдебиеті (B2)</value>
+  </data>
+  <data name="Kazakh_C1_Vocabulary_Title" xml:space="preserve">
+    <value>Кәсіби қазақ тілі (C1)</value>
+  </data>
+  <data name="Kazakh_C1_Grammar_Title" xml:space="preserve">
+    <value>Іскерлік қазақ тілі (C1)</value>
+  </data>
+  <data name="Kazakh_C2_Vocabulary_Title" xml:space="preserve">
+    <value>Жоғары деңгейлі қазақ тілі (C2)</value>
+  </data>
+  <data name="Kazakh_C2_Grammar_Title" xml:space="preserve">
+    <value>Академиялық қазақ тілі (C2)</value>
+  </data>
+  
+  <!-- Названия тестов турецкого языка -->
+  <data name="Turkish_A1_Vocabulary_Title" xml:space="preserve">
+    <value>Түрік тілінің негізгі тесті</value>
+  </data>
+  <data name="Turkish_A1_Grammar_Title" xml:space="preserve">
+    <value>Түрік сандары мен апта күндері</value>
+  </data>
+  <data name="Turkish_A2_Vocabulary_Title" xml:space="preserve">
+    <value>Бастаушыларға арналған түрік тілі (A2)</value>
+  </data>
+  <data name="Turkish_A2_Grammar_Title" xml:space="preserve">
+    <value>Түрік грамматикасы (A2)</value>
+  </data>
+  <data name="Turkish_B1_Vocabulary_Title" xml:space="preserve">
+    <value>Түрік тілі орта деңгей (B1)</value>
+  </data>
+  <data name="Turkish_B1_Grammar_Title" xml:space="preserve">
+    <value>Түрік идиомалары мен сөз тіркестері (B1)</value>
+  </data>
+  <data name="Turkish_B2_Vocabulary_Title" xml:space="preserve">
+    <value>Түрік тілі орта деңгейден жоғары (B2)</value>
+  </data>
+  <data name="Turkish_B2_Grammar_Title" xml:space="preserve">
+    <value>Түрік әдебиеті (B2)</value>
+  </data>
+  <data name="Turkish_C1_Vocabulary_Title" xml:space="preserve">
+    <value>Кәсіби түрік тілі (C1)</value>
+  </data>
+  <data name="Turkish_C1_Grammar_Title" xml:space="preserve">
+    <value>Іскерлік түрік тілі (C1)</value>
+  </data>
+  <data name="Turkish_C2_Vocabulary_Title" xml:space="preserve">
+    <value>Жоғары деңгейлі түрік тілі (C2)</value>
+  </data>
+  <data name="Turkish_C2_Grammar_Title" xml:space="preserve">
+    <value>Академиялық түрік тілі (C2)</value>
+  </data>
+  
+  <!-- Описания тестов общие -->
+  <data name="Vocabulary_Test_Description" xml:space="preserve">
+    <value>{0} тілінің {1} деңгейіндегі білімдеріңізді тексеріңіз. Бұл тест сөздік қорын және негізгі грамматикалық құрылымдарды тексеруге бағытталған.</value>
+  </data>
+  <data name="Grammar_Test_Description" xml:space="preserve">
+    <value>{0} тілінің {1} деңгейіндегі кеңейтілген тест. Грамматика, идиомалар және күрделі құрылымдар бойынша білімдеріңізді тексеріңіз.</value>
+  </data>
+  
+  <!-- Уровни сложности -->
+  <data name="Level_A1" xml:space="preserve">
+    <value>бастапқы</value>
+  </data>
+  <data name="Level_A2" xml:space="preserve">
+    <value>негізгі</value>
+  </data>
+  <data name="Level_B1" xml:space="preserve">
+    <value>орташа</value>
+  </data>
+  <data name="Level_B2" xml:space="preserve">
+    <value>орташадан жоғары</value>
+  </data>
+  <data name="Level_C1" xml:space="preserve">
+    <value>жоғары</value>
+  </data>
+  <data name="Level_C2" xml:space="preserve">
+    <value>кәсіби</value>
+  </data>
+</root> 

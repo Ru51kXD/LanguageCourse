@@ -1,12 +1,51 @@
+@using Microsoft.AspNetCore.Mvc.Localization
+@using Microsoft.AspNetCore.Localization
+@using System.Globalization
+@inject IViewLocalizer Localizer
 @{
-    ViewData["Title"] = "Узнать больше";
+    // Получаем текущую культуру
+    var requestCulture = Context.Features.Get<IRequestCultureFeature>();
+    var cultureTwoLetter = requestCulture?.RequestCulture.Culture.TwoLetterISOLanguageName ?? "ru";
+    
+    ViewData["Title"] = cultureTwoLetter switch
+    {
+        "ru" => "Узнать больше",
+        "kk" => "Көбірек білу",
+        "en" => "Learn More",
+        "tr" => "Daha Fazla Bilgi",
+        _ => "Узнать больше"
+    };
 }
 
 <div class="container mt-5">
     <div class="row mb-5">
         <div class="col-md-12 text-center">
-            <h1 class="display-4 about-title">Как работает платформа</h1>
-            <p class="lead about-subtitle">Инновационный подход к изучению языков</p>
+            <h1 class="display-4 about-title">
+                @{
+                    var platformWorkTitle = cultureTwoLetter switch
+                    {
+                        "ru" => "Как работает платформа",
+                        "kk" => "Платформа қалай жұмыс істейді",
+                        "en" => "How the Platform Works",
+                        "tr" => "Platform Nasıl Çalışır",
+                        _ => "Как работает платформа"
+                    };
+                }
+                @platformWorkTitle
+            </h1>
+            <p class="lead about-subtitle">
+                @{
+                    var innovativeApproachText = cultureTwoLetter switch
+                    {
+                        "ru" => "Инновационный подход к изучению языков",
+                        "kk" => "Тілдерді үйренудің инновациялық тәсілі",
+                        "en" => "Innovative Approach to Language Learning",
+                        "tr" => "Dil Öğrenimine Yenilikçi Yaklaşım",
+                        _ => "Инновационный подход к изучению языков"
+                    };
+                }
+                @innovativeApproachText
+            </p>
         </div>
     </div>
     
@@ -14,26 +53,134 @@
     <div class="row mb-5">
         <div class="col-md-12">
             <div class="rounded-card p-4">
-                <h2 class="mb-4 text-center">Наша методология</h2>
+                <h2 class="mb-4 text-center">
+                    @{
+                        var ourMethodologyText = cultureTwoLetter switch
+                        {
+                            "ru" => "Наша методология",
+                            "kk" => "Біздің әдіснамамыз",
+                            "en" => "Our Methodology",
+                            "tr" => "Metodolojimiz",
+                            _ => "Наша методология"
+                        };
+                    }
+                    @ourMethodologyText
+                </h2>
                 <div class="row">
                     <div class="col-md-6">
                         <div class="methodology-card p-3 mb-4">
-                            <h3 class="h5"><i class="fas fa-code"></i> Погружение в язык</h3>
-                            <p>Мы верим в силу полного погружения. Наши видеоуроки помогают быстрее адаптироваться к звучанию и интонациям.</p>
+                            <h3 class="h5"><i class="fas fa-code"></i> 
+                                @{
+                                    var immersionTitle = cultureTwoLetter switch
+                                    {
+                                        "ru" => "Погружение в язык",
+                                        "kk" => "Тілге ену",
+                                        "en" => "Language Immersion",
+                                        "tr" => "Dile Dalış",
+                                        _ => "Погружение в язык"
+                                    };
+                                }
+                                @immersionTitle
+                            </h3>
+                            <p>
+                                @{
+                                    var immersionDesc = cultureTwoLetter switch
+                                    {
+                                        "ru" => "Мы верим в силу полного погружения. Наши видеоуроки помогают быстрее адаптироваться к звучанию и интонациям.",
+                                        "kk" => "Біз толық енудің күшіне сенеміз. Біздің бейне сабақтарымыз дыбыстар мен интонацияларға тезірек бейімделуге көмектеседі.",
+                                        "en" => "We believe in the power of full immersion. Our video lessons help you adapt faster to the sound and intonations.",
+                                        "tr" => "Tam daldırmanın gücüne inanıyoruz. Video derslerimiz, ses ve tonlamalara daha hızlı uyum sağlamanıza yardımcı olur.",
+                                        _ => "Мы верим в силу полного погружения. Наши видеоуроки помогают быстрее адаптироваться к звучанию и интонациям."
+                                    };
+                                }
+                                @immersionDesc
+                            </p>
                         </div>
                         <div class="methodology-card p-3 mb-4">
-                            <h3 class="h5"><i class="fas fa-tasks"></i> Регулярное повторение</h3>
-                            <p>Мы помогаем вам запоминать новые слова и грамматические конструкции надолго.</p>
+                            <h3 class="h5"><i class="fas fa-tasks"></i> 
+                                @{
+                                    var repeatTitle = cultureTwoLetter switch
+                                    {
+                                        "ru" => "Регулярное повторение",
+                                        "kk" => "Тұрақты қайталау",
+                                        "en" => "Regular Repetition",
+                                        "tr" => "Düzenli Tekrar",
+                                        _ => "Регулярное повторение"
+                                    };
+                                }
+                                @repeatTitle
+                            </h3>
+                            <p>
+                                @{
+                                    var repeatDesc = cultureTwoLetter switch
+                                    {
+                                        "ru" => "Мы помогаем вам запоминать новые слова и грамматические конструкции надолго.",
+                                        "kk" => "Біз сізге жаңа сөздер мен грамматикалық құрылымдарды ұзақ уақыт есте сақтауға көмеkтесеміз.",
+                                        "en" => "We help you remember new words and grammatical structures for a long time.",
+                                        "tr" => "Yeni kelimeleri ve dilbilgisi yapılarını uzun süre hatırlamanıza yardımcı oluyoruz.",
+                                        _ => "Мы помогаем вам запоминать новые слова и грамматические конструкции надолго."
+                                    };
+                                }
+                                @repeatDesc
+                            </p>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="methodology-card p-3 mb-4">
-                            <h3 class="h5"><i class="fas fa-comments"></i> Практика общения</h3>
-                            <p>Через интерактивные упражнения вы учитесь активно использовать изученный материал в речи.</p>
+                            <h3 class="h5"><i class="fas fa-comments"></i> 
+                                @{
+                                    var practiceTitle = cultureTwoLetter switch
+                                    {
+                                        "ru" => "Практика общения",
+                                        "kk" => "Қарым-қатынас тәжірибесі",
+                                        "en" => "Communication Practice",
+                                        "tr" => "İletişim Pratiği",
+                                        _ => "Практика общения"
+                                    };
+                                }
+                                @practiceTitle
+                            </h3>
+                            <p>
+                                @{
+                                    var practiceDesc = cultureTwoLetter switch
+                                    {
+                                        "ru" => "Через интерактивные упражнения вы учитесь активно использовать изученный материал в речи.",
+                                        "kk" => "Интерактивті жаттығулар арқылы сіз оқыған материалды сөйлеуде белсенді қолдануды үйренесіз.",
+                                        "en" => "Through interactive exercises, you learn to actively use the studied material in speech.",
+                                        "tr" => "İnteraktif egzersizler aracılığıyla, öğrenilen materyali konuşmada aktif olarak kullanmayı öğrenirsiniz.",
+                                        _ => "Через интерактивные упражнения вы учитесь активно использовать изученный материал в речи."
+                                    };
+                                }
+                                @practiceDesc
+                            </p>
                         </div>
                         <div class="methodology-card p-3 mb-4">
-                            <h3 class="h5"><i class="fas fa-chart-bar"></i> Анализ прогресса</h3>
-                            <p>Детальная статистика позволяет фокусироваться на проблемных областях в изучении языка.</p>
+                            <h3 class="h5"><i class="fas fa-chart-bar"></i> 
+                                @{
+                                    var analysisTitle = cultureTwoLetter switch
+                                    {
+                                        "ru" => "Анализ прогресса",
+                                        "kk" => "Прогресті талдау",
+                                        "en" => "Progress Analysis",
+                                        "tr" => "İlerleme Analizi",
+                                        _ => "Анализ прогресса"
+                                    };
+                                }
+                                @analysisTitle
+                            </h3>
+                            <p>
+                                @{
+                                    var analysisDesc = cultureTwoLetter switch
+                                    {
+                                        "ru" => "Детальная статистика позволяет фокусироваться на проблемных областях в изучении языка.",
+                                        "kk" => "Егжей-тегжейлі статистика тіл үйренудегі проблемалық салаларға назар аударуға мүмкіндік береді.",
+                                        "en" => "Detailed statistics allow you to focus on problem areas in language learning.",
+                                        "tr" => "Ayrıntılı istatistikler, dil öğrenimindeki sorunlu alanlara odaklanmanızı sağlar.",
+                                        _ => "Детальная статистика позволяет фокусироваться на проблемных областях в изучении языка."
+                                    };
+                                }
+                                @analysisDesc
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -45,22 +192,82 @@
     <div class="row mb-5">
         <div class="col-md-12">
             <div class="rounded-card p-4">
-                <h2 class="mb-4 text-center">Как это работает</h2>
+                <h2 class="mb-4 text-center">
+                    @{
+                        var howItWorksText = cultureTwoLetter switch
+                        {
+                            "ru" => "Как это работает",
+                            "kk" => "Бұл қалай жұмыс істейді",
+                            "en" => "How It Works",
+                            "tr" => "Nasıl Çalışır",
+                            _ => "Как это работает"
+                        };
+                    }
+                    @howItWorksText
+                </h2>
                 
                 <div class="how-it-works-timeline">
                     <div class="timeline-item">
                         <div class="timeline-marker"></div>
                         <div class="timeline-content rounded-card p-3">
-                            <h3 class="h5">Шаг 1: Регистрация</h3>
-                            <p>Создайте аккаунт, чтобы получить доступ к персонализированной программе обучения. Укажите язык, который хотите изучать, и ваш текущий уровень.</p>
+                            <h3 class="h5">
+                                @{
+                                    var step1Text = cultureTwoLetter switch
+                                    {
+                                        "ru" => "Шаг 1: Регистрация",
+                                        "kk" => "1-қадам: Тіркелу",
+                                        "en" => "Step 1: Registration",
+                                        "tr" => "Adım 1: Kayıt",
+                                        _ => "Шаг 1: Регистрация"
+                                    };
+                                }
+                                @step1Text
+                            </h3>
+                            <p>
+                                @{
+                                    var registrationDesc = cultureTwoLetter switch
+                                    {
+                                        "ru" => "Создайте аккаунт, чтобы получить доступ к персонализированной программе обучения. Укажите язык, который хотите изучать, и ваш текущий уровень.",
+                                        "kk" => "Дербестендірілген оқу бағдарламасына қол жеткізу үшін тіркелгі жасаңыз. Үйренгіңіз келетін тілді және қазіргі деңгейіңізді көрсетіңіз.",
+                                        "en" => "Create an account to access a personalized learning program. Specify the language you want to learn and your current level.",
+                                        "tr" => "Kişiselleştirilmiş öğrenim programına erişmek için bir hesap oluşturun. Öğrenmek istediğiniz dili ve mevcut seviyenizi belirtin.",
+                                        _ => "Создайте аккаунт, чтобы получить доступ к персонализированной программе обучения. Укажите язык, который хотите изучать, и ваш текущий уровень."
+                                    };
+                                }
+                                @registrationDesc
+                            </p>
                         </div>
                     </div>
                     
                     <div class="timeline-item">
                         <div class="timeline-marker"></div>
                         <div class="timeline-content rounded-card p-3">
-                            <h3 class="h5">Шаг 2: Оценка уровня</h3>
-                            <p>Пройдите наш тест и оцените уровень своих знаний.</p>
+                            <h3 class="h5">
+                                @{
+                                    var step2Text = cultureTwoLetter switch
+                                    {
+                                        "ru" => "Шаг 2: Оценка уровня",
+                                        "kk" => "2-қадам: Деңгейді бағалау",
+                                        "en" => "Step 2: Level Assessment",
+                                        "tr" => "Adım 2: Seviye Değerlendirmesi",
+                                        _ => "Шаг 2: Оценка уровня"
+                                    };
+                                }
+                                @step2Text
+                            </h3>
+                            <p>
+                                @{
+                                    var assessmentDesc = cultureTwoLetter switch
+                                    {
+                                        "ru" => "Пройдите наш тест и оцените уровень своих знаний.",
+                                        "kk" => "Біздің тестімізден өтіп, білім деңгейіңізді бағалаңыз.",
+                                        "en" => "Take our test and assess your knowledge level.",
+                                        "tr" => "Testimizi yapın ve bilgi seviyenizi değerlendirin.",
+                                        _ => "Пройдите наш тест и оцените уровень своих знаний."
+                                    };
+                                }
+                                @assessmentDesc
+                            </p>
                         </div>
                     </div>
                     
@@ -68,16 +275,64 @@
                     <div class="timeline-item">
                         <div class="timeline-marker"></div>
                         <div class="timeline-content rounded-card p-3">
-                            <h3 class="h5">Шаг 4: Обучение и практика</h3>
-                            <p>Изучайте язык через видеоуроки, выполняйте практические задания и проходите тесты для закрепления материала.</p>
+                            <h3 class="h5">
+                                @{
+                                    var step4Text = cultureTwoLetter switch
+                                    {
+                                        "ru" => "Шаг 4: Обучение и практика",
+                                        "kk" => "4-қадам: Оқыту және тәжірибе",
+                                        "en" => "Step 4: Learning and Practice",
+                                        "tr" => "Adım 4: Öğrenme ve Uygulama",
+                                        _ => "Шаг 4: Обучение и практика"
+                                    };
+                                }
+                                @step4Text
+                            </h3>
+                            <p>
+                                @{
+                                    var learningDesc = cultureTwoLetter switch
+                                    {
+                                        "ru" => "Изучайте язык через видеоуроки, выполняйте практические задания и проходите тесты для закрепления материала.",
+                                        "kk" => "Бейне сабақтар арқылы тілді үйреніңіз, практикалық тапсырмаларды орындаңыз және материалды бекіту үшін тесттер өтіңіз.",
+                                        "en" => "Learn the language through video lessons, complete practical tasks, and take tests to consolidate the material.",
+                                        "tr" => "Video dersler aracılığıyla dili öğrenin, pratik görevleri tamamlayın ve materyali pekiştirmek için testler yapın.",
+                                        _ => "Изучайте язык через видеоуроки, выполняйте практические задания и проходите тесты для закрепления материала."
+                                    };
+                                }
+                                @learningDesc
+                            </p>
                         </div>
                     </div>
                     
                     <div class="timeline-item">
                         <div class="timeline-marker"></div>
                         <div class="timeline-content rounded-card p-3">
-                            <h3 class="h5">Шаг 5: Отслеживание прогресса</h3>
-                            <p>Следите за своими достижениями в личном кабинете, получайте рекомендации по улучшению результатов.</p>
+                            <h3 class="h5">
+                                @{
+                                    var step5Text = cultureTwoLetter switch
+                                    {
+                                        "ru" => "Шаг 5: Отслеживание прогресса",
+                                        "kk" => "5-қадам: Прогресті бақылау",
+                                        "en" => "Step 5: Tracking Progress",
+                                        "tr" => "Adım 5: İlerleme Takibi",
+                                        _ => "Шаг 5: Отслеживание прогресса"
+                                    };
+                                }
+                                @step5Text
+                            </h3>
+                            <p>
+                                @{
+                                    var trackingDesc = cultureTwoLetter switch
+                                    {
+                                        "ru" => "Следите за своими достижениями в личном кабинете, получайте рекомендации по улучшению результатов.",
+                                        "kk" => "Жеке кабинетіңізде өз жетістіктеріңізді қадағалаңыз, нәтижелерді жақсарту бойынша ұсыныстар алыңыз.",
+                                        "en" => "Track your achievements in your personal account, get recommendations for improving results.",
+                                        "tr" => "Kişisel hesabınızda başarılarınızı takip edin, sonuçları iyileştirmek için öneriler alın.",
+                                        _ => "Следите за своими достижениями в личном кабинете, получайте рекомендации по улучшению результатов."
+                                    };
+                                }
+                                @trackingDesc
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -89,21 +344,105 @@
     <div class="row mb-5">
         <div class="col-md-12">
             <div class="rounded-card p-4">
-                <h2 class="mb-4 text-center">Языки и уровни</h2>
+                <h2 class="mb-4 text-center">
+                    @{
+                        var languagesAndLevelsText = cultureTwoLetter switch
+                        {
+                            "ru" => "Языки и уровни",
+                            "kk" => "Тілдер мен деңгейлер",
+                            "en" => "Languages and Levels",
+                            "tr" => "Diller ve Seviyeler",
+                            _ => "Языки и уровни"
+                        };
+                    }
+                    @languagesAndLevelsText
+                </h2>
                 
                 <div class="row">
                     <div class="col-lg-4 col-md-6 mb-4">
                         <div class="language-level-card rounded-card p-3">
                             <div class="level-header d-flex align-items-center mb-3">
                                 <i class="fas fa-language me-2 fs-4"></i>
-                                <h3 class="h5 mb-0">Начинающий (A1-A2)</h3>
+                                <h3 class="h5 mb-0">
+                                    @{
+                                        var beginnerLevelText = cultureTwoLetter switch
+                                        {
+                                            "ru" => "Начинающий (A1-A2)",
+                                            "kk" => "Бастаушы (A1-A2)",
+                                            "en" => "Beginner (A1-A2)",
+                                            "tr" => "Başlangıç (A1-A2)",
+                                            _ => "Начинающий (A1-A2)"
+                                        };
+                                    }
+                                    @beginnerLevelText
+                                </h3>
                             </div>
-                            <p>Идеально для тех, кто только начинает изучать язык. Включает базовую лексику, простые грамматические конструкции и повседневные фразы.</p>
+                            <p>
+                                @{
+                                    var beginnerDesc = cultureTwoLetter switch
+                                    {
+                                        "ru" => "Идеально для тех, кто только начинает изучать язык. Включает базовую лексику, простые грамматические конструкции и повседневные фразы.",
+                                        "kk" => "Тілді үйренуді енді бастағандар үшін тамаша. Негізгі лексика, қарапайым грамматикалық құрылымдар және күнделікті сөз тіркестерін қамтиды.",
+                                        "en" => "Perfect for those who are just starting to learn a language. Includes basic vocabulary, simple grammatical structures, and everyday phrases.",
+                                        "tr" => "Bir dili öğrenmeye yeni başlayanlar için idealdir. Temel kelime hazinesi, basit dil bilgisi yapıları ve günlük ifadeleri içerir.",
+                                        _ => "Идеально для тех, кто только начинает изучать язык. Включает базовую лексику, простые грамматические конструкции и повседневные фразы."
+                                    };
+                                }
+                                @beginnerDesc
+                            </p>
                             <div class="level-topics">
-                                <span class="badge bg-primary">Приветствия</span>
-                                <span class="badge bg-primary">Числа</span>
-                                <span class="badge bg-primary">Время</span>
-                                <span class="badge bg-primary">Семья</span>
+                                <span class="badge bg-primary">
+                                    @{
+                                        var greetingsText = cultureTwoLetter switch
+                                        {
+                                            "ru" => "Приветствия",
+                                            "kk" => "Амандасу",
+                                            "en" => "Greetings",
+                                            "tr" => "Selamlaşma",
+                                            _ => "Приветствия"
+                                        };
+                                    }
+                                    @greetingsText
+                                </span>
+                                <span class="badge bg-primary">
+                                    @{
+                                        var numbersText = cultureTwoLetter switch
+                                        {
+                                            "ru" => "Числа",
+                                            "kk" => "Сандар",
+                                            "en" => "Numbers",
+                                            "tr" => "Sayılar",
+                                            _ => "Числа"
+                                        };
+                                    }
+                                    @numbersText
+                                </span>
+                                <span class="badge bg-primary">
+                                    @{
+                                        var timeText = cultureTwoLetter switch
+                                        {
+                                            "ru" => "Время",
+                                            "kk" => "Уақыт",
+                                            "en" => "Time",
+                                            "tr" => "Zaman",
+                                            _ => "Время"
+                                        };
+                                    }
+                                    @timeText
+                                </span>
+                                <span class="badge bg-primary">
+                                    @{
+                                        var familyText = cultureTwoLetter switch
+                                        {
+                                            "ru" => "Семья",
+                                            "kk" => "Отбасы",
+                                            "en" => "Family",
+                                            "tr" => "Aile",
+                                            _ => "Семья"
+                                        };
+                                    }
+                                    @familyText
+                                </span>
                             </div>
                         </div>
                     </div>
@@ -112,14 +451,86 @@
                         <div class="language-level-card rounded-card p-3">
                             <div class="level-header d-flex align-items-center mb-3">
                                 <i class="fas fa-language me-2 fs-4"></i>
-                                <h3 class="h5 mb-0">Средний (B1-B2)</h3>
+                                <h3 class="h5 mb-0">
+                                    @{
+                                        var intermediateLevelText = cultureTwoLetter switch
+                                        {
+                                            "ru" => "Средний (B1-B2)",
+                                            "kk" => "Орта (B1-B2)",
+                                            "en" => "Intermediate (B1-B2)",
+                                            "tr" => "Orta Seviye (B1-B2)",
+                                            _ => "Средний (B1-B2)"
+                                        };
+                                    }
+                                    @intermediateLevelText
+                                </h3>
                             </div>
-                            <p>Для тех, кто владеет основами языка. Уроки посвящены более сложным темам, включают идиомы и культурные аспекты.</p>
+                            <p>
+                                @{
+                                    var intermediateDesc = cultureTwoLetter switch
+                                    {
+                                        "ru" => "Для тех, кто владеет основами языка. Уроки посвящены более сложным темам, включают идиомы и культурные аспекты.",
+                                        "kk" => "Тілдің негіздерін білетіндерге арналған. Сабақтар күрделі тақырыптарға арналған, идиомалар мен мәдени аспектілерді қамтиды.",
+                                        "en" => "For those who know the basics of the language. Lessons focus on more complex topics, including idioms and cultural aspects.",
+                                        "tr" => "Dilin temellerini bilenler için. Dersler daha karmaşık konulara odaklanır, deyimler ve kültürel yönleri içerir.",
+                                        _ => "Для тех, кто владеет основами языка. Уроки посвящены более сложным темам, включают идиомы и культурные аспекты."
+                                    };
+                                }
+                                @intermediateDesc
+                            </p>
                             <div class="level-topics">
-                                <span class="badge bg-primary">Работа</span>
-                                <span class="badge bg-primary">Путешествия</span>
-                                <span class="badge bg-primary">Технологии</span>
-                                <span class="badge bg-primary">Искусство</span>
+                                <span class="badge bg-primary">
+                                    @{
+                                        var workText = cultureTwoLetter switch
+                                        {
+                                            "ru" => "Работа",
+                                            "kk" => "Жұмыс",
+                                            "en" => "Work",
+                                            "tr" => "İş",
+                                            _ => "Работа"
+                                        };
+                                    }
+                                    @workText
+                                </span>
+                                <span class="badge bg-primary">
+                                    @{
+                                        var travelText = cultureTwoLetter switch
+                                        {
+                                            "ru" => "Путешествия",
+                                            "kk" => "Саяхат",
+                                            "en" => "Travel",
+                                            "tr" => "Seyahat",
+                                            _ => "Путешествия"
+                                        };
+                                    }
+                                    @travelText
+                                </span>
+                                <span class="badge bg-primary">
+                                    @{
+                                        var techText = cultureTwoLetter switch
+                                        {
+                                            "ru" => "Технологии",
+                                            "kk" => "Технологиялар",
+                                            "en" => "Technology",
+                                            "tr" => "Teknoloji",
+                                            _ => "Технологии"
+                                        };
+                                    }
+                                    @techText
+                                </span>
+                                <span class="badge bg-primary">
+                                    @{
+                                        var artText = cultureTwoLetter switch
+                                        {
+                                            "ru" => "Искусство",
+                                            "kk" => "Өнер",
+                                            "en" => "Art",
+                                            "tr" => "Sanat",
+                                            _ => "Искусство"
+                                        };
+                                    }
+                                    @artText
+                                </span>
                             </div>
                         </div>
                     </div>
@@ -128,14 +539,86 @@
                         <div class="language-level-card rounded-card p-3">
                             <div class="level-header d-flex align-items-center mb-3">
                                 <i class="fas fa-language me-2 fs-4"></i>
-                                <h3 class="h5 mb-0">Продвинутый (C1-C2)</h3>
+                                <h3 class="h5 mb-0">
+                                    @{
+                                        var advancedLevelText = cultureTwoLetter switch
+                                        {
+                                            "ru" => "Продвинутый (C1-C2)",
+                                            "kk" => "Жоғары деңгей (C1-C2)",
+                                            "en" => "Advanced (C1-C2)",
+                                            "tr" => "İleri Seviye (C1-C2)",
+                                            _ => "Продвинутый (C1-C2)"
+                                        };
+                                    }
+                                    @advancedLevelText
+                                </h3>
                             </div>
-                            <p>Для уверенных пользователей языка. Материалы включают сложные тексты, специализированную лексику и тонкости языка.</p>
+                            <p>
+                                @{
+                                    var advancedDesc = cultureTwoLetter switch
+                                    {
+                                        "ru" => "Для уверенных пользователей языка. Материалы включают сложные тексты, специализированную лексику и тонкости языка.",
+                                        "kk" => "Тілді сенімді қолданушылар үшін. Материалдар күрделі мәтіндерді, мамандандырылған лексиканы және тілдің нәзіктіктерін қамтиды.",
+                                        "en" => "For confident language users. Materials include complex texts, specialized vocabulary, and language subtleties.",
+                                        "tr" => "Dilde kendine güvenen kullanıcılar için. Materyaller karmaşık metinleri, özel kelime hazinesini ve dilin inceliklerini içerir.",
+                                        _ => "Для уверенных пользователей языка. Материалы включают сложные тексты, специализированную лексику и тонкости языка."
+                                    };
+                                }
+                                @advancedDesc
+                            </p>
                             <div class="level-topics">
-                                <span class="badge bg-primary">Бизнес</span>
-                                <span class="badge bg-primary">Литература</span>
-                                <span class="badge bg-primary">Наука</span>
-                                <span class="badge bg-primary">Дипломатия</span>
+                                <span class="badge bg-primary">
+                                    @{
+                                        var businessText = cultureTwoLetter switch
+                                        {
+                                            "ru" => "Бизнес",
+                                            "kk" => "Бизнес",
+                                            "en" => "Business",
+                                            "tr" => "İş Dünyası",
+                                            _ => "Бизнес"
+                                        };
+                                    }
+                                    @businessText
+                                </span>
+                                <span class="badge bg-primary">
+                                    @{
+                                        var literatureText = cultureTwoLetter switch
+                                        {
+                                            "ru" => "Литература",
+                                            "kk" => "Әдебиет",
+                                            "en" => "Literature",
+                                            "tr" => "Edebiyat",
+                                            _ => "Литература"
+                                        };
+                                    }
+                                    @literatureText
+                                </span>
+                                <span class="badge bg-primary">
+                                    @{
+                                        var scienceText = cultureTwoLetter switch
+                                        {
+                                            "ru" => "Наука",
+                                            "kk" => "Ғылым",
+                                            "en" => "Science",
+                                            "tr" => "Bilim",
+                                            _ => "Наука"
+                                        };
+                                    }
+                                    @scienceText
+                                </span>
+                                <span class="badge bg-primary">
+                                    @{
+                                        var diplomacyText = cultureTwoLetter switch
+                                        {
+                                            "ru" => "Дипломатия",
+                                            "kk" => "Дипломатия",
+                                            "en" => "Diplomacy",
+                                            "tr" => "Diplomasi",
+                                            _ => "Дипломатия"
+                                        };
+                                    }
+                                    @diplomacyText
+                                </span>
                             </div>
                         </div>
                     </div>
@@ -149,11 +632,59 @@
     <div class="row mb-5">
         <div class="col-md-12">
             <div class="cta-card rounded-card text-center p-5">
-                <h2 class="mb-3">Готовы начать свое языковое путешествие?</h2>
-                <p class="lead mb-4">Присоединяйтесь к тысячам студентов, которые уже изменили свою жизнь с нашей платформой.</p>
+                <h2 class="mb-3">
+                    @{
+                        var readyToStartText = cultureTwoLetter switch
+                        {
+                            "ru" => "Готовы начать свое языковое путешествие?",
+                            "kk" => "Тілдік саяхатыңызды бастауға дайынсыз ба?",
+                            "en" => "Ready to start your language journey?",
+                            "tr" => "Dil yolculuğunuza başlamaya hazır mısınız?",
+                            _ => "Готовы начать свое языковое путешествие?"
+                        };
+                    }
+                    @readyToStartText
+                </h2>
+                <p class="lead mb-4">
+                    @{
+                        var joinStudentsText = cultureTwoLetter switch
+                        {
+                            "ru" => "Присоединяйтесь к тысячам студентов, которые уже изменили свою жизнь с нашей платформой.",
+                            "kk" => "Біздің платформамызбен өмірін өзгерткен мыңдаған студенттерге қосылыңыз.",
+                            "en" => "Join thousands of students who have already changed their lives with our platform.",
+                            "tr" => "Platformumuzla hayatlarını çoktan değiştirmiş binlerce öğrenciye katılın.",
+                            _ => "Присоединяйтесь к тысячам студентов, которые уже изменили свою жизнь с нашей платформой."
+                        };
+                    }
+                    @joinStudentsText
+                </p>
                 <div class="d-flex justify-content-center gap-3">
-                    <a href="@Url.Action("Register", "Account")" class="btn btn-primary btn-lg">Начать бесплатно</a>
-                    <a href="@Url.Action("Index", "Video")" class="btn btn-outline-light btn-lg">Просмотреть видеоуроки</a>
+                    <a href="@Url.Action("Register", "Account")" class="btn btn-primary btn-lg">
+                        @{
+                            var startFreeText = cultureTwoLetter switch
+                            {
+                                "ru" => "Начать бесплатно",
+                                "kk" => "Тегін бастау",
+                                "en" => "Start for Free",
+                                "tr" => "Ücretsiz Başla",
+                                _ => "Начать бесплатно"
+                            };
+                        }
+                        @startFreeText
+                    </a>
+                    <a href="@Url.Action("Index", "Video")" class="btn btn-outline-light btn-lg">
+                        @{
+                            var viewVideosText = cultureTwoLetter switch
+                            {
+                                "ru" => "Просмотреть видеоуроки",
+                                "kk" => "Бейне сабақтарды қарау",
+                                "en" => "View Video Lessons",
+                                "tr" => "Video Dersleri Görüntüle",
+                                _ => "Просмотреть видеоуроки"
+                            };
+                        }
+                        @viewVideosText
+                    </a>
                 </div>
             </div>
         </div>

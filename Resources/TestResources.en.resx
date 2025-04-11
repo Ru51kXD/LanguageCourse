@@ -1,0 +1,513 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  
+  <!-- Difficulty Levels -->
+  <data name="Level_A1" xml:space="preserve">
+    <value>beginner</value>
+  </data>
+  <data name="Level_A2" xml:space="preserve">
+    <value>elementary</value>
+  </data>
+  <data name="Level_B1" xml:space="preserve">
+    <value>intermediate</value>
+  </data>
+  <data name="Level_B2" xml:space="preserve">
+    <value>upper-intermediate</value>
+  </data>
+  <data name="Level_C1" xml:space="preserve">
+    <value>advanced</value>
+  </data>
+  <data name="Level_C2" xml:space="preserve">
+    <value>proficient</value>
+  </data>
+  
+  <!-- Test Description Templates -->
+  <data name="Vocabulary_Test_Description" xml:space="preserve">
+    <value>Test your knowledge of {0} at {1} level. This test focuses on your vocabulary and basic grammatical structures.</value>
+  </data>
+  <data name="Grammar_Test_Description" xml:space="preserve">
+    <value>Extended {0} test at {1} level. Check your knowledge of grammar, idioms, and complex structures.</value>
+  </data>
+  
+  <!-- English Language -->
+  <data name="Английский_A1_Vocabulary_Title" xml:space="preserve">
+    <value>English Fundamentals Test</value>
+  </data>
+  <data name="Английский_A1_Grammar_Title" xml:space="preserve">
+    <value>English Grammar for Beginners</value>
+  </data>
+  <data name="Английский_A2_Vocabulary_Title" xml:space="preserve">
+    <value>English Language (A2)</value>
+  </data>
+  <data name="Английский_A2_Grammar_Title" xml:space="preserve">
+    <value>English Tenses</value>
+  </data>
+  <data name="Английский_B1_Vocabulary_Title" xml:space="preserve">
+    <value>Intermediate English (B1)</value>
+  </data>
+  <data name="Английский_B1_Grammar_Title" xml:space="preserve">
+    <value>English Idioms and Phrasal Verbs (B1)</value>
+  </data>
+  <data name="Английский_B2_Vocabulary_Title" xml:space="preserve">
+    <value>Upper-Intermediate English (B2)</value>
+  </data>
+  <data name="Английский_B2_Grammar_Title" xml:space="preserve">
+    <value>Complex Structures in English (B2)</value>
+  </data>
+  <data name="Английский_C1_Vocabulary_Title" xml:space="preserve">
+    <value>Advanced English (C1)</value>
+  </data>
+  <data name="Английский_C1_Grammar_Title" xml:space="preserve">
+    <value>Academic English (C1)</value>
+  </data>
+  <data name="Английский_C2_Vocabulary_Title" xml:space="preserve">
+    <value>Proficient English (C2)</value>
+  </data>
+  <data name="Английский_C2_Grammar_Title" xml:space="preserve">
+    <value>Literary English (C2)</value>
+  </data>
+  
+  <!-- Kazakh Language -->
+  <data name="Казахский_A1_Vocabulary_Title" xml:space="preserve">
+    <value>Kazakh Fundamentals Test</value>
+  </data>
+  <data name="Казахский_A1_Grammar_Title" xml:space="preserve">
+    <value>Kazakh - Numbers and Colors</value>
+  </data>
+  <data name="Казахский_A2_Vocabulary_Title" xml:space="preserve">
+    <value>Kazakh for Beginners (A2)</value>
+  </data>
+  <data name="Казахский_A2_Grammar_Title" xml:space="preserve">
+    <value>Kazakh Grammar (A2)</value>
+  </data>
+  <data name="Казахский_B1_Vocabulary_Title" xml:space="preserve">
+    <value>Intermediate Kazakh (B1)</value>
+  </data>
+  <data name="Казахский_B1_Grammar_Title" xml:space="preserve">
+    <value>Kazakh Idioms and Phrases (B1)</value>
+  </data>
+  <data name="Казахский_B2_Vocabulary_Title" xml:space="preserve">
+    <value>Upper-Intermediate Kazakh (B2)</value>
+  </data>
+  <data name="Казахский_B2_Grammar_Title" xml:space="preserve">
+    <value>Kazakh Literature (B2)</value>
+  </data>
+  <data name="Казахский_C1_Vocabulary_Title" xml:space="preserve">
+    <value>Advanced Kazakh (C1)</value>
+  </data>
+  <data name="Казахский_C1_Grammar_Title" xml:space="preserve">
+    <value>Business Kazakh (C1)</value>
+  </data>
+  <data name="Казахский_C2_Vocabulary_Title" xml:space="preserve">
+    <value>Proficient Kazakh (C2)</value>
+  </data>
+  <data name="Казахский_C2_Grammar_Title" xml:space="preserve">
+    <value>Academic Kazakh (C2)</value>
+  </data>
+  
+  <!-- Turkish Language -->
+  <data name="Турецкий_A1_Vocabulary_Title" xml:space="preserve">
+    <value>Turkish Fundamentals Test</value>
+  </data>
+  <data name="Турецкий_A1_Grammar_Title" xml:space="preserve">
+    <value>Turkish Numbers and Days of the Week</value>
+  </data>
+  <data name="Турецкий_A2_Vocabulary_Title" xml:space="preserve">
+    <value>Turkish for Beginners (A2)</value>
+  </data>
+  <data name="Турецкий_A2_Grammar_Title" xml:space="preserve">
+    <value>Turkish Grammar (A2)</value>
+  </data>
+  <data name="Турецкий_B1_Vocabulary_Title" xml:space="preserve">
+    <value>Intermediate Turkish (B1)</value>
+  </data>
+  <data name="Турецкий_B1_Grammar_Title" xml:space="preserve">
+    <value>Turkish Idioms and Phrases (B1)</value>
+  </data>
+  <data name="Турецкий_B2_Vocabulary_Title" xml:space="preserve">
+    <value>Upper-Intermediate Turkish (B2)</value>
+  </data>
+  <data name="Турецкий_B2_Grammar_Title" xml:space="preserve">
+    <value>Turkish Literature (B2)</value>
+  </data>
+  <data name="Турецкий_C1_Vocabulary_Title" xml:space="preserve">
+    <value>Advanced Turkish (C1)</value>
+  </data>
+  <data name="Турецкий_C1_Grammar_Title" xml:space="preserve">
+    <value>Business Turkish (C1)</value>
+  </data>
+  <data name="Турецкий_C2_Vocabulary_Title" xml:space="preserve">
+    <value>Proficient Turkish (C2)</value>
+  </data>
+  <data name="Турецкий_C2_Grammar_Title" xml:space="preserve">
+    <value>Academic Turkish (C2)</value>
+  </data>
+  
+  <!-- Russian Language -->
+  <data name="Русский_A1_Vocabulary_Title" xml:space="preserve">
+    <value>Russian Fundamentals Test</value>
+  </data>
+  <data name="Русский_A1_Grammar_Title" xml:space="preserve">
+    <value>Russian Alphabet and Pronunciation</value>
+  </data>
+  <data name="Русский_A2_Vocabulary_Title" xml:space="preserve">
+    <value>Russian for Beginners (A2)</value>
+  </data>
+  <data name="Русский_A2_Grammar_Title" xml:space="preserve">
+    <value>Russian Grammar (A2)</value>
+  </data>
+  <data name="Русский_B1_Vocabulary_Title" xml:space="preserve">
+    <value>Intermediate Russian (B1)</value>
+  </data>
+  <data name="Русский_B1_Grammar_Title" xml:space="preserve">
+    <value>Russian Idioms and Phrases (B1)</value>
+  </data>
+  <data name="Русский_B2_Vocabulary_Title" xml:space="preserve">
+    <value>Upper-Intermediate Russian (B2)</value>
+  </data>
+  <data name="Русский_B2_Grammar_Title" xml:space="preserve">
+    <value>Russian Literature (B2)</value>
+  </data>
+  <data name="Русский_C1_Vocabulary_Title" xml:space="preserve">
+    <value>Advanced Russian (C1)</value>
+  </data>
+  <data name="Русский_C1_Grammar_Title" xml:space="preserve">
+    <value>Business Russian (C1)</value>
+  </data>
+  <data name="Русский_C2_Vocabulary_Title" xml:space="preserve">
+    <value>Proficient Russian (C2)</value>
+  </data>
+  <data name="Русский_C2_Grammar_Title" xml:space="preserve">
+    <value>Academic Russian (C2)</value>
+  </data>
+
+  <!-- English A1 Vocabulary Questions -->
+  <data name="English_A1_Vocabulary_Q1" xml:space="preserve">
+    <value>Choose the correct translation for 'House'</value>
+  </data>
+  <data name="English_A1_Vocabulary_Q2" xml:space="preserve">
+    <value>Which of these is NOT a color?</value>
+  </data>
+  <data name="English_A1_Vocabulary_Q3" xml:space="preserve">
+    <value>Choose the correct pair of opposites</value>
+  </data>
+  <data name="English_A1_Vocabulary_Q4" xml:space="preserve">
+    <value>Which word refers to a family member?</value>
+  </data>
+  <data name="English_A1_Vocabulary_Q5" xml:space="preserve">
+    <value>Translate to English: 'Good morning'</value>
+  </data>
+
+  <!-- English A1 Grammar Questions -->
+  <data name="English_A1_Grammar_Q1" xml:space="preserve">
+    <value>Choose the correct article: I see ___ apple.</value>
+  </data>
+  <data name="English_A1_Grammar_Q1_Opt4" xml:space="preserve">
+    <value>no article needed</value>
+  </data>
+  <data name="English_A1_Grammar_Q2" xml:space="preserve">
+    <value>Choose the correct verb form: She ___ TV every day.</value>
+  </data>
+  <data name="English_A1_Grammar_Q3" xml:space="preserve">
+    <value>Choose the correct preposition: The book is ___ the table.</value>
+  </data>
+  <data name="English_A1_Grammar_Q4" xml:space="preserve">
+    <value>Choose the correct pronoun: ___ are my friends.</value>
+  </data>
+  <data name="English_A1_Grammar_Q5" xml:space="preserve">
+    <value>Choose the correct plural form: one child, two ___.</value>
+  </data>
+
+  <!-- English A2 Vocabulary Questions -->
+  <data name="English_A2_Vocabulary_Q1" xml:space="preserve">
+    <value>Which word is related to weather?</value>
+  </data>
+  <data name="English_A2_Vocabulary_Q2" xml:space="preserve">
+    <value>Choose the correct translation for 'Travel'</value>
+  </data>
+  <data name="English_A2_Vocabulary_Q3" xml:space="preserve">
+    <value>What is a place where people can watch movies?</value>
+  </data>
+  <data name="English_A2_Vocabulary_Q4" xml:space="preserve">
+    <value>Choose a word related to the topic 'Food'</value>
+  </data>
+  <data name="English_A2_Vocabulary_Q5" xml:space="preserve">
+    <value>Which of these words refers to a profession?</value>
+  </data>
+
+  <!-- English A2 Grammar Questions -->
+  <data name="English_A2_Grammar_Q1" xml:space="preserve">
+    <value>Choose the correct past tense form: I ___ a movie yesterday.</value>
+  </data>
+  <data name="English_A2_Grammar_Q2" xml:space="preserve">
+    <value>Choose the correct comparative form: This building is ___ than my house.</value>
+  </data>
+  <data name="English_A2_Grammar_Q3" xml:space="preserve">
+    <value>Choose the correct modal verb: You ___ eat healthy food.</value>
+  </data>
+  <data name="English_A2_Grammar_Q4" xml:space="preserve">
+    <value>Choose the correct future tense form: I ___ to the party tomorrow.</value>
+  </data>
+  <data name="English_A2_Grammar_Q5" xml:space="preserve">
+    <value>Choose the correct continuous tense: She ___ a book now.</value>
+  </data>
+
+  <!-- English B1 Vocabulary Questions -->
+  <data name="English_B1_Vocabulary_Q1" xml:space="preserve">
+    <value>Choose the correct synonym for 'huge'</value>
+  </data>
+  <data name="English_B1_Vocabulary_Q2" xml:space="preserve">
+    <value>Which of these words means 'promise'?</value>
+  </data>
+  <data name="English_B1_Vocabulary_Q3" xml:space="preserve">
+    <value>Choose the phrasal verb that means 'to surrender'</value>
+  </data>
+  <data name="English_B1_Vocabulary_Q4" xml:space="preserve">
+    <value>Choose a word related to 'Environment'</value>
+  </data>
+  <data name="English_B1_Vocabulary_Q5" xml:space="preserve">
+    <value>What does the idiom 'to hit the books' mean?</value>
+  </data>
+  <data name="English_B1_Vocabulary_Q5_Answer" xml:space="preserve">
+    <value>to start studying hard</value>
+  </data>
+  <data name="English_B1_Vocabulary_Q5_Opt1" xml:space="preserve">
+    <value>to hit books</value>
+  </data>
+  <data name="English_B1_Vocabulary_Q5_Opt3" xml:space="preserve">
+    <value>to buy many books</value>
+  </data>
+  <data name="English_B1_Vocabulary_Q5_Opt4" xml:space="preserve">
+    <value>to visit a library</value>
+  </data>
+
+  <!-- English B1 Grammar Questions -->
+  <data name="English_B1_Grammar_Q1" xml:space="preserve">
+    <value>Choose the correct conditional form: If I had more time, I ___ a new language.</value>
+  </data>
+  <data name="English_B1_Grammar_Q2" xml:space="preserve">
+    <value>Choose the correct passive voice form: The letter ___ yesterday.</value>
+  </data>
+  <data name="English_B1_Grammar_Q3" xml:space="preserve">
+    <value>Choose the correct reported speech: He said, 'I am tired.' → He said that ___.</value>
+  </data>
+  <data name="English_B1_Grammar_Q4" xml:space="preserve">
+    <value>Choose the correct modal verb: You ___ be joking! That's incredible!</value>
+  </data>
+  <data name="English_B1_Grammar_Q5" xml:space="preserve">
+    <value>Choose the correct tense form: I ___ here since 2010.</value>
+  </data>
+
+  <!-- Russian A1 Vocabulary Questions -->
+  <data name="Russian_A1_Vocabulary_Q1" xml:space="preserve">
+    <value>Choose the correct translation for 'Hello'</value>
+  </data>
+  <data name="Russian_A1_Vocabulary_Q1_Opt1" xml:space="preserve">
+    <value>Thank you</value>
+  </data>
+  <data name="Russian_A1_Vocabulary_Q1_Opt2" xml:space="preserve">
+    <value>Please</value>
+  </data>
+  <data name="Russian_A1_Vocabulary_Q1_Opt4" xml:space="preserve">
+    <value>Goodbye</value>
+  </data>
+  <data name="Russian_A1_Vocabulary_Q2" xml:space="preserve">
+    <value>How do you say 'family' in Russian?</value>
+  </data>
+  <data name="Russian_A1_Vocabulary_Q2_Opt1" xml:space="preserve">
+    <value>Friend</value>
+  </data>
+  <data name="Russian_A1_Vocabulary_Q2_Opt2" xml:space="preserve">
+    <value>Home</value>
+  </data>
+  <data name="Russian_A1_Vocabulary_Q2_Opt3" xml:space="preserve">
+    <value>School</value>
+  </data>
+  <data name="Russian_A1_Vocabulary_Q3" xml:space="preserve">
+    <value>Which word denotes a day of the week?</value>
+  </data>
+  <data name="Russian_A1_Vocabulary_Q4" xml:space="preserve">
+    <value>Choose a word that denotes a color</value>
+  </data>
+  <data name="Russian_A1_Vocabulary_Q5" xml:space="preserve">
+    <value>How do you say 'thank you' in Russian?</value>
+  </data>
+
+  <!-- Russian A1 Grammar Questions -->
+  <data name="Russian_A1_Grammar_Q1" xml:space="preserve">
+    <value>Choose the correct plural form: стол - ...</value>
+  </data>
+  <data name="Russian_A1_Grammar_Q2" xml:space="preserve">
+    <value>Choose the correct ending: Я говор... по-русски.</value>
+  </data>
+  <data name="Russian_A1_Grammar_Q3" xml:space="preserve">
+    <value>Choose the correct personal pronoun: ... идём в кино.</value>
+  </data>
+  <data name="Russian_A1_Grammar_Q4" xml:space="preserve">
+    <value>Choose the correct verb form: Она ... музыку.</value>
+  </data>
+  <data name="Russian_A1_Grammar_Q5" xml:space="preserve">
+    <value>Choose the correct preposition: Книга лежит ... столе.</value>
+  </data>
+
+  <!-- Kazakh A1 Vocabulary Questions -->
+  <data name="Kazakh_A1_Vocabulary_Q1" xml:space="preserve">
+    <value>Choose the correct translation for 'Hello'</value>
+  </data>
+  <data name="Kazakh_A1_Vocabulary_Q1_Opt1" xml:space="preserve">
+    <value>Thank you</value>
+  </data>
+  <data name="Kazakh_A1_Vocabulary_Q1_Opt2" xml:space="preserve">
+    <value>Good evening</value>
+  </data>
+  <data name="Kazakh_A1_Vocabulary_Q1_Opt4" xml:space="preserve">
+    <value>Goodbye</value>
+  </data>
+  <data name="Kazakh_A1_Vocabulary_Q2" xml:space="preserve">
+    <value>What is the word for 'one' in Kazakh?</value>
+  </data>
+  <data name="Kazakh_A1_Vocabulary_Q3" xml:space="preserve">
+    <value>Choose a day of the week in Kazakh</value>
+  </data>
+  <data name="Kazakh_A1_Vocabulary_Q4" xml:space="preserve">
+    <value>How do you say 'school' in Kazakh?</value>
+  </data>
+  <data name="Kazakh_A1_Vocabulary_Q5" xml:space="preserve">
+    <value>Choose the correct greeting in Kazakh</value>
+  </data>
+
+  <!-- Kazakh A1 Grammar Questions -->
+  <data name="Kazakh_A1_Grammar_Q1" xml:space="preserve">
+    <value>Choose the correct plural ending: кітап...</value>
+  </data>
+  <data name="Kazakh_A1_Grammar_Q2" xml:space="preserve">
+    <value>Choose the correct possessive suffix: менің кітаб...</value>
+  </data>
+  <data name="Kazakh_A1_Grammar_Q3" xml:space="preserve">
+    <value>Choose the correct personal pronoun: ... мектепке барамын.</value>
+  </data>
+  <data name="Kazakh_A1_Grammar_Q4" xml:space="preserve">
+    <value>Choose the correct postposition: үстел ... кітап</value>
+  </data>
+  <data name="Kazakh_A1_Grammar_Q5" xml:space="preserve">
+    <value>Choose the correct verb form: Олар кітап ...</value>
+  </data>
+
+  <!-- Turkish A1 Vocabulary Questions -->
+  <data name="Turkish_A1_Vocabulary_Q1" xml:space="preserve">
+    <value>Choose the correct translation for 'Hello'</value>
+  </data>
+  <data name="Turkish_A1_Vocabulary_Q1_Opt2" xml:space="preserve">
+    <value>Thank you</value>
+  </data>
+  <data name="Turkish_A1_Vocabulary_Q1_Opt3" xml:space="preserve">
+    <value>Goodbye</value>
+  </data>
+  <data name="Turkish_A1_Vocabulary_Q1_Opt4" xml:space="preserve">
+    <value>Please</value>
+  </data>
+  <data name="Turkish_A1_Vocabulary_Q2" xml:space="preserve">
+    <value>How do you say 'house' in Turkish?</value>
+  </data>
+  <data name="Turkish_A1_Vocabulary_Q3" xml:space="preserve">
+    <value>Choose the correct translation for the number 'five'</value>
+  </data>
+  <data name="Turkish_A1_Vocabulary_Q4" xml:space="preserve">
+    <value>How do you say 'Monday' in Turkish?</value>
+  </data>
+  <data name="Turkish_A1_Vocabulary_Q5" xml:space="preserve">
+    <value>Choose a word that denotes a color</value>
+  </data>
+
+  <!-- Turkish A1 Grammar Questions -->
+  <data name="Turkish_A1_Grammar_Q1" xml:space="preserve">
+    <value>Choose the correct plural ending: kitap...</value>
+  </data>
+  <data name="Turkish_A1_Grammar_Q2" xml:space="preserve">
+    <value>Choose the correct verb ending: Ben yemek ye...</value>
+  </data>
+  <data name="Turkish_A1_Grammar_Q3" xml:space="preserve">
+    <value>Which suffix is used for locative case in Turkish? Ev...</value>
+  </data>
+  <data name="Turkish_A1_Grammar_Q4" xml:space="preserve">
+    <value>Choose the correct negation of the verb: Ben okula git...</value>
+  </data>
+  <data name="Turkish_A1_Grammar_Q5" xml:space="preserve">
+    <value>Choose the correct personal pronoun: ... okula gidiyorum.</value>
+  </data>
+
+  <!-- General Test Strings -->
+  <data name="Additional_Question" xml:space="preserve">
+    <value>Additional question for {0} language at level {1}</value>
+  </data>
+  <data name="Correct_Answer" xml:space="preserve">
+    <value>Correct answer</value>
+  </data>
+  <data name="Wrong_Answer_1" xml:space="preserve">
+    <value>Wrong answer 1</value>
+  </data>
+  <data name="Wrong_Answer_2" xml:space="preserve">
+    <value>Wrong answer 2</value>
+  </data>
+  <data name="Wrong_Answer_3" xml:space="preserve">
+    <value>Wrong answer 3</value>
+  </data>
+</root> 

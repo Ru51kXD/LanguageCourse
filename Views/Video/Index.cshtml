@@ -1,6 +1,24 @@
 @model IEnumerable<WebApplication15.Models.Video>
+@using Microsoft.Extensions.Localization
+@using LanguageCourse.Resources
+@using Microsoft.AspNetCore.Localization
+@using System.Globalization
+@inject IStringLocalizer<SharedResource> Localizer
 @{
-    ViewData["Title"] = "Видеоуроки";
+    // Получаем текущую культуру
+    var requestCulture = Context.Features.Get<IRequestCultureFeature>();
+    var cultureTwoLetter = requestCulture?.RequestCulture.Culture.TwoLetterISOLanguageName ?? "ru";
+    
+    var videosTitleText = cultureTwoLetter switch
+    {
+        "ru" => "Видеоуроки",
+        "kk" => "Бейнесабақтар",
+        "en" => "Videos",
+        "tr" => "Video Dersler",
+        _ => "Videos"
+    };
+    
+    ViewData["Title"] = videosTitleText;
     var languages = ViewBag.Languages as List<WebApplication15.Models.Language>;
     var levels = ViewBag.Levels as List<WebApplication15.Models.LanguageLevel>;
     var filteredLevels = ViewBag.FilteredLevels as List<WebApplication15.Models.LanguageLevel>;
@@ -49,8 +67,32 @@
     <!-- Заголовок страницы -->
     <div class="video-hero">
         <div class="container">
-            <h1>Видеоуроки по изучению языков</h1>
-            <p>Изучайте языки с помощью высококачественных видеоуроков от профессиональных преподавателей. Выберите язык и уровень, который вам подходит.</p>
+            <h1>
+                @{
+                    var videoLessonsHeaderText = cultureTwoLetter switch
+                    {
+                        "ru" => "Видеоуроки для изучения языков",
+                        "kk" => "Тіл үйрену үшін бейнесабақтар",
+                        "en" => "Video Lessons for Language Learning",
+                        "tr" => "Dil Öğrenimi için Video Dersler",
+                        _ => "Video Lessons for Language Learning"
+                    };
+                }
+                @videoLessonsHeaderText
+            </h1>
+            <p>
+                @{
+                    var videoLessonsDescriptionText = cultureTwoLetter switch
+                    {
+                        "ru" => "Изучайте языки с помощью качественных видеоуроков от профессиональных преподавателей",
+                        "kk" => "Кәсіби оқытушылардан сапалы бейнесабақтар арқылы тілдерді үйреніңіз",
+                        "en" => "Learn languages through quality video lessons from professional teachers",
+                        "tr" => "Profesyonel öğretmenlerden kaliteli video dersler aracılığıyla dilleri öğrenin",
+                        _ => "Learn languages through quality video lessons from professional teachers"
+                    };
+                }
+                @videoLessonsDescriptionText
+            </p>
         </div>
     </div>
 
@@ -60,9 +102,34 @@
             <div class="row">
                 <div class="col-md-5">
                     <div class="filter-group">
-                        <label><i class="fas fa-globe"></i> Язык</label>
+                        <label>
+                            <i class="fas fa-globe"></i> 
+                            @{
+                                var languageText = cultureTwoLetter switch
+                                {
+                                    "ru" => "Язык",
+                                    "kk" => "Тіл",
+                                    "en" => "Language",
+                                    "tr" => "Dil",
+                                    _ => "Language"
+                                };
+                            }
+                            @languageText
+                        </label>
                         <div class="filter-options">
-                            <a href="@Url.Action("Index", new { levelName = selectedLevel })" class="filter-option @(selectedLanguage == null ? "active" : "")">Все языки</a>
+                            <a href="@Url.Action("Index", new { levelName = selectedLevel })" class="filter-option @(selectedLanguage == null ? "active" : "")">
+                                @{
+                                    var allLanguagesText = cultureTwoLetter switch
+                                    {
+                                        "ru" => "Все языки",
+                                        "kk" => "Барлық тілдер",
+                                        "en" => "All Languages",
+                                        "tr" => "Tüm Diller",
+                                        _ => "All Languages"
+                                    };
+                                }
+                                @allLanguagesText
+                            </a>
                             @if (languages != null)
                             {
                                 foreach (var language in languages)
@@ -79,9 +146,34 @@
                 
                 <div class="col-md-5">
                     <div class="filter-group">
-                        <label><i class="fas fa-layer-group"></i> Уровень</label>
+                        <label>
+                            <i class="fas fa-layer-group"></i> 
+                            @{
+                                var levelText = cultureTwoLetter switch
+                                {
+                                    "ru" => "Уровень",
+                                    "kk" => "Деңгей",
+                                    "en" => "Level",
+                                    "tr" => "Seviye",
+                                    _ => "Level"
+                                };
+                            }
+                            @levelText
+                        </label>
                         <div class="filter-options">
-                            <a href="@Url.Action("Index", new { languageId = ViewBag.SelectedLanguageId })" class="filter-option @(selectedLevel == null ? "active" : "")">Все уровни</a>
+                            <a href="@Url.Action("Index", new { languageId = ViewBag.SelectedLanguageId })" class="filter-option @(selectedLevel == null ? "active" : "")">
+                                @{
+                                    var allLevelsText = cultureTwoLetter switch
+                                    {
+                                        "ru" => "Все уровни",
+                                        "kk" => "Барлық деңгейлер",
+                                        "en" => "All Levels",
+                                        "tr" => "Tüm Seviyeler",
+                                        _ => "All Levels"
+                                    };
+                                }
+                                @allLevelsText
+                            </a>
                             @if (uniqueLevels != null)
                             {
                                 foreach (var levelName in uniqueLevels)
@@ -98,7 +190,18 @@
                 
                 <div class="col-md-2 d-flex align-items-center justify-content-center">
                     <a href="@Url.Action("Index")" class="apply-filters">
-                        <i class="fas fa-redo-alt"></i> Сбросить
+                        <i class="fas fa-redo-alt"></i> 
+                        @{
+                            var resetText = cultureTwoLetter switch
+                            {
+                                "ru" => "Сбросить",
+                                "kk" => "Қалпына келтіру",
+                                "en" => "Reset",
+                                "tr" => "Sıfırla",
+                                _ => "Reset"
+                            };
+                        }
+                        @resetText
                     </a>
                 </div>
             </div>
@@ -106,10 +209,80 @@
 
         <!-- Диагностическая информация (временно) -->
         <div class="alert alert-info">
-            <p>Диагностика: найдено @diagnosticCount видео с выбранными фильтрами</p>
-            <p>Выбранный язык: @(selectedLanguage ?? "Не выбран")</p>
-            <p>Выбранный уровень: @(selectedLevel ?? "Не выбран")</p>
-            <p>Доступные уровни: @(string.Join(", ", uniqueLevels ?? new List<string>()))</p>
+            <p>
+                @{
+                    var diagnosticsText = cultureTwoLetter switch
+                    {
+                        "ru" => "Диагностика",
+                        "kk" => "Диагностика",
+                        "en" => "Diagnostics",
+                        "tr" => "Tanı",
+                        _ => "Diagnostics"
+                    };
+                }
+                @diagnosticsText: 
+                @{
+                    var diagnosticFoundText = cultureTwoLetter switch
+                    {
+                        "ru" => $"Найдено {diagnosticCount} видео",
+                        "kk" => $"{diagnosticCount} бейне табылды",
+                        "en" => $"Found {diagnosticCount} videos",
+                        "tr" => $"{diagnosticCount} video bulundu",
+                        _ => $"Found {diagnosticCount} videos"
+                    };
+                }
+                @diagnosticFoundText
+            </p>
+            <p>
+                @{
+                    var selectedLanguageText = cultureTwoLetter switch
+                    {
+                        "ru" => "Выбранный язык",
+                        "kk" => "Таңдалған тіл",
+                        "en" => "Selected Language",
+                        "tr" => "Seçilen Dil",
+                        _ => "Selected Language"
+                    };
+                }
+                @selectedLanguageText: 
+                @{
+                    var notSelectedText = cultureTwoLetter switch
+                    {
+                        "ru" => "Не выбрано",
+                        "kk" => "Таңдалмаған",
+                        "en" => "Not Selected",
+                        "tr" => "Seçilmedi",
+                        _ => "Not Selected"
+                    };
+                }
+                @(selectedLanguage ?? notSelectedText)
+            </p>
+            <p>
+                @{
+                    var selectedLevelText = cultureTwoLetter switch
+                    {
+                        "ru" => "Выбранный уровень",
+                        "kk" => "Таңдалған деңгей",
+                        "en" => "Selected Level",
+                        "tr" => "Seçilen Seviye",
+                        _ => "Selected Level"
+                    };
+                }
+                @selectedLevelText: @(selectedLevel ?? notSelectedText)
+            </p>
+            <p>
+                @{
+                    var availableLevelsText = cultureTwoLetter switch
+                    {
+                        "ru" => "Доступные уровни",
+                        "kk" => "Қол жетімді деңгейлер",
+                        "en" => "Available Levels",
+                        "tr" => "Mevcut Seviyeler",
+                        _ => "Available Levels"
+                    };
+                }
+                @availableLevelsText: @(string.Join(", ", uniqueLevels ?? new List<string>()))
+            </p>
         </div>
 
         <!-- Результаты фильтрации или сгруппированные по языкам видео -->
@@ -124,7 +297,7 @@
                             @selectedLanguage
                         }
                         @(selectedLanguage != null && selectedLevel != null ? " - " : "")
-                        @(selectedLevel != null ? selectedLevel : "Все уровни")
+                        @(selectedLevel != null ? selectedLevel : allLevelsText)
                     </h2>
                 </div>
                 
@@ -146,7 +319,17 @@
                                     <h3 class="video-title">@video.Title</h3>
                                     <p class="video-description">@video.Description</p>
                                     <a href="@Url.Action("Details", new { id = video.Id })" class="watch-button">
-                                        Смотреть видео <i class="fas fa-arrow-right"></i>
+                                        @{
+                                            var watchVideoText = cultureTwoLetter switch
+                                            {
+                                                "ru" => "Смотреть видео",
+                                                "kk" => "Бейнені қарау",
+                                                "en" => "Watch Video",
+                                                "tr" => "Videoyu İzle",
+                                                _ => "Watch Video"
+                                            };
+                                        }
+                                        @watchVideoText <i class="fas fa-arrow-right"></i>
                                     </a>
                                 </div>
                             </div>
@@ -156,9 +339,45 @@
                     {
                         <div class="no-videos">
                             <i class="fas fa-video-slash fa-3x mb-3"></i>
-                            <h3>Видеоуроки не найдены</h3>
-                            <p>К сожалению, по вашему запросу не найдено видеоуроков. Попробуйте изменить параметры фильтра.</p>
-                            <a href="@Url.Action("Index")" class="btn-reset">Сбросить фильтр</a>
+                            <h3>
+                                @{
+                                    var noVideosFoundText = cultureTwoLetter switch
+                                    {
+                                        "ru" => "Видеоуроки не найдены",
+                                        "kk" => "Бейнесабақтар табылмады",
+                                        "en" => "No Videos Found",
+                                        "tr" => "Video Bulunamadı",
+                                        _ => "No Videos Found"
+                                    };
+                                }
+                                @noVideosFoundText
+                            </h3>
+                            <p>
+                                @{
+                                    var noVideosMessageText = cultureTwoLetter switch
+                                    {
+                                        "ru" => "По заданному фильтру не найдено видеоуроков. Попробуйте изменить параметры поиска.",
+                                        "kk" => "Берілген фильтр бойынша бейнесабақтар табылмады. Іздеу параметрлерін өзгертіп көріңіз.",
+                                        "en" => "No videos found for the given filter. Try changing the search parameters.",
+                                        "tr" => "Belirtilen filtre için video ders bulunamadı. Arama parametrelerini değiştirmeyi deneyin.",
+                                        _ => "No videos found for the given filter. Try changing the search parameters."
+                                    };
+                                }
+                                @noVideosMessageText
+                            </p>
+                            <a href="@Url.Action("Index")" class="btn-reset">
+                                @{
+                                    var resetFilterText = cultureTwoLetter switch
+                                    {
+                                        "ru" => "Сбросить фильтр",
+                                        "kk" => "Фильтрді қалпына келтіру",
+                                        "en" => "Reset Filter",
+                                        "tr" => "Filtreyi Sıfırla",
+                                        _ => "Reset Filter"
+                                    };
+                                }
+                                @resetFilterText
+                            </a>
                         </div>
                     }
                 </div>
@@ -175,7 +394,17 @@
                             <span class="flag">@(languageFlags.ContainsKey(languageGroup.Key) ? languageFlags[languageGroup.Key] : "")</span>
                             <h2>@languageGroup.Key</h2>
                             <a href="@Url.Action("Index", new { languageId = languages?.FirstOrDefault(l => l.Name == languageGroup.Key)?.Id })" class="view-all">
-                                Все видеоуроки <i class="fas fa-chevron-right"></i>
+                                @{
+                                    var allVideosText = cultureTwoLetter switch
+                                    {
+                                        "ru" => "Все видео",
+                                        "kk" => "Барлық бейнелер",
+                                        "en" => "All Videos",
+                                        "tr" => "Tüm Videolar",
+                                        _ => "All Videos"
+                                    };
+                                }
+                                @allVideosText <i class="fas fa-chevron-right"></i>
                             </a>
                         </div>
                         
@@ -195,7 +424,17 @@
                                         <h3 class="video-title">@video.Title</h3>
                                         <p class="video-description">@video.Description</p>
                                         <a href="@Url.Action("Details", new { id = video.Id })" class="watch-button">
-                                            Смотреть видео <i class="fas fa-arrow-right"></i>
+                                            @{
+                                                var watchVideoText = cultureTwoLetter switch
+                                                {
+                                                    "ru" => "Смотреть видео",
+                                                    "kk" => "Бейнені қарау",
+                                                    "en" => "Watch Video",
+                                                    "tr" => "Videoyu İzle",
+                                                    _ => "Watch Video"
+                                                };
+                                            }
+                                            @watchVideoText <i class="fas fa-arrow-right"></i>
                                         </a>
                                     </div>
                                 </div>
@@ -208,8 +447,32 @@
                 {
                     <div class="no-videos">
                         <i class="fas fa-video-slash fa-3x mb-3"></i>
-                        <h3>Видеоуроки не найдены</h3>
-                        <p>В данный момент в нашей базе нет видеоуроков. Пожалуйста, проверьте позже.</p>
+                        <h3>
+                            @{
+                                var noVideosFoundText = cultureTwoLetter switch
+                                {
+                                    "ru" => "Видеоуроки не найдены",
+                                    "kk" => "Бейнесабақтар табылмады",
+                                    "en" => "No Videos Found",
+                                    "tr" => "Video Bulunamadı",
+                                    _ => "No Videos Found"
+                                };
+                            }
+                            @noVideosFoundText
+                        </h3>
+                        <p>
+                            @{
+                                var noVideosInDbText = cultureTwoLetter switch
+                                {
+                                    "ru" => "В базе данных пока нет видеоуроков.",
+                                    "kk" => "Дерекқорда әлі бейнесабақтар жоқ.",
+                                    "en" => "There are no video lessons in the database yet.",
+                                    "tr" => "Veritabanında henüz video ders bulunmamaktadır.",
+                                    _ => "There are no video lessons in the database yet."
+                                };
+                            }
+                            @noVideosInDbText
+                        </p>
                     </div>
                 }
             </div>
@@ -219,11 +482,59 @@
         <div class="cta-section">
             <div class="row">
                 <div class="col-md-12 text-center">
-                    <h2>Хотите больше видеоуроков?</h2>
-                    <p>Зарегистрируйтесь на сайте, чтобы получить доступ к полной библиотеке видеоуроков.</p>
+                    <h2>
+                        @{
+                            var wantMoreVideosText = cultureTwoLetter switch
+                            {
+                                "ru" => "Хотите больше видеоуроков?",
+                                "kk" => "Тағы да бейнесабақтар керек пе?",
+                                "en" => "Want More Videos?",
+                                "tr" => "Daha Fazla Video İster Misiniz?",
+                                _ => "Want More Videos?"
+                            };
+                        }
+                        @wantMoreVideosText
+                    </h2>
+                    <p>
+                        @{
+                            var registerForFullAccessText = cultureTwoLetter switch
+                            {
+                                "ru" => "Зарегистрируйтесь, чтобы получить доступ ко всем нашим видеоурокам и материалам для изучения языков.",
+                                "kk" => "Барлық бейнесабақтарымыз бен тіл үйрену материалдарына қол жеткізу үшін тіркеліңіз.",
+                                "en" => "Register to get access to all our video lessons and materials for language learning.",
+                                "tr" => "Tüm video derslerimize ve dil öğrenme materyallerimize erişmek için kaydolun.",
+                                _ => "Register to get access to all our video lessons and materials for language learning."
+                            };
+                        }
+                        @registerForFullAccessText
+                    </p>
                     <div class="cta-buttons">
-                        <a href="@Url.Action("Register", "Account")" class="cta-button cta-button-primary">Регистрация</a>
-                        <a href="@Url.Action("AboutUs", "Home")" class="cta-button cta-button-secondary">Узнать больше</a>
+                        <a href="@Url.Action("Register", "Account")" class="cta-button cta-button-primary">
+                            @{
+                                var registerText = cultureTwoLetter switch
+                                {
+                                    "ru" => "Зарегистрироваться",
+                                    "kk" => "Тіркелу",
+                                    "en" => "Register",
+                                    "tr" => "Kaydol",
+                                    _ => "Register"
+                                };
+                            }
+                            @registerText
+                        </a>
+                        <a href="@Url.Action("AboutUs", "Home")" class="cta-button cta-button-secondary">
+                            @{
+                                var learnMoreText = cultureTwoLetter switch
+                                {
+                                    "ru" => "Узнать больше",
+                                    "kk" => "Толығырақ білу",
+                                    "en" => "Learn More",
+                                    "tr" => "Daha Fazla Bilgi",
+                                    _ => "Learn More"
+                                };
+                            }
+                            @learnMoreText
+                        </a>
                     </div>
                 </div>
             </div>

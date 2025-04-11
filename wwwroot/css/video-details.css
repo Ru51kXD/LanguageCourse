@@ -321,57 +321,80 @@ body {
     text-decoration: none;
 }
 
-/* Похожие видео */
+/* Связанные видео */
+.related-videos-container {
+    margin-top: 40px;
+    padding: 30px;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+.related-videos-container h3 {
+    font-size: 1.8rem;
+    margin-bottom: 30px;
+    color: white;
+    font-weight: 600;
+    text-align: center;
+    position: relative;
+}
+
+.related-videos-container h3:after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 70px;
+    height: 3px;
+    background: linear-gradient(90deg, #58a0ff, #a77eff);
+    border-radius: 3px;
+}
+
 .related-videos-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 20px;
-    margin-top: 30px;
+    gap: 25px;
+    margin-top: 20px;
 }
 
 .related-video-card {
-    background: rgba(255, 255, 255, 0.05);
+    background: rgba(0, 0, 0, 0.3);
     border-radius: 15px;
     overflow: hidden;
     transition: all 0.3s ease;
-    color: white;
-    text-decoration: none;
-    display: flex;
-    flex-direction: column;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.05);
     height: 100%;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
 }
 
 .related-video-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-    background: rgba(255, 255, 255, 0.1);
-    color: white;
-    text-decoration: none;
+    transform: translateY(-10px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
-.related-video-card .thumbnail {
+.related-video-thumbnail {
     position: relative;
-    padding-top: 56.25%; /* 16:9 аспект */
+    width: 100%;
+    height: 160px;
     overflow: hidden;
 }
 
-.related-video-card .thumbnail img {
-    position: absolute;
-    top: 0;
-    left: 0;
+.related-video-thumbnail img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: all 0.3s ease;
+    transition: transform 0.5s ease;
 }
 
-.related-video-card:hover .thumbnail img {
-    transform: scale(1.05);
+.related-video-card:hover .related-video-thumbnail img {
+    transform: scale(1.1);
 }
 
-.related-video-card .play-icon {
+.play-button {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -383,78 +406,85 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    opacity: 0;
+    opacity: 0.8;
     transition: all 0.3s ease;
+    backdrop-filter: blur(2px);
+    border: 2px solid rgba(255, 255, 255, 0.3);
 }
 
-.related-video-card:hover .play-icon {
+.related-video-card:hover .play-button {
+    background: rgba(255, 255, 255, 0.3);
+    transform: translate(-50%, -50%) scale(1.1);
     opacity: 1;
-    background: rgba(88, 160, 255, 0.6);
 }
 
-.related-video-card .play-icon i {
+.play-button i {
     color: white;
-    font-size: 1.2rem;
+    font-size: 20px;
 }
 
 .related-video-info {
-    padding: 15px;
-    flex-grow: 1;
-    display: flex;
-    flex-direction: column;
+    padding: 20px;
 }
 
-.related-video-info h3 {
+.related-video-info h4 {
     font-size: 1.1rem;
-    margin-bottom: 10px;
     color: white;
-    font-weight: 600;
+    margin-bottom: 10px;
+    line-height: 1.4;
+    font-weight: 500;
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
+    text-overflow: ellipsis;
+    height: 3em;
 }
 
-.related-video-info .level-badge {
-    font-size: 0.8rem;
-    padding: 5px 12px;
+.related-video-info .video-level {
     display: inline-block;
-    align-self: flex-start;
-}
-
-.no-videos {
-    text-align: center;
-    padding: 40px 0;
-    color: rgba(255, 255, 255, 0.7);
-    font-style: italic;
-}
-
-.btn-view-all {
-    display: inline-block;
-    padding: 12px 30px;
-    background: linear-gradient(90deg, #58a0ff, #a77eff);
-    color: white;
+    padding: 5px 10px;
+    background: rgba(88, 204, 2, 0.2);
     border-radius: 50px;
-    font-weight: 500;
-    text-decoration: none;
-    transition: all 0.3s ease;
-    margin-top: 20px;
-}
-
-.btn-view-all:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 8px 20px rgba(88, 160, 255, 0.4);
+    font-size: 0.85rem;
     color: white;
-    text-decoration: none;
+    font-weight: 400;
+    border: 1px solid rgba(88, 204, 2, 0.4);
 }
 
-.btn-view-all i {
-    margin-left: 5px;
-    transition: transform 0.3s ease;
+/* Адаптивные стили для связанных видео */
+@media (max-width: 992px) {
+    .related-videos-grid {
+        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    }
 }
 
-.btn-view-all:hover i {
-    transform: translateX(5px);
+@media (max-width: 768px) {
+    .related-videos-grid {
+        grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    }
+    
+    .related-video-thumbnail {
+        height: 120px;
+    }
+    
+    .related-video-info {
+        padding: 15px;
+    }
+    
+    .related-video-info h4 {
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .related-videos-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .related-video-thumbnail {
+        height: 180px;
+    }
 }
 
 /* Уровни языка */
@@ -575,4 +605,257 @@ body {
 .video-info-card.visible, .related-videos-grid.visible, .language-levels.visible {
     opacity: 1;
     transform: translateY(0);
+}
+
+/* Панель управления видео */
+.video-controls {
+    padding: 15px;
+    background: rgba(0, 0, 0, 0.4);
+    border-radius: 0 0 20px 20px;
+    color: white;
+}
+
+.video-controls-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+/* Кнопки управления скоростью воспроизведения */
+.playback-speed-control {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.speed-buttons {
+    display: flex;
+    gap: 5px;
+}
+
+.speed-button {
+    padding: 6px 10px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.speed-button:hover {
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+}
+
+.speed-button.active {
+    background: rgba(49, 140, 231, 0.3);
+    border-color: rgba(49, 140, 231, 0.5);
+    color: white;
+}
+
+/* Кнопка добавления закладки */
+.bookmark-button {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 15px;
+    background: rgba(255, 156, 0, 0.2);
+    border: 1px solid rgba(255, 156, 0, 0.4);
+    border-radius: 50px;
+    color: white;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.bookmark-button:hover {
+    background: rgba(255, 156, 0, 0.3);
+    transform: translateY(-2px);
+}
+
+.bookmark-button i {
+    color: #ff9c00;
+}
+
+/* Вкладки с информацией о видео */
+.video-info-container {
+    background: rgba(0, 0, 0, 0.25);
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    margin-bottom: 30px;
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+.video-info-tabs {
+    display: flex;
+    flex-direction: column;
+}
+
+.video-tabs {
+    background: rgba(0, 0, 0, 0.3);
+    border-bottom: none;
+    padding: 0 20px;
+}
+
+.video-tabs .nav-link {
+    color: rgba(255, 255, 255, 0.7);
+    border: none;
+    padding: 15px 20px;
+    font-weight: 500;
+    border-radius: 0;
+    transition: all 0.3s ease;
+}
+
+.video-tabs .nav-link:hover {
+    color: white;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.video-tabs .nav-link.active {
+    color: white;
+    background: transparent;
+    border-bottom: 3px solid #31C0FF;
+}
+
+.video-info-content {
+    padding: 30px;
+}
+
+.video-info-content h3 {
+    font-size: 1.8rem;
+    margin-bottom: 20px;
+    color: white;
+    font-weight: 600;
+}
+
+/* Таймлайны */
+.timestamps-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.timestamp-item {
+    display: flex;
+    align-items: center;
+    padding: 12px 20px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.timestamp-item:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateX(5px);
+}
+
+.timestamp-time {
+    font-family: monospace;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #31C0FF;
+    margin-right: 15px;
+    padding-right: 15px;
+    border-right: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.timestamp-label {
+    font-size: 1rem;
+    color: white;
+}
+
+/* Закладки */
+.bookmarks-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.bookmark-item {
+    display: flex;
+    align-items: center;
+    padding: 12px 20px;
+    background: rgba(255, 156, 0, 0.1);
+    border: 1px solid rgba(255, 156, 0, 0.2);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.bookmark-item:hover {
+    background: rgba(255, 156, 0, 0.2);
+    transform: translateX(5px);
+}
+
+.bookmark-time {
+    font-family: monospace;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #ff9c00;
+    margin-right: 15px;
+    padding-right: 15px;
+    border-right: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.bookmark-label {
+    font-size: 1rem;
+    color: white;
+    flex-grow: 1;
+}
+
+.bookmark-delete {
+    background: none;
+    border: none;
+    color: rgba(255, 255, 255, 0.5);
+    cursor: pointer;
+    transition: color 0.2s ease;
+    padding: 5px;
+}
+
+.bookmark-delete:hover {
+    color: #ff4d4d;
+}
+
+.no-bookmarks-message {
+    color: rgba(255, 255, 255, 0.6);
+    font-style: italic;
+    text-align: center;
+    padding: 20px;
+}
+
+/* Адаптивные стили */
+@media (max-width: 768px) {
+    .video-controls-row {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .playback-speed-control {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+    
+    .video-bookmark-control {
+        width: 100%;
+    }
+    
+    .bookmark-button {
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .video-tabs .nav-link {
+        padding: 10px 15px;
+        font-size: 0.9rem;
+    }
+    
+    .video-info-content {
+        padding: 20px;
+    }
 } 

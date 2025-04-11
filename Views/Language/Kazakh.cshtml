@@ -1,56 +1,299 @@
+@using Microsoft.AspNetCore.Localization
+@using System.Globalization
 @{
-    ViewData["Title"] = "Казахский язык";
+    // Получаем текущую культуру
+    var requestCulture = Context.Features.Get<IRequestCultureFeature>();
+    var cultureTwoLetter = requestCulture?.RequestCulture.Culture.TwoLetterISOLanguageName ?? "ru";
+    
+    var titleText = cultureTwoLetter switch
+    {
+        "ru" => "Казахский язык",
+        "kk" => "Қазақ тілі",
+        "en" => "Kazakh Language",
+        "tr" => "Kazak Dili",
+        _ => "Kazakh Language"
+    };
+    
+    ViewData["Title"] = titleText;
 }
 
 <div class="container language-page">
     <div class="language-header" style="background-color: rgb(37,37,56);">
-        <h1>Казахский язык</h1>
-        <p class="lead">Қазақ тілі - государственный язык Республики Казахстан</p>
+        <h1>
+            @{
+                var headerText = cultureTwoLetter switch
+                {
+                    "ru" => "Казахский язык",
+                    "kk" => "Қазақ тілі",
+                    "en" => "Kazakh Language",
+                    "tr" => "Kazak Dili",
+                    _ => "Kazakh Language"
+                };
+            }
+            @headerText
+        </h1>
+        <p class="lead">
+            @{
+                var leadText = cultureTwoLetter switch
+                {
+                    "ru" => "Қазақ тілі - государственный язык Республики Казахстан",
+                    "kk" => "Қазақ тілі - Қазақстан Республикасының мемлекеттік тілі",
+                    "en" => "Kazakh language - the official language of the Republic of Kazakhstan",
+                    "tr" => "Kazak dili - Kazakistan Cumhuriyeti'nin resmi dili",
+                    _ => "Kazakh language - the official language of the Republic of Kazakhstan"
+                };
+            }
+            @leadText
+        </p>
     </div>
 
     <div class="levels-section">
-        <h2>Выберите свой уровень</h2>
+        <h2>
+            @{
+                var chooseLevelText = cultureTwoLetter switch
+                {
+                    "ru" => "Выберите свой уровень",
+                    "kk" => "Деңгейіңізді таңдаңыз",
+                    "en" => "Choose Your Level",
+                    "tr" => "Seviyenizi Seçin",
+                    _ => "Choose Your Level"
+                };
+            }
+            @chooseLevelText
+        </h2>
         <div class="level-cards">
             <div class="level-card">
-                <h3>A1 - Начальный</h3>
-                <p>Базовые фразы и простое общение</p>
-                <a href="/Test/Level?language=kk&level=A1" class="btn btn-primary">Начать</a>
+                <h3>A1 - 
+                    @{
+                        var beginnerText = cultureTwoLetter switch
+                        {
+                            "ru" => "Начальный",
+                            "kk" => "Бастауыш",
+                            "en" => "Beginner",
+                            "tr" => "Başlangıç",
+                            _ => "Beginner"
+                        };
+                    }
+                    @beginnerText
+                </h3>
+                <p>
+                    @{
+                        var beginnerDescText = cultureTwoLetter switch
+                        {
+                            "ru" => "Базовые фразы и простое общение",
+                            "kk" => "Негізгі сөйлемдер және қарапайым қарым-қатынас",
+                            "en" => "Basic phrases and simple communication",
+                            "tr" => "Temel ifadeler ve basit iletişim",
+                            _ => "Basic phrases and simple communication"
+                        };
+                    }
+                    @beginnerDescText
+                </p>
+                <a href="/Test/Level?language=kk&level=A1" class="btn btn-primary">
+                    @{
+                        var startText = cultureTwoLetter switch
+                        {
+                            "ru" => "Начать",
+                            "kk" => "Бастау",
+                            "en" => "Start",
+                            "tr" => "Başla",
+                            _ => "Start"
+                        };
+                    }
+                    @startText
+                </a>
             </div>
             <div class="level-card">
-                <h3>A2 - Элементарный</h3>
-                <p>Простые диалоги и тексты</p>
-                <a href="/Test/Level?language=kk&level=A2" class="btn btn-primary">Начать</a>
+                <h3>A2 - 
+                    @{
+                        var elementaryText = cultureTwoLetter switch
+                        {
+                            "ru" => "Элементарный",
+                            "kk" => "Қарапайым",
+                            "en" => "Elementary",
+                            "tr" => "Temel",
+                            _ => "Elementary"
+                        };
+                    }
+                    @elementaryText
+                </h3>
+                <p>
+                    @{
+                        var elementaryDescText = cultureTwoLetter switch
+                        {
+                            "ru" => "Простые диалоги и тексты",
+                            "kk" => "Қарапайым диалогтар мен мәтіндер",
+                            "en" => "Simple dialogues and texts",
+                            "tr" => "Basit diyaloglar ve metinler",
+                            _ => "Simple dialogues and texts"
+                        };
+                    }
+                    @elementaryDescText
+                </p>
+                <a href="/Test/Level?language=kk&level=A2" class="btn btn-primary">@startText</a>
             </div>
             <div class="level-card">
-                <h3>B1 - Средний</h3>
-                <p>Свободное общение на бытовые темы</p>
-                <a href="/Test/Level?language=kk&level=B1" class="btn btn-primary">Начать</a>
+                <h3>B1 - 
+                    @{
+                        var intermediateText = cultureTwoLetter switch
+                        {
+                            "ru" => "Средний",
+                            "kk" => "Орта",
+                            "en" => "Intermediate",
+                            "tr" => "Orta",
+                            _ => "Intermediate"
+                        };
+                    }
+                    @intermediateText
+                </h3>
+                <p>
+                    @{
+                        var intermediateDescText = cultureTwoLetter switch
+                        {
+                            "ru" => "Свободное общение на бытовые темы",
+                            "kk" => "Күнделікті тақырыптарға еркін сөйлесу",
+                            "en" => "Everyday communication",
+                            "tr" => "Günlük iletişim",
+                            _ => "Everyday communication"
+                        };
+                    }
+                    @intermediateDescText
+                </p>
+                <a href="/Test/Level?language=kk&level=B1" class="btn btn-primary">@startText</a>
             </div>
             <div class="level-card">
-                <h3>B2 - Выше среднего</h3>
-                <p>Сложные тексты и дискуссии</p>
-                <a href="/Test/Level?language=kk&level=B2" class="btn btn-primary">Начать</a>
+                <h3>B2 - 
+                    @{
+                        var upperIntermediateText = cultureTwoLetter switch
+                        {
+                            "ru" => "Выше среднего",
+                            "kk" => "Ортадан жоғары",
+                            "en" => "Upper Intermediate",
+                            "tr" => "İleri",
+                            _ => "Upper Intermediate"
+                        };
+                    }
+                    @upperIntermediateText
+                </h3>
+                <p>
+                    @{
+                        var upperIntermediateDescText = cultureTwoLetter switch
+                        {
+                            "ru" => "Сложные тексты и дискуссии",
+                            "kk" => "Күрделі мәтіндер мен талқылаулар",
+                            "en" => "Complex texts and discussions",
+                            "tr" => "Karmaşık metinler ve tartışmalar",
+                            _ => "Complex texts and discussions"
+                        };
+                    }
+                    @upperIntermediateDescText
+                </p>
+                <a href="/Test/Level?language=kk&level=B2" class="btn btn-primary">@startText</a>
             </div>
         </div>
     </div>
 
     <div class="resources-section">
-        <h2>Дополнительные материалы</h2>
+        <h2>
+            @{
+                var additionalResourcesText = cultureTwoLetter switch
+                {
+                    "ru" => "Дополнительные материалы",
+                    "kk" => "Қосымша материалдар",
+                    "en" => "Additional Resources",
+                    "tr" => "Ek Kaynaklar",
+                    _ => "Additional Resources"
+                };
+            }
+            @additionalResourcesText
+        </h2>
         <div class="resources-grid">
             <a href="/Video/Kazakh" class="resource-card">
                 <i class="fas fa-video"></i>
-                <h3>Видеоуроки</h3>
-                <p>Обучающие видео от носителей языка</p>
+                <h3>
+                    @{
+                        var videoLessonsText = cultureTwoLetter switch
+                        {
+                            "ru" => "Видеоуроки",
+                            "kk" => "Бейнесабақтар",
+                            "en" => "Video Lessons",
+                            "tr" => "Video Dersler",
+                            _ => "Video Lessons"
+                        };
+                    }
+                    @videoLessonsText
+                </h3>
+                <p>
+                    @{
+                        var learnFromNativeText = cultureTwoLetter switch
+                        {
+                            "ru" => "Обучающие видео от носителей языка",
+                            "kk" => "Тілді ана тілі ретінде білетіндерден бейнесабақтар",
+                            "en" => "Learn from native speakers",
+                            "tr" => "Ana dili konuşanlardan öğrenin",
+                            _ => "Learn from native speakers"
+                        };
+                    }
+                    @learnFromNativeText
+                </p>
             </a>
             <a href="#" class="resource-card">
                 <i class="fas fa-book"></i>
-                <h3>Учебные материалы</h3>
-                <p>Грамматика и упражнения</p>
+                <h3>
+                    @{
+                        var studyMaterialsText = cultureTwoLetter switch
+                        {
+                            "ru" => "Учебные материалы",
+                            "kk" => "Оқу материалдары",
+                            "en" => "Study Materials",
+                            "tr" => "Çalışma Materyalleri",
+                            _ => "Study Materials"
+                        };
+                    }
+                    @studyMaterialsText
+                </h3>
+                <p>
+                    @{
+                        var grammarExercisesText = cultureTwoLetter switch
+                        {
+                            "ru" => "Грамматика и упражнения",
+                            "kk" => "Грамматика және жаттығулар",
+                            "en" => "Grammar and exercises",
+                            "tr" => "Dilbilgisi ve alıştırmalar",
+                            _ => "Grammar and exercises"
+                        };
+                    }
+                    @grammarExercisesText
+                </p>
             </a>
             <a href="#" class="resource-card">
                 <i class="fas fa-comments"></i>
-                <h3>Разговорная практика</h3>
-                <p>Диалоги и произношение</p>
+                <h3>
+                    @{
+                        var speakingPracticeText = cultureTwoLetter switch
+                        {
+                            "ru" => "Разговорная практика",
+                            "kk" => "Сөйлеу тәжірибесі",
+                            "en" => "Speaking Practice",
+                            "tr" => "Konuşma Pratiği",
+                            _ => "Speaking Practice"
+                        };
+                    }
+                    @speakingPracticeText
+                </h3>
+                <p>
+                    @{
+                        var dialoguesPronunciationText = cultureTwoLetter switch
+                        {
+                            "ru" => "Диалоги и произношение",
+                            "kk" => "Диалогтар мен айтылым",
+                            "en" => "Dialogues and pronunciation",
+                            "tr" => "Diyaloglar ve telaffuz",
+                            _ => "Dialogues and pronunciation"
+                        };
+                    }
+                    @dialoguesPronunciationText
+                </p>
             </a>
         </div>
     </div>

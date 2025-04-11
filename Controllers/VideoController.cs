@@ -7,6 +7,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Security.Claims;
+using Microsoft.Extensions.Localization;
+using LanguageCourse.Resources;
 
 namespace WebApplication15.Controllers
 {
@@ -17,18 +19,21 @@ namespace WebApplication15.Controllers
         private readonly ThemeService _themeService;
         private readonly AuthService _authService;
         private readonly VideoService _videoService;
+        private readonly IStringLocalizer<SharedResource> _localizer;
 
         public VideoController(ApplicationDbContext context, 
                               LanguageService languageService,
                               ThemeService themeService,
                               AuthService authService,
-                              VideoService videoService)
+                              VideoService videoService,
+                              IStringLocalizer<SharedResource> localizer)
         {
             _context = context;
             _languageService = languageService;
             _themeService = themeService;
             _authService = authService;
             _videoService = videoService;
+            _localizer = localizer;
         }
 
         // GET: /Video

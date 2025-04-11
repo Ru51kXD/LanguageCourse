@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "rcpcbZ5CVV4NByKhTyJSk+E04XURghTwqFQY5BkNlc8=",
+  "Hash": "w/OEioAf74sjG4gPUitoZTi+gTIKibFMQZzC6Lsc+Kg=",
   "Source": "WebApplication15",
   "BasePath": "_content/WebApplication15",
   "Mode": "Default",
@@ -143,12 +143,12 @@
       "OriginalItemSpec": "C:\\Users\\user\\OneDrive\\Рабочий стол\\Новая папка (4)\\LanguageCourse\\wwwroot\\css\\login-vertical.css"
     },
     {
-      "Identity": "C:\\Users\\user\\OneDrive\\Рабочий стол\\Новая папка (4)\\LanguageCourse\\obj\\Debug\\net9.0\\compressed\\30yr3w7u55-se85ze333p.gz",
+      "Identity": "C:\\Users\\user\\OneDrive\\Рабочий стол\\Новая папка (4)\\LanguageCourse\\obj\\Debug\\net9.0\\compressed\\30yr3w7u55-azzivehoc0.gz",
       "SourceId": "WebApplication15",
       "SourceType": "Discovered",
       "ContentRoot": "C:\\Users\\user\\OneDrive\\Рабочий стол\\Новая папка (4)\\LanguageCourse\\obj\\Debug\\net9.0\\compressed\\",
       "BasePath": "_content/WebApplication15",
-      "RelativePath": "css/language-info#[.{fingerprint=se85ze333p}]?.css.gz",
+      "RelativePath": "css/language-info#[.{fingerprint=azzivehoc0}]?.css.gz",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Alternative",
@@ -157,8 +157,8 @@
       "RelatedAsset": "C:\\Users\\user\\OneDrive\\Рабочий стол\\Новая папка (4)\\LanguageCourse\\wwwroot\\css\\language-info.css",
       "AssetTraitName": "Content-Encoding",
       "AssetTraitValue": "gzip",
-      "Fingerprint": "aikpppav9m",
-      "Integrity": "ElEeO2ONCbRTkWxqx/6Ve2mCJokk3KjYq9OMVdY9QzM=",
+      "Fingerprint": "9qp0qt6uba",
+      "Integrity": "QVBI3X6RYRtwdFWzrQSe4ZLpD6Nrfgkffp/hn7Gu0xk=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "C:\\Users\\user\\OneDrive\\Рабочий стол\\Новая папка (4)\\LanguageCourse\\wwwroot\\css\\language-info.css"
@@ -1046,12 +1046,12 @@
       "OriginalItemSpec": "C:\\Users\\user\\OneDrive\\Рабочий стол\\Новая папка (4)\\LanguageCourse\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.css.map"
     },
     {
-      "Identity": "C:\\Users\\user\\OneDrive\\Рабочий стол\\Новая папка (4)\\LanguageCourse\\obj\\Debug\\net9.0\\compressed\\lrndgnrpmm-hmsbx4g7i1.gz",
+      "Identity": "C:\\Users\\user\\OneDrive\\Рабочий стол\\Новая папка (4)\\LanguageCourse\\obj\\Debug\\net9.0\\compressed\\lrndgnrpmm-a72nf64wrd.gz",
       "SourceId": "WebApplication15",
       "SourceType": "Discovered",
       "ContentRoot": "C:\\Users\\user\\OneDrive\\Рабочий стол\\Новая папка (4)\\LanguageCourse\\obj\\Debug\\net9.0\\compressed\\",
       "BasePath": "_content/WebApplication15",
-      "RelativePath": "css/video-details#[.{fingerprint=hmsbx4g7i1}]?.css.gz",
+      "RelativePath": "css/video-details#[.{fingerprint=a72nf64wrd}]?.css.gz",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Alternative",
@@ -1060,8 +1060,8 @@
       "RelatedAsset": "C:\\Users\\user\\OneDrive\\Рабочий стол\\Новая папка (4)\\LanguageCourse\\wwwroot\\css\\video-details.css",
       "AssetTraitName": "Content-Encoding",
       "AssetTraitValue": "gzip",
-      "Fingerprint": "u1tghfn822",
-      "Integrity": "7ktKyr9fUM288ncCpdkQ0c1dIAY6OsncTI+p8kgbGUw=",
+      "Fingerprint": "gxqqdfj19p",
+      "Integrity": "1EMJ6hTq7/EgbrePSpdWfZJVlknE3cfzQ9wmr+sXeoA=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "C:\\Users\\user\\OneDrive\\Рабочий стол\\Новая папка (4)\\LanguageCourse\\wwwroot\\css\\video-details.css"
@@ -1319,12 +1319,12 @@
       "OriginalItemSpec": "C:\\Users\\user\\OneDrive\\Рабочий стол\\Новая папка (4)\\LanguageCourse\\wwwroot\\images\\empty-state.svg"
     },
     {
-      "Identity": "C:\\Users\\user\\OneDrive\\Рабочий стол\\Новая папка (4)\\LanguageCourse\\obj\\Debug\\net9.0\\compressed\\rgyc60bnt6-2jo65582r7.gz",
+      "Identity": "C:\\Users\\user\\OneDrive\\Рабочий стол\\Новая папка (4)\\LanguageCourse\\obj\\Debug\\net9.0\\compressed\\rgyc60bnt6-5bdq2c7sj1.gz",
       "SourceId": "WebApplication15",
       "SourceType": "Discovered",
       "ContentRoot": "C:\\Users\\user\\OneDrive\\Рабочий стол\\Новая папка (4)\\LanguageCourse\\obj\\Debug\\net9.0\\compressed\\",
       "BasePath": "_content/WebApplication15",
-      "RelativePath": "css/site#[.{fingerprint=2jo65582r7}]?.css.gz",
+      "RelativePath": "css/site#[.{fingerprint=5bdq2c7sj1}]?.css.gz",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Alternative",
@@ -1333,8 +1333,8 @@
       "RelatedAsset": "C:\\Users\\user\\OneDrive\\Рабочий стол\\Новая папка (4)\\LanguageCourse\\wwwroot\\css\\site.css",
       "AssetTraitName": "Content-Encoding",
       "AssetTraitValue": "gzip",
-      "Fingerprint": "uaylz319d6",
-      "Integrity": "5t+UzPEqWNJ1kczcAqlun76E3yeQm5op6sjwPOuAUTU=",
+      "Fingerprint": "njq4lxtb90",
+      "Integrity": "Y0jX3ZJcxbIeGIwm9c38jdEdIR99AbE8IAL3RlxPiMg=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "C:\\Users\\user\\OneDrive\\Рабочий стол\\Новая папка (4)\\LanguageCourse\\wwwroot\\css\\site.css"
@@ -1900,8 +1900,8 @@
       "RelatedAsset": "",
       "AssetTraitName": "",
       "AssetTraitValue": "",
-      "Fingerprint": "se85ze333p",
-      "Integrity": "1KT4yXLAM+ocZfUBGt7iKNfxXOe3ERh0b0PnRMHX31s=",
+      "Fingerprint": "azzivehoc0",
+      "Integrity": "pg3fRP6iSVQ4XfhIgbqGsjsLwqrTvZgArvGWBuOEFO8=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\css\\language-info.css"
@@ -1984,8 +1984,8 @@
       "RelatedAsset": "",
       "AssetTraitName": "",
       "AssetTraitValue": "",
-      "Fingerprint": "2jo65582r7",
-      "Integrity": "UuXp6A43jL+t9dK5YaiOKQWol7LGQrwEhtmLtuAh2uw=",
+      "Fingerprint": "5bdq2c7sj1",
+      "Integrity": "H9i6u8bQvI+pSU3UnGxSyO/J32f/cnBotH/qcp1KlYw=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\css\\site.css"
@@ -2131,8 +2131,8 @@
       "RelatedAsset": "",
       "AssetTraitName": "",
       "AssetTraitValue": "",
-      "Fingerprint": "hmsbx4g7i1",
-      "Integrity": "V4k06UY6hozqwfN8JEzkCmj731+BlMp5xcqoghr6qNE=",
+      "Fingerprint": "a72nf64wrd",
+      "Integrity": "5vETFcDCsAENpwGgnnLecJr9nxl8oJQ3fKxnbR+id1g=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\css\\video-details.css"
@@ -5142,13 +5142,13 @@
       ]
     },
     {
-      "Route": "css/language-info.css",
-      "AssetFile": "C:\\Users\\user\\OneDrive\\Рабочий стол\\Новая папка (4)\\LanguageCourse\\obj\\Debug\\net9.0\\compressed\\30yr3w7u55-se85ze333p.gz",
+      "Route": "css/language-info.azzivehoc0.css",
+      "AssetFile": "C:\\Users\\user\\OneDrive\\Рабочий стол\\Новая папка (4)\\LanguageCourse\\obj\\Debug\\net9.0\\compressed\\30yr3w7u55-azzivehoc0.gz",
       "Selectors": [
         {
           "Name": "Content-Encoding",
           "Value": "gzip",
-          "Quality": "0.000352236703"
+          "Quality": "0.000354861604"
         }
       ],
       "ResponseHeaders": [
@@ -5158,19 +5158,19 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "2838"
+          "Value": "2817"
         },
         {
           "Name": "ETag",
-          "Value": "\"ElEeO2ONCbRTkWxqx/6Ve2mCJokk3KjYq9OMVdY9QzM=\""
+          "Value": "\"QVBI3X6RYRtwdFWzrQSe4ZLpD6Nrfgkffp/hn7Gu0xk=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Wed, 09 Apr 2025 23:01:18 GMT"
+          "Value": "Thu, 10 Apr 2025 17:16:11 GMT"
         },
         {
           "Name": "Cache-Control",
-          "Value": "no-cache"
+          "Value": "max-age=31536000, immutable"
         },
         {
           "Name": "Content-Encoding",
@@ -5186,18 +5186,26 @@
         },
         {
           "Name": "ETag",
-          "Value": "W/\"1KT4yXLAM+ocZfUBGt7iKNfxXOe3ERh0b0PnRMHX31s=\""
+          "Value": "W/\"pg3fRP6iSVQ4XfhIgbqGsjsLwqrTvZgArvGWBuOEFO8=\""
         }
       ],
       "EndpointProperties": [
         {
+          "Name": "fingerprint",
+          "Value": "azzivehoc0"
+        },
+        {
+          "Name": "label",
+          "Value": "css/language-info.css"
+        },
+        {
           "Name": "integrity",
-          "Value": "sha256-1KT4yXLAM+ocZfUBGt7iKNfxXOe3ERh0b0PnRMHX31s="
+          "Value": "sha256-pg3fRP6iSVQ4XfhIgbqGsjsLwqrTvZgArvGWBuOEFO8="
         }
       ]
     },
     {
-      "Route": "css/language-info.css",
+      "Route": "css/language-info.azzivehoc0.css",
       "AssetFile": "C:\\Users\\user\\OneDrive\\Рабочий стол\\Новая папка (4)\\LanguageCourse\\wwwroot\\css\\language-info.css",
       "Selectors": [],
       "ResponseHeaders": [
@@ -5207,7 +5215,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "14056"
+          "Value": "13394"
         },
         {
           "Name": "Content-Type",
@@ -5215,121 +5223,21 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"1KT4yXLAM+ocZfUBGt7iKNfxXOe3ERh0b0PnRMHX31s=\""
+          "Value": "\"pg3fRP6iSVQ4XfhIgbqGsjsLwqrTvZgArvGWBuOEFO8=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Wed, 09 Apr 2025 23:01:18 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "no-cache"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "integrity",
-          "Value": "sha256-1KT4yXLAM+ocZfUBGt7iKNfxXOe3ERh0b0PnRMHX31s="
-        }
-      ]
-    },
-    {
-      "Route": "css/language-info.css.gz",
-      "AssetFile": "C:\\Users\\user\\OneDrive\\Рабочий стол\\Новая папка (4)\\LanguageCourse\\obj\\Debug\\net9.0\\compressed\\30yr3w7u55-se85ze333p.gz",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "2838"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/css"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"ElEeO2ONCbRTkWxqx/6Ve2mCJokk3KjYq9OMVdY9QzM=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Wed, 09 Apr 2025 23:01:18 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "no-cache"
-        },
-        {
-          "Name": "Content-Encoding",
-          "Value": "gzip"
-        },
-        {
-          "Name": "Vary",
-          "Value": "Content-Encoding"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "integrity",
-          "Value": "sha256-ElEeO2ONCbRTkWxqx/6Ve2mCJokk3KjYq9OMVdY9QzM="
-        }
-      ]
-    },
-    {
-      "Route": "css/language-info.se85ze333p.css",
-      "AssetFile": "C:\\Users\\user\\OneDrive\\Рабочий стол\\Новая папка (4)\\LanguageCourse\\obj\\Debug\\net9.0\\compressed\\30yr3w7u55-se85ze333p.gz",
-      "Selectors": [
-        {
-          "Name": "Content-Encoding",
-          "Value": "gzip",
-          "Quality": "0.000352236703"
-        }
-      ],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "2838"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"ElEeO2ONCbRTkWxqx/6Ve2mCJokk3KjYq9OMVdY9QzM=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Wed, 09 Apr 2025 23:01:18 GMT"
+          "Value": "Thu, 10 Apr 2025 17:16:11 GMT"
         },
         {
           "Name": "Cache-Control",
           "Value": "max-age=31536000, immutable"
-        },
-        {
-          "Name": "Content-Encoding",
-          "Value": "gzip"
-        },
-        {
-          "Name": "Vary",
-          "Value": "Content-Encoding"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/css"
-        },
-        {
-          "Name": "ETag",
-          "Value": "W/\"1KT4yXLAM+ocZfUBGt7iKNfxXOe3ERh0b0PnRMHX31s=\""
         }
       ],
       "EndpointProperties": [
         {
           "Name": "fingerprint",
-          "Value": "se85ze333p"
+          "Value": "azzivehoc0"
         },
         {
           "Name": "label",
@@ -5337,13 +5245,13 @@
         },
         {
           "Name": "integrity",
-          "Value": "sha256-1KT4yXLAM+ocZfUBGt7iKNfxXOe3ERh0b0PnRMHX31s="
+          "Value": "sha256-pg3fRP6iSVQ4XfhIgbqGsjsLwqrTvZgArvGWBuOEFO8="
         }
       ]
     },
     {
-      "Route": "css/language-info.se85ze333p.css",
-      "AssetFile": "C:\\Users\\user\\OneDrive\\Рабочий стол\\Новая папка (4)\\LanguageCourse\\wwwroot\\css\\language-info.css",
+      "Route": "css/language-info.azzivehoc0.css.gz",
+      "AssetFile": "C:\\Users\\user\\OneDrive\\Рабочий стол\\Новая папка (4)\\LanguageCourse\\obj\\Debug\\net9.0\\compressed\\30yr3w7u55-azzivehoc0.gz",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -5352,7 +5260,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "14056"
+          "Value": "2817"
         },
         {
           "Name": "Content-Type",
@@ -5360,56 +5268,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"1KT4yXLAM+ocZfUBGt7iKNfxXOe3ERh0b0PnRMHX31s=\""
+          "Value": "\"QVBI3X6RYRtwdFWzrQSe4ZLpD6Nrfgkffp/hn7Gu0xk=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Wed, 09 Apr 2025 23:01:18 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "max-age=31536000, immutable"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "fingerprint",
-          "Value": "se85ze333p"
-        },
-        {
-          "Name": "label",
-          "Value": "css/language-info.css"
-        },
-        {
-          "Name": "integrity",
-          "Value": "sha256-1KT4yXLAM+ocZfUBGt7iKNfxXOe3ERh0b0PnRMHX31s="
-        }
-      ]
-    },
-    {
-      "Route": "css/language-info.se85ze333p.css.gz",
-      "AssetFile": "C:\\Users\\user\\OneDrive\\Рабочий стол\\Новая папка (4)\\LanguageCourse\\obj\\Debug\\net9.0\\compressed\\30yr3w7u55-se85ze333p.gz",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "2838"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/css"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"ElEeO2ONCbRTkWxqx/6Ve2mCJokk3KjYq9OMVdY9QzM=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Wed, 09 Apr 2025 23:01:18 GMT"
+          "Value": "Thu, 10 Apr 2025 17:16:11 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -5427,7 +5290,7 @@
       "EndpointProperties": [
         {
           "Name": "fingerprint",
-          "Value": "se85ze333p"
+          "Value": "azzivehoc0"
         },
         {
           "Name": "label",
@@ -5435,7 +5298,144 @@
         },
         {
           "Name": "integrity",
-          "Value": "sha256-ElEeO2ONCbRTkWxqx/6Ve2mCJokk3KjYq9OMVdY9QzM="
+          "Value": "sha256-QVBI3X6RYRtwdFWzrQSe4ZLpD6Nrfgkffp/hn7Gu0xk="
+        }
+      ]
+    },
+    {
+      "Route": "css/language-info.css",
+      "AssetFile": "C:\\Users\\user\\OneDrive\\Рабочий стол\\Новая папка (4)\\LanguageCourse\\obj\\Debug\\net9.0\\compressed\\30yr3w7u55-azzivehoc0.gz",
+      "Selectors": [
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip",
+          "Quality": "0.000354861604"
+        }
+      ],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "2817"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"QVBI3X6RYRtwdFWzrQSe4ZLpD6Nrfgkffp/hn7Gu0xk=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 10 Apr 2025 17:16:11 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "W/\"pg3fRP6iSVQ4XfhIgbqGsjsLwqrTvZgArvGWBuOEFO8=\""
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-pg3fRP6iSVQ4XfhIgbqGsjsLwqrTvZgArvGWBuOEFO8="
+        }
+      ]
+    },
+    {
+      "Route": "css/language-info.css",
+      "AssetFile": "C:\\Users\\user\\OneDrive\\Рабочий стол\\Новая папка (4)\\LanguageCourse\\wwwroot\\css\\language-info.css",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "13394"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"pg3fRP6iSVQ4XfhIgbqGsjsLwqrTvZgArvGWBuOEFO8=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 10 Apr 2025 17:16:11 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-pg3fRP6iSVQ4XfhIgbqGsjsLwqrTvZgArvGWBuOEFO8="
+        }
+      ]
+    },
+    {
+      "Route": "css/language-info.css.gz",
+      "AssetFile": "C:\\Users\\user\\OneDrive\\Рабочий стол\\Новая папка (4)\\LanguageCourse\\obj\\Debug\\net9.0\\compressed\\30yr3w7u55-azzivehoc0.gz",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "2817"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"QVBI3X6RYRtwdFWzrQSe4ZLpD6Nrfgkffp/hn7Gu0xk=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 10 Apr 2025 17:16:11 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-QVBI3X6RYRtwdFWzrQSe4ZLpD6Nrfgkffp/hn7Gu0xk="
         }
       ]
     },
@@ -6334,13 +6334,13 @@
       ]
     },
     {
-      "Route": "css/site.2jo65582r7.css",
-      "AssetFile": "C:\\Users\\user\\OneDrive\\Рабочий стол\\Новая папка (4)\\LanguageCourse\\obj\\Debug\\net9.0\\compressed\\rgyc60bnt6-2jo65582r7.gz",
+      "Route": "css/site.5bdq2c7sj1.css",
+      "AssetFile": "C:\\Users\\user\\OneDrive\\Рабочий стол\\Новая папка (4)\\LanguageCourse\\obj\\Debug\\net9.0\\compressed\\rgyc60bnt6-5bdq2c7sj1.gz",
       "Selectors": [
         {
           "Name": "Content-Encoding",
           "Value": "gzip",
-          "Quality": "0.000175162025"
+          "Quality": "0.000170969396"
         }
       ],
       "ResponseHeaders": [
@@ -6350,15 +6350,15 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "5708"
+          "Value": "5848"
         },
         {
           "Name": "ETag",
-          "Value": "\"5t+UzPEqWNJ1kczcAqlun76E3yeQm5op6sjwPOuAUTU=\""
+          "Value": "\"Y0jX3ZJcxbIeGIwm9c38jdEdIR99AbE8IAL3RlxPiMg=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Wed, 09 Apr 2025 23:23:07 GMT"
+          "Value": "Fri, 11 Apr 2025 15:59:02 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -6378,13 +6378,13 @@
         },
         {
           "Name": "ETag",
-          "Value": "W/\"UuXp6A43jL+t9dK5YaiOKQWol7LGQrwEhtmLtuAh2uw=\""
+          "Value": "W/\"H9i6u8bQvI+pSU3UnGxSyO/J32f/cnBotH/qcp1KlYw=\""
         }
       ],
       "EndpointProperties": [
         {
           "Name": "fingerprint",
-          "Value": "2jo65582r7"
+          "Value": "5bdq2c7sj1"
         },
         {
           "Name": "label",
@@ -6392,12 +6392,12 @@
         },
         {
           "Name": "integrity",
-          "Value": "sha256-UuXp6A43jL+t9dK5YaiOKQWol7LGQrwEhtmLtuAh2uw="
+          "Value": "sha256-H9i6u8bQvI+pSU3UnGxSyO/J32f/cnBotH/qcp1KlYw="
         }
       ]
     },
     {
-      "Route": "css/site.2jo65582r7.css",
+      "Route": "css/site.5bdq2c7sj1.css",
       "AssetFile": "C:\\Users\\user\\OneDrive\\Рабочий стол\\Новая папка (4)\\LanguageCourse\\wwwroot\\css\\site.css",
       "Selectors": [],
       "ResponseHeaders": [
@@ -6407,7 +6407,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "27784"
+          "Value": "27466"
         },
         {
           "Name": "Content-Type",
@@ -6415,11 +6415,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"UuXp6A43jL+t9dK5YaiOKQWol7LGQrwEhtmLtuAh2uw=\""
+          "Value": "\"H9i6u8bQvI+pSU3UnGxSyO/J32f/cnBotH/qcp1KlYw=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Wed, 09 Apr 2025 23:23:07 GMT"
+          "Value": "Fri, 11 Apr 2025 15:59:02 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -6429,7 +6429,7 @@
       "EndpointProperties": [
         {
           "Name": "fingerprint",
-          "Value": "2jo65582r7"
+          "Value": "5bdq2c7sj1"
         },
         {
           "Name": "label",
@@ -6437,13 +6437,13 @@
         },
         {
           "Name": "integrity",
-          "Value": "sha256-UuXp6A43jL+t9dK5YaiOKQWol7LGQrwEhtmLtuAh2uw="
+          "Value": "sha256-H9i6u8bQvI+pSU3UnGxSyO/J32f/cnBotH/qcp1KlYw="
         }
       ]
     },
     {
-      "Route": "css/site.2jo65582r7.css.gz",
-      "AssetFile": "C:\\Users\\user\\OneDrive\\Рабочий стол\\Новая папка (4)\\LanguageCourse\\obj\\Debug\\net9.0\\compressed\\rgyc60bnt6-2jo65582r7.gz",
+      "Route": "css/site.5bdq2c7sj1.css.gz",
+      "AssetFile": "C:\\Users\\user\\OneDrive\\Рабочий стол\\Новая папка (4)\\LanguageCourse\\obj\\Debug\\net9.0\\compressed\\rgyc60bnt6-5bdq2c7sj1.gz",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -6452,7 +6452,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "5708"
+          "Value": "5848"
         },
         {
           "Name": "Content-Type",
@@ -6460,11 +6460,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"5t+UzPEqWNJ1kczcAqlun76E3yeQm5op6sjwPOuAUTU=\""
+          "Value": "\"Y0jX3ZJcxbIeGIwm9c38jdEdIR99AbE8IAL3RlxPiMg=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Wed, 09 Apr 2025 23:23:07 GMT"
+          "Value": "Fri, 11 Apr 2025 15:59:02 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -6482,7 +6482,7 @@
       "EndpointProperties": [
         {
           "Name": "fingerprint",
-          "Value": "2jo65582r7"
+          "Value": "5bdq2c7sj1"
         },
         {
           "Name": "label",
@@ -6490,18 +6490,18 @@
         },
         {
           "Name": "integrity",
-          "Value": "sha256-5t+UzPEqWNJ1kczcAqlun76E3yeQm5op6sjwPOuAUTU="
+          "Value": "sha256-Y0jX3ZJcxbIeGIwm9c38jdEdIR99AbE8IAL3RlxPiMg="
         }
       ]
     },
     {
       "Route": "css/site.css",
-      "AssetFile": "C:\\Users\\user\\OneDrive\\Рабочий стол\\Новая папка (4)\\LanguageCourse\\obj\\Debug\\net9.0\\compressed\\rgyc60bnt6-2jo65582r7.gz",
+      "AssetFile": "C:\\Users\\user\\OneDrive\\Рабочий стол\\Новая папка (4)\\LanguageCourse\\obj\\Debug\\net9.0\\compressed\\rgyc60bnt6-5bdq2c7sj1.gz",
       "Selectors": [
         {
           "Name": "Content-Encoding",
           "Value": "gzip",
-          "Quality": "0.000175162025"
+          "Quality": "0.000170969396"
         }
       ],
       "ResponseHeaders": [
@@ -6511,15 +6511,15 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "5708"
+          "Value": "5848"
         },
         {
           "Name": "ETag",
-          "Value": "\"5t+UzPEqWNJ1kczcAqlun76E3yeQm5op6sjwPOuAUTU=\""
+          "Value": "\"Y0jX3ZJcxbIeGIwm9c38jdEdIR99AbE8IAL3RlxPiMg=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Wed, 09 Apr 2025 23:23:07 GMT"
+          "Value": "Fri, 11 Apr 2025 15:59:02 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -6539,13 +6539,13 @@
         },
         {
           "Name": "ETag",
-          "Value": "W/\"UuXp6A43jL+t9dK5YaiOKQWol7LGQrwEhtmLtuAh2uw=\""
+          "Value": "W/\"H9i6u8bQvI+pSU3UnGxSyO/J32f/cnBotH/qcp1KlYw=\""
         }
       ],
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-UuXp6A43jL+t9dK5YaiOKQWol7LGQrwEhtmLtuAh2uw="
+          "Value": "sha256-H9i6u8bQvI+pSU3UnGxSyO/J32f/cnBotH/qcp1KlYw="
         }
       ]
     },
@@ -6560,7 +6560,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "27784"
+          "Value": "27466"
         },
         {
           "Name": "Content-Type",
@@ -6568,11 +6568,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"UuXp6A43jL+t9dK5YaiOKQWol7LGQrwEhtmLtuAh2uw=\""
+          "Value": "\"H9i6u8bQvI+pSU3UnGxSyO/J32f/cnBotH/qcp1KlYw=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Wed, 09 Apr 2025 23:23:07 GMT"
+          "Value": "Fri, 11 Apr 2025 15:59:02 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -6582,13 +6582,13 @@
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-UuXp6A43jL+t9dK5YaiOKQWol7LGQrwEhtmLtuAh2uw="
+          "Value": "sha256-H9i6u8bQvI+pSU3UnGxSyO/J32f/cnBotH/qcp1KlYw="
         }
       ]
     },
     {
       "Route": "css/site.css.gz",
-      "AssetFile": "C:\\Users\\user\\OneDrive\\Рабочий стол\\Новая папка (4)\\LanguageCourse\\obj\\Debug\\net9.0\\compressed\\rgyc60bnt6-2jo65582r7.gz",
+      "AssetFile": "C:\\Users\\user\\OneDrive\\Рабочий стол\\Новая папка (4)\\LanguageCourse\\obj\\Debug\\net9.0\\compressed\\rgyc60bnt6-5bdq2c7sj1.gz",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -6597,7 +6597,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "5708"
+          "Value": "5848"
         },
         {
           "Name": "Content-Type",
@@ -6605,11 +6605,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"5t+UzPEqWNJ1kczcAqlun76E3yeQm5op6sjwPOuAUTU=\""
+          "Value": "\"Y0jX3ZJcxbIeGIwm9c38jdEdIR99AbE8IAL3RlxPiMg=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Wed, 09 Apr 2025 23:23:07 GMT"
+          "Value": "Fri, 11 Apr 2025 15:59:02 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -6627,7 +6627,7 @@
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-5t+UzPEqWNJ1kczcAqlun76E3yeQm5op6sjwPOuAUTU="
+          "Value": "sha256-Y0jX3ZJcxbIeGIwm9c38jdEdIR99AbE8IAL3RlxPiMg="
         }
       ]
     },
@@ -8420,13 +8420,13 @@
       ]
     },
     {
-      "Route": "css/video-details.css",
-      "AssetFile": "C:\\Users\\user\\OneDrive\\Рабочий стол\\Новая папка (4)\\LanguageCourse\\obj\\Debug\\net9.0\\compressed\\lrndgnrpmm-hmsbx4g7i1.gz",
+      "Route": "css/video-details.a72nf64wrd.css",
+      "AssetFile": "C:\\Users\\user\\OneDrive\\Рабочий стол\\Новая папка (4)\\LanguageCourse\\obj\\Debug\\net9.0\\compressed\\lrndgnrpmm-a72nf64wrd.gz",
       "Selectors": [
         {
           "Name": "Content-Encoding",
           "Value": "gzip",
-          "Quality": "0.000391696044"
+          "Quality": "0.000300842359"
         }
       ],
       "ResponseHeaders": [
@@ -8436,19 +8436,19 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "2552"
+          "Value": "3323"
         },
         {
           "Name": "ETag",
-          "Value": "\"7ktKyr9fUM288ncCpdkQ0c1dIAY6OsncTI+p8kgbGUw=\""
+          "Value": "\"1EMJ6hTq7/EgbrePSpdWfZJVlknE3cfzQ9wmr+sXeoA=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Wed, 09 Apr 2025 22:13:59 GMT"
+          "Value": "Fri, 11 Apr 2025 17:50:32 GMT"
         },
         {
           "Name": "Cache-Control",
-          "Value": "no-cache"
+          "Value": "max-age=31536000, immutable"
         },
         {
           "Name": "Content-Encoding",
@@ -8464,18 +8464,26 @@
         },
         {
           "Name": "ETag",
-          "Value": "W/\"V4k06UY6hozqwfN8JEzkCmj731+BlMp5xcqoghr6qNE=\""
+          "Value": "W/\"5vETFcDCsAENpwGgnnLecJr9nxl8oJQ3fKxnbR+id1g=\""
         }
       ],
       "EndpointProperties": [
         {
+          "Name": "fingerprint",
+          "Value": "a72nf64wrd"
+        },
+        {
+          "Name": "label",
+          "Value": "css/video-details.css"
+        },
+        {
           "Name": "integrity",
-          "Value": "sha256-V4k06UY6hozqwfN8JEzkCmj731+BlMp5xcqoghr6qNE="
+          "Value": "sha256-5vETFcDCsAENpwGgnnLecJr9nxl8oJQ3fKxnbR+id1g="
         }
       ]
     },
     {
-      "Route": "css/video-details.css",
+      "Route": "css/video-details.a72nf64wrd.css",
       "AssetFile": "C:\\Users\\user\\OneDrive\\Рабочий стол\\Новая папка (4)\\LanguageCourse\\wwwroot\\css\\video-details.css",
       "Selectors": [],
       "ResponseHeaders": [
@@ -8485,7 +8493,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "12811"
+          "Value": "18741"
         },
         {
           "Name": "Content-Type",
@@ -8493,121 +8501,21 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"V4k06UY6hozqwfN8JEzkCmj731+BlMp5xcqoghr6qNE=\""
+          "Value": "\"5vETFcDCsAENpwGgnnLecJr9nxl8oJQ3fKxnbR+id1g=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Wed, 09 Apr 2025 22:13:59 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "no-cache"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "integrity",
-          "Value": "sha256-V4k06UY6hozqwfN8JEzkCmj731+BlMp5xcqoghr6qNE="
-        }
-      ]
-    },
-    {
-      "Route": "css/video-details.css.gz",
-      "AssetFile": "C:\\Users\\user\\OneDrive\\Рабочий стол\\Новая папка (4)\\LanguageCourse\\obj\\Debug\\net9.0\\compressed\\lrndgnrpmm-hmsbx4g7i1.gz",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "2552"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/css"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"7ktKyr9fUM288ncCpdkQ0c1dIAY6OsncTI+p8kgbGUw=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Wed, 09 Apr 2025 22:13:59 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "no-cache"
-        },
-        {
-          "Name": "Content-Encoding",
-          "Value": "gzip"
-        },
-        {
-          "Name": "Vary",
-          "Value": "Content-Encoding"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "integrity",
-          "Value": "sha256-7ktKyr9fUM288ncCpdkQ0c1dIAY6OsncTI+p8kgbGUw="
-        }
-      ]
-    },
-    {
-      "Route": "css/video-details.hmsbx4g7i1.css",
-      "AssetFile": "C:\\Users\\user\\OneDrive\\Рабочий стол\\Новая папка (4)\\LanguageCourse\\obj\\Debug\\net9.0\\compressed\\lrndgnrpmm-hmsbx4g7i1.gz",
-      "Selectors": [
-        {
-          "Name": "Content-Encoding",
-          "Value": "gzip",
-          "Quality": "0.000391696044"
-        }
-      ],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "2552"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"7ktKyr9fUM288ncCpdkQ0c1dIAY6OsncTI+p8kgbGUw=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Wed, 09 Apr 2025 22:13:59 GMT"
+          "Value": "Fri, 11 Apr 2025 17:50:32 GMT"
         },
         {
           "Name": "Cache-Control",
           "Value": "max-age=31536000, immutable"
-        },
-        {
-          "Name": "Content-Encoding",
-          "Value": "gzip"
-        },
-        {
-          "Name": "Vary",
-          "Value": "Content-Encoding"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/css"
-        },
-        {
-          "Name": "ETag",
-          "Value": "W/\"V4k06UY6hozqwfN8JEzkCmj731+BlMp5xcqoghr6qNE=\""
         }
       ],
       "EndpointProperties": [
         {
           "Name": "fingerprint",
-          "Value": "hmsbx4g7i1"
+          "Value": "a72nf64wrd"
         },
         {
           "Name": "label",
@@ -8615,13 +8523,13 @@
         },
         {
           "Name": "integrity",
-          "Value": "sha256-V4k06UY6hozqwfN8JEzkCmj731+BlMp5xcqoghr6qNE="
+          "Value": "sha256-5vETFcDCsAENpwGgnnLecJr9nxl8oJQ3fKxnbR+id1g="
         }
       ]
     },
     {
-      "Route": "css/video-details.hmsbx4g7i1.css",
-      "AssetFile": "C:\\Users\\user\\OneDrive\\Рабочий стол\\Новая папка (4)\\LanguageCourse\\wwwroot\\css\\video-details.css",
+      "Route": "css/video-details.a72nf64wrd.css.gz",
+      "AssetFile": "C:\\Users\\user\\OneDrive\\Рабочий стол\\Новая папка (4)\\LanguageCourse\\obj\\Debug\\net9.0\\compressed\\lrndgnrpmm-a72nf64wrd.gz",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -8630,7 +8538,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "12811"
+          "Value": "3323"
         },
         {
           "Name": "Content-Type",
@@ -8638,56 +8546,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"V4k06UY6hozqwfN8JEzkCmj731+BlMp5xcqoghr6qNE=\""
+          "Value": "\"1EMJ6hTq7/EgbrePSpdWfZJVlknE3cfzQ9wmr+sXeoA=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Wed, 09 Apr 2025 22:13:59 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "max-age=31536000, immutable"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "fingerprint",
-          "Value": "hmsbx4g7i1"
-        },
-        {
-          "Name": "label",
-          "Value": "css/video-details.css"
-        },
-        {
-          "Name": "integrity",
-          "Value": "sha256-V4k06UY6hozqwfN8JEzkCmj731+BlMp5xcqoghr6qNE="
-        }
-      ]
-    },
-    {
-      "Route": "css/video-details.hmsbx4g7i1.css.gz",
-      "AssetFile": "C:\\Users\\user\\OneDrive\\Рабочий стол\\Новая папка (4)\\LanguageCourse\\obj\\Debug\\net9.0\\compressed\\lrndgnrpmm-hmsbx4g7i1.gz",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "2552"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/css"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"7ktKyr9fUM288ncCpdkQ0c1dIAY6OsncTI+p8kgbGUw=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Wed, 09 Apr 2025 22:13:59 GMT"
+          "Value": "Fri, 11 Apr 2025 17:50:32 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -8705,7 +8568,7 @@
       "EndpointProperties": [
         {
           "Name": "fingerprint",
-          "Value": "hmsbx4g7i1"
+          "Value": "a72nf64wrd"
         },
         {
           "Name": "label",
@@ -8713,7 +8576,144 @@
         },
         {
           "Name": "integrity",
-          "Value": "sha256-7ktKyr9fUM288ncCpdkQ0c1dIAY6OsncTI+p8kgbGUw="
+          "Value": "sha256-1EMJ6hTq7/EgbrePSpdWfZJVlknE3cfzQ9wmr+sXeoA="
+        }
+      ]
+    },
+    {
+      "Route": "css/video-details.css",
+      "AssetFile": "C:\\Users\\user\\OneDrive\\Рабочий стол\\Новая папка (4)\\LanguageCourse\\obj\\Debug\\net9.0\\compressed\\lrndgnrpmm-a72nf64wrd.gz",
+      "Selectors": [
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip",
+          "Quality": "0.000300842359"
+        }
+      ],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "3323"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"1EMJ6hTq7/EgbrePSpdWfZJVlknE3cfzQ9wmr+sXeoA=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Fri, 11 Apr 2025 17:50:32 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "W/\"5vETFcDCsAENpwGgnnLecJr9nxl8oJQ3fKxnbR+id1g=\""
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-5vETFcDCsAENpwGgnnLecJr9nxl8oJQ3fKxnbR+id1g="
+        }
+      ]
+    },
+    {
+      "Route": "css/video-details.css",
+      "AssetFile": "C:\\Users\\user\\OneDrive\\Рабочий стол\\Новая папка (4)\\LanguageCourse\\wwwroot\\css\\video-details.css",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "18741"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"5vETFcDCsAENpwGgnnLecJr9nxl8oJQ3fKxnbR+id1g=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Fri, 11 Apr 2025 17:50:32 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-5vETFcDCsAENpwGgnnLecJr9nxl8oJQ3fKxnbR+id1g="
+        }
+      ]
+    },
+    {
+      "Route": "css/video-details.css.gz",
+      "AssetFile": "C:\\Users\\user\\OneDrive\\Рабочий стол\\Новая папка (4)\\LanguageCourse\\obj\\Debug\\net9.0\\compressed\\lrndgnrpmm-a72nf64wrd.gz",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "3323"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"1EMJ6hTq7/EgbrePSpdWfZJVlknE3cfzQ9wmr+sXeoA=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Fri, 11 Apr 2025 17:50:32 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-1EMJ6hTq7/EgbrePSpdWfZJVlknE3cfzQ9wmr+sXeoA="
         }
       ]
     },

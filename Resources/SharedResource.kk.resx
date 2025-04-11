@@ -92,16 +92,16 @@
     <value>Бейне сабақтар</value>
   </data>
   <data name="LearnLanguagesWithUs" xml:space="preserve">
-    <value>Бізбен бірге тілдерді үйреніңіз</value>
+    <value>Бізбен тіл үйреніңіз</value>
   </data>
   <data name="PlatformDescription" xml:space="preserve">
-    <value>Қазақ, ағылшын және түрік тілдерін үйренуге арналған ыңғайлы платформа.</value>
+    <value>Біздің платформа интерактивті тесттер, бейнесабақтар және практикалық жаттығуларды қолдана отырып, тілдерді үйретудің тиімді әдістерін ұсынады. Бізге қосылыңыз және бүгіннен бастап шет тілдерін еркін меңгеру жолын бастаңыз.</value>
   </data>
   <data name="StartLearning" xml:space="preserve">
     <value>Оқуды бастау</value>
   </data>
   <data name="AvailableLanguages" xml:space="preserve">
-    <value>Қол жетімді тілдер</value>
+    <value>Қолжетімді тілдер</value>
   </data>
   <data name="StudyFromBeginnerToAdvanced" xml:space="preserve">
     <value>Бастауыш деңгейден күрделі деңгейге дейін үйрену</value>
@@ -116,7 +116,7 @@
     <value>Біздің тесттерімізбен білім деңгейіңізді тексеріңіз. Әр тест сіз үйренген материалды бекітуге көмектесетін бірқатар сұрақтардан тұрады.</value>
   </data>
   <data name="VideoLessons" xml:space="preserve">
-    <value>Бейне сабақтар</value>
+    <value>Бейнесабақтар</value>
   </data>
   <data name="VideosDescription" xml:space="preserve">
     <value>Дағдыларыңызды жақсарту үшін бейне сабақтарды көріңіз. Біздің мұғалімдер тақырыптарды қарапайым және түсінікті тілде түсіндіреді.</value>
@@ -140,22 +140,22 @@
     <value>Түрік</value>
   </data>
   <data name="ChooseLanguageToLearn" xml:space="preserve">
-    <value>Оқу үшін тілді таңдаңыз</value>
+    <value>Үйренгіңіз келетін тілді таңдаңыз</value>
   </data>
   <data name="EnglishDescription" xml:space="preserve">
-    <value>Бизнес, технология және мәдениетаралық қарым-қатынастың халықаралық тілі.</value>
+    <value>Бизнес, технологиялар және мәдениетаралық қарым-қатынастың халықаралық тілі.</value>
   </data>
   <data name="KazakhDescription" xml:space="preserve">
-    <value>Бай тарихы мен мәдениеті бар Қазақстанның мемлекеттік тілі.</value>
+    <value>Қазақстанның мемлекеттік тілі, бай тарихы мен мәдениеті бар.</value>
   </data>
   <data name="TurkishDescription" xml:space="preserve">
     <value>Еуропа мен Азияны байланыстыратын ежелгі тарихы бар тіл.</value>
   </data>
   <data name="LearnMore" xml:space="preserve">
-    <value>Көбірек білу</value>
+    <value>Толығырақ білу</value>
   </data>
   <data name="WhyLearnWithUs" xml:space="preserve">
-    <value>Неге бізбен тілдерді үйрену керек?</value>
+    <value>Неге бізбен тіл үйрену керек?</value>
   </data>
   <data name="InteractiveLearning" xml:space="preserve">
     <value>Интерактивті оқыту</value>
@@ -164,22 +164,22 @@
     <value>Мәдениетке ену</value>
   </data>
   <data name="Certification" xml:space="preserve">
-    <value>Тіл меңгеру сертификаты</value>
+    <value>Тіл білімі туралы сертификат</value>
   </data>
   <data name="InteractiveLearningDescription" xml:space="preserve">
-    <value>Біздің курстар белсенді өзара әрекеттесу мен практикаға негізделген, бұл оқуды тиімді және қызықты етеді.</value>
+    <value>Біздің курстар белсенді өзара әрекеттесу мен тәжірибеге негізделген, бұл оқытуды тиімді және қызықты етеді.</value>
   </data>
   <data name="CulturalImmersionDescription" xml:space="preserve">
-    <value>Тек тілді ғана емес, сонымен қатар елдің мәдениетін, дәстүрлері мен салт-дәстүрлерін контекстті жақсы түсіну үшін үйреніңіз.</value>
+    <value>Тілді ғана емес, сонымен қатар елдің мәдениетін, дәстүрлерін және әдет-ғұрыптарын зерттеңіз, контекстті жақсы түсіну үшін.</value>
   </data>
   <data name="CertificationDescription" xml:space="preserve">
-    <value>Біздің курстарды аяқтағаннан кейін халықаралық үлгідегі тіл меңгеру сертификатын алыңыз.</value>
+    <value>Біздің курстарды аяқтағаннан кейін халықаралық үлгідегі тіл білімі туралы сертификат алыңыз.</value>
   </data>
   <data name="Practice" xml:space="preserve">
     <value>Практика</value>
   </data>
   <data name="TakeTests" xml:space="preserve">
-    <value>Тестілерді өту</value>
+    <value>Тесттерден өтіңіз</value>
   </data>
   <data name="PersonalAccount" xml:space="preserve">
     <value>Жеке кабинет</value>
@@ -192,5 +192,32 @@
   </data>
   <data name="AboutUs" xml:space="preserve">
     <value>Біз туралы</value>
+  </data>
+  <data name="UnknownLanguage" xml:space="preserve">
+    <value>Белгісіз тіл</value>
+  </data>
+  <data name="Level" xml:space="preserve">
+    <value>Деңгей</value>
+  </data>
+  <data name="NotSpecified" xml:space="preserve">
+    <value>Көрсетілмеген</value>
+  </data>
+  <data name="Watched" xml:space="preserve">
+    <value>Қаралды</value>
+  </data>
+  <data name="VideoNotAvailable" xml:space="preserve">
+    <value>Бейне қолжетімсіз. Өтінемін, әкімшіге хабарласыңыз.</value>
+  </data>
+  <data name="MarkAsWatched" xml:space="preserve">
+    <value>Қаралған деп белгілеу</value>
+  </data>
+  <data name="VideoDescription" xml:space="preserve">
+    <value>Сипаттама</value>
+  </data>
+  <data name="RelatedVideos" xml:space="preserve">
+    <value>Ұқсас бейнесабақтар</value>
+  </data>
+  <data name="MasterNewLanguages" xml:space="preserve">
+    <value>Интерактивті тесттер мен бейнесабақтар арқылы жаңа тілдерді үйреніңіз</value>
   </data>
 </root> 

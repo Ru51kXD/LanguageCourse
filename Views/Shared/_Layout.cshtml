@@ -8,6 +8,7 @@
     
     // Получаем текущую культуру напрямую из Request
     var requestCulture = Context.Features.Get<IRequestCultureFeature>();
+    var culture = requestCulture?.RequestCulture.Culture.Name ?? "ru-RU";
     var currentCulture = requestCulture?.RequestCulture.Culture.TwoLetterISOLanguageName ?? "ru";
     var flagEmoji = currentCulture switch {
         "kk" => "🇰🇿",
@@ -15,6 +16,86 @@
         "tr" => "🇹🇷",
         _ => "🇷🇺"
     };
+    
+    // Локализация для элементов навигации
+    string homeText;
+    string testsText;
+    string videosText;
+    string aboutUsText;
+    string learnMoreText;
+    string profileText;
+    string logoutText;
+    string loginText;
+    string registerText;
+    
+    // Устанавливаем тексты в зависимости от текущей культуры
+    switch (culture)
+    {
+        case "ru-RU":
+        case "ru":
+            homeText = "Главная";
+            testsText = "Тесты";
+            videosText = "Видеоуроки";
+            aboutUsText = "О нас";
+            learnMoreText = "Узнать больше";
+            profileText = "Профиль";
+            logoutText = "Выйти";
+            loginText = "Войти";
+            registerText = "Регистрация";
+            break;
+            
+        case "kk-KZ":
+        case "kk":
+            homeText = "Басты бет";
+            testsText = "Тесттер";
+            videosText = "Бейнесабақтар";
+            aboutUsText = "Біз туралы";
+            learnMoreText = "Толығырақ білу";
+            profileText = "Профиль";
+            logoutText = "Шығу";
+            loginText = "Кіру";
+            registerText = "Тіркелу";
+            break;
+            
+        case "en-US":
+        case "en-GB":
+        case "en":
+            homeText = "Home";
+            testsText = "Tests";
+            videosText = "Videos";
+            aboutUsText = "About Us";
+            learnMoreText = "Learn More";
+            profileText = "Profile";
+            logoutText = "Logout";
+            loginText = "Login";
+            registerText = "Register";
+            break;
+            
+        case "tr-TR":
+        case "tr":
+            homeText = "Ana Sayfa";
+            testsText = "Testler";
+            videosText = "Videolar";
+            aboutUsText = "Hakkımızda";
+            learnMoreText = "Daha Fazla Bilgi";
+            profileText = "Profil";
+            logoutText = "Çıkış";
+            loginText = "Giriş";
+            registerText = "Kayıt Ol";
+            break;
+            
+        default:
+            homeText = "Главная";
+            testsText = "Тесты";
+            videosText = "Видеоуроки";
+            aboutUsText = "О нас";
+            learnMoreText = "Узнать больше";
+            profileText = "Профиль";
+            logoutText = "Выйти";
+            loginText = "Войти";
+            registerText = "Регистрация";
+            break;
+    }
 }
 <!DOCTYPE html>
 <html lang="@currentCulture">
@@ -48,11 +129,11 @@
                 </div>
                 <div class="col-md-8">
                     <nav class="main-nav">
-                        <a href="/" class="nav-link">@Localizer["Home"]</a>
-                        <a href="/Test" class="nav-link">@Localizer["Tests"]</a>
-                        <a href="/Video" class="nav-link">@Localizer["Videos"]</a>
-                        <a href="/Home/AboutUs" class="nav-link">@Localizer["AboutUs"]</a>
-                        <a href="/Home/LearnMore" class="nav-link">@Localizer["LearnMore"]</a>
+                        <a href="/" class="nav-link">@homeText</a>
+                        <a href="/Test" class="nav-link">@testsText</a>
+                        <a href="/Video" class="nav-link">@videosText</a>
+                        <a href="/Home/AboutUs" class="nav-link">@aboutUsText</a>
+                        <a href="/Home/LearnMore" class="nav-link">@learnMoreText</a>
                         
                         <div class="language-selector dropdown">
                             <a href="#" class="nav-link dropdown-toggle" id="languageDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -101,15 +182,15 @@
                         
                         @if (User.Identity != null && User.Identity.IsAuthenticated)
                         {
-                            <a href="/Account/Profile" class="nav-link">@Localizer["Profile"]</a>
+                            <a href="/Account/Profile" class="nav-link">@profileText</a>
                             <form asp-controller="Account" asp-action="Logout" method="post" class="d-inline">
-                                <button type="submit" class="nav-link btn btn-link">@Localizer["Logout"]</button>
+                                <button type="submit" class="nav-link btn btn-link">@logoutText</button>
                             </form>
                         }
                         else
                         {
-                            <a href="/Account/Login" class="nav-link">@Localizer["Login"]</a>
-                            <a href="/Account/Register" class="nav-link">@Localizer["Register"]</a>
+                            <a href="/Account/Login" class="nav-link">@loginText</a>
+                            <a href="/Account/Register" class="nav-link">@registerText</a>
                         }
                     </nav>
                 </div>
@@ -196,6 +277,48 @@
             document.querySelectorAll('.fade-in-up').forEach(element => {
                 observer.observe(element);
             });
+            
+            // Обработчик форм смены языка
+            document.querySelectorAll('.language-form').forEach(form => {
+                form.addEventListener('submit', function(e) {
+                    // Стандартная отправка формы без preventDefault
+                    // Только показываем индикатор загрузки
+                    const button = this.querySelector('button');
+                    if (button) {
+                        button.disabled = true;
+                        const originalText = button.innerHTML;
+                        button.innerHTML = originalText + ' <i class="fas fa-spinner fa-spin"></i>';
+                        
+                        // Запоминаем выбранную культуру для проверки после перезагрузки
+                        const cultureInput = this.querySelector('input[name="culture"]');
+                        if (cultureInput) {
+                            localStorage.setItem('selectedLanguage', cultureInput.value);
+                            console.log('Сохраняем выбранный язык:', cultureInput.value);
+                        }
+                    }
+                });
+            });
+            
+            // Проверка, правильно ли применена локализация после загрузки страницы
+            function checkLocalization() {
+                const selectedLanguage = localStorage.getItem('selectedLanguage');
+                const currentLanguage = '@currentCulture';
+                
+                console.log('Выбранный язык из localStorage:', selectedLanguage);
+                console.log('Текущий язык на странице:', currentLanguage);
+                
+                // Если выбран язык, но страница показывает другой, перезагружаем
+                if (selectedLanguage && selectedLanguage !== currentLanguage) {
+                    console.log('Язык не соответствует выбранному, отправляем форму...');
+                    const form = document.querySelector(`#select${selectedLanguage.toUpperCase()}`);
+                    if (form) {
+                        form.submit();
+                    }
+                }
+            }
+            
+            // Запускаем проверку локализации с задержкой
+            setTimeout(checkLocalization, 500);
         });
     </script>
     @await RenderSectionAsync("Scripts", required: false)

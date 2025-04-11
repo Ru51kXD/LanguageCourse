@@ -251,15 +251,16 @@ public static class Program
             app.UseHsts();
         }
 
-        app.UseHttpsRedirection();
-        app.UseStaticFiles();
-
-        // Настройка локализации в HTTP pipeline
+        // Добавляем локализацию в начало конвейера
         var localizationOptions = app.Services.GetService<IOptions<RequestLocalizationOptions>>();
         if (localizationOptions != null)
         {
             app.UseRequestLocalization(localizationOptions.Value);
         }
+
+        app.UseHttpsRedirection();
+        app.UseStaticFiles();
+        app.UseRouting();
 
         if (app.Environment.IsDevelopment())
         {
@@ -272,7 +273,6 @@ public static class Program
             });
         }
 
-        app.UseRouting();
         app.UseAuthentication();
         app.UseAuthorization();
 

@@ -36,28 +36,26 @@ public class HomeController : Controller
 
     public async Task<IActionResult> Index()
     {
-        // Устанавливаем текущую культуру принудительно
+        // Получаем текущую культуру из куки и сессии
         var currentLanguage = _languageService.GetCurrentLanguage();
+        
+        // Устанавливаем культуру принудительно
         var cultureInfo = new CultureInfo(currentLanguage);
         Thread.CurrentThread.CurrentCulture = cultureInfo;
         Thread.CurrentThread.CurrentUICulture = cultureInfo;
         
-        // Устанавливаем культуру для Request
-        var requestCultureFeature = HttpContext.Features.Get<IRequestCultureFeature>();
-        if (requestCultureFeature != null)
-        {
-            var cookieName = CookieRequestCultureProvider.DefaultCookieName;
-            var cookieValue = CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(cultureInfo));
-            
-            Response.Cookies.Append(cookieName, cookieValue, new CookieOptions
-            {
-                Expires = DateTimeOffset.UtcNow.AddYears(1),
-                IsEssential = true
-            });
-        }
+        // Устанавливаем культуру в RequestCulture
+        HttpContext.Features.Set<IRequestCultureFeature>(
+            new RequestCultureFeature(new RequestCulture(currentLanguage), null));
         
+        // Заголовки для предотвращения кэширования
+        Response.Headers.Append("Cache-Control", "no-cache, no-store, must-revalidate");
+        Response.Headers.Append("Pragma", "no-cache");
+        Response.Headers.Append("Expires", "0");
+        
+        // Добавляем данные в ViewBag
         ViewBag.IsDarkMode = _themeService.GetCurrentTheme();
-        ViewBag.CurrentLanguage = currentLanguage;
+        ViewBag.CurrentLanguage = currentLanguage; 
         ViewBag.IsAuthenticated = _authService.IsAuthenticated();
         ViewBag.LocalizationService = _localizationService;
         
@@ -73,7 +71,18 @@ public class HomeController : Controller
     [HttpPost]
     public IActionResult SetLanguage(string culture, string returnUrl)
     {
-        // Установка cookie для локализации
+        if (string.IsNullOrEmpty(culture))
+            return LocalRedirect(returnUrl ?? "~/");
+
+        // Проверяем, что культура поддерживается
+        var supportedCultures = new[] { "ru", "kk", "en", "tr" };
+        if (!supportedCultures.Contains(culture))
+            culture = "ru";
+
+        // Очищаем все старые куки культуры
+        Response.Cookies.Delete(CookieRequestCultureProvider.DefaultCookieName);
+        
+        // Установка cookie для локализации - максимально простой подход
         Response.Cookies.Append(
             CookieRequestCultureProvider.DefaultCookieName,
             CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(culture)),
@@ -82,20 +91,35 @@ public class HomeController : Controller
                 Expires = DateTimeOffset.UtcNow.AddYears(1),
                 IsEssential = true,
                 SameSite = SameSiteMode.Lax,
-                HttpOnly = true,
-                Secure = false
+                HttpOnly = false, // Позволяем JavaScript читать куки
+                Secure = Request.IsHttps
             }
         );
 
-        // Установка текущей культуры для текущего запроса
-        var cultureInfo = new CultureInfo(culture);
-        CultureInfo.CurrentCulture = cultureInfo;
-        CultureInfo.CurrentUICulture = cultureInfo;
-        
-        // Сохранение выбранного языка в сессии
+        // Установка культуры явно в текущей сессии
+        HttpContext.Session.SetString("CurrentLanguage", culture);
+
+        // Сохранение выбранного языка в сервисе
         _languageService.SetCurrentLanguage(culture);
 
-        return LocalRedirect(returnUrl ?? "~/");
+        // Перенаправляем на страницу с пустым кэшем
+        var redirectUrl = returnUrl ?? "~/";
+        return RedirectToAction("ForceRefresh", new { redirectUrl });
+    }
+    
+    public IActionResult ForceRefresh(string redirectUrl)
+    {
+        // Этот метод существует только для принудительной перезагрузки страницы без кэша
+        Response.Headers.Append("Cache-Control", "no-cache, no-store, must-revalidate, max-age=0");
+        Response.Headers.Append("Pragma", "no-cache");
+        Response.Headers.Append("Expires", "-1");
+        
+        // Перенаправляем на исходную страницу с временной меткой
+        var separator = redirectUrl.Contains("?") ? "&" : "?";
+        var timestamp = DateTime.UtcNow.Ticks;
+        redirectUrl = $"{redirectUrl}{separator}t={timestamp}";
+        
+        return Redirect(redirectUrl);
     }
 
     [HttpPost]

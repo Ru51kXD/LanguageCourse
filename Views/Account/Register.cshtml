@@ -1,6 +1,21 @@
 @model WebApplication15.Models.RegisterViewModel
+@using Microsoft.AspNetCore.Mvc.Localization
+@using Microsoft.AspNetCore.Localization
+@using System.Globalization
+@inject IViewLocalizer Localizer
 @{
-    ViewData["Title"] = "Регистрация";
+    // Получаем текущую культуру
+    var requestCulture = Context.Features.Get<IRequestCultureFeature>();
+    var cultureTwoLetter = requestCulture?.RequestCulture.Culture.TwoLetterISOLanguageName ?? "ru";
+    
+    ViewData["Title"] = cultureTwoLetter switch
+    {
+        "ru" => "Регистрация",
+        "kk" => "Тіркелу",
+        "en" => "Registration",
+        "tr" => "Kayıt",
+        _ => "Регистрация"
+    };
     Layout = "_Layout";
 }
 
@@ -38,7 +53,19 @@
 <div class="auth-container">
     <div class="login-vertical-header">
         <h1 class="vertical-title">
-            <span class="text-gradient">Регистрация</span>
+            <span class="text-gradient">
+                @{
+                    var registerText = cultureTwoLetter switch
+                    {
+                        "ru" => "Регистрация",
+                        "kk" => "Тіркелу",
+                        "en" => "Registration", 
+                        "tr" => "Kayıt",
+                        _ => "Регистрация"
+                    };
+                }
+                @registerText
+            </span>
         </h1>
     </div>
     
@@ -58,7 +85,14 @@
                 <label asp-for="Email" class="form-label">
                     <i class="fas fa-envelope me-2"></i> Email
                 </label>
-                <input asp-for="Email" class="form-control @(ViewData.ModelState["Email"]?.Errors.Count > 0 ? "is-invalid" : "")" required placeholder="Введите email">
+                <input asp-for="Email" class="form-control @(ViewData.ModelState["Email"]?.Errors.Count > 0 ? "is-invalid" : "")" required placeholder="@(cultureTwoLetter switch
+                {
+                    "ru" => "Введите email",
+                    "kk" => "Email енгізіңіз",
+                    "en" => "Enter your email",
+                    "tr" => "E-posta adresinizi girin",
+                    _ => "Введите email"
+                })">
                 @if (ViewData.ModelState["Email"]?.Errors.Count > 0)
                 {
                     <div class="invalid-feedback">
@@ -72,10 +106,28 @@
             
             <div class="form-field">
                 <label asp-for="Password" class="form-label">
-                    <i class="fas fa-lock me-2"></i> Пароль
+                    <i class="fas fa-lock me-2"></i> 
+                    @{
+                        var passwordText = cultureTwoLetter switch
+                        {
+                            "ru" => "Пароль",
+                            "kk" => "Құпия сөз",
+                            "en" => "Password",
+                            "tr" => "Şifre",
+                            _ => "Пароль"
+                        };
+                    }
+                    @passwordText
                 </label>
                 <div class="password-input-container">
-                    <input asp-for="Password" class="form-control @(ViewData.ModelState["Password"]?.Errors.Count > 0 ? "is-invalid" : "")" required placeholder="Введите пароль">
+                    <input asp-for="Password" class="form-control @(ViewData.ModelState["Password"]?.Errors.Count > 0 ? "is-invalid" : "")" required placeholder="@(cultureTwoLetter switch
+                    {
+                        "ru" => "Введите пароль",
+                        "kk" => "Құпия сөзді енгізіңіз",
+                        "en" => "Enter your password",
+                        "tr" => "Şifrenizi girin",
+                        _ => "Введите пароль"
+                    })">
                     <button class="password-toggle" type="button" id="togglePassword">
                         <i class="fas fa-eye"></i>
                     </button>
@@ -93,10 +145,28 @@
             
             <div class="form-field">
                 <label asp-for="ConfirmPassword" class="form-label">
-                    <i class="fas fa-lock me-2"></i> Подтверждение пароля
+                    <i class="fas fa-lock me-2"></i> 
+                    @{
+                        var confirmPasswordText = cultureTwoLetter switch
+                        {
+                            "ru" => "Подтверждение пароля",
+                            "kk" => "Құпия сөзді растау",
+                            "en" => "Confirm Password",
+                            "tr" => "Şifreyi Onayla",
+                            _ => "Подтверждение пароля"
+                        };
+                    }
+                    @confirmPasswordText
                 </label>
                 <div class="password-input-container">
-                    <input asp-for="ConfirmPassword" class="form-control @(ViewData.ModelState["ConfirmPassword"]?.Errors.Count > 0 ? "is-invalid" : "")" required placeholder="Повторите пароль">
+                    <input asp-for="ConfirmPassword" class="form-control @(ViewData.ModelState["ConfirmPassword"]?.Errors.Count > 0 ? "is-invalid" : "")" required placeholder="@(cultureTwoLetter switch
+                    {
+                        "ru" => "Повторите пароль",
+                        "kk" => "Құпия сөзді қайталаңыз",
+                        "en" => "Repeat your password",
+                        "tr" => "Şifrenizi tekrarlayın",
+                        _ => "Повторите пароль"
+                    })">
                     <button class="password-toggle" type="button" id="toggleConfirmPassword">
                         <i class="fas fa-eye"></i>
                     </button>
@@ -114,10 +184,32 @@
             
             <div class="form-buttons">
                 <button type="submit" class="btn btn-primary">
-                    <i class="fas fa-user-plus me-2"></i> Зарегистрироваться
+                    <i class="fas fa-user-plus me-2"></i> 
+                    @{
+                        var registerButtonText = cultureTwoLetter switch
+                        {
+                            "ru" => "Зарегистрироваться",
+                            "kk" => "Тіркелу",
+                            "en" => "Register",
+                            "tr" => "Kayıt Ol",
+                            _ => "Зарегистрироваться"
+                        };
+                    }
+                    @registerButtonText
                 </button>
                 <a asp-controller="Account" asp-action="Login" class="btn btn-outline-primary">
-                    <i class="fas fa-sign-in-alt me-2"></i> Уже есть аккаунт? Войти
+                    <i class="fas fa-sign-in-alt me-2"></i> 
+                    @{
+                        var haveAccountText = cultureTwoLetter switch
+                        {
+                            "ru" => "Уже есть аккаунт? Войти",
+                            "kk" => "Тіркелгіңіз бар ма? Кіру",
+                            "en" => "Already have an account? Sign in",
+                            "tr" => "Zaten hesabınız var mı? Giriş yapın",
+                            _ => "Уже есть аккаунт? Войти"
+                        };
+                    }
+                    @haveAccountText
                 </a>
             </div>
         </form>
@@ -157,7 +249,14 @@
             if (password && confirmPassword) {
                 confirmPassword.addEventListener('input', function() {
                     if (password.value !== confirmPassword.value) {
-                        confirmPassword.setCustomValidity('Пароли не совпадают');
+                        confirmPassword.setCustomValidity('@(cultureTwoLetter switch
+                        {
+                            "ru" => "Пароли не совпадают",
+                            "kk" => "Құпия сөздер сәйкес келмейді",
+                            "en" => "Passwords do not match",
+                            "tr" => "Şifreler eşleşmiyor",
+                            _ => "Пароли не совпадают"
+                        })');
                     } else {
                         confirmPassword.setCustomValidity('');
                     }
@@ -166,7 +265,14 @@
                 password.addEventListener('input', function() {
                     if (confirmPassword.value) {
                         if (password.value !== confirmPassword.value) {
-                            confirmPassword.setCustomValidity('Пароли не совпадают');
+                            confirmPassword.setCustomValidity('@(cultureTwoLetter switch
+                            {
+                                "ru" => "Пароли не совпадают",
+                                "kk" => "Құпия сөздер сәйкес келмейді",
+                                "en" => "Passwords do not match",
+                                "tr" => "Şifreler eşleşmiyor",
+                                _ => "Пароли не совпадают"
+                            })');
                         } else {
                             confirmPassword.setCustomValidity('');
                         }

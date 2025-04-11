@@ -1,5 +1,13 @@
 @model WebApplication15.Models.Video
+@using Microsoft.AspNetCore.Mvc.Localization
+@using Microsoft.AspNetCore.Localization
+@using System.Globalization
+@inject IViewLocalizer Localizer
 @{
+    // Получаем текущую культуру
+    var requestCulture = Context.Features.Get<IRequestCultureFeature>();
+    var cultureTwoLetter = requestCulture?.RequestCulture.Culture.TwoLetterISOLanguageName ?? "ru";
+    
     ViewData["Title"] = Model.Title;
     var relatedVideos = ViewBag.RelatedVideos as List<WebApplication15.Models.Video>;
     
@@ -52,9 +60,33 @@
     <!-- Хлебные крошки -->
     <div class="breadcrumbs text-center">
         <div class="container">
-            <a href="@Url.Action("Index", "Home")">Главная</a>
+            <a href="@Url.Action("Index", "Home")">
+                @{
+                    var homeText = cultureTwoLetter switch
+                    {
+                        "ru" => "Главная",
+                        "kk" => "Басты бет",
+                        "en" => "Home",
+                        "tr" => "Ana Sayfa",
+                        _ => "Home"
+                    };
+                }
+                @homeText
+            </a>
             <span class="separator"><i class="fas fa-chevron-right"></i></span>
-            <a href="@Url.Action("Index", "Video")">Видеоуроки</a>
+            <a href="@Url.Action("Index", "Video")">
+                @{
+                    var videosText = cultureTwoLetter switch
+                    {
+                        "ru" => "Видеоуроки",
+                        "kk" => "Бейнесабақтар",
+                        "en" => "Videos",
+                        "tr" => "Video Dersler",
+                        _ => "Videos"
+                    };
+                }
+                @videosText
+            </a>
             <span class="separator"><i class="fas fa-chevron-right"></i></span>
             <span class="current">@Model.Title</span>
         </div>
@@ -68,15 +100,55 @@
                 <h1 class="video-title">@Model.Title</h1>
                 <div class="video-meta">
                     <span class="language-badge">
-                        @(Model.LanguageLevel?.Language?.Name ?? "Неизвестный язык")
+                        @{
+                            var unknownLanguageText = cultureTwoLetter switch
+                            {
+                                "ru" => "Неизвестный язык",
+                                "kk" => "Белгісіз тіl",
+                                "en" => "Unknown Language",
+                                "tr" => "Bilinmeyen Dil",
+                                _ => "Unknown Language"
+                            };
+                        }
+                        @(Model.LanguageLevel?.Language?.Name ?? unknownLanguageText)
                     </span>
                     <span class="level-badge">
-                        Уровень: <strong>@(Model.LanguageLevel?.Name ?? "Не указан")</strong>
+                        @{
+                            var levelText = cultureTwoLetter switch
+                            {
+                                "ru" => "Уровень",
+                                "kk" => "Деңгей",
+                                "en" => "Level",
+                                "tr" => "Seviye",
+                                _ => "Level"
+                            };
+                            
+                            var notSpecifiedText = cultureTwoLetter switch
+                            {
+                                "ru" => "Не указан",
+                                "kk" => "Көрсетілмеген",
+                                "en" => "Not Specified",
+                                "tr" => "Belirtilmemiş",
+                                _ => "Not Specified"
+                            };
+                        }
+                        @levelText: <strong>@(Model.LanguageLevel?.Name ?? notSpecifiedText)</strong>
                     </span>
                     @if (Model.IsWatched)
                     {
                         <span class="watched-badge">
-                            <i class="fas fa-check-circle"></i> Просмотрено
+                            <i class="fas fa-check-circle"></i> 
+                            @{
+                                var watchedText = cultureTwoLetter switch
+                                {
+                                    "ru" => "Просмотрено",
+                                    "kk" => "Қаралған",
+                                    "en" => "Watched",
+                                    "tr" => "İzlendi",
+                                    _ => "Watched"
+                                };
+                            }
+                            @watchedText
                         </span>
                     }
                 </div>
@@ -99,7 +171,19 @@
                     else
                     {
                         <div class="video-player-placeholder">
-                            <p>Видео недоступно. Пожалуйста, обратитесь к администратору.</p>
+                            <p>
+                                @{
+                                    var videoNotAvailableText = cultureTwoLetter switch
+                                    {
+                                        "ru" => "Видео недоступно",
+                                        "kk" => "Бейне қолжетімді емес",
+                                        "en" => "Video Not Available",
+                                        "tr" => "Video Mevcut Değil",
+                                        _ => "Video Not Available"
+                                    };
+                                }
+                                @videoNotAvailableText
+                            </p>
                         </div>
                     }
                     
@@ -107,108 +191,39 @@
                     {
                         <div class="mark-watched-container text-center mt-3">
                             <button id="markAsWatched" class="btn-mark-watched" data-video-id="@Model.Id">
-                                <i class="fas fa-check-circle"></i> Отметить как просмотренное
+                                <i class="fas fa-check-circle"></i> 
+                                @{
+                                    var markAsWatchedText = cultureTwoLetter switch
+                                    {
+                                        "ru" => "Отметить как просмотренное",
+                                        "kk" => "Қаралды деп белгілеу",
+                                        "en" => "Mark as Watched",
+                                        "tr" => "İzlendi Olarak İşaretle",
+                                        _ => "Mark as Watched"
+                                    };
+                                }
+                                @markAsWatchedText
                             </button>
                         </div>
                     }
                 </div>
                 
                 <!-- Информация о видео -->
-                <div class="video-info-card">
-                    <!-- Описание видео -->
-                    <div class="video-description text-center">
-                        <h2 class="section-title">Описание</h2>
-                        <p>@Model.Description</p>
-                    </div>
-                    
-                    
-                    <!-- CTA блок для авторизации -->
-                    @if (!ViewBag.IsAuthenticated)
-                    {
-                        <div class="auth-cta mt-4">
-                            <div class="cta-content text-center">
-                                <h2>Хотите отслеживать прогресс по пройденным тестам?</h2>
-                                <div class="cta-buttons">
-                                    <a href="@Url.Action("Register", "Account")" class="btn-primary">Регистрация</a>
-                                    <a href="@Url.Action("Login", "Account")" class="btn-secondary">Вход</a>
-                                </div>
-                            </div>
-                        </div>
-                    }
-                </div>
-            </div>
-        </div>
-        
-        <!-- Похожие видео -->
-        <div class="row mt-5">
-            <div class="col-12">
-                <h2 class="section-title text-center mb-4">Похожие видеоуроки</h2>
-                
-                @if (relatedVideos != null && relatedVideos.Any())
-                {
-                    <div class="related-videos-grid">
-                        @foreach (var video in relatedVideos)
-                        {
-                            <a href="@Url.Action("Details", "Video", new { id = video.Id })" class="related-video-card @(video.IsWatched ? "watched" : "")">
-                                <div class="thumbnail">
-                                    <img src="~/images/videos/@(video.Id).jpg" onerror="this.src='/images/videos/default.jpg'" alt="@video.Title">
-                                    <div class="play-icon"><i class="fas fa-play"></i></div>
-                                    @if (video.IsWatched)
-                                    {
-                                        <div class="watched-overlay">
-                                            <span><i class="fas fa-check-circle"></i> Просмотрено</span>
-                                        </div>
-                                    }
-                                </div>
-                                <div class="related-video-info">
-                                    <h3>@video.Title</h3>
-                                    <span class="level-badge">@(video.LanguageLevel?.Name ?? "Уровень не указан")</span>
-                                </div>
-                            </a>
-                        }
-                    </div>
-                }
-                else
-                {
-                    <p class="no-videos text-center">Нет похожих видеоуроков.</p>
-                }
-                
-                <div class="text-center mt-4">
-                    <a href="@Url.Action("Index", "Video", new { languageId = Model.LanguageLevel?.Language?.Id })" class="btn-view-all">
-                        Смотреть все видео <i class="fas fa-arrow-right"></i>
-                    </a>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Уровни языка -->
-        <div class="row mt-5">
-            <div class="col-lg-8 mx-auto">
-                <div class="language-levels">
-                    <h2 class="section-title text-center">Уровни изучения языка</h2>
-                    <div class="levels-list">
-                        @if (Model.LanguageLevel?.Language != null)
-                        {
-                            var languageLevels = ViewBag.Levels as List<WebApplication15.Models.LanguageLevel> ?? 
-                                                new List<WebApplication15.Models.LanguageLevel>();
-                            
-                            if (languageLevels.Any())
+                <div class="video-info-container">
+                    <h3>
+                        @{
+                            var videoDescriptionText = cultureTwoLetter switch
                             {
-                                foreach (var level in languageLevels.OrderBy(l => l.Level))
-                                {
-                                    <a href="@Url.Action("Index", "Video", new { languageId = Model.LanguageLevel.Language.Id, levelName = level.Name })" 
-                                       class="level-item @(level.Id == Model.LanguageLevel.Id ? "active" : "")">
-                                        <span class="level-name">@level.Name</span>
-                                        <span class="level-desc">@level.Description</span>
-                                    </a>
-                                }
-                            }
-                            else
-                            {
-                                <p class="no-levels text-center">Информация об уровнях не доступна.</p>
-                            }
+                                "ru" => "Описание видео",
+                                "kk" => "Бейне сипаттамасы",
+                                "en" => "Video Description",
+                                "tr" => "Video Açıklaması",
+                                _ => "Video Description"
+                            };
                         }
-                    </div>
+                        @videoDescriptionText
+                    </h3>
+                    <p>@Model.Description</p>
                 </div>
             </div>
         </div>
@@ -217,60 +232,16 @@
 
 @section Scripts {
     <script>
-        // Анимации при прокрутке
-        document.addEventListener('DOMContentLoaded', function() {
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('visible');
+        $(document).ready(function() {
+            // Обработка кнопки "Отметить как просмотренное"
+            $('#markAsWatched').click(function() {
+                var videoId = $(this).data('video-id');
+                $.post('@Url.Action("MarkAsWatched", "Video")', { id: videoId }, function(response) {
+                    if (response.success) {
+                        location.reload();
                     }
                 });
-            }, { threshold: 0.1 });
-            
-            // Анимация для блоков
-            document.querySelectorAll('.video-info-card, .related-videos-grid, .language-levels').forEach(section => {
-                observer.observe(section);
             });
-            
-            // Обработчик кнопки "Отметить как просмотренное"
-            const markAsWatchedBtn = document.getElementById('markAsWatched');
-            if (markAsWatchedBtn) {
-                markAsWatchedBtn.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    const videoId = this.getAttribute('data-video-id');
-                    
-                    // Отправляем запрос на сервер
-                    fetch('/Video/MarkAsWatched/' + videoId, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]').value
-                        }
-                    })
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.success) {
-                            // Добавляем индикатор просмотра
-                            const metaContainer = document.querySelector('.video-meta');
-                            if (!metaContainer.querySelector('.watched-badge')) {
-                                const badge = document.createElement('span');
-                                badge.className = 'watched-badge';
-                                badge.innerHTML = '<i class="fas fa-check-circle"></i> Просмотрено';
-                                metaContainer.appendChild(badge);
-                                
-                                // Скрываем кнопку
-                                markAsWatchedBtn.parentElement.style.display = 'none';
-                                
-                                // Анимируем значок
-                                badge.classList.add('animate-badge');
-                            }
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Ошибка при отметке видео:', error);
-                    });
-                });
-            }
         });
     </script>
 } 

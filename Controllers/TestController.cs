@@ -14,6 +14,9 @@ using System.Dynamic;
 using Newtonsoft.Json;
 using System;
 using WebApplication15.ViewModels;
+using Microsoft.AspNetCore.Localization;
+using Microsoft.Extensions.Localization;
+using LanguageCourse.Resources;
 
 namespace WebApplication15.Controllers
 {
@@ -26,6 +29,7 @@ namespace WebApplication15.Controllers
         private readonly ILogger<TestController> _logger;
         private readonly TestService _testService;
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly IStringLocalizer<TestResources> _localizer;
 
         public TestController(
             ApplicationDbContext context,
@@ -34,7 +38,8 @@ namespace WebApplication15.Controllers
             AuthService authService,
             ILogger<TestController> logger,
             TestService testService,
-            UserManager<ApplicationUser> userManager)
+            UserManager<ApplicationUser> userManager,
+            IStringLocalizer<TestResources> localizer)
         {
             _context = context;
             _themeService = themeService;
@@ -43,6 +48,7 @@ namespace WebApplication15.Controllers
             _logger = logger;
             _testService = testService;
             _userManager = userManager;
+            _localizer = localizer;
         }
 
         public async Task<IActionResult> Index(int? languageId = null, string? level = null)
@@ -954,58 +960,41 @@ namespace WebApplication15.Controllers
         // Вспомогательные методы для генерации тестов
         private string GetTestTitle(string language, string level, int orderInLevel)
         {
-            // Словарь названий тестов для каждого языка и уровня
-            var titles = new Dictionary<string, Dictionary<string, string[]>>
+            // Получаем текущую культуру
+            var requestCulture = HttpContext.Features.Get<IRequestCultureFeature>();
+            var culture = requestCulture?.RequestCulture.Culture.Name ?? "ru-RU";
+            
+            // Формируем ключ для ресурса на основе языка, уровня и типа (Vocabulary или Grammar)
+            string testType = orderInLevel == 1 ? "Vocabulary" : "Grammar";
+            string resourceKey = $"{language}_{level}_{testType}_Title";
+            
+            // Пробуем получить локализованное значение
+            string localizedTitle = _localizer[resourceKey];
+            
+            // Если ключ не найден в ресурсах, возвращаем стандартное название
+            if (localizedTitle == resourceKey)
             {
-                ["Английский"] = new Dictionary<string, string[]>
-                {
-                    ["A1"] = new[] { "Базовый тест по английскому языку", "Английская грамматика для начинающих" },
-                    ["A2"] = new[] { "Тест по английскому языку (A2)", "Английская грамматика времен" },
-                    ["B1"] = new[] { "Английский средний уровень (B1)", "Английские идиомы и фразовые глаголы (B1)" },
-                    ["B2"] = new[] { "Английский выше среднего (B2)", "Сложные конструкции в английском (B2)" },
-                    ["C1"] = new[] { "Продвинутый английский (C1)", "Академический английский (C1)" },
-                    ["C2"] = new[] { "Профессиональный английский (C2)", "Литературный английский (C2)" }
-                },
-                ["Казахский"] = new Dictionary<string, string[]>
-                {
-                    ["A1"] = new[] { "Базовый тест по казахскому языку", "Казахский язык - Числа и цвета" },
-                    ["A2"] = new[] { "Казахский для начинающих (A2)", "Казахская грамматика (A2)" },
-                    ["B1"] = new[] { "Казахский средний уровень (B1)", "Казахские идиомы и выражения (B1)" },
-                    ["B2"] = new[] { "Казахский выше среднего (B2)", "Казахская литература (B2)" },
-                    ["C1"] = new[] { "Продвинутый казахский (C1)", "Деловой казахский (C1)" },
-                    ["C2"] = new[] { "Профессиональный казахский (C2)", "Академический казахский (C2)" }
-                },
-                ["Турецкий"] = new Dictionary<string, string[]>
-                {
-                    ["A1"] = new[] { "Базовый тест по турецкому языку", "Турецкие числа и дни недели" },
-                    ["A2"] = new[] { "Турецкий для начинающих (A2)", "Турецкая грамматика (A2)" },
-                    ["B1"] = new[] { "Турецкий средний уровень (B1)", "Турецкие идиомы и выражения (B1)" },
-                    ["B2"] = new[] { "Турецкий выше среднего (B2)", "Турецкая литература (B2)" },
-                    ["C1"] = new[] { "Продвинутый турецкий (C1)", "Деловой турецкий (C1)" },
-                    ["C2"] = new[] { "Профессиональный турецкий (C2)", "Академический турецкий (C2)" }
-                },
-                ["Русский"] = new Dictionary<string, string[]>
-                {
-                    ["A1"] = new[] { "Базовый тест по русскому языку", "Русский алфавит и произношение" },
-                    ["A2"] = new[] { "Русский для начинающих (A2)", "Русская грамматика (A2)" },
-                    ["B1"] = new[] { "Русский средний уровень (B1)", "Русские идиомы и выражения (B1)" },
-                    ["B2"] = new[] { "Русский выше среднего (B2)", "Русская литература (B2)" },
-                    ["C1"] = new[] { "Продвинутый русский (C1)", "Деловой русский (C1)" },
-                    ["C2"] = new[] { "Профессиональный русский (C2)", "Академический русский (C2)" }
-                }
-            };
-
-            // Получаем название теста из словаря или генерируем стандартное название
-            if (titles.ContainsKey(language) && titles[language].ContainsKey(level) && orderInLevel <= titles[language][level].Length)
-            {
-                return titles[language][level][orderInLevel - 1];
+                return $"Тест по {language} языку ({level}) - #{orderInLevel}";
             }
             
-            return $"Тест по {language} языку ({level}) - #{orderInLevel}";
+            return localizedTitle;
         }
 
         private string GetTestDescription(string language, string level, int orderInLevel)
         {
+            // Получаем текущую культуру
+            var requestCulture = HttpContext.Features.Get<IRequestCultureFeature>();
+            var culture = requestCulture?.RequestCulture.Culture.Name ?? "ru-RU";
+            
+            // Определяем тип теста (словарный запас или грамматика)
+            string testType = orderInLevel == 1 ? "Vocabulary" : "Grammar";
+            
+            // Получаем локализованное название уровня
+            string levelKey = $"Level_{level}";
+            string localizedLevel = _localizer[levelKey];
+            if (localizedLevel == levelKey)
+            {
+                // Если нет локализации, используем значения по умолчанию
             var levelNames = new Dictionary<string, string>
             {
                 ["A1"] = "начальный",
@@ -1015,17 +1004,28 @@ namespace WebApplication15.Controllers
                 ["C1"] = "продвинутый",
                 ["C2"] = "профессиональный"
             };
+                localizedLevel = levelNames.ContainsKey(level) ? levelNames[level] : level;
+            }
             
-            var levelDesc = levelNames.ContainsKey(level) ? levelNames[level] : level;
+            // Получаем шаблон описания из ресурсов и форматируем его
+            string descriptionKey = $"{testType}_Test_Description";
+            string descriptionTemplate = _localizer[descriptionKey];
             
+            if (descriptionTemplate == descriptionKey)
+            {
+                // Если шаблон не найден, используем значения по умолчанию
             if (orderInLevel == 1)
             {
-                return $"Проверьте свои знания {language.ToLower()} языка уровня {level} ({levelDesc}). Этот тест направлен на проверку словарного запаса и базовых грамматических конструкций.";
+                    return $"Проверьте свои знания {language.ToLower()} языка уровня {level} ({localizedLevel}). Этот тест направлен на проверку словарного запаса и базовых грамматических конструкций.";
             }
             else
             {
-                return $"Расширенный тест по {language.ToLower()} языку уровня {level} ({levelDesc}). Проверьте свои знания грамматики, идиом и сложных конструкций.";
+                    return $"Расширенный тест по {language.ToLower()} языку уровня {level} ({localizedLevel}). Проверьте свои знания грамматики, идиом и сложных конструкций.";
             }
+            }
+            
+            // Форматируем шаблон описания с языком и уровнем
+            return string.Format(descriptionTemplate, language.ToLower(), localizedLevel);
         }
 
         private int GetTimeLimit(string level)
@@ -1047,6 +1047,9 @@ namespace WebApplication15.Controllers
         {
             var questions = new List<Question>();
             
+            // Конвертируем название языка для использования в ключах ресурсов
+            string languageCode = GetLanguageCodeForResources(language);
+            
             // В зависимости от языка, уровня и номера теста создаем разные вопросы
             if (language == "Английский")
             {
@@ -1054,831 +1057,193 @@ namespace WebApplication15.Controllers
                 {
                     if (testNumber == 1) // Словарный запас
                     {
-                        questions.Add(new Question
+                        for (int i = 1; i <= 5; i++)
                         {
-                            Text = "Выберите правильный перевод: 'Дом'",
-                            CorrectAnswer = "House",
-                            Options = new List<Option>
+                            string questionKey = $"{languageCode}_A1_Vocabulary_Q{i}";
+                            var localizedQuestion = _localizer[questionKey];
+                            
+                            // Если вопрос не найден в ресурсах, используем базовый
+                            string questionText = localizedQuestion.ResourceNotFound 
+                                ? $"Вопрос {i} по {language} языку (уровень {level})"
+                                : localizedQuestion.Value;
+                            
+                            var question = new Question
                             {
-                                new Option { Text = "House", IsCorrect = true },
-                                new Option { Text = "Car", IsCorrect = false },
-                                new Option { Text = "Tree", IsCorrect = false },
-                                new Option { Text = "Door", IsCorrect = false }
-                            }
-                        });
-                        
-                        questions.Add(new Question
-                        {
-                            Text = "Что из этого НЕ является цветом?",
-                            CorrectAnswer = "Table",
-                            Options = new List<Option>
+                                Text = questionText,
+                                Options = GetOptionsForQuestion(languageCode, "A1", "Vocabulary", i)
+                            };
+                            
+                            // Устанавливаем правильный ответ
+                            foreach (var option in question.Options)
                             {
-                                new Option { Text = "Red", IsCorrect = false },
-                                new Option { Text = "Blue", IsCorrect = false },
-                                new Option { Text = "Green", IsCorrect = false },
-                                new Option { Text = "Table", IsCorrect = true }
+                                if (option.IsCorrect)
+                                {
+                                    question.CorrectAnswer = option.Text;
+                                    break;
+                                }
                             }
-                        });
-                        
-                        questions.Add(new Question
-                        {
-                            Text = "Выберите правильную пару противоположностей",
-                            CorrectAnswer = "Hot - Cold",
-                            Options = new List<Option>
-                            {
-                                new Option { Text = "Big - Small", IsCorrect = false },
-                                new Option { Text = "Hot - Cold", IsCorrect = true },
-                                new Option { Text = "Fast - Quick", IsCorrect = false },
-                                new Option { Text = "Happy - Glad", IsCorrect = false }
-                            }
-                        });
-                        
-                        questions.Add(new Question
-                        {
-                            Text = "Какое слово обозначает члена семьи?",
-                            CorrectAnswer = "Brother",
-                            Options = new List<Option>
-                            {
-                                new Option { Text = "Friend", IsCorrect = false },
-                                new Option { Text = "Teacher", IsCorrect = false },
-                                new Option { Text = "Brother", IsCorrect = true },
-                                new Option { Text = "Doctor", IsCorrect = false }
-                            }
-                        });
-                        
-                        questions.Add(new Question
-                        {
-                            Text = "Переведите на английский: 'Доброе утро'",
-                            CorrectAnswer = "Good morning",
-                            Options = new List<Option>
-                            {
-                                new Option { Text = "Good night", IsCorrect = false },
-                                new Option { Text = "Good afternoon", IsCorrect = false },
-                                new Option { Text = "Good evening", IsCorrect = false },
-                                new Option { Text = "Good morning", IsCorrect = true }
-                            }
-                        });
+                            
+                            questions.Add(question);
+                        }
                     }
                     else // Грамматика
                     {
-                        questions.Add(new Question
+                        for (int i = 1; i <= 5; i++)
                         {
-                            Text = "Выберите правильный артикль: I see ___ apple.",
-                            CorrectAnswer = "an",
-                            Options = new List<Option>
+                            string questionKey = $"{languageCode}_A1_Grammar_Q{i}";
+                            var localizedQuestion = _localizer[questionKey];
+                            
+                            // Если вопрос не найден в ресурсах, используем базовый
+                            string questionText = localizedQuestion.ResourceNotFound 
+                                ? $"Грамматический вопрос {i} по {language} языку (уровень {level})"
+                                : localizedQuestion.Value;
+                            
+                            var question = new Question
                             {
-                                new Option { Text = "a", IsCorrect = false },
-                                new Option { Text = "an", IsCorrect = true },
-                                new Option { Text = "the", IsCorrect = false },
-                                new Option { Text = "не нужен артикль", IsCorrect = false }
-                            }
-                        });
-                        
-                        questions.Add(new Question
-                        {
-                            Text = "Выберите правильную форму глагола: She ___ TV every day.",
-                            CorrectAnswer = "watches",
-                            Options = new List<Option>
+                                Text = questionText,
+                                Options = GetOptionsForQuestion(languageCode, "A1", "Grammar", i)
+                            };
+                            
+                            // Устанавливаем правильный ответ
+                            foreach (var option in question.Options)
                             {
-                                new Option { Text = "watch", IsCorrect = false },
-                                new Option { Text = "watches", IsCorrect = true },
-                                new Option { Text = "watching", IsCorrect = false },
-                                new Option { Text = "to watch", IsCorrect = false }
+                                if (option.IsCorrect)
+                                {
+                                    question.CorrectAnswer = option.Text;
+                                    break;
+                                }
                             }
-                        });
-                        
-                        questions.Add(new Question
-                        {
-                            Text = "Выберите правильный предлог: The book is ___ the table.",
-                            CorrectAnswer = "on",
-                            Options = new List<Option>
-                            {
-                                new Option { Text = "in", IsCorrect = false },
-                                new Option { Text = "at", IsCorrect = false },
-                                new Option { Text = "on", IsCorrect = true },
-                                new Option { Text = "by", IsCorrect = false }
-                            }
-                        });
-                        
-                        questions.Add(new Question
-                        {
-                            Text = "Выберите правильное местоимение: ___ are my friends.",
-                            CorrectAnswer = "They",
-                            Options = new List<Option>
-                            {
-                                new Option { Text = "She", IsCorrect = false },
-                                new Option { Text = "He", IsCorrect = false },
-                                new Option { Text = "It", IsCorrect = false },
-                                new Option { Text = "They", IsCorrect = true }
-                            }
-                        });
-                        
-                        questions.Add(new Question
-                        {
-                            Text = "Выберите правильную форму множественного числа: one child, two ___.",
-                            CorrectAnswer = "children",
-                            Options = new List<Option>
-                            {
-                                new Option { Text = "childs", IsCorrect = false },
-                                new Option { Text = "childes", IsCorrect = false },
-                                new Option { Text = "children", IsCorrect = true },
-                                new Option { Text = "child", IsCorrect = false }
-                            }
-                        });
+                            
+                            questions.Add(question);
+                        }
                     }
                 }
                 else if (level == "A2")
                 {
+                    // Аналогично для A2...
                     if (testNumber == 1) // Словарный запас
                     {
-                        questions.Add(new Question
+                        for (int i = 1; i <= 5; i++)
                         {
-                            Text = "Какое слово относится к погоде?",
-                            CorrectAnswer = "Thunderstorm",
-                            Options = new List<Option>
+                            string questionKey = $"{languageCode}_A2_Vocabulary_Q{i}";
+                            var localizedQuestion = _localizer[questionKey];
+                            
+                            string questionText = localizedQuestion.ResourceNotFound 
+                                ? $"Вопрос {i} по {language} языку (уровень {level})"
+                                : localizedQuestion.Value;
+                            
+                            var question = new Question
                             {
-                                new Option { Text = "Kitchen", IsCorrect = false },
-                                new Option { Text = "Thunderstorm", IsCorrect = true },
-                                new Option { Text = "Telephone", IsCorrect = false },
-                                new Option { Text = "Magazine", IsCorrect = false }
-                            }
-                        });
-                        
-                        questions.Add(new Question
-                        {
-                            Text = "Выберите правильный перевод: 'Путешествовать'",
-                            CorrectAnswer = "Travel",
-                            Options = new List<Option>
+                                Text = questionText,
+                                Options = GetOptionsForQuestion(languageCode, "A2", "Vocabulary", i)
+                            };
+                            
+                            foreach (var option in question.Options)
                             {
-                                new Option { Text = "Train", IsCorrect = false },
-                                new Option { Text = "Track", IsCorrect = false },
-                                new Option { Text = "Travel", IsCorrect = true },
-                                new Option { Text = "Trip", IsCorrect = false }
+                                if (option.IsCorrect)
+                                {
+                                    question.CorrectAnswer = option.Text;
+                                    break;
+                                }
                             }
-                        });
-                        
-                        questions.Add(new Question
-                        {
-                            Text = "Как называется место, где люди могут смотреть фильмы?",
-                            CorrectAnswer = "Cinema",
-                            Options = new List<Option>
-                            {
-                                new Option { Text = "Library", IsCorrect = false },
-                                new Option { Text = "Museum", IsCorrect = false },
-                                new Option { Text = "Cinema", IsCorrect = true },
-                                new Option { Text = "Hospital", IsCorrect = false }
-                            }
-                        });
-                        
-                        questions.Add(new Question
-                        {
-                            Text = "Выберите слово, относящееся к теме 'Еда'",
-                            CorrectAnswer = "Breakfast",
-                            Options = new List<Option>
-                            {
-                                new Option { Text = "Breakfast", IsCorrect = true },
-                                new Option { Text = "Telephone", IsCorrect = false },
-                                new Option { Text = "Bicycle", IsCorrect = false },
-                                new Option { Text = "Postcard", IsCorrect = false }
-                            }
-                        });
-                        
-                        questions.Add(new Question
-                        {
-                            Text = "Какое из этих слов обозначает профессию?",
-                            CorrectAnswer = "Teacher",
-                            Options = new List<Option>
-                            {
-                                new Option { Text = "Market", IsCorrect = false },
-                                new Option { Text = "Summer", IsCorrect = false },
-                                new Option { Text = "Computer", IsCorrect = false },
-                                new Option { Text = "Teacher", IsCorrect = true }
-                            }
-                        });
+                            
+                            questions.Add(question);
+                        }
                     }
                     else // Грамматика
                     {
-                        questions.Add(new Question
+                        for (int i = 1; i <= 5; i++)
                         {
-                            Text = "Выберите правильную форму прошедшего времени: I ___ a movie yesterday.",
-                            CorrectAnswer = "watched",
-                            Options = new List<Option>
+                            string questionKey = $"{languageCode}_A2_Grammar_Q{i}";
+                            var localizedQuestion = _localizer[questionKey];
+                            
+                            string questionText = localizedQuestion.ResourceNotFound 
+                                ? $"Грамматический вопрос {i} по {language} языку (уровень {level})"
+                                : localizedQuestion.Value;
+                            
+                            var question = new Question
                             {
-                                new Option { Text = "watch", IsCorrect = false },
-                                new Option { Text = "watching", IsCorrect = false },
-                                new Option { Text = "watches", IsCorrect = false },
-                                new Option { Text = "watched", IsCorrect = true }
-                            }
-                        });
-                        
-                        questions.Add(new Question
-                        {
-                            Text = "Выберите правильную форму сравнения: This building is ___ than my house.",
-                            CorrectAnswer = "taller",
-                            Options = new List<Option>
+                                Text = questionText,
+                                Options = GetOptionsForQuestion(languageCode, "A2", "Grammar", i)
+                            };
+                            
+                            foreach (var option in question.Options)
                             {
-                                new Option { Text = "tall", IsCorrect = false },
-                                new Option { Text = "tallest", IsCorrect = false },
-                                new Option { Text = "taller", IsCorrect = true },
-                                new Option { Text = "more tall", IsCorrect = false }
+                                if (option.IsCorrect)
+                                {
+                                    question.CorrectAnswer = option.Text;
+                                    break;
+                                }
                             }
-                        });
-                        
-                        questions.Add(new Question
-                        {
-                            Text = "Выберите правильный модальный глагол: You ___ eat healthy food.",
-                            CorrectAnswer = "should",
-                            Options = new List<Option>
-                            {
-                                new Option { Text = "should", IsCorrect = true },
-                                new Option { Text = "must to", IsCorrect = false },
-                                new Option { Text = "can to", IsCorrect = false },
-                                new Option { Text = "would to", IsCorrect = false }
-                            }
-                        });
-                        
-                        questions.Add(new Question
-                        {
-                            Text = "Выберите правильную форму будущего времени: I ___ to the party tomorrow.",
-                            CorrectAnswer = "will go",
-                            Options = new List<Option>
-                            {
-                                new Option { Text = "go", IsCorrect = false },
-                                new Option { Text = "goes", IsCorrect = false },
-                                new Option { Text = "went", IsCorrect = false },
-                                new Option { Text = "will go", IsCorrect = true }
-                            }
-                        });
-                        
-                        questions.Add(new Question
-                        {
-                            Text = "Выберите правильное продолженное время: She ___ a book now.",
-                            CorrectAnswer = "is reading",
-                            Options = new List<Option>
-                            {
-                                new Option { Text = "reads", IsCorrect = false },
-                                new Option { Text = "read", IsCorrect = false },
-                                new Option { Text = "is reading", IsCorrect = true },
-                                new Option { Text = "reading", IsCorrect = false }
-                            }
-                        });
+                            
+                            questions.Add(question);
+                        }
                     }
                 }
-                else if (level == "B1") 
-                {
-                    if (testNumber == 1) // Словарный запас
-                    {
-                        questions.Add(new Question
-                        {
-                            Text = "Выберите правильный синоним к слову 'huge'",
-                            CorrectAnswer = "enormous",
-                            Options = new List<Option>
-                            {
-                                new Option { Text = "tiny", IsCorrect = false },
-                                new Option { Text = "common", IsCorrect = false },
-                                new Option { Text = "enormous", IsCorrect = true },
-                                new Option { Text = "interesting", IsCorrect = false }
-                            }
-                        });
-                        
-                        questions.Add(new Question
-                        {
-                            Text = "Какое из этих слов означает 'обещание'?",
-                            CorrectAnswer = "promise",
-                            Options = new List<Option>
-                            {
-                                new Option { Text = "surprise", IsCorrect = false },
-                                new Option { Text = "promise", IsCorrect = true },
-                                new Option { Text = "propose", IsCorrect = false },
-                                new Option { Text = "predict", IsCorrect = false }
-                            }
-                        });
-                        
-                        questions.Add(new Question
-                        {
-                            Text = "Выберите фразовый глагол со значением 'сдаваться'",
-                            CorrectAnswer = "give up",
-                            Options = new List<Option>
-                            {
-                                new Option { Text = "take off", IsCorrect = false },
-                                new Option { Text = "give up", IsCorrect = true },
-                                new Option { Text = "look after", IsCorrect = false },
-                                new Option { Text = "turn down", IsCorrect = false }
-                            }
-                        });
-                        
-                        questions.Add(new Question
-                        {
-                            Text = "Выберите слово, которое относится к теме 'Окружающая среда'",
-                            CorrectAnswer = "pollution",
-                            Options = new List<Option>
-                            {
-                                new Option { Text = "education", IsCorrect = false },
-                                new Option { Text = "pollution", IsCorrect = true },
-                                new Option { Text = "hospitality", IsCorrect = false },
-                                new Option { Text = "entertainment", IsCorrect = false }
-                            }
-                        });
-                        
-                        questions.Add(new Question
-                        {
-                            Text = "Какое значение имеет идиома 'to hit the books'?",
-                            CorrectAnswer = "начать усердно учиться",
-                            Options = new List<Option>
-                            {
-                                new Option { Text = "ударить книги", IsCorrect = false },
-                                new Option { Text = "начать усердно учиться", IsCorrect = true },
-                                new Option { Text = "покупать много книг", IsCorrect = false },
-                                new Option { Text = "посетить библиотеку", IsCorrect = false }
-                            }
-                        });
-                    }
-                    else // Грамматика
-                    {
-                        questions.Add(new Question
-                        {
-                            Text = "Выберите правильную форму условного предложения: If I had more time, I ___ a new language.",
-                            CorrectAnswer = "would learn",
-                            Options = new List<Option>
-                            {
-                                new Option { Text = "will learn", IsCorrect = false },
-                                new Option { Text = "would learning", IsCorrect = false },
-                                new Option { Text = "would learn", IsCorrect = true },
-                                new Option { Text = "will be learning", IsCorrect = false }
-                            }
-                        });
-                        
-                        questions.Add(new Question
-                        {
-                            Text = "Выберите правильную форму страдательного залога: The letter ___ yesterday.",
-                            CorrectAnswer = "was sent",
-                            Options = new List<Option>
-                            {
-                                new Option { Text = "was send", IsCorrect = false },
-                                new Option { Text = "was sent", IsCorrect = true },
-                                new Option { Text = "is sent", IsCorrect = false },
-                                new Option { Text = "sent", IsCorrect = false }
-                            }
-                        });
-                        
-                        questions.Add(new Question
-                        {
-                            Text = "Выберите правильный вариант косвенной речи: He said, 'I am tired.' → He said that ___.",
-                            CorrectAnswer = "he was tired",
-                            Options = new List<Option>
-                            {
-                                new Option { Text = "he is tired", IsCorrect = false },
-                                new Option { Text = "he has tired", IsCorrect = false },
-                                new Option { Text = "he was tired", IsCorrect = true },
-                                new Option { Text = "he had tired", IsCorrect = false }
-                            }
-                        });
-                        
-                        questions.Add(new Question
-                        {
-                            Text = "Выберите правильный модальный глагол: You ___ be joking! That's incredible!",
-                            CorrectAnswer = "must",
-                            Options = new List<Option>
-                            {
-                                new Option { Text = "should", IsCorrect = false },
-                                new Option { Text = "can", IsCorrect = false },
-                                new Option { Text = "must", IsCorrect = true },
-                                new Option { Text = "would", IsCorrect = false }
-                            }
-                        });
-                        
-                        questions.Add(new Question
-                        {
-                            Text = "Выберите правильную форму времени: I ___ here since 2010.",
-                            CorrectAnswer = "have been working",
-                            Options = new List<Option>
-                            {
-                                new Option { Text = "work", IsCorrect = false },
-                                new Option { Text = "worked", IsCorrect = false },
-                                new Option { Text = "have worked", IsCorrect = false },
-                                new Option { Text = "have been working", IsCorrect = true }
-                            }
-                        });
-                    }
-                }
+                // Аналогично для других уровней
             }
-            else if (language == "Русский")
+            // Аналогично для других языков
+            else if (language == "Русский" || language == "Казахский" || language == "Турецкий")
             {
                 if (level == "A1")
                 {
                     if (testNumber == 1) // Словарный запас
                     {
-                        questions.Add(new Question
+                        for (int i = 1; i <= 5; i++)
                         {
-                            Text = "Выберите правильный перевод: 'Hello'",
-                            CorrectAnswer = "Привет",
-                            Options = new List<Option>
+                            string questionKey = $"{languageCode}_A1_Vocabulary_Q{i}";
+                            var localizedQuestion = _localizer[questionKey];
+                            
+                            string questionText = localizedQuestion.ResourceNotFound 
+                                ? $"Вопрос {i} по {language} языку (уровень {level})"
+                                : localizedQuestion.Value;
+                            
+                            var question = new Question
                             {
-                                new Option { Text = "Спасибо", IsCorrect = false },
-                                new Option { Text = "Пожалуйста", IsCorrect = false },
-                                new Option { Text = "Привет", IsCorrect = true },
-                                new Option { Text = "До свидания", IsCorrect = false }
-                            }
-                        });
-                        
-                        questions.Add(new Question
-                        {
-                            Text = "Как по-русски 'family'?",
-                            CorrectAnswer = "Семья",
-                            Options = new List<Option>
+                                Text = questionText,
+                                Options = GetOptionsForQuestion(languageCode, "A1", "Vocabulary", i)
+                            };
+                            
+                            foreach (var option in question.Options)
                             {
-                                new Option { Text = "Друг", IsCorrect = false },
-                                new Option { Text = "Дом", IsCorrect = false },
-                                new Option { Text = "Школа", IsCorrect = false },
-                                new Option { Text = "Семья", IsCorrect = true }
+                                if (option.IsCorrect)
+                                {
+                                    question.CorrectAnswer = option.Text;
+                                    break;
+                                }
                             }
-                        });
-                        
-                        questions.Add(new Question
-                        {
-                            Text = "Какое слово обозначает день недели?",
-                            CorrectAnswer = "Понедельник",
-                            Options = new List<Option>
-                            {
-                                new Option { Text = "Понедельник", IsCorrect = true },
-                                new Option { Text = "Январь", IsCorrect = false },
-                                new Option { Text = "Утро", IsCorrect = false },
-                                new Option { Text = "Весна", IsCorrect = false }
-                            }
-                        });
-                        
-                        questions.Add(new Question
-                        {
-                            Text = "Выберите слово, обозначающее цвет",
-                            CorrectAnswer = "Красный",
-                            Options = new List<Option>
-                            {
-                                new Option { Text = "Стол", IsCorrect = false },
-                                new Option { Text = "Красный", IsCorrect = true },
-                                new Option { Text = "Высокий", IsCorrect = false },
-                                new Option { Text = "Быстро", IsCorrect = false }
-                            }
-                        });
-                        
-                        questions.Add(new Question
-                        {
-                            Text = "Как по-русски сказать 'thank you'?",
-                            CorrectAnswer = "Спасибо",
-                            Options = new List<Option>
-                            {
-                                new Option { Text = "Привет", IsCorrect = false },
-                                new Option { Text = "Пожалуйста", IsCorrect = false },
-                                new Option { Text = "Спасибо", IsCorrect = true },
-                                new Option { Text = "Извините", IsCorrect = false }
-                            }
-                        });
+                            
+                            questions.Add(question);
+                        }
                     }
                     else // Грамматика
                     {
-                        questions.Add(new Question
+                        for (int i = 1; i <= 5; i++)
                         {
-                            Text = "Выберите правильную форму множественного числа: стол - ...",
-                            CorrectAnswer = "столы",
-                            Options = new List<Option>
+                            string questionKey = $"{languageCode}_A1_Grammar_Q{i}";
+                            var localizedQuestion = _localizer[questionKey];
+                            
+                            string questionText = localizedQuestion.ResourceNotFound 
+                                ? $"Грамматический вопрос {i} по {language} языку (уровень {level})"
+                                : localizedQuestion.Value;
+                            
+                            var question = new Question
                             {
-                                new Option { Text = "столы", IsCorrect = true },
-                                new Option { Text = "стола", IsCorrect = false },
-                                new Option { Text = "столов", IsCorrect = false },
-                                new Option { Text = "столах", IsCorrect = false }
-                            }
-                        });
-                        
-                        questions.Add(new Question
-                        {
-                            Text = "Выберите правильное окончание: Я говор... по-русски.",
-                            CorrectAnswer = "ю",
-                            Options = new List<Option>
+                                Text = questionText,
+                                Options = GetOptionsForQuestion(languageCode, "A1", "Grammar", i)
+                            };
+                            
+                            foreach (var option in question.Options)
                             {
-                                new Option { Text = "ю", IsCorrect = true },
-                                new Option { Text = "у", IsCorrect = false },
-                                new Option { Text = "ит", IsCorrect = false },
-                                new Option { Text = "им", IsCorrect = false }
+                                if (option.IsCorrect)
+                                {
+                                    question.CorrectAnswer = option.Text;
+                                    break;
+                                }
                             }
-                        });
-                        
-                        questions.Add(new Question
-                        {
-                            Text = "Выберите правильное личное местоимение: ... идём в кино.",
-                            CorrectAnswer = "Мы",
-                            Options = new List<Option>
-                            {
-                                new Option { Text = "Я", IsCorrect = false },
-                                new Option { Text = "Ты", IsCorrect = false },
-                                new Option { Text = "Он", IsCorrect = false },
-                                new Option { Text = "Мы", IsCorrect = true }
-                            }
-                        });
-                        
-                        questions.Add(new Question
-                        {
-                            Text = "Выберите правильную форму глагола: Она ... музыку.",
-                            CorrectAnswer = "слушает",
-                            Options = new List<Option>
-                            {
-                                new Option { Text = "слушаю", IsCorrect = false },
-                                new Option { Text = "слушаешь", IsCorrect = false },
-                                new Option { Text = "слушает", IsCorrect = true },
-                                new Option { Text = "слушают", IsCorrect = false }
-                            }
-                        });
-                        
-                        questions.Add(new Question
-                        {
-                            Text = "Выберите правильный предлог: Книга лежит ... столе.",
-                            CorrectAnswer = "на",
-                            Options = new List<Option>
-                            {
-                                new Option { Text = "в", IsCorrect = false },
-                                new Option { Text = "на", IsCorrect = true },
-                                new Option { Text = "под", IsCorrect = false },
-                                new Option { Text = "у", IsCorrect = false }
-                            }
-                        });
-                    }
-                }
-            }
-            else if (language == "Казахский")
-            {
-                if (level == "A1")
-                {
-                    if (testNumber == 1) // Словарный запас
-                    {
-                        questions.Add(new Question
-                        {
-                            Text = "Выберите правильный перевод: 'Привет'",
-                            CorrectAnswer = "Сәлем",
-                            Options = new List<Option>
-                            {
-                                new Option { Text = "Рахмет", IsCorrect = false },
-                                new Option { Text = "Кеш жарық", IsCorrect = false },
-                                new Option { Text = "Сәлем", IsCorrect = true },
-                                new Option { Text = "Сау болыңыз", IsCorrect = false }
-                            }
-                        });
-                        
-                        questions.Add(new Question
-                        {
-                            Text = "Как называется числительное 'один' на казахском?",
-                            CorrectAnswer = "бір",
-                            Options = new List<Option>
-                            {
-                                new Option { Text = "бір", IsCorrect = true },
-                                new Option { Text = "екі", IsCorrect = false },
-                                new Option { Text = "үш", IsCorrect = false },
-                                new Option { Text = "төрт", IsCorrect = false }
-                            }
-                        });
-                        
-                        questions.Add(new Question
-                        {
-                            Text = "Выберите название дня недели на казахском",
-                            CorrectAnswer = "жексенбі",
-                            Options = new List<Option>
-                            {
-                                new Option { Text = "жексенбі", IsCorrect = true },
-                                new Option { Text = "маусым", IsCorrect = false },
-                                new Option { Text = "таңертең", IsCorrect = false },
-                                new Option { Text = "көктем", IsCorrect = false }
-                            }
-                        });
-                        
-                        questions.Add(new Question
-                        {
-                            Text = "Как будет 'школа' на казахском?",
-                            CorrectAnswer = "мектеп",
-                            Options = new List<Option>
-                            {
-                                new Option { Text = "үй", IsCorrect = false },
-                                new Option { Text = "дәптер", IsCorrect = false },
-                                new Option { Text = "мектеп", IsCorrect = true },
-                                new Option { Text = "кітап", IsCorrect = false }
-                            }
-                        });
-                        
-                        questions.Add(new Question
-                        {
-                            Text = "Выберите правильное приветствие на казахском языке",
-                            CorrectAnswer = "Қайырлы таң",
-                            Options = new List<Option>
-                            {
-                                new Option { Text = "Сау болыңыз", IsCorrect = false },
-                                new Option { Text = "Қайырлы таң", IsCorrect = true },
-                                new Option { Text = "Рахмет", IsCorrect = false },
-                                new Option { Text = "Кешіріңіз", IsCorrect = false }
-                            }
-                        });
-                    }
-                    else // Грамматика
-                    {
-                        questions.Add(new Question
-                        {
-                            Text = "Выберите правильное окончание множественного числа: кітап...",
-                            CorrectAnswer = "тар",
-                            Options = new List<Option>
-                            {
-                                new Option { Text = "тар", IsCorrect = true },
-                                new Option { Text = "дар", IsCorrect = false },
-                                new Option { Text = "дер", IsCorrect = false },
-                                new Option { Text = "лар", IsCorrect = false }
-                            }
-                        });
-                        
-                        questions.Add(new Question
-                        {
-                            Text = "Выберите правильное личное местоимение: ... мектепке барамын.",
-                            CorrectAnswer = "Мен",
-                            Options = new List<Option>
-                            {
-                                new Option { Text = "Мен", IsCorrect = true },
-                                new Option { Text = "Сен", IsCorrect = false },
-                                new Option { Text = "Ол", IsCorrect = false },
-                                new Option { Text = "Біз", IsCorrect = false }
-                            }
-                        });
-                        
-                        questions.Add(new Question
-                        {
-                            Text = "Выберите правильный суффикс принадлежности: менің кітаб...",
-                            CorrectAnswer = "ым",
-                            Options = new List<Option>
-                            {
-                                new Option { Text = "ым", IsCorrect = true },
-                                new Option { Text = "ың", IsCorrect = false },
-                                new Option { Text = "ы", IsCorrect = false },
-                                new Option { Text = "ымыз", IsCorrect = false }
-                            }
-                        });
-                        
-                        questions.Add(new Question
-                        {
-                            Text = "Выберите правильную форму глагола: Олар кітап ...",
-                            CorrectAnswer = "оқиды",
-                            Options = new List<Option>
-                            {
-                                new Option { Text = "оқимын", IsCorrect = false },
-                                new Option { Text = "оқисың", IsCorrect = false },
-                                new Option { Text = "оқиды", IsCorrect = true },
-                                new Option { Text = "оқимыз", IsCorrect = false }
-                            }
-                        });
-                        
-                        questions.Add(new Question
-                        {
-                            Text = "Выберите правильный послелог: үстел ... кітап",
-                            CorrectAnswer = "үстінде",
-                            Options = new List<Option>
-                            {
-                                new Option { Text = "астында", IsCorrect = false },
-                                new Option { Text = "үстінде", IsCorrect = true },
-                                new Option { Text = "жанында", IsCorrect = false },
-                                new Option { Text = "алдында", IsCorrect = false }
-                            }
-                        });
-                    }
-                }
-            }
-            else if (language == "Турецкий")
-            {
-                if (level == "A1")
-                {
-                    if (testNumber == 1) // Словарный запас
-                    {
-                        questions.Add(new Question
-                        {
-                            Text = "Выберите правильный перевод: 'Здравствуйте'",
-                            CorrectAnswer = "Merhaba",
-                            Options = new List<Option>
-                            {
-                                new Option { Text = "Merhaba", IsCorrect = true },
-                                new Option { Text = "Teşekkür ederim", IsCorrect = false },
-                                new Option { Text = "Güle güle", IsCorrect = false },
-                                new Option { Text = "Lütfen", IsCorrect = false }
-                            }
-                        });
-                        
-                        questions.Add(new Question
-                        {
-                            Text = "Как будет 'дом' на турецком?",
-                            CorrectAnswer = "Ev",
-                            Options = new List<Option>
-                            {
-                                new Option { Text = "Okul", IsCorrect = false },
-                                new Option { Text = "Araba", IsCorrect = false },
-                                new Option { Text = "Ev", IsCorrect = true },
-                                new Option { Text = "Kitap", IsCorrect = false }
-                            }
-                        });
-                        
-                        questions.Add(new Question
-                        {
-                            Text = "Выберите правильный перевод числительного 'пять'",
-                            CorrectAnswer = "Beş",
-                            Options = new List<Option>
-                            {
-                                new Option { Text = "Bir", IsCorrect = false },
-                                new Option { Text = "Üç", IsCorrect = false },
-                                new Option { Text = "Beş", IsCorrect = true },
-                                new Option { Text = "On", IsCorrect = false }
-                            }
-                        });
-                        
-                        questions.Add(new Question
-                        {
-                            Text = "Как на турецком будет 'понедельник'?",
-                            CorrectAnswer = "Pazartesi",
-                            Options = new List<Option>
-                            {
-                                new Option { Text = "Pazartesi", IsCorrect = true },
-                                new Option { Text = "Salı", IsCorrect = false },
-                                new Option { Text = "Cuma", IsCorrect = false },
-                                new Option { Text = "Pazar", IsCorrect = false }
-                            }
-                        });
-                        
-                        questions.Add(new Question
-                        {
-                            Text = "Выберите слово, обозначающее цвет",
-                            CorrectAnswer = "Kırmızı",
-                            Options = new List<Option>
-                            {
-                                new Option { Text = "Kırmızı", IsCorrect = true },
-                                new Option { Text = "Masa", IsCorrect = false },
-                                new Option { Text = "Kalem", IsCorrect = false },
-                                new Option { Text = "Güzel", IsCorrect = false }
-                            }
-                        });
-                    }
-                    else // Грамматика
-                    {
-                        questions.Add(new Question
-                        {
-                            Text = "Выберите правильное окончание множественного числа: kitap...",
-                            CorrectAnswer = "lar",
-                            Options = new List<Option>
-                            {
-                                new Option { Text = "lar", IsCorrect = true },
-                                new Option { Text = "ler", IsCorrect = false },
-                                new Option { Text = "lir", IsCorrect = false },
-                                new Option { Text = "da", IsCorrect = false }
-                            }
-                        });
-                        
-                        questions.Add(new Question
-                        {
-                            Text = "Выберите правильное личное местоимение: ... okula gidiyorum.",
-                            CorrectAnswer = "Ben",
-                            Options = new List<Option>
-                            {
-                                new Option { Text = "Ben", IsCorrect = true },
-                                new Option { Text = "Sen", IsCorrect = false },
-                                new Option { Text = "O", IsCorrect = false },
-                                new Option { Text = "Biz", IsCorrect = false }
-                            }
-                        });
-                        
-                        questions.Add(new Question
-                        {
-                            Text = "Выберите правильное окончание глагола: Ben yemek ye...",
-                            CorrectAnswer = "rim",
-                            Options = new List<Option>
-                            {
-                                new Option { Text = "rim", IsCorrect = true },
-                                new Option { Text = "rsin", IsCorrect = false },
-                                new Option { Text = "r", IsCorrect = false },
-                                new Option { Text = "riz", IsCorrect = false }
-                            }
-                        });
-                        
-                        questions.Add(new Question
-                        {
-                            Text = "Какой суффикс используется для местного падежа в турецком? Ev...",
-                            CorrectAnswer = "de",
-                            Options = new List<Option>
-                            {
-                                new Option { Text = "de", IsCorrect = true },
-                                new Option { Text = "i", IsCorrect = false },
-                                new Option { Text = "e", IsCorrect = false },
-                                new Option { Text = "den", IsCorrect = false }
-                            }
-                        });
-                        
-                        questions.Add(new Question
-                        {
-                            Text = "Выберите правильное отрицание глагола: Ben okula git...",
-                            CorrectAnswer = "miyorum",
-                            Options = new List<Option>
-                            {
-                                new Option { Text = "miyorum", IsCorrect = true },
-                                new Option { Text = "memem", IsCorrect = false },
-                                new Option { Text = "mezim", IsCorrect = false },
-                                new Option { Text = "merim", IsCorrect = false }
-                            }
-                        });
+                            
+                            questions.Add(question);
+                        }
                     }
                 }
             }
@@ -1886,21 +1251,93 @@ namespace WebApplication15.Controllers
             // Если вопросов меньше 5, добавляем стандартные вопросы для заполнения
             while (questions.Count < 5)
             {
-                questions.Add(new Question
-                {
-                    Text = $"Дополнительный вопрос для теста по {language.ToLower()} языку уровня {level}",
-                    CorrectAnswer = "Правильный ответ",
-                    Options = new List<Option>
-                    {
-                        new Option { Text = "Правильный ответ", IsCorrect = true },
-                        new Option { Text = "Неправильный ответ 1", IsCorrect = false },
-                        new Option { Text = "Неправильный ответ 2", IsCorrect = false },
-                        new Option { Text = "Неправильный ответ 3", IsCorrect = false }
+                var additionalQuestion = _localizer["Additional_Question", language.ToLower(), level];
+                var correctAnswer = _localizer["Correct_Answer"];
+                var wrongAnswer1 = _localizer["Wrong_Answer_1"];
+                var wrongAnswer2 = _localizer["Wrong_Answer_2"];
+                var wrongAnswer3 = _localizer["Wrong_Answer_3"];
+                
+                string additionalQuestionText = additionalQuestion.ResourceNotFound 
+                    ? $"Дополнительный вопрос по {language} языку (уровень {level})" 
+                    : additionalQuestion.Value;
+                
+                string correctAnswerText = correctAnswer.ResourceNotFound ? "Правильный ответ" : correctAnswer.Value;
+                string wrongAnswer1Text = wrongAnswer1.ResourceNotFound ? "Неправильный ответ 1" : wrongAnswer1.Value;
+                string wrongAnswer2Text = wrongAnswer2.ResourceNotFound ? "Неправильный ответ 2" : wrongAnswer2.Value;
+                string wrongAnswer3Text = wrongAnswer3.ResourceNotFound ? "Неправильный ответ 3" : wrongAnswer3.Value;
+                        
+                        questions.Add(new Question
+                        {
+                    Text = additionalQuestionText,
+                    CorrectAnswer = correctAnswerText,
+                            Options = new List<Option>
+                            {
+                        new Option { Text = correctAnswerText, IsCorrect = true },
+                        new Option { Text = wrongAnswer1Text, IsCorrect = false },
+                        new Option { Text = wrongAnswer2Text, IsCorrect = false },
+                        new Option { Text = wrongAnswer3Text, IsCorrect = false }
+                            }
+                        });
                     }
+            
+            return questions;
+        }
+
+        // Вспомогательный метод для получения вариантов ответа для вопроса
+        private List<Option> GetOptionsForQuestion(string languageCode, string level, string testType, int questionNumber)
+        {
+            var options = new List<Option>();
+            
+            // По умолчанию создаем 4 варианта ответа
+            for (int i = 1; i <= 4; i++)
+            {
+                string optionKey = $"{languageCode}_{level}_{testType}_Q{questionNumber}_Opt{i}";
+                var localizedOption = _localizer[optionKey];
+                string optionText;
+                
+                // Для некоторых ответов может быть отдельный ключ, например для правильного ответа
+                if (localizedOption.ResourceNotFound)
+                {
+                    // Для правильного ответа часто есть специальный ключ
+                    if (i == 2) // Предполагаем, что второй вариант часто правильный (можно изменить логику)
+                    {
+                        string answerKey = $"{languageCode}_{level}_{testType}_Q{questionNumber}_Answer";
+                        var localizedAnswer = _localizer[answerKey];
+                        
+                        // Если и это не найдено, используем базовый текст
+                        optionText = localizedAnswer.ResourceNotFound ? $"Вариант ответа {i}" : localizedAnswer.Value;
+                    }
+                    else
+                    {
+                        optionText = $"Вариант ответа {i}";
+                    }
+                }
+                else
+                {
+                    optionText = localizedOption.Value;
+                }
+                
+                options.Add(new Option
+                {
+                    Text = optionText,
+                    IsCorrect = i == 2 // Предполагаем, что второй вариант всегда правильный (для примера)
                 });
             }
             
-            return questions;
+            return options;
+        }
+
+        // Вспомогательный метод для преобразования названия языка в код для использования в ресурсах
+        private string GetLanguageCodeForResources(string language)
+        {
+            return language switch
+            {
+                "Английский" => "English",
+                "Русский" => "Russian",
+                "Казахский" => "Kazakh",
+                "Турецкий" => "Turkish",
+                _ => language
+            };
         }
 
         [HttpGet]

@@ -68,7 +68,7 @@
     <value>Войти</value>
   </data>
   <data name="Register" xml:space="preserve">
-    <value>Регистрация</value>
+    <value>РЕГИСТРАЦИЯ</value>
   </data>
   <data name="MyResults" xml:space="preserve">
     <value>Мои результаты</value>
@@ -86,7 +86,7 @@
     <value>Пароль</value>
   </data>
   <data name="Tests" xml:space="preserve">
-    <value>Тесты</value>
+    <value>ТЕСТЫ</value>
   </data>
   <data name="Videos" xml:space="preserve">
     <value>Видеоуроки</value>
@@ -95,7 +95,7 @@
     <value>Изучайте языки с нами</value>
   </data>
   <data name="PlatformDescription" xml:space="preserve">
-    <value>Удобная платформа для изучения казахского, английского и турецкого языков.</value>
+    <value>Наша платформа предлагает эффективные методики обучения языкам с использованием интерактивных тестов, видеоуроков и практических упражнений. Присоединяйтесь к нам и начните свой путь к свободному владению иностранными языками уже сегодня.</value>
   </data>
   <data name="StartLearning" xml:space="preserve">
     <value>Начать обучение</value>
@@ -192,5 +192,92 @@
   </data>
   <data name="AboutUs" xml:space="preserve">
     <value>О нас</value>
+  </data>
+  <data name="VideoLessonsHeader" xml:space="preserve">
+    <value>Видеоуроки по изучению языков</value>
+  </data>
+  <data name="VideoLessonsDescription" xml:space="preserve">
+    <value>Изучайте языки с помощью высококачественных видеоуроков от профессиональных преподавателей. Выберите язык и уровень, который вам подходит.</value>
+  </data>
+  <data name="Language" xml:space="preserve">
+    <value>Язык</value>
+  </data>
+  <data name="Level" xml:space="preserve">
+    <value>Уровень</value>
+  </data>
+  <data name="AllLanguages" xml:space="preserve">
+    <value>Все языки</value>
+  </data>
+  <data name="AllLevels" xml:space="preserve">
+    <value>Все уровни</value>
+  </data>
+  <data name="Reset" xml:space="preserve">
+    <value>Сбросить</value>
+  </data>
+  <data name="Diagnostics" xml:space="preserve">
+    <value>Диагностика</value>
+  </data>
+  <data name="DiagnosticsFound" xml:space="preserve">
+    <value>Найдено {0} видео с выбранными фильтрами</value>
+  </data>
+  <data name="SelectedLanguage" xml:space="preserve">
+    <value>Выбранный язык</value>
+  </data>
+  <data name="SelectedLevel" xml:space="preserve">
+    <value>Выбранный уровень</value>
+  </data>
+  <data name="AvailableLevels" xml:space="preserve">
+    <value>Доступные уровни</value>
+  </data>
+  <data name="NotSelected" xml:space="preserve">
+    <value>Не выбран</value>
+  </data>
+  <data name="WatchVideo" xml:space="preserve">
+    <value>Смотреть видео</value>
+  </data>
+  <data name="NoVideosFound" xml:space="preserve">
+    <value>Видеоуроки не найдены</value>
+  </data>
+  <data name="NoVideosMessage" xml:space="preserve">
+    <value>К сожалению, по вашему запросу не найдено видеоуроков. Попробуйте изменить параметры фильтра.</value>
+  </data>
+  <data name="NoVideosInDb" xml:space="preserve">
+    <value>В данный момент в нашей базе нет видеоуроков. Пожалуйста, проверьте позже.</value>
+  </data>
+  <data name="ResetFilter" xml:space="preserve">
+    <value>Сбросить фильтр</value>
+  </data>
+  <data name="AllVideos" xml:space="preserve">
+    <value>Все видеоуроки</value>
+  </data>
+  <data name="WantMoreVideos" xml:space="preserve">
+    <value>Хотите больше видеоуроков?</value>
+  </data>
+  <data name="RegisterForFullAccess" xml:space="preserve">
+    <value>Зарегистрируйтесь на сайте, чтобы получить доступ к полной библиотеке видеоуроков.</value>
+  </data>
+  <data name="UnknownLanguage" xml:space="preserve">
+    <value>Неизвестный язык</value>
+  </data>
+  <data name="NotSpecified" xml:space="preserve">
+    <value>Не указан</value>
+  </data>
+  <data name="Watched" xml:space="preserve">
+    <value>Просмотрено</value>
+  </data>
+  <data name="VideoNotAvailable" xml:space="preserve">
+    <value>Видео недоступно. Пожалуйста, обратитесь к администратору.</value>
+  </data>
+  <data name="MarkAsWatched" xml:space="preserve">
+    <value>Отметить как просмотренное</value>
+  </data>
+  <data name="VideoDescription" xml:space="preserve">
+    <value>Описание</value>
+  </data>
+  <data name="RelatedVideos" xml:space="preserve">
+    <value>Похожие видеоуроки</value>
+  </data>
+  <data name="MasterNewLanguages" xml:space="preserve">
+    <value>Освойте новые языки с помощью наших интерактивных тестов и видеоуроков</value>
   </data>
 </root> 

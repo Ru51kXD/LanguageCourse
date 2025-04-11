@@ -68,7 +68,7 @@
     <value>Giriş</value>
   </data>
   <data name="Register" xml:space="preserve">
-    <value>Kayıt Ol</value>
+    <value>KAYIT OL</value>
   </data>
   <data name="MyResults" xml:space="preserve">
     <value>Sonuçlarım</value>
@@ -86,16 +86,16 @@
     <value>Şifre</value>
   </data>
   <data name="Tests" xml:space="preserve">
-    <value>Testler</value>
+    <value>TESTLER</value>
   </data>
   <data name="Videos" xml:space="preserve">
     <value>Video Dersler</value>
   </data>
   <data name="LearnLanguagesWithUs" xml:space="preserve">
-    <value>Bizimle Dilleri Öğrenin</value>
+    <value>Bizimle Dil Öğrenin</value>
   </data>
   <data name="PlatformDescription" xml:space="preserve">
-    <value>Kazakça, İngilizce ve Türkçe dillerini öğrenmek için kullanışlı platform.</value>
+    <value>Platformumuz, interaktif testler, video dersler ve pratik alıştırmalar kullanarak etkili dil öğrenme yöntemleri sunar. Bize katılın ve yabancı dil öğrenme yolculuğunuza bugün başlayın.</value>
   </data>
   <data name="StartLearning" xml:space="preserve">
     <value>Öğrenmeye Başla</value>
@@ -125,7 +125,7 @@
     <value>İngilizce</value>
   </data>
   <data name="KazakhLanguage" xml:space="preserve">
-    <value>Kazakça</value>
+    <value>Kazak Dili</value>
   </data>
   <data name="TurkishLanguage" xml:space="preserve">
     <value>Türkçe</value>
@@ -140,46 +140,46 @@
     <value>Türkçe</value>
   </data>
   <data name="ChooseLanguageToLearn" xml:space="preserve">
-    <value>Öğrenmek için bir dil seçin</value>
+    <value>Öğrenmek İstediğiniz Dili Seçin</value>
   </data>
   <data name="EnglishDescription" xml:space="preserve">
     <value>İş, teknoloji ve kültürlerarası iletişimin uluslararası dili.</value>
   </data>
   <data name="KazakhDescription" xml:space="preserve">
-    <value>Zengin bir tarih ve kültüre sahip Kazakistan'ın resmi dili.</value>
+    <value>Zengin tarihi ve kültürü olan Kazakistan'ın resmi dili.</value>
   </data>
   <data name="TurkishDescription" xml:space="preserve">
-    <value>Avrupa ve Asya'yı birbirine bağlayan kadim bir tarihe sahip dil.</value>
+    <value>Avrupa ve Asya'yı birbirine bağlayan köklü bir geçmişe sahip dil.</value>
   </data>
   <data name="LearnMore" xml:space="preserve">
-    <value>Daha fazla bilgi</value>
+    <value>Daha Fazla Bilgi</value>
   </data>
   <data name="WhyLearnWithUs" xml:space="preserve">
-    <value>Neden bizimle dil öğrenmelisiniz?</value>
+    <value>Neden Bizimle Dil Öğrenmelisiniz?</value>
   </data>
   <data name="InteractiveLearning" xml:space="preserve">
     <value>İnteraktif Öğrenme</value>
   </data>
   <data name="CulturalImmersion" xml:space="preserve">
-    <value>Kültürel Deneyim</value>
+    <value>Kültürel Daldırma</value>
   </data>
   <data name="Certification" xml:space="preserve">
-    <value>Dil Sertifikası</value>
+    <value>Dil Yeterlilik Sertifikası</value>
   </data>
   <data name="InteractiveLearningDescription" xml:space="preserve">
-    <value>Kurslarımız aktif etkileşim ve pratik üzerine kurulmuştur, bu da öğrenmeyi etkili ve ilgi çekici hale getirir.</value>
+    <value>Kurslarımız aktif etkileşim ve pratik üzerine kuruludur, bu da öğrenmeyi etkili ve ilgi çekici hale getirir.</value>
   </data>
   <data name="CulturalImmersionDescription" xml:space="preserve">
-    <value>Sadece dili değil, bağlamı daha iyi anlamak için ülkenin kültürünü, geleneklerini ve göreneklerini de öğrenin.</value>
+    <value>Sadece dili değil, aynı zamanda ülkenin kültürünü, geleneklerini ve göreneklerini de öğrenin, bağlamı daha iyi anlamak için.</value>
   </data>
   <data name="CertificationDescription" xml:space="preserve">
-    <value>Kurslarımızı tamamladıktan sonra uluslararası standartlarda dil yeterlilik sertifikası alın.</value>
+    <value>Kurslarımızı tamamladıktan sonra uluslararası geçerliliği olan bir dil yeterlilik sertifikası alın.</value>
   </data>
   <data name="Practice" xml:space="preserve">
     <value>Pratik</value>
   </data>
   <data name="TakeTests" xml:space="preserve">
-    <value>Testlere Katılın</value>
+    <value>Testleri Çöz</value>
   </data>
   <data name="PersonalAccount" xml:space="preserve">
     <value>Kişisel Hesap</value>
@@ -192,5 +192,32 @@
   </data>
   <data name="AboutUs" xml:space="preserve">
     <value>Hakkımızda</value>
+  </data>
+  <data name="UnknownLanguage" xml:space="preserve">
+    <value>Bilinmeyen dil</value>
+  </data>
+  <data name="Level" xml:space="preserve">
+    <value>Seviye</value>
+  </data>
+  <data name="NotSpecified" xml:space="preserve">
+    <value>Belirtilmemiş</value>
+  </data>
+  <data name="Watched" xml:space="preserve">
+    <value>İzlendi</value>
+  </data>
+  <data name="VideoNotAvailable" xml:space="preserve">
+    <value>Video kullanılamıyor. Lütfen yöneticiye başvurun.</value>
+  </data>
+  <data name="MarkAsWatched" xml:space="preserve">
+    <value>İzlendi olarak işaretle</value>
+  </data>
+  <data name="VideoDescription" xml:space="preserve">
+    <value>Açıklama</value>
+  </data>
+  <data name="RelatedVideos" xml:space="preserve">
+    <value>İlgili video dersleri</value>
+  </data>
+  <data name="MasterNewLanguages" xml:space="preserve">
+    <value>İnteraktif testler ve video derslerimizle yeni diller öğrenin</value>
   </data>
 </root> 

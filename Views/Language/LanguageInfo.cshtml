@@ -1,8 +1,16 @@
 @model WebApplication15.Models.LanguageInfoViewModel
 @using WebApplication15.Models
+@using Microsoft.AspNetCore.Localization
+@using System.Globalization
+@using LanguageCourse.Resources
+@inject Microsoft.Extensions.Localization.IStringLocalizer<SharedResource> Localizer
 
 @{
     ViewData["Title"] = Model.Name;
+    
+    // Получаем текущую культуру
+    var requestCulture = Context.Features.Get<IRequestCultureFeature>();
+    var cultureTwoLetter = requestCulture?.RequestCulture.Culture.TwoLetterISOLanguageName ?? "ru";
 }
 
 <link rel="stylesheet" href="~/css/language-info.css" asp-append-version="true" />
@@ -24,13 +32,27 @@
     <!-- Описание языка -->
     <div class="language-section animate-block">
         <div class="section-container">
-            <h2 class="section-title"><i class="fas fa-info-circle"></i> О языке</h2>
+            <h2 class="section-title"><i class="fas fa-info-circle"></i> @(cultureTwoLetter switch
+            {
+                "ru" => "О языке",
+                "kk" => "Тіл туралы",
+                "en" => "About the language",
+                "tr" => "Dil hakkında",
+                _ => "О языке"
+            })</h2>
             <div class="language-description">
                 <p>@Model.Description</p>
                 <div class="language-stats">
                     <div class="stat-item">
                         <i class="fas fa-users"></i>
-                        <span>Количество носителей:</span>
+                        <span>@(cultureTwoLetter switch
+                        {
+                            "ru" => "Количество носителей:",
+                            "kk" => "Тілді білетіндер саны:",
+                            "en" => "Number of speakers:",
+                            "tr" => "Konuşan sayısı:",
+                            _ => "Количество носителей:"
+                        })</span>
                         <strong>@Model.SpeakersCount</strong>
                     </div>
                 </div>
@@ -41,7 +63,14 @@
     <!-- Интересные факты -->
     <div class="language-section facts-section animate-block">
         <div class="section-container">
-            <h2 class="section-title"><i class="fas fa-lightbulb"></i> Интересные факты</h2>
+            <h2 class="section-title"><i class="fas fa-lightbulb"></i> @(cultureTwoLetter switch
+            {
+                "ru" => "Интересные факты",
+                "kk" => "Қызықты фактілер",
+                "en" => "Interesting facts",
+                "tr" => "İlginç gerçekler",
+                _ => "Интересные факты"
+            })</h2>
             <div class="facts-container">
                 @foreach (var fact in Model.Facts)
                 {
@@ -58,8 +87,22 @@
     <!-- Секция с кнопками навигации -->
     <div class="language-section action-section animate-block">
         <div class="section-container">
-            <h2 class="section-title"><i class="fas fa-graduation-cap"></i> Начните обучение</h2>
-            <p class="section-description">Выберите направление вашего обучения:</p>
+            <h2 class="section-title"><i class="fas fa-graduation-cap"></i> @(cultureTwoLetter switch
+            {
+                "ru" => "Начните обучение",
+                "kk" => "Оқыту бастау",
+                "en" => "Start learning",
+                "tr" => "Öğrenmeye başla",
+                _ => "Начните обучение"
+            })</h2>
+            <p class="section-description">@(cultureTwoLetter switch
+            {
+                "ru" => "Выберите направление вашего обучения:",
+                "kk" => "Оқу бағытыңызды таңдаңыз:",
+                "en" => "Choose your learning path:",
+                "tr" => "Öğrenme yolunuzu seçin:",
+                _ => "Выберите направление вашего обучения:"
+            })</p>
             
             <div class="action-buttons">
                 @if (ViewBag.Levels != null && ViewBag.Levels.Count > 0)
@@ -67,16 +110,44 @@
                     <a href="@Url.Action("Tests", "Language", new { id = ViewBag.Levels[0].Id })" class="action-button test-button">
                         <div class="button-icon"><i class="fas fa-tasks"></i></div>
                         <div class="button-text">
-                            <h3>Тесты</h3>
-                            <p>Проверьте свои знания</p>
+                            <h3>@(cultureTwoLetter switch
+                            {
+                                "ru" => "Тесты",
+                                "kk" => "Тесттер",
+                                "en" => "Tests",
+                                "tr" => "Testler",
+                                _ => "Тесты"
+                            })</h3>
+                            <p>@(cultureTwoLetter switch
+                            {
+                                "ru" => "Проверьте свои знания",
+                                "kk" => "Білімін тексеріңіз",
+                                "en" => "Check your knowledge",
+                                "tr" => "Bilginizi kontrol edin",
+                                _ => "Проверьте свои знания"
+                            })</p>
                         </div>
                     </a>
                     
                     <a href="@Url.Action("Videos", "Language", new { id = ViewBag.Levels[0].Id })" class="action-button video-button">
                         <div class="button-icon"><i class="fas fa-video"></i></div>
                         <div class="button-text">
-                            <h3>Видеоуроки</h3>
-                            <p>Обучающие материалы</p>
+                            <h3>@(cultureTwoLetter switch
+                            {
+                                "ru" => "Видеоуроки",
+                                "kk" => "Бейнесабақтар",
+                                "en" => "Video Lessons",
+                                "tr" => "Video Dersler",
+                                _ => "Видеоуроки"
+                            })</h3>
+                            <p>@(cultureTwoLetter switch
+                            {
+                                "ru" => "Обучающие материалы",
+                                "kk" => "Оқу материалдары",
+                                "en" => "Learning materials",
+                                "tr" => "Eğitim materyalleri",
+                                _ => "Обучающие материалы"
+                            })</p>
                         </div>
                     </a>
                 }
@@ -85,16 +156,44 @@
                     <a href="#" class="action-button test-button disabled">
                         <div class="button-icon"><i class="fas fa-tasks"></i></div>
                         <div class="button-text">
-                            <h3>Тесты</h3>
-                            <p>Скоро будут доступны</p>
+                            <h3>@(cultureTwoLetter switch
+                            {
+                                "ru" => "Тесты",
+                                "kk" => "Тесттер",
+                                "en" => "Tests",
+                                "tr" => "Testler",
+                                _ => "Тесты"
+                            })</h3>
+                            <p>@(cultureTwoLetter switch
+                            {
+                                "ru" => "Скоро будут доступны",
+                                "kk" => "Жақында қол жетімді болады",
+                                "en" => "Coming soon",
+                                "tr" => "Yakında geliyor",
+                                _ => "Скоро будут доступны"
+                            })</p>
                         </div>
                     </a>
                     
                     <a href="#" class="action-button video-button disabled">
                         <div class="button-icon"><i class="fas fa-video"></i></div>
                         <div class="button-text">
-                            <h3>Видеоуроки</h3>
-                            <p>Скоро будут доступны</p>
+                            <h3>@(cultureTwoLetter switch
+                            {
+                                "ru" => "Видеоуроки",
+                                "kk" => "Бейнесабақтар",
+                                "en" => "Video Lessons",
+                                "tr" => "Video Dersler",
+                                _ => "Видеоуроки"
+                            })</h3>
+                            <p>@(cultureTwoLetter switch
+                            {
+                                "ru" => "Скоро будут доступны",
+                                "kk" => "Жақында қол жетімді болады",
+                                "en" => "Coming soon",
+                                "tr" => "Yakında geliyor",
+                                _ => "Скоро будут доступны"
+                            })</p>
                         </div>
                     </a>
                 }
@@ -102,8 +201,22 @@
                 <a href="/" class="action-button home-button">
                     <div class="button-icon"><i class="fas fa-home"></i></div>
                     <div class="button-text">
-                        <h3>На главную</h3>
-                        <p>Вернуться на главную страницу</p>
+                        <h3>@(cultureTwoLetter switch
+                        {
+                            "ru" => "На главную",
+                            "kk" => "Басты бетке",
+                            "en" => "Home",
+                            "tr" => "Ana Sayfa",
+                            _ => "На главную"
+                        })</h3>
+                        <p>@(cultureTwoLetter switch
+                        {
+                            "ru" => "Вернуться на главную страницу",
+                            "kk" => "Басты бетке оралу",
+                            "en" => "Return to the main page",
+                            "tr" => "Ana sayfaya dön",
+                            _ => "Вернуться на главную страницу"
+                        })</p>
                     </div>
                 </a>
             </div>
@@ -116,8 +229,14 @@
             <div class="quote-container">
                 <i class="quote-icon fas fa-quote-left"></i>
                 <blockquote class="language-quote">
-                    Изучение нового языка — это не только приобретение нового навыка, 
-                    это открытие новой двери в мир, новый образ мышления и новый взгляд на жизнь.
+                    @(cultureTwoLetter switch
+                    {
+                        "ru" => "Изучение нового языка — это не только приобретение нового навыка, это открытие новой двери в мир, новый образ мышления и новый взгляд на жизнь.",
+                        "kk" => "Жаңа тілді үйрену — бұл тек жаңа дағдыны игеру емес, әлемге жаңа есікті ашу, жаңа ойлау тәсілі және өмірге жаңа көзқарас.",
+                        "en" => "Learning a new language is not only acquiring a new skill, it's opening a new door to the world, a new way of thinking, and a new perspective on life.",
+                        "tr" => "Yeni bir dil öğrenmek, sadece yeni bir beceri kazanmak değil, dünyaya yeni bir kapı açmak, yeni bir düşünme şekli ve hayata yeni bir bakış açısıdır.",
+                        _ => "Изучение нового языка — это не только приобретение нового навыка, это открытие новой двери в мир, новый образ мышления и новый взгляд на жизнь."
+                    })
                 </blockquote>
                 <p class="quote-author">— Frank Smith</p>
             </div>

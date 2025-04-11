@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  
+  <!-- İngilizce dil testi başlıkları -->
+  <data name="English_A1_Vocabulary_Title" xml:space="preserve">
+    <value>Temel İngilizce Testi</value>
+  </data>
+  <data name="English_A1_Grammar_Title" xml:space="preserve">
+    <value>Başlangıçlar için İngilizce Dilbilgisi</value>
+  </data>
+  <data name="English_A2_Vocabulary_Title" xml:space="preserve">
+    <value>İngilizce Testi (A2)</value>
+  </data>
+  <data name="English_A2_Grammar_Title" xml:space="preserve">
+    <value>İngilizce Fiil Zamanları Dilbilgisi</value>
+  </data>
+  <data name="English_B1_Vocabulary_Title" xml:space="preserve">
+    <value>Orta Seviye İngilizce (B1)</value>
+  </data>
+  <data name="English_B1_Grammar_Title" xml:space="preserve">
+    <value>İngilizce Deyimler ve Öbekli Fiiller (B1)</value>
+  </data>
+  <data name="English_B2_Vocabulary_Title" xml:space="preserve">
+    <value>Orta-Üst Seviye İngilizce (B2)</value>
+  </data>
+  <data name="English_B2_Grammar_Title" xml:space="preserve">
+    <value>İngilizcede Karmaşık Yapılar (B2)</value>
+  </data>
+  <data name="English_C1_Vocabulary_Title" xml:space="preserve">
+    <value>İleri Seviye İngilizce (C1)</value>
+  </data>
+  <data name="English_C1_Grammar_Title" xml:space="preserve">
+    <value>Akademik İngilizce (C1)</value>
+  </data>
+  <data name="English_C2_Vocabulary_Title" xml:space="preserve">
+    <value>Yetkin İngilizce (C2)</value>
+  </data>
+  <data name="English_C2_Grammar_Title" xml:space="preserve">
+    <value>Edebi İngilizce (C2)</value>
+  </data>
+  
+  <!-- Kazakça dil testi başlıkları -->
+  <data name="Kazakh_A1_Vocabulary_Title" xml:space="preserve">
+    <value>Temel Kazakça Testi</value>
+  </data>
+  <data name="Kazakh_A1_Grammar_Title" xml:space="preserve">
+    <value>Kazakça - Sayılar ve Renkler</value>
+  </data>
+  <data name="Kazakh_A2_Vocabulary_Title" xml:space="preserve">
+    <value>Başlangıçlar için Kazakça (A2)</value>
+  </data>
+  <data name="Kazakh_A2_Grammar_Title" xml:space="preserve">
+    <value>Kazakça Dilbilgisi (A2)</value>
+  </data>
+  <data name="Kazakh_B1_Vocabulary_Title" xml:space="preserve">
+    <value>Orta Seviye Kazakça (B1)</value>
+  </data>
+  <data name="Kazakh_B1_Grammar_Title" xml:space="preserve">
+    <value>Kazakça Deyimler ve İfadeler (B1)</value>
+  </data>
+  <data name="Kazakh_B2_Vocabulary_Title" xml:space="preserve">
+    <value>Orta-Üst Seviye Kazakça (B2)</value>
+  </data>
+  <data name="Kazakh_B2_Grammar_Title" xml:space="preserve">
+    <value>Kazak Edebiyatı (B2)</value>
+  </data>
+  <data name="Kazakh_C1_Vocabulary_Title" xml:space="preserve">
+    <value>İleri Seviye Kazakça (C1)</value>
+  </data>
+  <data name="Kazakh_C1_Grammar_Title" xml:space="preserve">
+    <value>İş Kazakçası (C1)</value>
+  </data>
+  <data name="Kazakh_C2_Vocabulary_Title" xml:space="preserve">
+    <value>Yetkin Kazakça (C2)</value>
+  </data>
+  <data name="Kazakh_C2_Grammar_Title" xml:space="preserve">
+    <value>Akademik Kazakça (C2)</value>
+  </data>
+  
+  <!-- Türkçe dil testi başlıkları -->
+  <data name="Turkish_A1_Vocabulary_Title" xml:space="preserve">
+    <value>Temel Türkçe Testi</value>
+  </data>
+  <data name="Turkish_A1_Grammar_Title" xml:space="preserve">
+    <value>Türkçe Sayılar ve Haftanın Günleri</value>
+  </data>
+  <data name="Turkish_A2_Vocabulary_Title" xml:space="preserve">
+    <value>Başlangıçlar için Türkçe (A2)</value>
+  </data>
+  <data name="Turkish_A2_Grammar_Title" xml:space="preserve">
+    <value>Türkçe Dilbilgisi (A2)</value>
+  </data>
+  <data name="Turkish_B1_Vocabulary_Title" xml:space="preserve">
+    <value>Orta Seviye Türkçe (B1)</value>
+  </data>
+  <data name="Turkish_B1_Grammar_Title" xml:space="preserve">
+    <value>Türkçe Deyimler ve İfadeler (B1)</value>
+  </data>
+  <data name="Turkish_B2_Vocabulary_Title" xml:space="preserve">
+    <value>Orta-Üst Seviye Türkçe (B2)</value>
+  </data>
+  <data name="Turkish_B2_Grammar_Title" xml:space="preserve">
+    <value>Türk Edebiyatı (B2)</value>
+  </data>
+  <data name="Turkish_C1_Vocabulary_Title" xml:space="preserve">
+    <value>İleri Seviye Türkçe (C1)</value>
+  </data>
+  <data name="Turkish_C1_Grammar_Title" xml:space="preserve">
+    <value>İş Türkçesi (C1)</value>
+  </data>
+  <data name="Turkish_C2_Vocabulary_Title" xml:space="preserve">
+    <value>Yetkin Türkçe (C2)</value>
+  </data>
+  <data name="Turkish_C2_Grammar_Title" xml:space="preserve">
+    <value>Akademik Türkçe (C2)</value>
+  </data>
+  
+  <!-- Test açıklamaları -->
+  <data name="Vocabulary_Test_Description" xml:space="preserve">
+    <value>{1} seviyesinde {0} dil bilginizi test edin. Bu test, kelime bilgisi ve temel dilbilgisi yapılarına odaklanır.</value>
+  </data>
+  <data name="Grammar_Test_Description" xml:space="preserve">
+    <value>{1} seviyesinde {0} dili için ileri düzey test. Dilbilgisi, deyimler ve karmaşık yapılar hakkındaki bilginizi kontrol edin.</value>
+  </data>
+  
+  <!-- Zorluk seviyeleri -->
+  <data name="Level_A1" xml:space="preserve">
+    <value>başlangıç</value>
+  </data>
+  <data name="Level_A2" xml:space="preserve">
+    <value>temel</value>
+  </data>
+  <data name="Level_B1" xml:space="preserve">
+    <value>orta</value>
+  </data>
+  <data name="Level_B2" xml:space="preserve">
+    <value>orta-üst</value>
+  </data>
+  <data name="Level_C1" xml:space="preserve">
+    <value>ileri</value>
+  </data>
+  <data name="Level_C2" xml:space="preserve">
+    <value>yetkin</value>
+  </data>
+</root> 
