@@ -1,0 +1,66 @@
+/* Вертикальный список вопросов (скрываем его) */
+.question-card .vertical-questions-list {
+    display: none !important;
+}
+
+/* Скрытие вертикального счетчика вопросов */
+.question-card > div {
+    display: flex;
+}
+
+.question-card > div:not(.horizontal-questions-list):not(.options-container):not(.navigation-buttons):not(.questions-navigation):not(.questions-progress-bar):not(.question-indicators) {
+    display: none !important;
+}
+
+/* Скрытие элементов с текстом "Вопрос X из 5" */
+div:contains("Вопрос 1 из 5"),
+div:contains("Вопрос 2 из 5"),
+div:contains("Вопрос 3 из 5"),
+div:contains("Вопрос 4 из 5"),
+div:contains("Вопрос 5 из 5") {
+    display: none !important;
+}
+
+/* Стиль для горизонтального счетчика вопросов */
+.horizontal-questions-list {
+    display: flex;
+    justify-content: center;
+    background-color: #f8f9fa;
+    border-radius: 10px;
+    padding: 10px;
+    margin: 0 auto 20px;
+    gap: 8px;
+    width: 80%;
+    max-width: 300px;
+}
+
+.horizontal-questions-list .question-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    background-color: #e9ecef;
+    border-radius: 50%;
+    color: #495057;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.horizontal-questions-list .question-item.active {
+    background-color: #58cc02;
+    color: white;
+    transform: scale(1.1);
+    box-shadow: 0 3px 8px rgba(88, 204, 2, 0.2);
+    z-index: 1;
+}
+
+.horizontal-questions-list .question-item:not(:last-child)::after {
+    content: "";
+    position: absolute;
+    width: 8px;
+    height: 2px;
+    background-color: #ced4da;
+    right: -8px;
+} 

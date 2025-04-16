@@ -495,7 +495,7 @@
                                     <td>@result.CompletedDate.ToString("dd.MM.yyyy HH:mm")</td>
                                     <td>
                                         <div class="btn-group">
-                                            <a href="@Url.Action("Take", "Test", new { id = result.TestId })" class="btn-action">
+                                            <a href="@Url.Action("StartTest", "Test", new { id = result.TestId })" class="btn-action">
                                                 <i class="fas fa-redo-alt"></i> 
                                                 @{
                                                     var retakeButtonText = cultureTwoLetter switch

@@ -4,6 +4,7 @@
     Layout = "_AdminLayout";
     
     var test = ViewBag.Test as WebApplication15.Models.Test;
+    var existingQuestions = ViewBag.ExistingQuestions as List<WebApplication15.Models.Question>;
 }
 
 <div class="container-fluid px-4 py-4">
@@ -15,6 +16,14 @@
             <i class="fas fa-arrow-left me-1"></i>Вернуться к тесту
         </a>
     </div>
+    
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <i class="fas fa-check-circle me-2"></i>@TempData["SuccessMessage"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
     
     <div class="card mb-4">
         <div class="card-header">
@@ -47,38 +56,359 @@
         </div>
     </div>
     
-    <div class="card mb-4">
-        <div class="card-header">
-            <i class="fas fa-edit me-1"></i>
-            Добавление вопроса
-        </div>
-        <div class="card-body">
-            <form asp-action="AddQuestion" method="post">
-                <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
-                <input type="hidden" asp-for="TestId" value="@test.Id" />
-                
-                <div class="mb-3">
-                    <label asp-for="Text" class="form-label">Текст вопроса</label>
-                    <textarea asp-for="Text" class="form-control" rows="3" required></textarea>
-                    <span asp-validation-for="Text" class="text-danger"></span>
+    <div class="row">
+        <div class="col-md-7">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <i class="fas fa-edit me-1"></i>
+                    Добавление вопроса
                 </div>
-                
-                <div class="d-flex justify-content-between mt-4">
-                    <a asp-action="TestDetails" asp-route-id="@test.Id" class="btn btn-outline-secondary">Отмена</a>
-                    <div>
-                        <button type="submit" name="action" value="saveAndReturn" class="btn btn-primary me-2">
-                            <i class="fas fa-save me-1"></i>Сохранить и вернуться
-                        </button>
-                        <button type="submit" name="action" value="saveAndAddOptions" class="btn btn-success">
-                            <i class="fas fa-save me-1"></i>Сохранить и добавить варианты ответов
-                        </button>
+                <div class="card-body">
+                    <form id="questionForm" asp-action="AddQuestion" method="post">
+                        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+                        
+                        @if (!ViewData.ModelState.IsValid)
+                        {
+                            <div class="alert alert-danger">
+                                <h5><i class="fas fa-exclamation-triangle me-2"></i>При заполнении формы возникли ошибки:</h5>
+                                <ul>
+                                @foreach (var keyModelStatePair in ViewData.ModelState)
+                                {
+                                    @foreach (var error in keyModelStatePair.Value.Errors)
+                                    {
+                                        <li>
+                                            @if (!string.IsNullOrEmpty(keyModelStatePair.Key))
+                                            {
+                                                <strong>@keyModelStatePair.Key:</strong>
+                                            }
+                                            @error.ErrorMessage
+                                        </li>
+                                    }
+                                }
+                                </ul>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="alert alert-info">
+                                <h5><i class="fas fa-info-circle me-2"></i>Инструкции:</h5>
+                                <ol>
+                                    <li>Введите текст вопроса</li>
+                                    <li>Добавьте минимум 2 варианта ответа, используя кнопку "Добавить вариант ответа"</li>
+                                    <li>Отметьте как минимум один правильный ответ</li>
+                                    <li>Нажмите "Сохранить изменения"</li>
+                                </ol>
+                            </div>
+                        }
+                        
+                        <input type="hidden" asp-for="TestId" value="@test.Id" />
+                        
+                        <div class="mb-3">
+                            <label asp-for="Text" class="form-label">Текст вопроса</label>
+                            <textarea asp-for="Text" class="form-control" rows="3" required></textarea>
+                            <span asp-validation-for="Text" class="text-danger"></span>
+                        </div>
+
+                        <div id="optionsContainer" class="mb-4">
+                            <h5 class="mb-3">Варианты ответов</h5>
+                            <div class="alert alert-info">
+                                <i class="fas fa-info-circle me-2"></i>
+                                Добавьте минимум 2 варианта ответа и отметьте хотя бы один правильный ответ.
+                            </div>
+                            
+                            <div id="optionsList">
+                                <!-- Здесь будут добавляться варианты ответов -->
+                            </div>
+                            
+                            <div class="mb-3">
+                                <button type="button" id="addOptionBtn" class="btn btn-outline-primary w-100">
+                                    <i class="fas fa-plus me-1"></i>Добавить вариант ответа
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="d-flex justify-content-between mt-4">
+                            <a asp-action="TestDetails" asp-route-id="@test.Id" class="btn btn-outline-secondary">Отмена</a>
+                            <button type="submit" name="action" value="saveAndReturn" class="btn btn-success">
+                                <i class="fas fa-save me-1"></i>Сохранить изменения
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-5">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <i class="fas fa-info-circle me-1"></i>
+                    Предварительный просмотр
+                </div>
+                <div class="card-body">
+                    <div class="mb-3">
+                        <h5>Вопрос:</h5>
+                        <div id="questionPreview" class="alert alert-primary">
+                            <p class="mb-0">Здесь будет отображаться текст вопроса</p>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <h5>Варианты ответов:</h5>
+                        <div id="optionsPreview" class="list-group">
+                            <div class="alert alert-secondary">
+                                <p class="mb-0">Добавьте варианты ответов</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </form>
+            </div>
+
+            @if (existingQuestions != null && existingQuestions.Any())
+            {
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <i class="fas fa-list me-1"></i>
+                        Существующие вопросы (@existingQuestions.Count)
+                    </div>
+                    <div class="card-body p-0">
+                        <div class="accordion" id="existingQuestionsAccordion">
+                            @foreach (var question in existingQuestions)
+                            {
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header">
+                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" 
+                                                data-bs-target="#collapse_@question.Id" aria-expanded="false" aria-controls="collapse_@question.Id">
+                                            <span class="badge bg-secondary me-2">Вопрос #@question.Id</span>
+                                            @question.Text
+                                        </button>
+                                    </h2>
+                                    <div id="collapse_@question.Id" class="accordion-collapse collapse" data-bs-parent="#existingQuestionsAccordion">
+                                        <div class="accordion-body">
+                                            <div class="list-group mb-2">
+                                                @foreach (var option in question.Options)
+                                                {
+                                                    <div class="list-group-item @(option.IsCorrect ? "list-group-item-success" : "")">
+                                                        @if (option.IsCorrect)
+                                                        {
+                                                            <i class="fas fa-check-circle text-success me-2"></i>
+                                                        }
+                                                        @option.Text
+                                                    </div>
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            }
         </div>
     </div>
 </div>
 
+<!-- Шаблон для варианта ответа -->
+<template id="optionTemplate">
+    <div class="card mb-2 option-item">
+        <div class="card-body p-3">
+            <div class="d-flex justify-content-between align-items-start">
+                <div class="form-check">
+                    <input type="checkbox" class="form-check-input option-correct" name="options[{index}].isCorrect" value="true">
+                    <input type="hidden" name="options[{index}].isCorrect" value="false" disabled>
+                    <label class="form-check-label">Правильный ответ</label>
+                </div>
+                <button type="button" class="btn btn-sm btn-danger delete-option">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="mt-2">
+                <textarea class="form-control option-text" name="options[{index}].text" rows="2" placeholder="Введите вариант ответа" required></textarea>
+            </div>
+        </div>
+    </div>
+</template>
+
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+        $(document).ready(function() {
+            let optionIndex = 0;
+            
+            // Функция добавления варианта ответа
+            $('#addOptionBtn').click(function() {
+                addOption();
+            });
+            
+            // Добавляем два варианта ответа по умолчанию
+            addOption();
+            addOption();
+            
+            // Обработка состояния чекбоксов - включаем/отключаем скрытое поле со значением false
+            $(document).on('change', '.option-correct', function() {
+                var hidden = $(this).next('input[type="hidden"]');
+                if ($(this).is(':checked')) {
+                    hidden.prop('disabled', true);
+                } else {
+                    hidden.prop('disabled', false);
+                }
+                updatePreview();
+            });
+            
+            // Удаление варианта ответа
+            $(document).on('click', '.delete-option', function() {
+                if ($('.option-item').length > 2) {
+                    $(this).closest('.option-item').remove();
+                    updateOptionIndexes();
+                    updatePreview();
+                } else {
+                    alert('Необходимо иметь минимум два варианта ответа');
+                }
+            });
+            
+            // Обновление предпросмотра при изменении текста вопроса
+            $('#Text').on('input', function() {
+                updatePreview();
+            });
+            
+            // Обновление предпросмотра при изменении вариантов ответа
+            $(document).on('input', '.option-text', function() {
+                updatePreview();
+            });
+            
+            // Проверка формы перед отправкой
+            $('#questionForm').on('submit', function (e) {
+                var isValid = validateAnswers();
+                console.log('Form validation result:', isValid);
+                
+                if (!isValid) {
+                    e.preventDefault();
+                    toastr.error('Необходимо добавить хотя бы 2 варианта ответа и выбрать хотя бы 1 правильный вариант.');
+                }
+            });
+            
+            function validateAnswers() {
+                let questionText = $('#Text').val().trim();
+                let options = $('.option-item');
+                let hasCorrectOption = false;
+                let errors = [];
+                
+                // Проверяем наличие текста вопроса
+                if (!questionText) {
+                    errors.push('Необходимо ввести текст вопроса');
+                }
+                
+                // Проверяем наличие минимум 2 вариантов ответа
+                if (options.length < 2) {
+                    errors.push('Необходимо добавить минимум 2 варианта ответа');
+                }
+                
+                // Проверяем, что все варианты ответа заполнены
+                let emptyOptionsCount = 0;
+                options.each(function() {
+                    let optionText = $(this).find('.option-text').val().trim();
+                    if (!optionText) {
+                        emptyOptionsCount++;
+                    }
+                    
+                    if ($(this).find('.option-correct').is(':checked')) {
+                        hasCorrectOption = true;
+                    }
+                });
+                
+                if (emptyOptionsCount > 0) {
+                    errors.push(`${emptyOptionsCount} вариант(ов) ответа не заполнен(ы)`);
+                }
+                
+                // Проверяем наличие хотя бы одного правильного ответа
+                if (!hasCorrectOption) {
+                    errors.push('Необходимо отметить хотя бы один правильный вариант ответа');
+                }
+                
+                // Если есть ошибки, выводим их
+                if (errors.length > 0) {
+                    let errorHtml = '<ul>';
+                    errors.forEach(function(error) {
+                        errorHtml += `<li>${error}</li>`;
+                    });
+                    errorHtml += '</ul>';
+                    
+                    // Показываем ошибки пользователю
+                    toastr.error(errorHtml, 'Ошибка валидации формы', { 
+                        timeOut: 5000,
+                        extendedTimeOut: 2000,
+                        closeButton: true,
+                        positionClass: "toast-top-center"
+                    });
+                    
+                    return false;
+                }
+                
+                return true;
+            }
+            
+            // Функция добавления варианта ответа
+            function addOption() {
+                let template = $('#optionTemplate').html();
+                template = template.replace(/{index}/g, optionIndex);
+                
+                $('#optionsList').append(template);
+                optionIndex++;
+                updatePreview();
+            }
+            
+            // Функция обновления индексов вариантов ответа
+            function updateOptionIndexes() {
+                $('.option-item').each(function(idx) {
+                    let textArea = $(this).find('.option-text');
+                    let checkbox = $(this).find('.option-correct');
+                    
+                    textArea.attr('name', `options[${idx}].text`);
+                    checkbox.attr('name', `options[${idx}].isCorrect`);
+                });
+            }
+            
+            // Функция обновления предпросмотра
+            function updatePreview() {
+                let questionText = $('#Text').val().trim();
+                
+                // Обновляем предпросмотр вопроса
+                if (questionText) {
+                    $('#questionPreview').html(`<p class="mb-0">${questionText}</p>`);
+                } else {
+                    $('#questionPreview').html(`<p class="mb-0">Здесь будет отображаться текст вопроса</p>`);
+                }
+                
+                // Обновляем предпросмотр вариантов ответа
+                let optionsHtml = '';
+                let hasOptions = false;
+                
+                $('.option-item').each(function() {
+                    let optionText = $(this).find('.option-text').val().trim();
+                    let isCorrect = $(this).find('.option-correct').is(':checked');
+                    
+                    if (optionText) {
+                        hasOptions = true;
+                        if (isCorrect) {
+                            optionsHtml += `<div class="list-group-item list-group-item-success">
+                                <i class="fas fa-check-circle text-success me-2"></i>${optionText}
+                            </div>`;
+                        } else {
+                            optionsHtml += `<div class="list-group-item">
+                                ${optionText}
+                            </div>`;
+                        }
+                    }
+                });
+                
+                if (hasOptions) {
+                    $('#optionsPreview').html(optionsHtml);
+                } else {
+                    $('#optionsPreview').html(`<div class="alert alert-secondary">
+                        <p class="mb-0">Добавьте варианты ответов</p>
+                    </div>`);
+                }
+            }
+        });
+    </script>
 } 

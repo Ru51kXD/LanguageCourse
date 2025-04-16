@@ -82,6 +82,17 @@
                             <span asp-validation-for="ThumbnailUrl" class="text-danger"></span>
                         </div>
 
+                        <div class="mb-3">
+                            <label asp-for="Duration" class="form-label">Длительность видео</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="fas fa-clock"></i></span>
+                                <input asp-for="Duration" class="form-control" id="videoDuration"
+                                    placeholder="00:00" required />
+                            </div>
+                            <div class="form-text">Укажите длительность видео в формате MM:SS или H:MM:SS</div>
+                            <span asp-validation-for="Duration" class="text-danger"></span>
+                        </div>
+
                         <div class="row">
                             <div class="col-md-6 mb-3">
                                 <div class="form-check form-switch">
@@ -100,7 +111,7 @@
                         <div class="d-flex justify-content-between mt-4">
                             <a asp-action="Videos" class="btn btn-outline-secondary">Отмена</a>
                             <button type="submit" class="btn btn-success">
-                                <i class="fas fa-save me-1"></i>Добавить видео
+                                <i href="@Url.Action("VideoDetails", "Admin")"class="fas fa-save me-1"></i>Добавить видео
                             </button>
                         </div>
                     </form>
@@ -294,6 +305,7 @@
                 var videoUrl = $('#videoUrl').val();
                 var languageId = $('#LanguageId').val();
                 var languageLevelId = $('#LanguageLevelId').val();
+                var duration = $('#videoDuration').val();
                 
                 if (!videoUrl) {
                     alert('Пожалуйста, введите URL видео');
@@ -309,6 +321,12 @@
                 
                 if (!languageLevelId) {
                     alert('Пожалуйста, выберите уровень языка');
+                    e.preventDefault();
+                    return false;
+                }
+                
+                if (!duration) {
+                    alert('Пожалуйста, укажите длительность видео');
                     e.preventDefault();
                     return false;
                 }

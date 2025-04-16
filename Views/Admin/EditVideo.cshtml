@@ -127,6 +127,17 @@
                     <span asp-validation-for="ThumbnailUrl" class="text-danger"></span>
                 </div>
 
+                <div class="mb-3">
+                    <label asp-for="Duration" class="form-label">Длительность видео</label>
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="fas fa-clock"></i></span>
+                        <input asp-for="Duration" class="form-control" id="videoDuration"
+                               placeholder="00:00" required />
+                    </div>
+                    <div class="form-text">Укажите длительность видео в формате MM:SS или H:MM:SS</div>
+                    <span asp-validation-for="Duration" class="text-danger"></span>
+                </div>
+
                 <div class="row">
                     <div class="col-md-6 mb-3">
                         <div class="form-check form-switch">
@@ -195,6 +206,7 @@
             $('form').submit(function(e) {
                 var languageId = $('#LanguageId').val();
                 var languageLevelId = $('#LanguageLevelId').val();
+                var duration = $('#videoDuration').val();
                 var hasErrors = false;
                 
                 if (!languageId || languageId === "") {
@@ -204,6 +216,11 @@
                 
                 if (!languageLevelId || languageLevelId === "") {
                     $('#levelError').text('Необходимо выбрать уровень языка');
+                    hasErrors = true;
+                }
+                
+                if (!duration) {
+                    $('span[data-valmsg-for="Duration"]').text('Необходимо указать длительность видео');
                     hasErrors = true;
                 }
                 

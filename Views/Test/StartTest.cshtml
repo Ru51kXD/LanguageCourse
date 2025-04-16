@@ -6,6 +6,181 @@
     var totalQuestions = Model.Questions.Count;
 }
 
+<!-- Скрипт для немедленного скрытия вертикального счетчика -->
+<script>
+    // Функция для скрытия элементов с вертикальным счетчиком
+    function hideVerticalCounters() {
+        // Ищем все текстовые элементы, содержащие "Вопрос X из Y"
+        document.querySelectorAll('div, span').forEach(el => {
+            if (el.textContent && el.textContent.match(/Вопрос \d+ из \d+/)) {
+                console.log('Найден вертикальный счетчик: ', el.textContent);
+                
+                // Скрываем максимально агрессивно
+                el.style.cssText = 'display: none !important; visibility: hidden !important; opacity: 0 !important; height: 0 !important; overflow: hidden !important; position: absolute !important; pointer-events: none !important;';
+                
+                // Пытаемся удалить элемент
+                if (el.parentNode) {
+                    try {
+                        el.parentNode.removeChild(el);
+                        console.log('Элемент успешно удален');
+                    } catch (e) {
+                        console.error('Ошибка при удалении элемента:', e);
+                    }
+                }
+            }
+        });
+    }
+    
+    // Выполняем скрытие сразу при загрузке скрипта
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', hideVerticalCounters);
+    } else {
+        hideVerticalCounters();
+    }
+    
+    // И с интервалами для надежности
+    setTimeout(hideVerticalCounters, 0);
+    setTimeout(hideVerticalCounters, 100);
+    setTimeout(hideVerticalCounters, 300);
+    setTimeout(hideVerticalCounters, 500);
+    setInterval(hideVerticalCounters, 1000);
+    
+    // Перехватываем создание элементов DOM
+    (function() {
+        const originalCreateElement = document.createElement;
+        document.createElement = function() {
+            const element = originalCreateElement.apply(document, arguments);
+            
+            // Для div и span перехватываем установку текста
+            if (['div', 'span'].includes(arguments[0].toLowerCase())) {
+                const originalTextContent = Object.getOwnPropertyDescriptor(Node.prototype, 'textContent');
+                const originalInnerText = Object.getOwnPropertyDescriptor(Element.prototype, 'innerText');
+                
+                if (originalTextContent && originalTextContent.set) {
+                    Object.defineProperty(element, 'textContent', {
+                        set: function(value) {
+                            if (value && typeof value === 'string' && value.match(/Вопрос \d+ из \d+/)) {
+                                console.log('Перехвачена попытка установить вертикальный счетчик через textContent');
+                                return '';
+                            }
+                            return originalTextContent.set.call(this, value);
+                        },
+                        get: originalTextContent.get
+                    });
+                }
+                
+                if (originalInnerText && originalInnerText.set) {
+                    Object.defineProperty(element, 'innerText', {
+                        set: function(value) {
+                            if (value && typeof value === 'string' && value.match(/Вопрос \d+ из \d+/)) {
+                                console.log('Перехвачена попытка установить вертикальный счетчик через innerText');
+                                return '';
+                            }
+                            return originalInnerText.set.call(this, value);
+                        },
+                        get: originalInnerText.get
+                    });
+                }
+            }
+            
+            return element;
+        };
+    })();
+    
+    // Устанавливаем наблюдатель за DOM
+    document.addEventListener('DOMContentLoaded', function() {
+        const observer = new MutationObserver(function(mutations) {
+            mutations.forEach(function(mutation) {
+                if (mutation.type === 'childList' && mutation.addedNodes.length) {
+                    mutation.addedNodes.forEach(node => {
+                        if (node.nodeType === Node.ELEMENT_NODE) {
+                            if (node.textContent && node.textContent.match(/Вопрос \d+ из \d+/)) {
+                                node.style.cssText = 'display: none !important; visibility: hidden !important;';
+                                if (node.parentNode) {
+                                    try {
+                                        node.parentNode.removeChild(node);
+                                    } catch (e) {}
+                                }
+                            }
+                        }
+                    });
+                    
+                    // После добавления узлов проверяем все элементы
+                    hideVerticalCounters();
+                }
+            });
+        });
+        
+        observer.observe(document.body, {
+            childList: true,
+            subtree: true
+        });
+    });
+</script>
+
+<!-- Встроенные стили с высоким приоритетом для гарантированного скрытия вертикального счетчика -->
+<style>
+    /* Глобальные стили для скрытия вертикального счетчика */
+    div:has-text("Вопрос"),
+    div:contains("Вопрос"),
+    div[class*="question-number"],
+    div.text-muted.mb-3,
+    div:matches-text(/Вопрос \d+ из \d+/) {
+        display: none !important;
+        visibility: hidden !important;
+        opacity: 0 !important;
+        height: 0 !important;
+        position: absolute !important;
+        pointer-events: none !important;
+        clip: rect(0, 0, 0, 0) !important;
+        margin: -1px !important;
+        padding: 0 !important;
+    }
+    
+    /* Создаем горизонтальную панель навигации */
+    .questions-navigation {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 20px;
+    }
+    
+    .horizontal-questions {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 15px;
+        background-color: #f5f5f5;
+        border-radius: 10px;
+        padding: 10px;
+    }
+    
+    .question-step {
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        background-color: #e0e0e0;
+        color: #555;
+        border-radius: 50%;
+        margin: 0 5px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+    
+    .question-step.active {
+        background-color: #58cc02;
+        color: white;
+        transform: scale(1.1);
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    }
+    
+    .question-step.completed {
+        background-color: #b8e986;
+        color: #396b00;
+    }
+</style>
+
 @section Styles {
     <link rel="stylesheet" href="~/css/tests.css" />
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
@@ -30,6 +205,9 @@
     </div>
     
     <div class="question-card" id="questionContainer">
+        <!-- Контейнер для горизонтальной навигации -->
+        <div class="questions-navigation" id="horizontalNavigation"></div>
+        
         <h2 class="question-text" id="questionText"></h2>
         <div class="options-container" id="optionsContainer"></div>
         <div class="navigation-buttons">
@@ -101,6 +279,14 @@
                     duoCharacter.style.bottom = '20px';
                     showCharacterBubble('Удачи с тестом! Я верю в тебя! 👍');
                 }, 1000);
+                
+                // Дополнительно скрываем вертикальные счетчики после инициализации
+                setTimeout(hideVerticalCounters, 100);
+                setTimeout(hideVerticalCounters, 500);
+                setTimeout(hideVerticalCounters, 1000);
+                
+                // Также добавляем обработчик события для скрытия вертикальных счетчиков при изменении размера окна
+                window.addEventListener('resize', hideVerticalCounters);
             }
             
             // Создание конфетти
@@ -265,6 +451,9 @@
                 // Обновляем прогресс
                 updateProgress();
                 
+                // Создаем или обновляем горизонтальную навигацию
+                updateHorizontalNavigation();
+                
                 // Обновляем состояние кнопок
                 prevBtn.disabled = index === 0;
                 
@@ -279,15 +468,9 @@
                 questionText.classList.remove('slide-in-right');
                 void questionText.offsetWidth; // триггер reflow
                 
-                // Добавляем номер вопроса
-                const questionNumber = document.createElement('div');
-                questionNumber.className = 'text-muted mb-3';
-                questionNumber.textContent = `Вопрос ${index + 1} из ${totalQuestions}`;
-                
                 // Анимируем вопрос
                 questionText.classList.add('slide-in-right');
                 questionText.textContent = question.text;
-                questionText.insertAdjacentElement('beforebegin', questionNumber);
                 
                 // Очищаем и заполняем варианты ответов
                 optionsContainer.innerHTML = '';
@@ -331,6 +514,51 @@
                         showCharacterBubble('Осталось совсем немного! Ты почти у цели! 🏁');
                     }
                 }
+                
+                // Скрываем вертикальные счетчики
+                hideVerticalCounters();
+            }
+            
+            // Функция для создания и обновления горизонтальной навигации
+            function updateHorizontalNavigation() {
+                // Находим контейнер для навигации
+                const navigationContainer = document.getElementById('horizontalNavigation');
+                if (!navigationContainer) return;
+                
+                // Очищаем контейнер
+                navigationContainer.innerHTML = '';
+                
+                // Создаем обертку для элементов навигации
+                const navigationWrapper = document.createElement('div');
+                navigationWrapper.className = 'horizontal-questions';
+                navigationContainer.appendChild(navigationWrapper);
+                
+                // Создаем элементы навигации для каждого вопроса
+                for (let i = 0; i < totalQuestions; i++) {
+                    const stepElement = document.createElement('div');
+                    stepElement.className = 'question-step';
+                    stepElement.textContent = i + 1;
+                    
+                    // Добавляем класс в зависимости от состояния
+                    if (i === currentQuestionIndex) {
+                        stepElement.classList.add('active');
+                    } else if (i < currentQuestionIndex) {
+                        stepElement.classList.add('completed');
+                    }
+                    
+                    // Добавляем обработчик клика для навигации
+                    if (i <= currentQuestionIndex) {
+                        stepElement.addEventListener('click', () => {
+                            checkMode = false;
+                            showQuestion(i);
+                        });
+                    }
+                    
+                    navigationWrapper.appendChild(stepElement);
+                }
+                
+                // Удаляем все возможные вертикальные счетчики после обновления навигации
+                setTimeout(hideVerticalCounters, 0);
             }
             
             // Обновление прогресс-бара

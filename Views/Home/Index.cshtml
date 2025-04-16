@@ -17,6 +17,7 @@
 }
 
 <link rel="stylesheet" href="~/css/home.css" asp-append-version="true" />
+<link rel="stylesheet" href="~/css/language-cards.css" asp-append-version="true" />
 
 <div class="hero-section">
     <div class="container">
@@ -96,7 +97,7 @@
             <div class="language-card language-card-kazakh fade-in-up" data-delay="0.1">
                 <div class="language-card-inner">
                     <div class="language-card-front">
-                        <img src="~/images/astana.jpg"> 
+                        <img src="~/images/astana.jpeg"> 
                         <div class="language-card-content">
                             <div class="language-card-flag">KZ</div>
                             <h3 class="language-card-title">@Localizer["KazakhLanguage"]</h3>
@@ -132,11 +133,11 @@
                                 @{
                                     var kazakh_desc = cultureTwoLetter switch
                                     {
-                                        "ru" => "Изучайте казахский язык, официальный язык Казахстана. Развивайте навыки чтения, письма и говорения.",
-                                        "kk" => "Қазақстанның ресми тілі - қазақ тілін үйреніңіз. Оқу, жазу және сөйлеу дағдыларын дамытыңыз.",
-                                        "en" => "Learn Kazakh, the official language of Kazakhstan. Develop reading, writing, and speaking skills.",
-                                        "tr" => "Kazakistan'ın resmi dili olan Kazakça'yı öğrenin. Okuma, yazma ve konuşma becerilerinizi geliştirin.",
-                                        _ => "Learn Kazakh, the official language of Kazakhstan. Develop reading, writing, and speaking skills."
+                                        "ru" => "Изучайте казахский язык, официальный язык Казахстана.",
+                                        "kk" => "Қазақстанның ресми тілі - қазақ тілін үйреніңіз.",
+                                        "en" => "Learn Kazakh, the official language of Kazakhstan.",
+                                        "tr" => "Kazakistan'ın resmi dili olan Kazakça'yı öğrenin.",
+                                        _ => "Learn Kazakh, the official language of Kazakhstan."
                                     };
                                 }
                                 @kazakh_desc
@@ -164,7 +165,7 @@
             <div class="language-card fade-in-up" data-delay="0.2">
                 <div class="language-card-inner">
                     <div class="language-card-front">
-                        <img src="~/images/london.jpg"> 
+                        <img src="~/images/london.jpeg"> 
                         <div class="language-card-content">
                             <div class="language-card-flag">GB</div>
                             <h3 class="language-card-title">@Localizer["EnglishLanguage"]</h3>
@@ -198,11 +199,11 @@
                                 @{
                                     var english_desc = cultureTwoLetter switch
                                     {
-                                        "ru" => "Изучайте английский язык, международный язык бизнеса и коммуникации. Развивайте навыки для глобального общения.",
-                                        "kk" => "Бизнес пен қарым-қатынастың халықаралық тілі - ағылшын тілін үйреніңіз. Жаһандық қарым-қатынас дағдыларын дамытыңыз.",
-                                        "en" => "Learn English, the international language of business and communication. Develop skills for global interaction.",
-                                        "tr" => "İş ve iletişimin uluslararası dili olan İngilizce'yi öğrenin. Küresel etkileşim için beceriler geliştirin.",
-                                        _ => "Learn English, the international language of business and communication. Develop skills for global interaction."
+                                        "ru" => "Изучайте английский язык, международный язык бизнеса и коммуникации.",
+                                        "kk" => "Бизнес пен қарым-қатынастың халықаралық тілі - ағылшын тілін үйреніңіз.",
+                                        "en" => "Learn English, the international language of business and communication.",
+                                        "tr" => "İş ve iletişimin uluslararası dili olan İngilizce'yi öğrenin.",
+                                        _ => "Learn English, the international language of business and communication."
                                     };
                                 }
                                 @english_desc
@@ -218,7 +219,7 @@
             <div class="language-card fade-in-up" data-delay="0.3">
                 <div class="language-card-inner">
                     <div class="language-card-front">
-                        <img src="~/images/ankara.jpg"> 
+                        <img src="~/images/ankara.jpeg"> 
                         <div class="language-card-content">
                             <div class="language-card-flag">TR</div>
                             <h3 class="language-card-title">@Localizer["TurkishLanguage"]</h3>
@@ -252,11 +253,11 @@
                                 @{
                                     var turkish_desc = cultureTwoLetter switch
                                     {
-                                        "ru" => "Изучайте турецкий язык, откройте для себя богатую культуру и новые возможности. Прогрессивные методики обучения.",
-                                        "kk" => "Түрік тілін үйреніп, бай мәдениет пен жаңа мүмкіндіктерді ашыңыз. Оқытудың прогрессивті әдістері.",
-                                        "en" => "Learn Turkish language, discover rich culture and new opportunities. Progressive learning methods.",
-                                        "tr" => "Türkçe dilini öğrenerek zengin kültürü ve yeni fırsatları keşfedin. İlerici öğrenme yöntemleri.",
-                                        _ => "Learn Turkish language, discover rich culture and new opportunities. Progressive learning methods."
+                                        "ru" => "Изучайте турецкий язык, откройте для себя богатую культуру и новые возможности.",
+                                        "kk" => "Түрік тілін үйреніңіз, бай мәдениетті және жаңа мүмкіндіктерді ашыңыз.",
+                                        "en" => "Learn Turkish, discover a rich culture and new opportunities.",
+                                        "tr" => "Türkçe öğrenin, zengin bir kültürü ve yeni fırsatları keşfedin.",
+                                        _ => "Learn Turkish, discover a rich culture and new opportunities."
                                     };
                                 }
                                 @turkish_desc
@@ -815,5 +816,37 @@
                 checkForRefresh();
             }
         });
+
+        // Функция для анимации карточек при скроллинге
+        function animateLanguageCards() {
+            const cards = document.querySelectorAll('.language-card');
+            
+            // Функция для проверки, виден ли элемент
+            function isElementInViewport(el) {
+                const rect = el.getBoundingClientRect();
+                return (
+                    rect.top <= (window.innerHeight || document.documentElement.clientHeight) * 0.85
+                );
+            }
+            
+            // Функция для анимации видимых карточек
+            function animateVisibleCards() {
+                cards.forEach((card, index) => {
+                    if (isElementInViewport(card) && !card.classList.contains('visible')) {
+                        // Добавляем задержку между карточками
+                        setTimeout(() => {
+                            card.classList.add('visible');
+                        }, index * 150);
+                    }
+                });
+            }
+            
+            // Запускаем анимацию при загрузке и скроллинге
+            animateVisibleCards();
+            window.addEventListener('scroll', animateVisibleCards);
+        }
+        
+        // Запускаем функцию после загрузки страницы
+        document.addEventListener('DOMContentLoaded', animateLanguageCards);
     </script>
 }
